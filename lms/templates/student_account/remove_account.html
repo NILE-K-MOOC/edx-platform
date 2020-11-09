@@ -8,54 +8,64 @@ from django.core.urlresolvers import reverse
 from openedx.core.djangolib.markup import HTML, Text
 %>
 <%block name="js_extra">
-    <script>
-        var confirm = '';
-        $(document).ready(function(){
-            $("#agreeBox").click(function(){
-                if($("#agreeBox").is(":checked")){
-                    account_nicecheck();
-                }
-                else {
-                    password_check_del();
-                }
-            });
-            %if check == 'Y':
-                $('input:checkbox[id="agreeBox"]').attr("checked", true);
-            %endif
-
+<script>
+    var confirm = '';
+    $(document).ready(function () {
+        $("#agreeBox").click(function () {
+            if ($("#agreeBox").is(":checked")) {
+                // account_nicecheck();
+            } else {
+                password_check_del();
+            }
         });
-        function account_nicecheck(){
-            window.open('', 'popupNICE', 'width=450, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
-            document.form2.target = "popupNICE";
-            document.form2.submit();
-        }
-        function password_check_del() {
-          $.post("/account/remove_account_delsession",
-                    function(data){
-                        if(data.success){
-                            alert('${_("동의가 취소되었습니다.")}');
-                        }else if(!data.success){
-                            alert('${_("동의가 취소되었습니다.")}');
-                        }else{
-                            alert('${_("동의가 취소되었습니다.")}');
-                        }
-            },"json");
-        }
-        function password_check(){
+
+        // 본인인증 후 화면 새로 고침되며 check 값이 Y 인 경우 탈퇴 처리
+        if ('{{ check }}' == 'Y') {
             $.post("/account/account_settings2_confirm_check",
-                    function(data){
-                        if(data.success){
-                            document.location.href = "/remove_account";
-                        }else if(!data.success){
-                            alert('${_("안내동의 이후 본인인증을 해주세요")}');
-                        }else{
-                            alert('${_("Access path is abnormal.")}\n${_("Move the home")}');
-                            document.location.href = "/";
-                        }
-            },"json");
+                function (data) {
+                    if (data.success) {
+                        document.location.href = "/remove_account";
+                    } else if (!data.success) {
+                        alert('${_("안내동의 이후 본인인증을 해주세요")}');
+                    } else {
+                        alert('${_("Access path is abnormal.")}\n${_("Move the home")}');
+                        document.location.href = "/";
+                    }
+                }, "json");
         }
 
-    </script>
+    });
+
+    function account_nicecheck() {
+        window.open('', 'popupNICE', 'width=450, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
+        document.form2.target = "popupNICE";
+        document.form2.submit();
+    }
+
+    function password_check_del() {
+        $.post("/account/remove_account_delsession",
+            function (data) {
+                if (data.success) {
+                    alert('${_("동의가 취소되었습니다.")}');
+                } else if (!data.success) {
+                    alert('${_("동의가 취소되었습니다.")}');
+                } else {
+                    alert('${_("동의가 취소되었습니다.")}');
+                }
+            }, "json");
+    }
+
+    function password_check() {
+
+        if ($("#agreeBox").is(":checked")) {
+            account_nicecheck();
+
+        } else {
+            swal("", "안내 사항에 동의 하여야 탈퇴가 가능합니다.", "warning");
+        }
+    }
+
+</script>
 </%block>
 
 <%block name="pagetitle">${_("Certificate Id Check")}</%block>
@@ -87,7 +97,8 @@ from openedx.core.djangolib.markup import HTML, Text
                             </ul>
 
                             <ul style="margin-left:0.5em; list-style-type:none;">
-                                <li><img style="width:12px" src="/static/images/correct-icon.png">&nbsp;<b>${_("Postings registered on the bulletin board service remain after the withdrawal.")}</b></li>
+                                <li><img style="width:12px" src="/static/images/correct-icon.png">&nbsp;<b>${_("Postings registered on the bulletin board service remain after the withdrawal.")}</b>
+                                </li>
                                 <li>- ${_("Bulletin board")}</li>
                                 <li>- ${_("Question answer opinion")}</li>
                                 <li>- ${_("Wiki")}</li>
@@ -99,13 +110,13 @@ from openedx.core.djangolib.markup import HTML, Text
                                 <li>${_("Postings registered on the bulletin board service can not be deleted after the withdrawal.")}</li>
                             </ul>
 
-                            <p><input type="checkbox" id="agreeBox" />&nbsp;&nbsp;${_("I have read and agree to all the instructions.")}</p>
+                            <p><input type="checkbox" id="agreeBox"/>&nbsp;&nbsp;<label for="agreeBox" style="font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', 'dotum', 'sans-serif' !important;">${_("I have read and agree to all the instructions.")}</label></p>
 
                             <p id="intro" style="display: none;">
-                                <input type="password" id="password" name="password" placeholder="${_('Input your password')}" value="" /><br/>
-                                <span > - 비밀번호를 입력해주세요.</span>
+                                <input type="password" id="password" name="password" placeholder="${_('Input your password')}" value=""/><br/>
+                                <span> - 비밀번호를 입력해주세요.</span>
                             </p>
-                            <a href="javascript:password_check();" id="check"><input type="button" value="${_('Withdrawal')}" ></a>
+                            <a href="javascript:password_check();" id="check"><input type="button" value="${_('Withdrawal')}"></a>
 
 
                             <!--
