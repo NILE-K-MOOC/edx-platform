@@ -18,6 +18,7 @@ import MySQLdb as mdb
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse
 
+
 @csrf_exempt
 def servey_check(request):
     survey_code = request.POST.get('survey_code')
@@ -39,7 +40,7 @@ def servey_check(request):
     servey_check_code = cur.fetchall()
 
     check_flag = 'false'
-    if(survey_code.strip() == servey_check_code[0][0].strip()):
+    if (survey_code.strip() == servey_check_code[0][0].strip()):
         query = """
             INSERT INTO survey_check(course_id, regist_id, regist_date)
             VALUES ('{0}', '{1}', now());
@@ -54,7 +55,7 @@ def servey_check(request):
     else:
         check_flag = 'false'
 
-    return JsonResponse({'return':check_flag})
+    return JsonResponse({'return': check_flag})
 
 
 @csrf_exempt
@@ -384,7 +385,7 @@ def certificate_print(request):
             print_index_css = print_index_css.replace('visibility: visibility;', 'visibility: hidden;')
 
         # 마크애니 / 한글로고
-        print_index = print_index.replace('${logo_area}', '<img class="ce-logo1" src="'+logo_kor_full_path+'" alt="${org_name_k}">')
+        print_index = print_index.replace('${logo_area}', '<img class="ce-logo1" src="' + logo_kor_full_path + '" alt="${org_name_k}">')
 
         """
         if (os.path.isfile('/edx/var/edxapp/staticfiles/images/univ/logo01_' + logo_index + '.png')):
@@ -444,9 +445,22 @@ def certificate_print(request):
 
     print_index = print_index.replace('${certificate_id_number}', certificate_id_number)
     print_index = print_index.replace('${created_date}', created_date)
+
+    # 본인인증 여부에 따라 성명 표시의 내용이 달라짐
+    # 인증 X : 0, 인증 O : 1
+
     if nice_check_flag == '0':
-        print_index = print_index.replace('${nice_check_flag}',
-                                          '<h4 class="ce-txt-second"><p class="e_name_text">${accomplishment_copy_name}</p></h4>')
+        if (language_flag == 'K'):
+            print_index = print_index.replace('${nice_check_flag}',
+                                              '<h4 class="ce-txt-second"><p class="e_name_text">${accomplishment_copy_name}</p></h4>')
+        else:
+            if (e_name == ''):
+                print_index = print_index.replace('${nice_check_flag}',
+                                                  '<h4 class="ce-txt-second"><p class="e_name_text">${user_name}(Born in ${birth_date}) <span class="certifi_index">( <img class="check_img" src="${static_url}/static/images/correct-icon.png"> ID confirmed)</span></p></h4>')
+            else:
+                print_index = print_index.replace('${nice_check_flag}',
+                                                  '<h4 class="ce-txt-second"><p class="e_name_text">${e_name}</p></h4>')
+
         print_index = print_index.replace('${nice_check_flag2}',
                                           '<h2 class="ce-center-txt1">This is to certify that ${accomplishment_copy_name}<br>successfully completed the course.</h2>')
     else:
@@ -595,7 +609,6 @@ def certificate_print(request):
 
 @csrf_exempt
 def series_print(request):
-
     print "### call series_print"
     print_index = request.POST.get('print_index')
 
@@ -682,17 +695,7 @@ def MaFpsTail(request, strHtmlData, iHtmlDataSize):
     logging.info('strRetCode -> ' + str(strRetCode))
     logging.info('---------------------------')
 
-    if True:
-    #if strRetCode == mapreprocessor.ISUCCESS:
-        iAMetaDataSize = len(strAMetaData)
-
-        '''
-        strAMetaData = strAMetaData.replace("\n", "\\n")
-        fResult = open("C://MarkAny//web_recv.dat", 'wb')
-        fResult.write(strAMetaData)
-        fResult.close()
-        '''
-    else:
+    if strRetCode != mapreprocessor.ISUCCESS:
         iRetCode = int(strRetCode)
         if (iRetCode == 1001) or (iRetCode == 10001):
             strErrorMessage = "Error code : " + strRetCode + " 마크애니 데몬프로세스를 구동해주세요."
