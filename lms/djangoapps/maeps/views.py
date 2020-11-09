@@ -315,6 +315,17 @@ def certificate_print(request):
     preview_mode = None
     certificate_data = get_active_web_certificate(course, preview_mode)
 
+    signatories_exists = False
+
+    if certificate_data and 'signatories' in certificate_data:
+        signatories = certificate_data['signatories']
+
+        for signatory in signatories:
+            # 서명인의 입력된 이름을 확인하여 이름이 존재하면 break
+            if signatory['name']:
+                signatories_exists = True
+                break
+
     classfy_k = request.POST.get('classfy_k')
     classfy_e = request.POST.get('classfy_e')
     logo_index = request.POST.get('logo_index')
@@ -505,78 +516,83 @@ def certificate_print(request):
     print_index = print_index.replace('${e_name}', e_name)
 
     certificate_data_index = ''
-    if certificate_data:
-        certificate_data_index += '<div class="sign-area-depth2">'
-        cnt = 0
-        for i in range(0, 10):
-            cnt = cnt + 1
-            if i < 10 - len(certificate_data.get('signatories', [])):
-                certificate_data_index += '''
-                <div class="t-center_empty">
-                    <h5></h5>
-                    <h5></h5>
-                    <h5></h5>
-                    <h5></h5>
-                </div>
-                '''
-                if cnt == 5:
+
+    # 서명인 정보가 없을 경우 영역만 할당하고 내용을 비움
+    if signatories_exists:
+        if certificate_data:
+            certificate_data_index += '<div class="sign-area-depth2">'
+            cnt = 0
+            for i in range(0, 10):
+                cnt = cnt + 1
+                if i < 10 - len(certificate_data.get('signatories', [])):
                     certificate_data_index += '''
-                    </div>
-                    <div class="sign-area-depth1">
-                    '''
-            elif i >= 10 - len(certificate_data.get('signatories', [])):
-                if cnt == 5:
-                    certificate_data_index += '''
-                    </div>
-                    <div class="sign-area-depth1">
-                    '''
-                elif cnt == 9:
-                    certificate_data_index += '''
-                    </div>
-                    <div class="sign-area-depth0">
-                    '''
-                signatory_index = len(certificate_data.get('signatories', [])) - (10 - i)
-                signatory = certificate_data.get('signatories', [])[signatory_index]
-                teacher = signatory['name']
-                if teacher.find('(') == -1:
-                    teacher = teacher + '(' + teacher
-                teacher = teacher.split('(')
-                title_k = signatory['title']
-                if signatory['title'].find('(') == -1:
-                    title_k = title_k + '(' + title_k
-                title_k = title_k.split('(')
-                organization_k = signatory['organization']
-                if organization_k.find('(') == -1:
-                    organization_k = organization_k + '(' + organization_k
-                organization_k = organization_k.split('(')
-                if (language_flag == 'K'):
-                    certificate_data_index += '''
-                    <div class="t-center">
-                        <img class="t-sign" src="${static_url}${signatory['signature_image_path']}" alt="">
-                        <h5>${teacher[0]} ${title_k[0]}</h5>
-                        <h5>${organization_k[0]}</h5>
+                    <div class="t-center_empty">
+                        <h5></h5>
+                        <h5></h5>
+                        <h5></h5>
+                        <h5></h5>
                     </div>
                     '''
-                if (language_flag == 'E'):
-                    certificate_data_index += '''
-                    <div class="t-center">
-                        <img class="t-sign" src="${static_url}${signatory['signature_image_path']}" alt="">
-                        <h5>${teacher[1]} ${title_k[1]}</h5>
-                        <h5>${organization_k[1]}</h5>
-                    </div>
-                    '''
-                certificate_data_index = certificate_data_index.replace("${signatory['signature_image_path']}",
-                                                                        signatory['signature_image_path'])
-                certificate_data_index = certificate_data_index.replace('${teacher[0]}', teacher[0])
-                certificate_data_index = certificate_data_index.replace('${teacher[1]}', teacher[1].replace(')', ''))
-                certificate_data_index = certificate_data_index.replace('${title_k[0]}', title_k[0].replace(')', ''))
-                certificate_data_index = certificate_data_index.replace('${title_k[1]}', title_k[1].replace(')', ''))
-                certificate_data_index = certificate_data_index.replace('${organization_k[0]}', organization_k[0])
-                certificate_data_index = certificate_data_index.replace('${organization_k[1]}',
-                                                                        organization_k[1].replace(')', ''))
-                certificate_data_index = certificate_data_index.replace('${classfy_k}', classfy_k)
-                certificate_data_index = certificate_data_index.replace('${classfy_e}', classfy_e)
-        certificate_data_index += '</div>'
+                    if cnt == 5:
+                        certificate_data_index += '''
+                        </div>
+                        <div class="sign-area-depth1">
+                        '''
+                elif i >= 10 - len(certificate_data.get('signatories', [])):
+                    if cnt == 5:
+                        certificate_data_index += '''
+                        </div>
+                        <div class="sign-area-depth1">
+                        '''
+                    elif cnt == 9:
+                        certificate_data_index += '''
+                        </div>
+                        <div class="sign-area-depth0">
+                        '''
+                    signatory_index = len(certificate_data.get('signatories', [])) - (10 - i)
+                    signatory = certificate_data.get('signatories', [])[signatory_index]
+                    teacher = signatory['name']
+                    if teacher.find('(') == -1:
+                        teacher = teacher + '(' + teacher
+                    teacher = teacher.split('(')
+                    title_k = signatory['title']
+                    if signatory['title'].find('(') == -1:
+                        title_k = title_k + '(' + title_k
+                    title_k = title_k.split('(')
+                    organization_k = signatory['organization']
+                    if organization_k.find('(') == -1:
+                        organization_k = organization_k + '(' + organization_k
+                    organization_k = organization_k.split('(')
+                    if (language_flag == 'K'):
+                        certificate_data_index += '''
+                        <div class="t-center">
+                            <img class="t-sign" src="${static_url}${signatory['signature_image_path']}" alt="">
+                            <h5>${teacher[0]} ${title_k[0]}</h5>
+                            <h5>${organization_k[0]}</h5>
+                        </div>
+                        '''
+                    if (language_flag == 'E'):
+                        certificate_data_index += '''
+                        <div class="t-center">
+                            <img class="t-sign" src="${static_url}${signatory['signature_image_path']}" alt="">
+                            <h5>${teacher[1]} ${title_k[1]}</h5>
+                            <h5>${organization_k[1]}</h5>
+                        </div>
+                        '''
+                    certificate_data_index = certificate_data_index.replace("${signatory['signature_image_path']}",
+                                                                            signatory['signature_image_path'])
+                    certificate_data_index = certificate_data_index.replace('${teacher[0]}', teacher[0])
+                    certificate_data_index = certificate_data_index.replace('${teacher[1]}', teacher[1].replace(')', ''))
+                    certificate_data_index = certificate_data_index.replace('${title_k[0]}', title_k[0].replace(')', ''))
+                    certificate_data_index = certificate_data_index.replace('${title_k[1]}', title_k[1].replace(')', ''))
+                    certificate_data_index = certificate_data_index.replace('${organization_k[0]}', organization_k[0])
+                    certificate_data_index = certificate_data_index.replace('${organization_k[1]}',
+                                                                            organization_k[1].replace(')', ''))
+                    certificate_data_index = certificate_data_index.replace('${classfy_k}', classfy_k)
+                    certificate_data_index = certificate_data_index.replace('${classfy_e}', classfy_e)
+            certificate_data_index += '</div>'
+    else:
+        certificate_data_index += '<div class="sign-area-depth2"></div><div class="sign-area-depth1"></div>'
 
     print_index = print_index.replace('${certificate_data_index}', certificate_data_index)
     print_index = print_index.replace('${logo_index}', logo_index)
@@ -600,9 +616,11 @@ def certificate_print(request):
     if (strHtmlData.find('"k_box1"') == -1 and strHtmlData.find('"e_box1"') == -1):
         strHtmlData = strHtmlData.replace('</blockquote>', '</blockquote><div id="k_box1"></div>')
     strEncodeHtmlData = str(strHtmlData.encode("utf-8"))
-    print 'strHtmlData ---------------------------------------------- s'
-    print strHtmlData
-    print 'strHtmlData ---------------------------------------------- e'
+
+    print 'strEncodeHtmlData ---------------------------------------------- s'
+    print strEncodeHtmlData
+    print 'strEncodeHtmlData ---------------------------------------------- e'
+
     response = MaFpsTail(request, strEncodeHtmlData, len(strEncodeHtmlData))
     return response
 
