@@ -20,7 +20,7 @@ from openedx.core.djangolib.markup import HTML, Text
         });
 
         // 본인인증 후 화면 새로 고침되며 check 값이 Y 인 경우 탈퇴 처리
-        if ('{{ check }}' == 'Y') {
+        if ('${check}' == 'Y') {
             $.post("/account/account_settings2_confirm_check",
                 function (data) {
                     if (data.success) {
