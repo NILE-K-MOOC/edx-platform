@@ -29,20 +29,20 @@ var nodes = [
   { id: 20, label: "Advanced Machine Learning\n(고급 기계학습)\n딥러닝 시대에도 필요한 고급 기계학습(성균관대, 개발예정)", shape: VIS_SHAPE, level: 7, color: NULL_COLOR, link: "" },
 
   { id: 21, label: "Reinforcement Learning\n(강화학습) 개발예정강좌", shape: VIS_SHAPE, level: 8, color: NULL_COLOR, link: "" },
-  { id: 22, label: "Topics in Machine Learning\n(기계학습 연구)\n개발예정강좌", shape: VIS_SHAPE, level: 8, color: NULL_COLOR, link: "" },
-  { id: 23, label: "Topics in Artificial Intelligence\n(인공지능 연구)\n개발예정강좌", shape: VIS_SHAPE, level: 8, color: NULL_COLOR, link: "" },
+  { id: 22, label: "Topics in Machine Learning\n(기계학습 연구)\n딥러닝의 깊이 있는 이해를 위한 머신러닝(중앙대, 개발예정)", shape: VIS_SHAPE, level: 8, color: NULL_COLOR, link: "" },
+  { id: 23, label: "Topics in Artificial Intelligence\n(인공지능 연구)\n인공지능 연구 동향(중앙대, 개발예정)", shape: VIS_SHAPE, level: 8, color: NULL_COLOR, link: "" },
 
   { id: 24, label: "Computer Vision\n(컴퓨터비전)\n딥러닝 영상분석(Match業 강좌) 외 1건", shape: VIS_SHAPE, level: 9, color: NORMAL_COLOR, link: [['딥러닝 영상분석(Match業 강좌)', 'http://www.abedu.co.kr/AI_MF/lecture/ps/4/is/6'], ['영상처리와 패턴인식', 'SMUk+FD_SMU03']] },
-  { id: 25, label: "Human Intelligence and AI\n(인간지능과 인공지능)\n개발예정강좌", shape: VIS_SHAPE, level: 9, color: NULL_COLOR, link: "" },
+  { id: 25, label: "Human Intelligence and AI\n(인간지능과 인공지능)\n전산 인지과학 및 인간지능과 인공지능(지능정보 산업협회, 개발예정)", shape: VIS_SHAPE, level: 9, color: NULL_COLOR, link: "" },
   { id: 26, label: "Introduction to Cognitive\nScience(인지과학 개론)\n인간 뇌의 이해", shape: VIS_SHAPE, level: 9, color: FEED_COLOR, link: "SNUk+SNU047_019k" },
 
   { id: 27, label: "Natural Language Processing\n(자연어처리)\n텍스트 마이닝 실전 및 분석 외 1건", shape: VIS_SHAPE, level: 10, color: NORMAL_COLOR, link: [['텍스트 마이닝 실전 및 분석', 'YSUk+FD_YSU_LIS01k'], ['빅데이터와 텍스트마이닝', 'SejonguniversityK+SJMOOC10K']] },
-  { id: 28, label: "Probabilistic Graphical Models\n(확률적 그래픽 모델)\n개발예정강좌", shape: VIS_SHAPE, level: 10, color: NULL_COLOR, link: "" },
+  { id: 28, label: "Probabilistic Graphical Models\n(확률적 그래픽 모델)\n확률적 그래픽 모델(지능정보산업협회, 개발예정)", shape: VIS_SHAPE, level: 10, color: NULL_COLOR, link: "" },
 
-  { id: 29, label: "Computational Perception\n(계산 인식)\n개발예정강좌", shape: VIS_SHAPE, level: 11, color: NULL_COLOR, link: "" },
-  { id: 30, label: "Neural Computation\n(신경 계산)\n개발예정강좌", shape: VIS_SHAPE, level: 11, color: NULL_COLOR, link: "" },
-  { id: 31, label: "Computational Cognitive Science\n(전산 인지과학)\n개발예정강좌", shape: VIS_SHAPE, level: 11, color: NULL_COLOR, link: "" },
-  { id: 32, label: "Inference and Information\nTheory\n(추론 및 정보이론)\n개발예정강좌", shape: VIS_SHAPE, level: 11, color: NULL_COLOR, link: "" },
+  { id: 29, label: "Computational Perception\n(계산 인식)\n수학으로 푸는 자율주행 AI(호남대, 개발예정)", shape: VIS_SHAPE, level: 11, color: NULL_COLOR, link: "" },
+  { id: 30, label: "Neural Computation\n(신경 계산)\n머신러닝과 신경과학(중앙대, 개발예정)", shape: VIS_SHAPE, level: 11, color: NULL_COLOR, link: "" },
+  { id: 31, label: "Computational Cognitive Science\n(전산 인지과학)\n전산 인지과학 및 인간지능과 인공지능(지능정보 산업협회, 개발예정)", shape: VIS_SHAPE, level: 11, color: NULL_COLOR, link: "" },
+  { id: 32, label: "Inference and Information\nTheory\n(추론 및 정보이론)\n데이터 과학을 위한 R 프로그래밍(포항공대, 개발예정)", shape: VIS_SHAPE, level: 11, color: NULL_COLOR, link: "" },
 ];
 var edges = [
   { from: 1, to: 3, color: { opacity: OP_HIGH } },

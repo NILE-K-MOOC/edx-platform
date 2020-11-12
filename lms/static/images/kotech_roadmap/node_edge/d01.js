@@ -29,8 +29,8 @@ var nodes = [
   { id: 19, label: "Advanced Machine Learning\n(고급 기계학습)\n딥러닝 시대에도 필요한 고급 기계학습(성균관대, 개발예정)", shape: VIS_SHAPE, level: 8, color: NULL_COLOR, link: "" },
 
   { id: 20, label: "Deep Learning Application and Practice\n(딥러닝 응용 및 실습)\n파이썬으로 배우는 기계학습 입문 외 1건", shape: VIS_SHAPE, level: 9, color: NORMAL_COLOR, link: [['파이썬으로 배우는 기계학습 입문', 'HGUk+HGU05'], ['딥러닝개론 및 응용', '']] },
-  { id: 21, label: "Topics in Artificial Intelligence\n(인공지능 연구)\n개발예정강좌", shape: VIS_SHAPE, level: 9, color: NULL_COLOR, link: "" },
-  { id: 22, label: "Topics in Machine Learning\n(기계학습 연구)\n개발예정강좌", shape: VIS_SHAPE, level: 9, color: NULL_COLOR, link: "" },
+  { id: 21, label: "Topics in Artificial Intelligence\n(인공지능 연구)\n인공지능 연구 동향(중앙대, 개발예정)", shape: VIS_SHAPE, level: 9, color: NULL_COLOR, link: "" },
+  { id: 22, label: "Topics in Machine Learning\n(기계학습 연구)\n딥러닝의 깊이 있는 이해를 위한 머신러닝(중앙대, 개발예정)", shape: VIS_SHAPE, level: 9, color: NULL_COLOR, link: "" },
 
   { id: 23, label: "Reinforcement Learning\n(강화학습) 개발예정강좌", shape: VIS_SHAPE, level: 10, color: NULL_COLOR, link: "" },
   { id: 24, label: "Computer Vision\n(컴퓨터비전)\n딥러닝 영상분석(Match業 강좌) 외 1건", shape: VIS_SHAPE, level: 10, color: NORMAL_COLOR, link: [['딥러닝 영상분석(Match業 강좌)', 'http://www.abedu.co.kr/AI_MF/lecture/ps/4/is/6'], ['영상처리와 패턴인식', 'SMUk+FD_SMU03']] },
@@ -38,7 +38,7 @@ var nodes = [
   { id: 25, label: "Computer Graphics\n(컴퓨터그래픽)\n영상처리와 패턴인식", shape: VIS_SHAPE, level: 11, color: NORMAL_COLOR, link: "SMUk+FD_SMU03" },
   { id: 26, label: "Artificial Intelligence for Robotics\n(로봇공학을 위한 인공지능)\nMobile Robot Perception and Navigation", shape: VIS_SHAPE, level: 11, color: NORMAL_COLOR, link: "SEOULTECHk+SMOOC04k" },
   { id: 27, label: "Applied Artificial Intelligence\n(인공지능 응용)\nICBM+AI개론 외 2건", shape: VIS_SHAPE, level: 11, color: NORMAL_COLOR, link: [['ICBM+AI개론', 'KoreaUnivK+ku_eng_004'], ['빅데이터와 인공지능의 응용', 'SNUk+SNU052_011k'], ['자율주행 자동차용인공지능 시스템(현대 NGV, 개발예정)', '']] },
-  { id: 28, label: "Autonomous Agents\n(자율 에이젠트)\n개발예정강좌", shape: VIS_SHAPE, level: 11, color: NULL_COLOR, link: "" },
+  { id: 28, label: "Autonomous Agents\n(자율 에이젠트)\n자율 에이전트 및 멀티 에이전트 시스템(상명대, 개발예정)", shape: VIS_SHAPE, level: 11, color: NULL_COLOR, link: "" },
 ];
 var edges = [
   { from: 1, to: 3, color: { opacity: OP_HIGH } },

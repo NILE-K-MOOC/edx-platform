@@ -22,7 +22,7 @@ var nodes = [
 
   { id: 14, label: "Deep Learning Application and Practice\n(딥러닝 응용 및 실습)\n파이썬으로 배우는 기계학습 입문 외 1건", shape: VIS_SHAPE, level: 7, color: NORMAL_COLOR, link: [['파이썬으로 배우는 기계학습 입문', 'HGUk+HGU05'], ['딥러닝개론 및 응용', '']] },
   { id: 15, label: "Topics in Artificial Intelligence\n(인공지능 연구)\n4차 산업혁명과 경영혁신 외 2건", shape: VIS_SHAPE, level: 7, color: NORMAL_COLOR, link: [['산업혁명과 경영혁신', 'SSUk+SSMOOC10K'], ['제4차 산업혁명 기반 기술의 이해', 'DCUk+CK_DCU_03'], ['4차 산업혁명과 수학', 'CNUk+ACE_CNU05']] },
-  { id: 16, label: "Topics in Machine Learning\n(기계학습 연구)\n개발예정강좌", shape: VIS_SHAPE, level: 7, color: NULL_COLOR, link: "" },
+  { id: 16, label: "Topics in Machine Learning\n(기계학습 연구)\n딥러닝의 깊이 있는 이해를 위한 머신러닝(중앙대, 개발예정)", shape: VIS_SHAPE, level: 7, color: NULL_COLOR, link: "" },
 
   { id: 17, label: "Reinforcement Learning\n(강화학습) 개발예정강좌", shape: VIS_SHAPE, level: 8, color: NULL_COLOR, link: "" },
 

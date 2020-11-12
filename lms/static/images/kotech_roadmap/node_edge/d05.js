@@ -25,14 +25,14 @@ var nodes = [
 
   { id: 17, label: "Introduction to Artificial Intelligence\n(인공지능 개론)\n인공지능의 기초", shape: VIS_SHAPE, level: 7, color: NORMAL_COLOR, link: "SNUk+SNU048_011k" },
   { id: 18, label: "Introduction to Machine Learning\n(기계학습 개론)\n머신러닝", shape: VIS_SHAPE, level: 7, color: NORMAL_COLOR, link: "SNUk+SNU050_011k" },
-  { id: 19, label: "Machine Learning for Trading\n(거래를 위한 기계학습)\n개발예정강좌", shape: VIS_SHAPE, level: 7, color: NULL_COLOR, link: "" },
+  { id: 19, label: "Machine Learning for Trading\n(거래를 위한 기계학습)\n금융 AI(Financial Artificial Intelligence)(중앙대, 개발예정)", shape: VIS_SHAPE, level: 7, color: NULL_COLOR, link: "" },
 
   { id: 20, label: "Introduction to Deep Learning\n(딥러닝 개론)\n딥러닝 개론", shape: VIS_SHAPE, level: 8, color: NORMAL_COLOR, link: "DGUk+DGU_006k+DGU_006k" },
   { id: 21, label: "Economics and Computation\n(계량경제학)\n계량경제학", shape: VIS_SHAPE, level: 8, color: NORMAL_COLOR, link: "JEJUk+KOCW_JEJU01" },
 
   { id: 22, label: "Deep Learning Application and Practice\n(딥러닝 응용 및 실습)\n파이썬으로 배우는 기계학습 입문 외 1건", shape: VIS_SHAPE, level: 9, color: NORMAL_COLOR, link: [['파이썬으로 배우는 기계학습 입문', 'HGUk+HGU05'], ['딥러닝개론 및 응용', '']] },
-  { id: 23, label: "Topics in Artificial Intelligence\n(인공지능 연구)\n개발예정강좌", shape: VIS_SHAPE, level: 9, color: NULL_COLOR, link: "" },
-  { id: 24, label: "Topics in Machine Learning\n(기계학습 연구)\n개발예정강좌", shape: VIS_SHAPE, level: 9, color: NULL_COLOR, link: "" },
+  { id: 23, label: "Topics in Artificial Intelligence\n(인공지능 연구)\n인공지능 연구 동향(중앙대, 개발예정)", shape: VIS_SHAPE, level: 9, color: NULL_COLOR, link: "" },
+  { id: 24, label: "Topics in Machine Learning\n(기계학습 연구)\n딥러닝의 깊이 있는 이해를 위한 머신러닝(중앙대, 개발예정)", shape: VIS_SHAPE, level: 9, color: NULL_COLOR, link: "" },
 ];
 var edges = [
   { from: 0, to: 3, color: { opacity: OP_MID } },

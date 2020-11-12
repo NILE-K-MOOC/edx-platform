@@ -14,7 +14,7 @@ var nodes = [
   { id: 9, label: "Object-Oriented Programming\n(객체지향프로그래밍)\n객체지향형 프로그래밍과 자료구조", shape: VIS_SHAPE, level: 3, color: NORMAL_COLOR, link: "YeungnamUnivK+YU217001" },
   { id: 10, label: "Data Structures\n(데이터구조)\n자료구조 외 1건", shape: VIS_SHAPE, level: 3, color: NORMAL_COLOR, link: [['자료구조(K-MOOC 상명대)', 'SMUk+SMU2018_01'], ['자료구조(K-MOOC 영남대)', 'YeungnamUnivK+YU216002']] },
 
-  { id: 11, label: "Logic Programming\n(논리 프로그래밍)\n개발예정강좌", shape: VIS_SHAPE, level: 4, color: NULL_COLOR, link: "" },
+  { id: 11, label: "Logic Programming\n(논리 프로그래밍)\n디지털 논리회로와 인공지능(동아대, 개발예정)", shape: VIS_SHAPE, level: 4, color: NULL_COLOR, link: "" },
   { id: 12, label: "Foundations of Data Science\n(데이터사이언스의 기초)\nR 데이터 분석 입문 외 2건", shape: VIS_SHAPE, level: 4, color: NORMAL_COLOR, link: [['R 데이터 분석 입문', 'DKUK+DKUK0003'], ['디지털 시대의 커뮤니케이션', 'PTUk+SF_PMOOC01k'], ['My Major & Big Data', 'SMUk+ACE_SMU01']] },
 
   { id: 13, label: "Signals and Circuit Systems\n(신호 및 회로시스템) 전자회로", shape: VIS_SHAPE, level: 5, color: NORMAL_COLOR, link: "YeungnamUnivK+KOCW.YU215001" },
@@ -26,7 +26,7 @@ var nodes = [
 
   { id: 18, label: "Understanding Artificial Intelligence\n(인공지능의 이해)\nICBM+AI개론", shape: VIS_SHAPE, level: 7, color: NORMAL_COLOR, link: "KoreaUnivK+ku_eng_004" },
 
-  { id: 19, label: "Hardware Systems\n(하드웨어 시스템)\n개발예정강좌", shape: VIS_SHAPE, level: 8, color: NULL_COLOR, link: "" },
+  { id: 19, label: "Hardware Systems\n(하드웨어 시스템)\nHardware System(포항공대, 개발예정)", shape: VIS_SHAPE, level: 8, color: NULL_COLOR, link: "" },
   { id: 20, label: "Introduction to Artificial Intelligence\n(인공지능 개론)\n인공지능의 기초", shape: VIS_SHAPE, level: 8, color: NORMAL_COLOR, link: "SNUk+SNU048_011k" },
   { id: 21, label: "Introduction to Machine Learning\n(기계학습 개론)\n머신러닝 외 5건", shape: VIS_SHAPE, level: 8, color: NORMAL_COLOR, link: [['머신러닝', 'SNUk+SNU050_011k'], ['Machine Learning for Data Science', 'KoreaUnivK+ku_eng_003'], ['자율주행을 위한 머신러닝', 'SKKUk+SKKU_30'], ['지도학습:회귀(Match業 강좌)', 'https://iclass.postech.ac.kr/courses/5d6db0eec5728b505b13d593'], ['지도학습:분류(Match業 강좌)', 'https://iclass.postech.ac.kr/courses/5d6db194c5728b50b04d5fb3'], ['비지도학습:군집화와 차원축소(Match業 강좌)', 'https://iclass.postech.ac.kr/courses/5d6db210c5728b5081032723']] },
 
@@ -36,8 +36,8 @@ var nodes = [
   { id: 24, label: "Deep Learning Application and Practice\n(딥러닝 응용 및 실습)\n파이썬으로 배우는 기계학습 입문 외 1건", shape: VIS_SHAPE, level: 10, color: NORMAL_COLOR, link: [['파이썬으로 배우는 기계학습 입문', 'HGUk+HGU05'], ['딥러닝개론 및 응용', '']] },
   { id: 25, label: "Computer Vision\n(컴퓨터비전)\n딥러닝 영상분석\n(Match業 강좌) 외 1건", shape: VIS_SHAPE, level: 10, color: NORMAL_COLOR, link: [['딥러닝 영상분석(Match業 강좌)', 'http://www.abedu.co.kr/AI_MF/lecture/ps/4/is/6'], ['영상처리와 패턴인식', 'SMUk+FD_SMU03']] },
   { id: 26, label: "Natural Language Processing\n(자연어처리)\n텍스트 마이닝 실전 및 분석 외 1건", shape: VIS_SHAPE, level: 10, color: NORMAL_COLOR, link: [['텍스트 마이닝 실전 및 분석', 'YSUk+FD_YSU_LIS01k'], ['빅데이터와 텍스트마이닝', 'SejonguniversityK+SJMOOC10K']] },
-  { id: 27, label: "Topics in Artificial Intelligence\n(인공지능 연구)\n개발예정강좌", shape: VIS_SHAPE, level: 10, color: NULL_COLOR, link: "" },
-  { id: 28, label: "Topics in Machine Learning\n(기계학습 연구)\n개발예정강좌", shape: VIS_SHAPE, level: 10, color: NULL_COLOR, link: "" },
+  { id: 27, label: "Topics in Artificial Intelligence\n(인공지능 연구)\n인공지능 연구 동향(중앙대, 개발예정)", shape: VIS_SHAPE, level: 10, color: NULL_COLOR, link: "" },
+  { id: 28, label: "Topics in Machine Learning\n(기계학습 연구)\n딥러닝의 깊이 있는 이해를 위한 머신러닝(중앙대, 개발예정)", shape: VIS_SHAPE, level: 10, color: NULL_COLOR, link: "" },
 
   { id: 29, label: "Reinforcement Learning\n(강화학습) 개발예정강좌", shape: VIS_SHAPE, level: 11, color: NULL_COLOR, link: "" },
   { id: 30, label: "Introduction to Robotics\n(로봇공학 개론)\nFun-MOOC - 기계는 영원하다!", shape: VIS_SHAPE, level: 11, color: FEED_COLOR, link: "SNUk+SKP.M2794.000100k" },
@@ -46,8 +46,8 @@ var nodes = [
   { id: 32, label: "Computer Graphics\n(컴퓨터그래픽)\n영상처리와 패턴인식", shape: VIS_SHAPE, level: 12, color: NORMAL_COLOR, link: "SMUk+FD_SMU03" },
 
   { id: 33, label: "Robot Kinematics and Dynamics(로봇 운동학 및 역학)\nRobot Manipulator and\nUnderwater Robot Application", shape: VIS_SHAPE, level: 13, color: FEED_COLOR, link: "SEOULTECHk+SMOOC03k" },
-  { id: 34, label: "Human-Robot Interaction\n(휴먼-로봇 상호작용)\n개발예정강좌", shape: VIS_SHAPE, level: 13, color: NULL_COLOR, link: "" },
-  { id: 35, label: "Autonomous Agents\n(자율 에이젠트)\n개발예정강좌", shape: VIS_SHAPE, level: 13, color: NULL_COLOR, link: "" },
+  { id: 34, label: "Human-Robot Interaction\n(휴먼-로봇 상호작용)\n인공지능 HRI(Artificial Intelligence HRI)(수원대, 개발예정)", shape: VIS_SHAPE, level: 13, color: NULL_COLOR, link: "" },
+  { id: 35, label: "Autonomous Agents\n(자율 에이젠트)\n자율 에이전트 및 멀티 에이전트 시스템(상명대, 개발예정)", shape: VIS_SHAPE, level: 13, color: NULL_COLOR, link: "" },
 
   { id: 36, label: "Advanced Robotics Planning\n(고급로봇공학)\nHumanoid Robot", shape: VIS_SHAPE, level: 14, color: NORMAL_COLOR, link: "SEOULTECHk+SMOOC05k" },
   { id: 37, label: "Artificial Intelligence for Robotics\n(로봇공학을 위한 인공지능)\nMobile Robot Perception and Navigation 외 1건", shape: VIS_SHAPE, level: 14, color: NORMAL_COLOR, link: [['Mobile Robot Perception and Navigation', 'SEOULTECHk+SMOOC04k'], ['스마트팩토리', '']] },

@@ -7,8 +7,8 @@ var nodes = [
   { id: 4, label: "Advanced Machine Learning\n(고급 기계학습)\n딥러닝 시대에도 필요한 고급 기계학습(성균관대, 개발예정)", shape: VIS_SHAPE, level: 1, color: NULL_COLOR, link: "" },
 
   { id: 5, label: "Deep Learning Application and Practice\n(딥러닝 응용 및 실습)\n파이썬으로 배우는 기계학습 입문 외 1건", shape: VIS_SHAPE, level: 2, color: NORMAL_COLOR, link: [['파이썬으로 배우는 기계학습 입문', 'HGUk+HGU05'], ['딥러닝개론 및 응용', '']] },
-  { id: 6, label: "Topics in Artificial Intelligence\n(인공지능 연구)\n개발예정강좌", shape: VIS_SHAPE, level: 2, color: NULL_COLOR, link: "" },
-  { id: 7, label: "Topics in Machine Learning\n(기계학습 연구)\n개발예정강좌", shape: VIS_SHAPE, level: 2, color: NULL_COLOR, link: "" },
+  { id: 6, label: "Topics in Artificial Intelligence\n(인공지능 연구)\n인공지능 연구 동향(중앙대, 개발예정)", shape: VIS_SHAPE, level: 2, color: NULL_COLOR, link: "" },
+  { id: 7, label: "Topics in Machine Learning\n(기계학습 연구)\n딥러닝의 깊이 있는 이해를 위한 머신러닝(중앙대, 개발예정)", shape: VIS_SHAPE, level: 2, color: NULL_COLOR, link: "" },
 
   { id: 8, label: "Introduction to Robotics\n(로봇공학 개론)\nFun-MOOC - 기계는 영원하다!", shape: VIS_SHAPE, level: 3, color: NORMAL_COLOR, link: "SNUk+SKP.M2794.000100k" },
   { id: 9, label: "Reinforcement Learning\n(강화학습) 개발예정강좌", shape: VIS_SHAPE, level: 3, color: NULL_COLOR, link: "" },
@@ -21,9 +21,9 @@ var nodes = [
   { id: 15, label: "Computer Vision\n(컴퓨터비전)\n딥러닝 영상분석(Match業 강좌) 외 1건", shape: VIS_SHAPE, level: 4, color: NORMAL_COLOR, link: [['딥러닝 영상분석(Match業 강좌)', 'http://www.abedu.co.kr/AI_MF/lecture/ps/4/is/6'], ['영상처리와 패턴인식', 'SMUk+FD_SMU03']] },
   { id: 16, label: "Natural Language Processing\n(자연어처리)\n텍스트 마이닝 실전 및 분석 외 1건", shape: VIS_SHAPE, level: 4, color: NORMAL_COLOR, link: [['텍스트 마이닝 실전 및 분석', 'YSUk+FD_YSU_LIS01k'], ['빅데이터와 텍스트마이닝', 'SejonguniversityK+SJMOOC10K']] },
   { id: 17, label: "Linguistics(언어학)\n언어와 인간", shape: VIS_SHAPE, level: 4, color: NORMAL_COLOR, link: "SNUk+CORE_SNU041_040k" },
-  { id: 18, label: "Probabilistic Graphical Models\n(확률적 그래픽 모델)\n개발예정강좌", shape: VIS_SHAPE, level: 4, color: NULL_COLOR, link: "" },
-  { id: 19, label: "Artificial Intelligence for Business\n(비즈니스를 위한 인공지능)\n개발예정강좌", shape: VIS_SHAPE, level: 4, color: NULL_COLOR, link: "" },
-  { id: 20, label: "Computational Cognitive Science\n(전산 인지과학)\n개발예정강좌", shape: VIS_SHAPE, level: 4, color: NULL_COLOR, link: "" },
+  { id: 18, label: "Probabilistic Graphical Models\n(확률적 그래픽 모델)\n확률적 그래픽 모델(지능정보산업협회, 개발예정)", shape: VIS_SHAPE, level: 4, color: NULL_COLOR, link: "" },
+  { id: 19, label: "Artificial Intelligence for Business\n(비즈니스를 위한 인공지능)\n비즈니스를 위한 인공지능(성신여대, 개발예정)", shape: VIS_SHAPE, level: 4, color: NULL_COLOR, link: "" },
+  { id: 20, label: "Computational Cognitive Science\n(전산 인지과학)\n전산 인지과학 및 인간지능과 인공지능(지능정보 산업협회, 개발예정)", shape: VIS_SHAPE, level: 4, color: NULL_COLOR, link: "" },
 
   { id: 21, label: "Computer Graphics\n(컴퓨터그래픽)\n영상처리와 패턴인식\n", shape: VIS_SHAPE, level: 5, color: NORMAL_COLOR, link: "SMUk+FD_SMU03" },
   { id: 22, label: "Computer Graphics\n(컴퓨터그래픽)\n영상처리와 패턴인식", shape: VIS_SHAPE, level: 5, color: NORMAL_COLOR, link: "SMUk+FD_SMU03" },

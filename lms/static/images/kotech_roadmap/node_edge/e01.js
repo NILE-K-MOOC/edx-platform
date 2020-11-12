@@ -5,8 +5,8 @@ var nodes = [
   { id: 2, label: "Introduction to Artificial Intelligence\n(인공지능 개론)\n인공지능의 기초", shape: VIS_SHAPE, level: 1, color: NORMAL_COLOR, link: "SNUk+SNU048_011k" },
   { id: 3, label: "Economics(경제학 개론)\n경제학원론-미시경제학", shape: VIS_SHAPE, level: 1, color: NORMAL_COLOR, link: "SNUk+SNU200_105k" },
 
-  { id: 4, label: "Machine Learning for Trading\n(거래를 위한 기계학습)\n개발예정강좌", shape: VIS_SHAPE, level: 2, color: NULL_COLOR, link: "" },
-  { id: 5, label: "Artificial Intelligence for Business\n(비즈니스를 위한 인공지능)\n개발예정강좌", shape: VIS_SHAPE, level: 2, color: NULL_COLOR, link: "" },
+  { id: 4, label: "Machine Learning for Trading\n(거래를 위한 기계학습)\n금융 AI(Financial Artificial Intelligence)(중앙대, 개발예정)", shape: VIS_SHAPE, level: 2, color: NULL_COLOR, link: "" },
+  { id: 5, label: "Artificial Intelligence for Business\n(비즈니스를 위한 인공지능)\n비즈니스를 위한 인공지능(성신여대, 개발예정)", shape: VIS_SHAPE, level: 2, color: NULL_COLOR, link: "" },
   { id: 6, label: "Economics and Computation\n(계량경제학)\n계량경제학", shape: VIS_SHAPE, level: 2, color: NORMAL_COLOR, link: "JEJUk+KOCW_JEJU01" },
 ];
 var edges = [
