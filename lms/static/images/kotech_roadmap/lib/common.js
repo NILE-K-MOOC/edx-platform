@@ -153,11 +153,10 @@ function vis_draw(nodes, edges) {
 
     // 노드 클릭 시 새탭 열기 이벤트 바인딩 (커스텀)
     network.on('click', function (properties) {
-        alert(properties.clientX + ":" + properties.clientY);
+        // alert(properties.clientX + ":" + properties.clientY);
 
         var node_id = properties.nodes[0];
-
-        console.log(node_id);
+        // console.log(node_id);
 
         if (node_id != null) {
             var sNodeLabel = this.body.nodes[node_id].options.link;
@@ -185,32 +184,56 @@ function vis_draw(nodes, edges) {
 
             if ($.type(sNodeLabel) === 'array') {
                 for (let i = 0; i < sNodeLabel.length; i++) {
-                    // sNodeLabel[i][0] : 강좌명
-                    // sNodeLabel[i][1] : 링크
-                    $('div.other-cont').append('<a href="javascript: roadmapLink(\'' + encodeURIComponent(sNodeLabel[i][1]) + '\')"><p class="ctxt mb20">' + sNodeLabel[i][0] + '</p></a>');
+
+                    let url = sNodeLabel[i][1];
+
+                    if (url) {
+                        if (url.startsWith('http')) {
+                            $('div.other-cont').append('<a target="_blank" href="' + sNodeLabel[i][1] + '"><p class="ctxt mb20">' + sNodeLabel[i][0] + '</p></a>');
+                        } else {
+                            $('div.other-cont').append('<a href="javascript: roadmapLink(\'' + encodeURIComponent(sNodeLabel[i][1]) + '\')"><p class="ctxt mb20">' + sNodeLabel[i][0] + '</p></a>');
+                        }
+                    } else {
+                        $('div.other-cont').append('<a href="#"><p class="ctxt mb20">' + sNodeLabel[i][0] + '</p></a>');
+                    }
                 }
+
                 layer_div.css('top', clickY).css('left', clickX).show();
 
-            }else{
+            } else {
 
-                $.ajax({
-                    method: "get",
-                    url: "",
-                    async: false,
-                    data: {
-                        data: nodes[node_id]['link']
-                    },
-                    dataType: "json",
-                    complete: function(d){
-                        let c = d.responseJSON;
+                let link = nodes[node_id]['link'];
 
-                        $('div.other-cont').append('<a href="'+c.url+'" target="_blank"><p class="ctxt mb20">' + c.display_name + ' (' + c.org_name +')</p></a>');
-                        layer_div.css('top', clickY).css('left', clickX).show();
+                if (link) {
 
+                    if (link.startsWith('http')) {
+                        console.log('link check ------------------------------- s');
+                        console.log(link);
+                        console.log('link check ------------------------------- e');
+                        // $('div.other-cont').append('<a href="'+ link +'" target="_blank"><p class="ctxt mb20">' + c.display_name + ' (' + c.org_name +')</p></a>');
+                        // layer_div.css('top', clickY).css('left', clickX).show();
+                    } else {
+                        $.ajax({
+                            method: "get",
+                            url: "",
+                            async: false,
+                            data: {
+                                data: link
+                            },
+                            dataType: "json",
+                            complete: function (d) {
+                                let c = d.responseJSON;
+
+                                $('div.other-cont').append('<a href="' + c.url + '" target="_blank"><p class="ctxt mb20">' + c.display_name + ' (' + c.org_name + ')</p></a>');
+                                layer_div.css('top', clickY).css('left', clickX).show();
+
+                            }
+                        });
                     }
-                });
-            }
 
+
+                }
+            }
 
 
         } else {

@@ -1,16 +1,16 @@
 var nodes = [
   { id: 0, label: "Introduction to Artificial Intelligence\n(인공지능 개론)\n인공지능의 기초", shape: VIS_SHAPE, level: 0, color: NORMAL_COLOR, link: "SNUk+SNU048_011k" },
   { id: 1, label: "Introduction to Machine Learning\n(기계학습 개론)\n머신러닝 외 5건", shape: VIS_SHAPE, level: 0, color: NORMAL_COLOR, link: [['머신러닝', 'SNUk+SNU050_011k'], ['Machine Learning for Data Science', 'KoreaUnivK+ku_eng_003'], ['자율주행을 위한 머신러닝', 'SKKUk+SKKU_30'], ['지도학습:회귀(Match業 강좌)', 'https://iclass.postech.ac.kr/courses/5d6db0eec5728b505b13d593'], ['지도학습:분류(Match業 강좌)', 'https://iclass.postech.ac.kr/courses/5d6db194c5728b50b04d5fb3'], ['비지도학습:군집화와 차원축소(Match業 강좌)', 'https://iclass.postech.ac.kr/courses/5d6db210c5728b5081032723']] },
-  { id: 2, label: "CoreElecAI 3\nCKUk+CORE_CKU03\n인격과 로봇\n 외 1건", shape: VIS_SHAPE, level: 0, color: NORMAL_COLOR, link: [['인격과 로봇', 'CKUk+CORE_CKU03k'], ['포스트휴먼 인문학', 'EwhaK+CORE_EW17002C']] },
+  { id: 2, label: "CoreElecAI 3\nCKUk+CORE_CKU03\n인격과 로봇\n 외 1건", shape: VIS_SHAPE, level: 0, color: NORMAL_COLOR, link: [['인격과 로봇', 'CKUk+CORE_CKU03k'], ['포스트휴먼 인문학', 'EwhaK+CORE_EW17002C'], ['인공지능 윤리(, 개발예정)', '']] },
 
   { id: 3, label: "Introduction to Deep Learning\n(딥러닝 개론)\n딥러닝 개론", shape: VIS_SHAPE, level: 1, color: NORMAL_COLOR, link: "DGUk+DGU_006k+DGU_006k" },
-  { id: 4, label: "Advanced Machine Learning\n(고급 기계학습)\n개발예정강좌", shape: VIS_SHAPE, level: 1, color: NULL_COLOR, link: "" },
+  { id: 4, label: "Advanced Machine Learning\n(고급 기계학습)\n딥러닝 시대에도 필요한 고급 기계학습(성균관대, 개발예정)", shape: VIS_SHAPE, level: 1, color: NULL_COLOR, link: "" },
 
   { id: 5, label: "Deep Learning Application and Practice\n(딥러닝 응용 및 실습)\n파이썬으로 배우는 기계학습 입문 외 1건", shape: VIS_SHAPE, level: 2, color: NORMAL_COLOR, link: [['파이썬으로 배우는 기계학습 입문', 'HGUk+HGU05'], ['딥러닝개론 및 응용', '']] },
   { id: 6, label: "Topics in Artificial Intelligence\n(인공지능 연구)\n개발예정강좌", shape: VIS_SHAPE, level: 2, color: NULL_COLOR, link: "" },
   { id: 7, label: "Topics in Machine Learning\n(기계학습 연구)\n개발예정강좌", shape: VIS_SHAPE, level: 2, color: NULL_COLOR, link: "" },
 
-  { id: 8, label: "Introduction to Robotics\n(로봇공학 개론)\nFun-MOOC - 기계는 영원하다!", shape: VIS_SHAPE, level: 3, color: NORMAL_COLOR, link: "SNUk+SKP.M2794.000100k" },
+  { id: 8, label: "Introduction to Robotics\n(로봇공학 개론)\nFun-MOOC - 기고급 기계학습계는 영원하다!", shape: VIS_SHAPE, level: 3, color: NORMAL_COLOR, link: "SNUk+SKP.M2794.000100k" },
   { id: 9, label: "Reinforcement Learning\n(강화학습) 개발예정강좌", shape: VIS_SHAPE, level: 3, color: NULL_COLOR, link: "" },
   { id: 10, label: "Knowledge-Based AI(지식기반 인공지능)\n추론응용 모델링 (Match業 강좌)\n", shape: VIS_SHAPE, level: 3, color: NORMAL_COLOR, link: "http://www.abedu.co.kr/AI/lecture/ps/7/is/16" },
   { id: 11, label: "Economics and Computation\n(계량경제학)\n계량경제학", shape: VIS_SHAPE, level: 3, color: NORMAL_COLOR, link: "JEJUk+KOCW_JEJU01" },
@@ -27,7 +27,7 @@ var nodes = [
 
   { id: 21, label: "Computer Graphics\n(컴퓨터그래픽)\n영상처리와 패턴인식\n", shape: VIS_SHAPE, level: 5, color: NORMAL_COLOR, link: "SMUk+FD_SMU03" },
   { id: 22, label: "Computer Graphics\n(컴퓨터그래픽)\n영상처리와 패턴인식", shape: VIS_SHAPE, level: 5, color: NORMAL_COLOR, link: "SMUk+FD_SMU03" },
-  { id: 23, label: "Applied Artificial Intelligence\n(인공지능 응용)\n빅데이터와 인공지능의 응용", shape: VIS_SHAPE, level: 5, color: NORMAL_COLOR, link: "SNUk+SNU052_011k" },
+  { id: 23, label: "Applied Artificial Intelligence\n(인공지능 응용)\n빅데이터와 인공지능의 응용 외 6건", shape: VIS_SHAPE, level: 5, color: NORMAL_COLOR, link: [['빅데이터와 인공지능의 응용', 'SNUk+SNU052_011k'], ['바이오헬스 빅데이터 마이닝', 'KKUk+CK_KKUkbio002'], ['경영데이터마이닝', 'HYUk+HYUBUS3099k'], ['빅데이터와 머신러닝 소프트웨어', 'SNUk+SNU051_011k'], ['클라우드 컴퓨팅과 인공지능', 'KoreaUnivK+ku_eng_006'], ['ICBM+AI 기술을 접목한 리빙랩 설계 입문', 'KoreaUnivK+ku_eng_007'], ['자율주행 자동차용 인공지능 시스템(현대 NGV, 개발예정)', '']] },
   { id: 24, label: "Game AI(게임인공지능)\n게임인공지능", shape: VIS_SHAPE, level: 5, color: NORMAL_COLOR, link: "SejonguniversityK+SJKMOOC04k" },
   { id: 25, label: "Speech Recognition(음성 인식)\n개발예정강좌", shape: VIS_SHAPE, level: 5, color: NULL_COLOR, link: "" },
 ];
