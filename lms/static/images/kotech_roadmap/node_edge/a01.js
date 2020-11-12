@@ -10,7 +10,7 @@ var nodes = [
   { id: 6, label: "Topics in Artificial Intelligence\n(인공지능 연구)\n개발예정강좌", shape: VIS_SHAPE, level: 2, color: NULL_COLOR, link: "" },
   { id: 7, label: "Topics in Machine Learning\n(기계학습 연구)\n개발예정강좌", shape: VIS_SHAPE, level: 2, color: NULL_COLOR, link: "" },
 
-  { id: 8, label: "Introduction to Robotics\n(로봇공학 개론)\nFun-MOOC - 기고급 기계학습계는 영원하다!", shape: VIS_SHAPE, level: 3, color: NORMAL_COLOR, link: "SNUk+SKP.M2794.000100k" },
+  { id: 8, label: "Introduction to Robotics\n(로봇공학 개론)\nFun-MOOC - 기계는 영원하다!", shape: VIS_SHAPE, level: 3, color: NORMAL_COLOR, link: "SNUk+SKP.M2794.000100k" },
   { id: 9, label: "Reinforcement Learning\n(강화학습) 개발예정강좌", shape: VIS_SHAPE, level: 3, color: NULL_COLOR, link: "" },
   { id: 10, label: "Knowledge-Based AI(지식기반 인공지능)\n추론응용 모델링 (Match業 강좌)\n", shape: VIS_SHAPE, level: 3, color: NORMAL_COLOR, link: "http://www.abedu.co.kr/AI/lecture/ps/7/is/16" },
   { id: 11, label: "Economics and Computation\n(계량경제학)\n계량경제학", shape: VIS_SHAPE, level: 3, color: NORMAL_COLOR, link: "JEJUk+KOCW_JEJU01" },
