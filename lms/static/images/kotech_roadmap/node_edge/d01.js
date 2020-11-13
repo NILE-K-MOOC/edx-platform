@@ -32,7 +32,7 @@ var nodes = [
   { id: 21, label: "Topics in Artificial Intelligence\n(인공지능 연구)\n인공지능 연구 동향(중앙대, 개발예정)", shape: VIS_SHAPE, level: 9, color: NULL_COLOR, link: [['인공지능 연구 동향(중앙대, 개발예정)','']] },
   { id: 22, label: "Topics in Machine Learning\n(기계학습 연구)\n딥러닝의 깊이 있는 이해를 위한 머신러닝(중앙대, 개발예정)", shape: VIS_SHAPE, level: 9, color: NULL_COLOR, link: [['딥러닝의 깊이 있는 이해를 위한 머신러닝(중앙대, 개발예정)','']] },
 
-  { id: 23, label: "Reinforcement Learning\n(강화학습) 개발예정강좌", shape: VIS_SHAPE, level: 10, color: NULL_COLOR, link: [['개발예정','']] },
+  { id: 23, label: "Reinforcement Learning\n(강화학습)\n강화학습의 수학적 기초와 알고리즘 이해(고려대, 개발예정)", shape: VIS_SHAPE, level: 10, color: NULL_COLOR, link: [['강화학습의 수학적 기초와 알고리즘 이해(고려대, 개발예정)','']] },
   { id: 24, label: "Computer Vision\n(컴퓨터비전)\n딥러닝 영상분석(Match業 강좌) 외 1건", shape: VIS_SHAPE, level: 10, color: NORMAL_COLOR, link: [['딥러닝 영상분석(Match業 강좌)', 'http://www.abedu.co.kr/AI_MF/lecture/ps/4/is/6'], ['영상처리와 패턴인식', 'SMUk+FD_SMU03']] },
 
   { id: 25, label: "Computer Graphics\n(컴퓨터그래픽)\n영상처리와 패턴인식", shape: VIS_SHAPE, level: 11, color: NORMAL_COLOR, link: "SMUk+FD_SMU03" },

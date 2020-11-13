@@ -11,7 +11,7 @@ var nodes = [
   { id: 7, label: "Topics in Machine Learning\n(기계학습 연구)\n딥러닝의 깊이 있는 이해를 위한 머신러닝(중앙대, 개발예정)", shape: VIS_SHAPE, level: 2, color: NULL_COLOR, link: [['딥러닝의 깊이 있는 이해를 위한 머신러닝(중앙대, 개발예정)','']] },
 
   { id: 8, label: "Introduction to Robotics\n(로봇공학 개론)\nFun-MOOC - 기계는 영원하다!", shape: VIS_SHAPE, level: 3, color: NORMAL_COLOR, link: "SNUk+SKP.M2794.000100k" },
-  { id: 9, label: "Reinforcement Learning\n(강화학습) 개발예정강좌", shape: VIS_SHAPE, level: 3, color: NULL_COLOR, link: [['개발예정','']] },
+  { id: 9, label: "Reinforcement Learning\n(강화학습)\n강화학습의 수학적 기초와 알고리즘 이해(고려대, 개발예정)", shape: VIS_SHAPE, level: 3, color: NULL_COLOR, link: [['강화학습의 수학적 기초와 알고리즘 이해(고려대, 개발예정)','']] },
   { id: 10, label: "Knowledge-Based AI(지식기반 인공지능)\n추론응용 모델링 (Match業 강좌)\n", shape: VIS_SHAPE, level: 3, color: NORMAL_COLOR, link: [['추론응용 모델링 (Match業 강좌)', 'http://www.abedu.co.kr/AI/lecture/ps/7/is/16']] },
   { id: 11, label: "Economics and Computation\n(계량경제학)\n계량경제학", shape: VIS_SHAPE, level: 3, color: NORMAL_COLOR, link: "JEJUk+KOCW_JEJU01" },
   { id: 12, label: "Introduction to Cognitive\nScience(인지과학 개론)\n인간 뇌의 이해", shape: VIS_SHAPE, level: 3, color: NORMAL_COLOR, link: "SNUk+SNU047_019k" },
