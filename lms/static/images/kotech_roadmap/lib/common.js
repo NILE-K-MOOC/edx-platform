@@ -194,7 +194,7 @@ function vis_draw(nodes, edges) {
                             $('div.other-cont').append('<a href="javascript: roadmapLink(\'' + encodeURIComponent(sNodeLabel[i][1]) + '\')"><p class="ctxt mb20">' + sNodeLabel[i][0] + '</p></a>');
                         }
                     } else {
-                        $('div.other-cont').append('<a href="#"><p class="ctxt mb20">' + sNodeLabel[i][0] + '</p></a>');
+                        $('div.other-cont').append('<p class="ctxt mb20">' + sNodeLabel[i][0] + '</p>');
                     }
                 }
 
@@ -210,6 +210,7 @@ function vis_draw(nodes, edges) {
                         console.log('link check ------------------------------- s');
                         console.log(link);
                         console.log('link check ------------------------------- e');
+
                         // $('div.other-cont').append('<a href="'+ link +'" target="_blank"><p class="ctxt mb20">' + c.display_name + ' (' + c.org_name +')</p></a>');
                         // layer_div.css('top', clickY).css('left', clickX).show();
                     } else {
@@ -224,14 +225,12 @@ function vis_draw(nodes, edges) {
                             complete: function (d) {
                                 let c = d.responseJSON;
 
-                                $('div.other-cont').append('<a href="' + c.url + '" target="_blank"><p class="ctxt mb20">' + c.display_name + ' (' + c.org_name + ')</p></a>');
+                                $('div.other-cont').append('<a href="' + c.url + '" target="_blank"><p class="ctxt mb20">' + c.display_name + '</p></a>');
                                 layer_div.css('top', clickY).css('left', clickX).show();
 
                             }
                         });
                     }
-
-
                 }
             }
 
