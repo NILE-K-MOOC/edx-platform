@@ -172,17 +172,22 @@ def multisite_error(request):
 
     return render_to_response("multisite_error.html", context)
 
-
 @csrf_exempt
 def multisite_index(request, org):
     # 중앙교육연수원의 추가 정보 입력을 위한 변수
     addinfo = None
 
-    log.info('multisite check multistie_success [%s]' % 'multistie_success' in request.session)
+    log.info("multisite check multistie_success [%s]" % "multistie_success" in request.session)
 
     if 'multistie_success' in request.session:
         if request.session['multistie_success'] == 1 and request.user.is_authenticated and 'multisite_org' in request.session:
             return student.views.management.multisite_index(request, user=request.user)
+
+    # 로그인 상태라면 로그아웃 처리
+
+    if request.user and request.user.is_authenticated:
+        from django.contrib.auth import logout
+        logout(request)
 
     # 멀티사이트에 온 것을 환영합니다
     request.session['multisite_mode'] = 1
@@ -609,10 +614,12 @@ def index(request):
 
     # 멀티사이트 이용중 홈페이지로 이동했을경우 session 을 클리어
     if 'multisite_org' in request.session:
-        log.info('clear request.session ------------------------ s')
+        log.info('multisite check clear request.session ------------------------ s')
         for key in request.session.keys():
-            del request.session[key]
-        log.info('clear request.session ------------------------ e')
+            if str(key).startswith('multisite'):
+                log.info('multisite check delete session key: [%s]' % key)
+                del request.session[key]
+        log.info('multisite check clear request.session ------------------------ e')
 
     if request.user.is_authenticated:
         # Only redirect to dashboard if user has

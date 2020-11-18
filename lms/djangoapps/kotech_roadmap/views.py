@@ -41,7 +41,6 @@ def about_intro(request):
 
 
 def roadmap(request):
-
     context = {}
     return render_to_response('kotech_roadmap/roadmap.html', context)
 
@@ -54,18 +53,19 @@ def roadmap_view(request, id):
             course = course_data.split('+')[1]
             not_date = datetime(2030, 01, 01, tzinfo=utc)
             new_course = CourseOverview.objects.filter(org=org, display_number_with_default=course,
-                                                       catalog_visibility='both')\
+                                                       catalog_visibility='both') \
                 .exclude(start=not_date).order_by('-start').first()
 
             try:
-                url = 'http://' + settings.ENV_TOKENS.get('LMS_BASE') + '/courses/' + unicode(new_course.id) + '/about'
+                # url = 'http://' + settings.ENV_TOKENS.get('LMS_BASE') + '/courses/' + unicode(new_course.id) + '/about'
+                url = request.scheme + '://' + request.META['HTTP_HOST'] + '/courses/' + unicode(new_course.id) + '/about'
             except AttributeError as e:
                 log.error(e)
                 return JsonResponse({'error': '공개된 강좌가 없습니다.'})
         else:
             url = course_data
 
-        return JsonResponse({'url': url})
+        return JsonResponse({'display_name': new_course.display_name, 'org_name': new_course.org, 'url': url})
 
     title = ''
     if id == 'a01':

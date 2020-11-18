@@ -999,6 +999,7 @@ def remove_account_view(request):
 
     nice_command = '{0} ENC {1} {2} {3}'.format(nice_cb_encode_path, nice_sitecode, nice_sitepasswd, plaindata)
     enc_data = commands.getoutput(nice_command)
+
     try:
         if request.session['passwdcheck'] == 'N':
             check = 'N'
