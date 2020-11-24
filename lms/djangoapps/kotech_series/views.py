@@ -765,7 +765,7 @@ def series(request):
                     GROUP BY d.series_seq) e
                       ON a.series_seq = e.series_seq
              WHERE a.use_yn = 'Y' AND a.delete_yn = 'N'
-             order by series_seq desc
+             order by a.series_seq desc
              ;
         '''
         cur.execute(query)
