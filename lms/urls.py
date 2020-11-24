@@ -73,6 +73,7 @@ from kotech_community import views as kotech_community_views   # Community APP
 from kotech_lifelong import views as kotech_lifelong_views     # Lifelong APP
 from kotech_roadmap import views as kotech_roadmap_views     # Lifelong APP
 
+
 LogAction()
 if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
     django_autodiscover()
@@ -91,6 +92,9 @@ urlpatterns = [
     # Common
     # made by kotech system
     url(r'^api/get_org_value$', kotech_common_views.get_org_value, name='get_org_value'),
+
+    # kotech_sidebar
+    url(r'^sidebar$', kotech_common_views.sidebar, name='sidebar'),
 
     # Drmt
     url(r'^active_account/(?P<email>.*?)$', student_views.active_account, name='active_account'),

@@ -261,3 +261,20 @@ ${HTML(fragment.foot_html())}
       % endif
     </nav>
 % endif
+
+<script>
+    // 웹접근성 이슈로 input 내용에 title 속성을 확인하고 공통적인 내용을 셋팅
+    $(document).ready(function(){
+        $(".problem").each(function(i){
+            let inputs = $(this).find('input:text:visible');
+
+            $(inputs).each(function(j){
+                let title = $(this).attr('title');
+
+                if (!title){
+                    $(this).attr('title', (i + 1) + "번째 문제의 " + (j + 1) + "번째 답안" );
+                }
+            });
+        });
+    });
+</script>
