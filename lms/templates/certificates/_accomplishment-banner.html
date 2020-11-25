@@ -9,6 +9,12 @@ from django.template.defaultfilters import escapejs
 <script src="https://unpkg.com/sweetalert2@7.17.0/dist/sweetalert2.all.js"></script>
   <script type="text/javascript">
       $(document).ready(function() {
+        if($(":input:radio[name='radio2']:checked").val()== 'sc'){
+      $('#special_cert_print_id').show();
+
+    }else {
+      $('#special_cert_print_id').hide();
+    }
           //FaceBook.init({"facebook_app_id": '${facebook_app_id}'});
           $.ajaxSetup({
               headers: {
@@ -117,58 +123,62 @@ from django.template.defaultfilters import escapejs
                     <span>이수증 선택 </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;
                     <input type="radio" name="radio2" checked="checked" value="nc" onclick="normal_cert()"> 일반 이수증
                     <input type="radio" name="radio2" value="sc" onclick="special_cert()"> 특수분야 이수증<br>
-
+                    <button class="action action-print btn-inverse btn-small" onclick="special_cert_print()" id="special_cert_print_id" style="margin-top: 10px; display: none;">
+                                <span class="icon fa fa-print" aria-hidden="true"></span>
+                                ${_("Print Certificate")}
+                            </button>
                     %endif
 
                     % if special !='Y':
-                    <div style="margin-bottom: 10px;">
-                      <span style="margin-right: 55px;">연계기관</span>
-                      <select name="multisite" style="color: #000000;" onchange="changeEventHandler(event);">
-                        <option>선택 없음</option>
-                        % for org in multisite:
-                        <option>${org[1]}</option>
-                        % endfor
-                      </select>
-                    </div>
+                        <div style="margin-bottom: 10px;">
+                          <span style="margin-right: 55px;">연계기관</span>
+                          <select name="multisite" style="color: #000000;" onchange="changeEventHandler(event);">
+                            <option>선택 없음</option>
+                            % for org in multisite:
+                            <option>${org[1]}</option>
+                            % endfor
+                          </select>
+                        </div>
 
-                    <span>선택언어</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;
-                    <input type="radio" name="radio" checked="checked" value="K" onclick="e_name_check(this.value)"> 한국어
-                    <input type="radio" name="radio" value="E" onclick="e_name_check(this.value)"> 영어 &nbsp;<input type="text" id="e_name" placeholder="영어이름을 넣어주세요." style="color: black; display: none"><br>
+                        <span>선택언어</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;
+                        <input type="radio" name="radio" checked="checked" value="K" onclick="e_name_check(this.value)"> 한국어
+                        <input type="radio" name="radio" value="E" onclick="e_name_check(this.value)"> 영어 &nbsp;<input type="text" id="e_name" placeholder="영어이름을 넣어주세요." style="color: black; display: none"><br>
 
-                    <span>추가표기사항</span>&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
-                    <input type="checkbox" id ="checkbox3"> 총 주차
-                    <input type="checkbox" id ="checkbox4"> 학습인정시간
-                    <input type="checkbox" id ="checkbox2"> 총 동영상시간
-                    <input type="checkbox" id ="checkbox1"> 성적
-                    <style>
-                        #action-print-view{
-                            margin-top: 20px;
-                        }
-                        #action-check-view{
-                            margin-top: 20px;
-                        }
-                    </style>
+                        <span>추가표기사항</span>&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
+                        <input type="checkbox" id ="checkbox3"> 총 주차
+                        <input type="checkbox" id ="checkbox4"> 학습인정시간
+                        <input type="checkbox" id ="checkbox2"> 총 동영상시간
+                        <input type="checkbox" id ="checkbox1"> 성적
+                        <style>
+                            #action-print-view{
+                                margin-top: 20px;
+                            }
+                            #action-check-view{
+                                margin-top: 20px;
+                            }
+                        </style>
+
+
+                        % if not preview_mode:
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <button class="action action-print btn-inverse btn-small" id="action-print-view">
+                                <span class="icon fa fa-print" aria-hidden="true"></span>
+                                ${_("Print Certificate")}
+                            </button>
+                            % if nice_check_flag == 0:
+                                <button class="action action-print btn-inverse btn-small Test_btn" id="action-check-view">
+                                    본인인증하기
+                                </button>
+                            %endif
+
+                            %if badge:
+                                <button class="action action-share-mozillaopenbadges btn btn-overlay btn-small">
+                                    <img class="icon icon-mozillaopenbadges" src="/static/certificates/images/ico-mozillaopenbadges.png" alt="Mozilla Open Badges Backpack">
+                                    ${_("Add to Mozilla Backpack")}
+                                </button>
+                            %endif
+                        %endif
                     % endif
-
-                    % if not preview_mode:
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        <button class="action action-print btn-inverse btn-small" id="action-print-view">
-                            <span class="icon fa fa-print" aria-hidden="true"></span>
-                            ${_("Print Certificate")}
-                        </button>
-                        % if nice_check_flag == 0:
-                            <button class="action action-print btn-inverse btn-small Test_btn" id="action-check-view">
-                                본인인증하기
-                            </button>
-                        %endif
-
-                        %if badge:
-                            <button class="action action-share-mozillaopenbadges btn btn-overlay btn-small">
-                                <img class="icon icon-mozillaopenbadges" src="/static/certificates/images/ico-mozillaopenbadges.png" alt="Mozilla Open Badges Backpack">
-                                ${_("Add to Mozilla Backpack")}
-                            </button>
-                        %endif
-                    %endif
                     <form name="frmPopup" method="POST">
                         <input type="hidden" name="language_flag">
                         <input type="hidden" name="multisite">

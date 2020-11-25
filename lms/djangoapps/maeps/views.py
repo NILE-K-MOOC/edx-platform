@@ -56,7 +56,10 @@ def servey_check(request):
 
     return JsonResponse({'return':check_flag})
 
+@csrf_exempt
+def special_certificate_print(request):
 
+    return
 @csrf_exempt
 def certificate_print(request):
     print_index_css = '''

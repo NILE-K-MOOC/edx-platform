@@ -151,14 +151,31 @@ def _update_certificate_context(context, course, user_certificate, platform_name
         '''.format(user_id=context['accomplishment_user_id'])
         cur.execute(query)
         mul_mem = cur.fetchall()
+
     try:
         mul_mem = json.loads(mul_mem[0][0])
-
+        print mul_mem
         context['instNm'] = mul_mem['instNm']
         context['neisId'] = mul_mem['neisId']
         context['mbrNm'] = mul_mem['mbrNm']
+        try:
+            #생년월일
+            context['mbrbirth'] = mul_mem['mbrbirth']
+            #직무
+            context['instqq'] = mul_mem['instqq']
+            #소속
+            context['sosok'] = mul_mem['sosok']
+        except:
+            # 생년월일
+            context['mbrbirth'] = "미입력"
+            # 직무
+            context['instqq'] = "미입력"
+            # 소속
+            context['sosok'] = "미입력"
     except:
         pass
+
+    # {"instNm": "경기도교육청", "neisId": "J101389432", "mbrNm": "김하늘4", "mbrbirth": "20121234", "instqq": "직무"}
 
     with connections['default'].cursor() as cur:
         query = '''
@@ -184,7 +201,7 @@ def _update_certificate_context(context, course, user_certificate, platform_name
     context['multisite'] = multisite
 
     context['enc_data'] = enc_data
-
+    context['year']=user_certificate.modified_date.year
     # Override the defaults with any mode-specific static values
     context['certificate_id_number'] = user_certificate.verify_uuid
     context['certificate_verify_url'] = "{prefix}{uuid}{suffix}".format(
@@ -1084,10 +1101,11 @@ def _render_valid_certificate(request, context, custom_template=None, special=No
             encoding_errors='replace',
         )
         context = RequestContext(request, context)
-        print 'context 1', context
+        # print 'context 1', context
         return HttpResponse(template.render(context))
     else:
-        print 'context 2', context
-        print 'special', special
+        # print 'context 2', context
+        # print 'special', special
+
         context['special'] = special
         return render_to_response("certificates/valid.html", context)

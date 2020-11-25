@@ -52,7 +52,7 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
     .content .seal {
         position: relative;
         margin-left: 10px;
-        font-size: 14pt;
+        font-size: 5pt;
         font-weight: bold;
     }
 
@@ -60,6 +60,9 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
         position: absolute;
         top: -30px;
         left: -20px;
+        width: 100px;
+        height: 55px;
+        margin-left: 10px;
     }
 </style>
 
@@ -323,7 +326,7 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
 </style>
 
 <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-<main id="printArea_K" class="accomplishment accomplishment-main" style="display: block;">
+<main id="printArea_S" class="accomplishment accomplishment-main" style="display: block;">
     <body>
 
     <div class="paper">
@@ -335,30 +338,23 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
             <table class="ctable">
                 <tbody>
                 <tr>
-                    <td colspan="4" class="ctitle" style ="font-size: 30px; font-weight: bold;">교  육  연  수  이  수  증</td>
+                    <td colspan="4" class="ctitle" style="font-size: 30px; font-weight: bold;">교 육 연 수 이 수 증</td>
                 </tr>
                 <tr>
                     <th style="text-align: left;">이수번호 :</th>
-                    <td colspan="3">경기 교육-유초중-국가평생교육진흥원-직무2020-a0053</td>
+                    <td colspan="3">경기 교육-유초중-국가평생교육진흥원-${instqq}${year}-a0053</td>
                 </tr>
                 <tr>
                     <th style="text-align: left;">소속 :</th>
-                    <td colspan="3">한국초등학교</td>
+                    <td colspan="3">${sosok}</td>
                 </tr>
                 <tr>
-                    % if nice_check_flag == 0:
+
                     <th style="text-align: left;">성명 :</th>
-                    <td style="width: 35%;">${accomplishment_copy_name}</td>
+                    <td style="width: 35%;">${mbrNm}</td>
                     <th style="text-align: left;">생년월일 :</th>
-                    <td style="width: 35%;">본인인증을 해주세요.</td>
-                    %else:
-                    <th style="text-align: left;">성명 :</th>
-                    <td style="width: 35%;">${user_name}</td>
-                    <th style="text-align: left;">생년월일 :</th>
-                    <td style="width: 35%;">${birth_date}</td>
-                    <span class="certifi_index">( <img class="check_img"
-                                                       src="${static_url}/static/images/correct-icon.png"> 본인인증됨)</span>
-                    %endif
+                    <td style="width: 35%;">${mbrbirth}</td>
+
                 </tr>
                 <tr>
                     <th style="text-align: left;">연수종별 :</th>
@@ -398,8 +394,8 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
                 </tr>
                 <tr>
                     <td colspan="4" style="padding: 40px 0; text-align: center;">
-                        <strong style="font-size: 30pt;">국    가    평    생    교    육    진    흥    원    장</strong>
-                        <span class="seal">(직인)<img src="../../static/images/certificates/stamp.png"></span>
+                        <strong style="font-size: 30pt;">국 가 평 생 교 육 진 흥 원 장</strong>
+                        <img src="../../static/images/certificates/nile_stamp.jpg" style="width: 90px; height: 90px;">
                     </td>
                 </tr>
                 </tbody>
@@ -414,6 +410,10 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
 <%namespace name='static' file='../static_content.html'/>
 
 <script>
+  function special_cert_print() {
+    window.print();
+  };
+  $("input:radio[name='radio2']:radio[value='sc']").prop('checked', true);
   $("img").error(function () {
     var alt_index = $(this).attr("alt")
     var class_index = $(this).attr("class")

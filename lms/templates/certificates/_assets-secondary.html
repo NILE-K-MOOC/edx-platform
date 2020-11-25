@@ -39,64 +39,67 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').replac
     }
 
     function printView(event) {
+      if ($(":input:radio[name=radio2]:checked").val() == 'sc') {
+        console.log($('#printArea_S').html())
+        special_certificate_print
+      } else {
+      console.log('=============================');
+      console.log('${logo_kor}');
+      console.log('${logo_eng}');
+      console.log('=============================');
 
-        console.log('=============================');
-        console.log('${logo_kor}');
-        console.log('${logo_eng}');
-        console.log('=============================');
+      var frmPop = document.frmPopup;
+      var url = '/maeps/certificate_print';
+      var language_flag = ''
+      if ($('input[type=radio][name=radio]:checked').val() == "K") {
+        language_flag = 'K'
+      } else if ($('input[type=radio][name=radio]:checked').val() == "E") {
+        language_flag = 'E'
+      }
+      window.open('', 'popupView', '옵션');
 
-        var frmPop= document.frmPopup;
-        var url = '/maeps/certificate_print';
-        var language_flag = ''
-        if ($('input[type=radio][name=radio]:checked').val() == "K") {
-            language_flag = 'K'
-        }
-        else if ($('input[type=radio][name=radio]:checked').val() == "E") {
-            language_flag = 'E'
-        }
-        window.open('','popupView','옵션');
+      console.log('frmPop -> ', frmPop);
+      console.log('hello -> ', $('.helloworld').html());
 
-        console.log('frmPop -> ', frmPop);
-        console.log('hello -> ', $('.helloworld').html());
+      frmPop.action = url;
+      frmPop.target = 'popupView';
+      frmPop.language_flag.value = language_flag;
+      frmPop.multisite.value = $('.helloworld').html();
+      frmPop.checkbox1.value = $('#checkbox1').is(':checked');
+      frmPop.checkbox2.value = $('#checkbox2').is(':checked');
+      frmPop.checkbox3.value = $('#checkbox3').is(':checked');
+      frmPop.checkbox4.value = $('#checkbox4').is(':checked');
+      frmPop.static_url.value = '${static_url}';
 
-        frmPop.action = url;
-        frmPop.target = 'popupView';
-        frmPop.language_flag.value = language_flag;
-        frmPop.multisite.value =  $('.helloworld').html();
-        frmPop.checkbox1.value = $('#checkbox1').is(':checked');
-        frmPop.checkbox2.value = $('#checkbox2').is(':checked');
-        frmPop.checkbox3.value = $('#checkbox3').is(':checked');
-        frmPop.checkbox4.value = $('#checkbox4').is(':checked');
-        frmPop.static_url.value = '${static_url}';
+      frmPop.logo_eng.value = '${logo_eng}';
+      frmPop.logo_kor.value = '${logo_kor}';
 
-        frmPop.logo_eng.value = '${logo_eng}';
-        frmPop.logo_kor.value = '${logo_kor}';
-
-        frmPop.certificate_id_number.value = '${certificate_id_number}';
-        frmPop.created_date.value = '${created_date}';
-        frmPop.nice_check_flag.value = '${nice_check_flag}';
-        frmPop.accomplishment_copy_name.value = '${accomplishment_copy_name}';
-        frmPop.user_name.value = '${user_name}';
-        frmPop.birth_date.value = '${birth_date}';
-        frmPop.accomplishment_course_title.value = '${accomplishment_course_title[0]}'+'!@#'+'${accomplishment_course_title[1]}';
-        frmPop.course_id.value = '${course_id}';
-        frmPop.start_date.value = '${start_date}';
-        frmPop.end_date.value = '${end_date}';
-        frmPop.Play_h.value = '${Play_h}';
-        frmPop.Play_m.value = '${Play_m}';
-        frmPop.course_week.value = '${course_week}';
-        frmPop.course_effort_h.value = '${course_effort_h}';
-        frmPop.course_effort_m.value = '${course_effort_m}';
-        frmPop.grade.value = '${grade}';
-        frmPop.certificate_date_issued2.value = '${certificate_date_issued2}';
-        frmPop.certificate_date_issued.value = '${certificate_date_issued}';
-        frmPop.classfy_k.value = '${classfy_k}';
-        frmPop.classfy_e.value = '${classfy_e}';
-        frmPop.logo_index.value = '${logo_eng}';
-        frmPop.org_name_k.value = '${org_name_k}';
-        frmPop.org_name_e.value = "${org_name_e}";
-        frmPop.e_name.value = $('#e_name').val();
-        frmPop.submit();
+      frmPop.certificate_id_number.value = '${certificate_id_number}';
+      frmPop.created_date.value = '${created_date}';
+      frmPop.nice_check_flag.value = '${nice_check_flag}';
+      frmPop.accomplishment_copy_name.value = '${accomplishment_copy_name}';
+      frmPop.user_name.value = '${user_name}';
+      frmPop.birth_date.value = '${birth_date}';
+      frmPop.accomplishment_course_title.value = '${accomplishment_course_title[0]}' + '!@#' + '${accomplishment_course_title[1]}';
+      frmPop.course_id.value = '${course_id}';
+      frmPop.start_date.value = '${start_date}';
+      frmPop.end_date.value = '${end_date}';
+      frmPop.Play_h.value = '${Play_h}';
+      frmPop.Play_m.value = '${Play_m}';
+      frmPop.course_week.value = '${course_week}';
+      frmPop.course_effort_h.value = '${course_effort_h}';
+      frmPop.course_effort_m.value = '${course_effort_m}';
+      frmPop.grade.value = '${grade}';
+      frmPop.certificate_date_issued2.value = '${certificate_date_issued2}';
+      frmPop.certificate_date_issued.value = '${certificate_date_issued}';
+      frmPop.classfy_k.value = '${classfy_k}';
+      frmPop.classfy_e.value = '${classfy_e}';
+      frmPop.logo_index.value = '${logo_eng}';
+      frmPop.org_name_k.value = '${org_name_k}';
+      frmPop.org_name_e.value = "${org_name_e}";
+      frmPop.e_name.value = $('#e_name').val();
+      frmPop.submit();
+    }
     }
 
     function checkView(event) {
