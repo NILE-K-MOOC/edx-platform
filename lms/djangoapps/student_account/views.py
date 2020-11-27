@@ -38,7 +38,8 @@ from openedx.core.djangoapps.user_api.accounts.api import request_password_chang
 from openedx.core.djangoapps.user_api.api import (
     RegistrationFormFactory,
     get_login_session_form,
-    get_password_reset_form
+    get_password_reset_form,
+    find_email_form
 )
 from openedx.core.djangoapps.user_api.errors import (
     UserNotFound,
@@ -516,6 +517,7 @@ def login_and_registration_form(request, initial_mode="login"):
             'login_form_desc': json.loads(form_descriptions['login']),
             'registration_form_desc': json.loads(form_descriptions['registration']),
             'password_reset_form_desc': json.loads(form_descriptions['password_reset']),
+            'email_find_form_desc': json.loads(form_descriptions['email_find']),
             'account_creation_allowed': configuration_helpers.get_value(
                 'ALLOW_PUBLIC_ACCOUNT_CREATION', settings.FEATURES.get('ALLOW_PUBLIC_ACCOUNT_CREATION', True))
         },
@@ -701,6 +703,7 @@ def _get_form_descriptions(request):
 
     return {
         'password_reset': get_password_reset_form().to_json(),
+        'email_find': find_email_form().to_json(),
         'login': get_login_session_form(request).to_json(),
         'registration': RegistrationFormFactory().get_registration_form(request).to_json()
     }

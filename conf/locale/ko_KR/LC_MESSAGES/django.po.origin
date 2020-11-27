@@ -11402,7 +11402,7 @@ msgstr "예: username@domain.com"
 #: cms/templates/login.html lms/templates/login.html
 #: themes/red-theme/cms/templates/login.html
 msgid "Forgot password?"
-msgstr "비밀번호를 잊어버리셨나요?"
+msgstr "비밀번호를 잊어버리셨나요?ㅠㅠ"
 
 #. Translators: This is the placeholder text for a field that requests the
 #. user's full name.

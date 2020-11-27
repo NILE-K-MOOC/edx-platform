@@ -1,4 +1,5 @@
 (function(define) {
+    // alert("login page!!!");
     'use strict';
     define([
         'jquery',
@@ -18,12 +19,14 @@
             formStatusTpl
     ) {
         return FormView.extend({
+
             el: '#login-form',
             tpl: '#login-tpl',
             events: {
                 'click .js-login': 'submitForm',
                 'click .forgot-password': 'forgotPassword',
-                'click .login-provider': 'thirdPartyAuth'
+                'click .login-provider': 'thirdPartyAuth',
+                'click .forgot-email': 'findEmail'
             },
             formType: 'login',
             requiredStr: '',
@@ -122,6 +125,15 @@
 
                 this.trigger('password-help');
                 this.clearPasswordResetSuccess();
+            },
+
+            findEmail: function(event) {
+                alert("11111");                 // 클릭 이벤트 시 발생
+                event.preventDefault();
+
+                this.trigger('email-help');
+                this.clearPasswordResetSuccess();
+
             },
 
             postFormSubmission: function() {

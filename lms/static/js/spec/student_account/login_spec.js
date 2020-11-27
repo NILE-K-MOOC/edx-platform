@@ -210,6 +210,7 @@
 
                 // Verify that the password reset link is displayed
                     expect($('.forgot-password')).toBeVisible();
+                    alert("g2g2g2")
                 });
 
                 it('displays password reset success message after password reset request', function() {

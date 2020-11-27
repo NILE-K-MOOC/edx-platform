@@ -66,6 +66,7 @@
                         login: options.login_form_desc,
                         register: options.registration_form_desc,
                         reset: options.password_reset_form_desc,
+                        reset2: options.email_find_form_desc,
                         institution_login: null,
                         hinted_login: null
                     };
@@ -110,6 +111,10 @@
                     if (Backbone.history.getHash() === 'forgot-password-modal') {
                         this.resetPassword();
                     }
+                    // if (Backbone.history.getHash() === 'forgot-email-modal') {
+                    //     this.resetEmail();
+                    //     alert('dsad');
+                    // }
                     this.loadForm(this.activeForm);
                 },
 
@@ -142,7 +147,8 @@
 
                     // Listen for 'password-help' event to toggle sub-views
                         this.listenTo(this.subview.login, 'password-help', this.resetPassword);
-
+                        this.listenTo(this.subview.login, 'email-help', this.findEmail);
+                    // alert("3333");      // 로그인 페이지 로드 시 발생
                     // Listen for 'auth-complete' event so we can enroll/redirect the user appropriately.
                         this.listenTo(this.subview.login, 'auth-complete', this.authComplete);
                     },
@@ -157,7 +163,7 @@
                         });
 
                     // Listen for 'password-email-sent' event to toggle sub-views
-                        this.listenTo(this.subview.passwordHelp, 'password-email-sent', this.passwordEmailSent);
+                    //     this.listenTo(this.subview.passwordHelp, 'password-email-sent', this.passwordEmailSent);
 
                     // Focus on the form
                         $('.password-reset-form').focus();
@@ -210,6 +216,7 @@
                 },
 
                 resetPassword: function() {
+                    alert("555");
                     window.analytics.track('edx.bi.password_reset_form.viewed', {
                         category: 'user-engagement'
                     });
@@ -217,6 +224,17 @@
                     this.element.hide($(this.el).find('#login-anchor'));
                     this.loadForm('reset');
                     this.element.scrollTop($('#password-reset-anchor'));
+                },
+
+                findEmail: function() {
+                    alert("4444");          // 클릭 이벤트 시 발생
+                    window.analytics.track('edx.bi.password_reset_form.viewed', {
+                        category: 'user-engagement'
+                    });
+
+                    this.element.hide($(this.el).find('#login-anchor'));
+                    this.loadForm('reset2');
+                    // this.element.scrollTop($('#password-reset-anchor'));
                 },
 
                 toggleForm: function(e) {

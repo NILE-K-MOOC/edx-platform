@@ -52,7 +52,8 @@
                         platform_name: 'edX',
                         login_form_desc: FORM_DESCRIPTION,
                         registration_form_desc: FORM_DESCRIPTION,
-                        password_reset_form_desc: FORM_DESCRIPTION
+                        password_reset_form_desc: FORM_DESCRIPTION,
+                        email_find_form_desc: FORM_DESCRIPTION
                     };
 
                 // Initialize the logistration Factory
@@ -90,7 +91,8 @@
                  */
                     hiddenFormsList = [
                         '#register-form',
-                        '#password-reset-form'
+                        '#password-reset-form',
+                        // '#email-find-form'
                     ];
                     assertForms('#login-form', hiddenFormsList);
                 });
@@ -105,7 +107,8 @@
                  */
                     hiddenFormsList = [
                         '#login-form',
-                        '#password-reset-form'
+                        '#password-reset-form',
+                        // '#email-find-form'
                     ];
                     assertForms('#register-form', hiddenFormsList);
                 });
@@ -123,6 +126,7 @@
                         '#register-form'
                     ];
                     assertForms('#password-reset-form', hiddenFormsList);
+                    // assertForms('#email-find-form', hiddenFormsList);
                 });
             });
         });

@@ -135,6 +135,13 @@
                 this.trigger('password-help');
             },
 
+            findEmail: function(event) {
+                alert("2222");
+                event.preventDefault();
+
+                this.trigger('email-help');
+            },
+
             getFormData: function(target) {
                 if (target) {
                         var obj = {},

@@ -1,8 +1,7 @@
 <div class="js-form-feedback" aria-live="assertive" tabindex="-1">
-
 </div>
 
-<h2><%- gettext("Password assistance") %></h2>
+<h2><%- gettext("Password assistance") %>2222</h2>
 
 <form id="password-reset" class="password-reset-form" tabindex="-1" method="POST">
 

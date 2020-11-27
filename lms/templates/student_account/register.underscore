@@ -1,4 +1,13 @@
 <div class="js-form-feedback" aria-live="assertive" tabindex="-1"></div>
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~edit~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+    <a target='_blank' href="https://www.google.co.kr/chrome/" class="new-ff-link-item" title="설치페이지로 이동" style="text-decoration:none;">
+        <div class="new-ff-bot new-ff-blue" style="text-align:center;">
+            <%- gettext("K-MOOC는 chrome 브라우저 사용을 권장합니다.") %>
+        </div>
+    </a>
+
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~edit~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  -->
 
 <form id="register" class="register-form" autocomplete="off" tabindex="-1" method="POST">
 
@@ -57,6 +66,9 @@
     <div class="section-title lines">
         <h3>
             <span class="text"><%- gettext("K-MOOC는 chrome 브라우저 사용을 권장합니다.") %></span>
+        </h3>
+        <h3>
+            <span class="text"><%- gettext("K-MOOC recommends using the chrome browser.") %></span>
         </h3>
     </div>
 

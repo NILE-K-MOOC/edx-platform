@@ -804,7 +804,7 @@
     "Font Sizes": "F\u00f8n\u0287 S\u1d09z\u01dds", 
     "Footer": "F\u00f8\u00f8\u0287\u01dd\u0279", 
     "For grading to work, you must change all {oldName} subsections to {newName}.": "F\u00f8\u0279 \u0183\u0279\u0250d\u1d09n\u0183 \u0287\u00f8 \u028d\u00f8\u0279\u029e, \u028e\u00f8n \u026fns\u0287 \u0254\u0265\u0250n\u0183\u01dd \u0250ll {oldName} snbs\u01dd\u0254\u0287\u1d09\u00f8ns \u0287\u00f8 {newName}.", 
-    "Forgot password?": "F\u00f8\u0279\u0183\u00f8\u0287 d\u0250ss\u028d\u00f8\u0279d?", 
+    "Forgot password???": "F\u00f8\u0279\u0183\u00f8\u0287 d\u0250ss\u028d\u00f8\u0279d?",
     "Format": "F\u00f8\u0279\u026f\u0250\u0287", 
     "Formats": "F\u00f8\u0279\u026f\u0250\u0287s", 
     "Free text notes": "F\u0279\u01dd\u01dd \u0287\u01ddx\u0287 n\u00f8\u0287\u01dds", 

@@ -22,7 +22,13 @@ from util.password_policy_validators import (
 )
 
 
+def find_email_form():
+    print "77779"
+    return ""
+
+
 def get_password_reset_form():
+    print "111111"
     """Return a description of the password reset form.
 
     This decouples clients from the API definition:
@@ -37,21 +43,21 @@ def get_password_reset_form():
 
     """
     form_desc = FormDescription("post", reverse("password_change_request"))
-
+    print "1. form_desc: ", form_desc
     # Translators: This label appears above a field on the password reset
     # form meant to hold the user's email address.
     email_label = _(u"Email")
-
+    print "1. email_label : ", email_label
     # Translators: This example email address is used as a placeholder in
     # a field on the password reset form meant to hold the user's email address.
     email_placeholder = _(u"username@domain.com")
-
+    print "1. email_placeholder", email_placeholder
     # Translators: These instructions appear on the password reset form,
     # immediately below a field meant to hold the user's email address.
     email_instructions = _(u"The email address you used to register with {platform_name}").format(
         platform_name=configuration_helpers.get_value('PLATFORM_NAME', settings.PLATFORM_NAME)
     )
-
+    print "1. email_instructions : ", email_instructions
     form_desc.add_field(
         "email",
         field_type="email",
@@ -68,6 +74,7 @@ def get_password_reset_form():
 
 
 def get_login_session_form(request):
+    print "2222222"
     """Return a description of the login form.
 
     This decouples clients from the API definition:
@@ -83,21 +90,21 @@ def get_login_session_form(request):
     """
     form_desc = FormDescription("post", reverse("user_api_login_session"))
     _apply_third_party_auth_overrides(request, form_desc)
-
+    print "2. form_desc: ", form_desc
     # Translators: This label appears above a field on the login form
     # meant to hold the user's email address.
     email_label = _(u"Email")
-
+    print "2. email_label : ", email_label
     # Translators: This example email address is used as a placeholder in
     # a field on the login form meant to hold the user's email address.
     email_placeholder = _(u"username@domain.com")
-
+    print "2. email_placeholder", email_placeholder
     # Translators: These instructions appear on the login form, immediately
     # below a field meant to hold the user's email address.
     email_instructions = _("The email address you used to register with {platform_name}").format(
         platform_name=configuration_helpers.get_value('PLATFORM_NAME', settings.PLATFORM_NAME)
     )
-
+    print "2. email_instructions : ", email_instructions
     form_desc.add_field(
         "email",
         field_type="email",
