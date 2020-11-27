@@ -63,6 +63,11 @@ username = get_enterprise_learner_generic_name(request) or student.username
                 <h2 class="hd hd-2 progress-certificates-title" style="margin-bottom: 0.25rem;">
                     ${_("Course Progress for Student '{username}' ({email})").format(username=username, email=student.email)}
                 </h2>
+                <div>
+                    <span style="color: red;">
+                        ※ ${_("The certificate of completion can be printed in [Dashboard - Complete/End Courses] 1~2 weeks after the end of the semester.")}
+                    </span>
+                </div>
 
                 <div>
                    <span style="color: red;">
