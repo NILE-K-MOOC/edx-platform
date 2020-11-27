@@ -867,7 +867,8 @@ class VideoTranscriptsMixin(object):
             for language_code in transcript_languages:
                 if language_code == 'en' and not sub:
                     sub = NON_EXISTENT_TRANSCRIPT
-                elif not transcripts.get(language_code):
+
+                if not transcripts.get(language_code):
                     transcripts[language_code] = NON_EXISTENT_TRANSCRIPT
 
         return {

@@ -472,38 +472,28 @@ def component_handler(request, usage_key_string, handler, suffix=''):
     modulestore().update_item(descriptor, request.user.id, asides=asides)
 
     is_system = request.GET.get('is_system')
+    org = request.GET.get('org')
+    cid = request.GET.get('cid')
+    run = request.GET.get('run')
     block_id = request.GET.get('block_id')
 
-    print 'is_system:', is_system
+    log.debug('is_system: [%s] ==> course_id: [course-v1:%s+%s+%s]' % (is_system, org, cid, run))
 
-    # 강제로 해당 영역의 게시 진행
+    # 강제로 해당 영역의 게시 처리
     if is_system:
-        from cms.djangoapps.contentstore.views.item import _save_xblock, _get_xblock
+        from cms.djangoapps.contentstore.views.item import _get_xblock
         from cms.djangoapps.contentstore.views.helpers import usage_key_with_run
         from django.contrib.auth.models import User
 
-        org = request.GET.get('org')
-        cid = request.GET.get('cid')
-        run = request.GET.get('run')
-
         child_string = 'block-v1:%s+%s+%s+type@video+block@%s' % (org, cid, run, block_id)
-
-        print 'child_string:', child_string
 
         store = modulestore()
         child = usage_key_with_run(child_string)
         parent_location = store.get_parent_location(child)
         u = User.objects.get(email='kmoocstaff1@gmail.com')
-
-        print 'parent_location1:', type(parent_location), parent_location
         parent_location = unicode(parent_location)
-        print 'parent_location2:', type(parent_location), parent_location
-
         usage_key = usage_key_with_run(parent_location)
-
         xblock = _get_xblock(usage_key, u)
         modulestore().publish(xblock.location, u.id)
-        # _save_xblock(u, xblock, publish='make_public')
-
 
     return webob_to_django_response(resp)
