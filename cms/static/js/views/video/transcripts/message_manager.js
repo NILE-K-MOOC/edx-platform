@@ -29,7 +29,6 @@ function($, Backbone, _, Utils, FileUploader, gettext) {
         },
 
         initialize: function(options) {
-            console.log('===> initialize');
             _.bindAll(this,
                 'importHandler', 'replaceHandler', 'chooseHandler', 'useExistingHandler', 'showError', 'hideError'
             );
@@ -46,7 +45,6 @@ function($, Backbone, _, Utils, FileUploader, gettext) {
         },
 
         render: function(template_id, params) {
-            console.log('===> render');
             var tplHtml = $(this.templates[template_id]).text(),
                 videoList = this.options.parent.getVideoObjectsList(),
             // Change list representation format to more convenient and group
@@ -79,9 +77,6 @@ function($, Backbone, _, Utils, FileUploader, gettext) {
             template = _.template(tplHtml);
 
             // 기본자막의 업로드 기능을 수정하고, 안내 문구를 수정
-            console.log('transcripts-status check ------------------------------ s');
-            console.log(this.fileUploader);
-            console.log('transcripts-status check ------------------------------ e');
 
             this.$el.find('.transcripts-status')
                 .removeClass('is-invisible')
@@ -116,7 +111,6 @@ function($, Backbone, _, Utils, FileUploader, gettext) {
         *
         */
         showError: function(err, hideButtons) {
-            console.log('===> showError');
             var $error = this.$el.find('.transcripts-error-message');
 
             if (err) {
@@ -141,7 +135,6 @@ function($, Backbone, _, Utils, FileUploader, gettext) {
         *
         */
         hideError: function() {
-            console.log('===> hideError');
             this.$el.find('.transcripts-error-message')
                 .addClass(this.invisibleClass);
 
@@ -158,7 +151,6 @@ function($, Backbone, _, Utils, FileUploader, gettext) {
         *
         */
         importHandler: function(event) {
-            console.log('===> importHandler');
             event.preventDefault();
 
             this.processCommand('replace', gettext('Error: Import failed.'));
@@ -173,7 +165,6 @@ function($, Backbone, _, Utils, FileUploader, gettext) {
         *
         */
         replaceHandler: function(event) {
-            console.log('===> replaceHandler');
             event.preventDefault();
 
             this.processCommand('replace', gettext('Error: Replacing failed.'));
@@ -188,7 +179,6 @@ function($, Backbone, _, Utils, FileUploader, gettext) {
         *
         */
         chooseHandler: function(event) {
-            console.log('===> chooseHandler');
             event.preventDefault();
 
             var videoId = $(event.currentTarget).data('video-id');
@@ -205,7 +195,6 @@ function($, Backbone, _, Utils, FileUploader, gettext) {
         *
         */
         useExistingHandler: function(event) {
-            console.log('===> useExistingHandler');
             event.preventDefault();
 
             this.processCommand('rename', gettext('Error: Choosing failed.'));
@@ -227,7 +216,6 @@ function($, Backbone, _, Utils, FileUploader, gettext) {
         *
         */
         processCommand: function(action, errorMessage, videoId) {
-            console.log('===> processCommand');
             var self = this,
                 component_locator = this.component_locator,
                 videoList = this.options.parent.getVideoObjectsList(),
