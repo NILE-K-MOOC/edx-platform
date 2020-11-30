@@ -11,7 +11,7 @@ from django.urls import reverse
 from django.db.models import Q
 from opaque_keys.edx.django.models import CourseKeyField
 from opaque_keys.edx.keys import CourseKey
-
+from django.db import connections
 from branding import api as branding_api
 from lms.djangoapps.certificates.models import (
     CertificateGenerationConfiguration,
@@ -176,6 +176,54 @@ def generate_user_certificates(student, course_key, course=None, insecure=False,
             'enrollment_mode': cert.mode,
             'generation_mode': generation_mode
         })
+    print 'def generate_user_certificates _______________________'
+    try:
+        from django.db import connections
+        with connections['default'].cursor() as cur:
+            query = """
+                select * from (SELECT *, CONCAT(t, LPAD(@rownum:=@rownum + 1, 4, '0')) AS special_cert_num
+                FROM
+                    (SELECT
+                        a.user_id,CONCAT(IF(QUARTER(a.created) IN (1 , 2), 'a', 'b')) AS t
+                    FROM
+                        student_courseenrollment a
+                    JOIN multisite_member b ON a.user_id = b.user_id
+                    WHERE
+                        b.addinfo LIKE '%neisId%' AND
+                        a.course_id ='{course_id}'
+                    ORDER BY a.created ASC) sub,
+                    (SELECT @rownum:=0) TM)ad
+                    where ad.user_id = '{user_id}';
+            """.format(user_id=student.id, course_id=unicode(course_key))
+            cur.execute(query)
+            appoint_num = cur.fetchall()
+            # print 'appoint_num',appoint_num
+            appoint_num = appoint_num[0][3]
+            # print 'appoint_num_type',type(appoint_num)
+
+        with connections['default'].cursor() as cur:
+            query = """
+                select id
+                from special_institute
+                where course_id ='{course_id}' and use_yn = 'Y'
+            """.format(course_id=unicode(course_key))
+            cur.execute(query)
+            inst_id = cur.fetchall()[0][0]
+        # print 'inst_id', str(inst_id)
+        # print 'student.id', student.id
+        # print 'cert_id', cert.verify_uuid
+        # print 'enroll_num', appoint_num
+        # print 'inst_id', inst_id
+        with connections['default'].cursor() as cur:
+            query = """
+                insert into special_certificates(user_id,cert_id, inst_id, enroll_num)
+                VALUES({user_id},'{cert_id}',{inst_id},'{enroll_num}')
+            """.format(user_id=int(student.id), cert_id=str(cert.verify_uuid), inst_id=int(inst_id), enroll_num=str(appoint_num))
+            cur.execute(query)
+    except Exception as e:
+
+        print 'not match special_certificates'
+        print e
     return cert.status
 
 
@@ -211,7 +259,46 @@ def regenerate_user_certificates(student, course_key, course=None,
         "Started regenerating certificates for user %s in course %s with generate_pdf status: %s",
         student.username, unicode(course_key), generate_pdf
     )
+    print 'def regenerate_user_certificates _______________________'
+    try:
+        from django.db import connections
+        with connections['default'].cursor() as cur:
+            query = """
+                SELECT *, CONCAT(t, LPAD(@rownum:=@rownum + 1, 4, '0')) AS special_cert_num
+                FROM
+                    (SELECT
+                        CONCAT(IF(QUARTER(a.created) IN (1 , 2), 'a', 'b')) AS t
+                    FROM
+                        student_courseenrollment a
+                    JOIN multisite_member b ON a.user_id = b.user_id
+                    WHERE
+                        a.user_id = '{user_id}' AND
+                        b.addinfo LIKE '%neisId%' AND
+                        a.course_id ='{course_id}'
+                    ORDER BY a.created ASC) sub,
+                    (SELECT @rownum:=0) TM;
+            """.format(user_id=student, course_id=unicode(course_key))
+            cur.execute(query)
+            appoint_num = cur.fetchall()[0][2]
+            print 'appoint_num',appoint_num
 
+        with connections['default'].cursor() as cur:
+            query = """
+                select id
+                from special_institute
+                where course_id ='{course_id}' and use_yn = 'Y'
+            """.format(course_id=unicode(course_key))
+            cur.execute(query)
+            inst_id = cur.fetchall()[0][0]
+            print 'inst_id', inst_id
+        with connections['default'].cursor() as cur:
+            query = """
+                insert into edxapp.special_certificates('user_id', 'cert_id', 'inst_id', 'enroll_num')
+                values('{user_id}','{cert_id}','{inst_id}','{enroll_num}')
+            """.format(user_id=student, cert_id='', enroll_num=appoint_num, inst_id=inst_id)
+            cur.execute(query)
+    except:
+        print 'not match special_certificates'
     return xqueue.regen_cert(
         student,
         course_key,

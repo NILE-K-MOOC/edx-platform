@@ -152,18 +152,31 @@ def _update_certificate_context(context, course, user_certificate, platform_name
         cur.execute(query)
         mul_mem = cur.fetchall()
 
+    # 특수분야 직무 이수증 정보
+    with connections['default'].cursor() as cur:
+        query = '''
+            select a.enroll_num,c.appoint_num from special_certificates a 
+            join certificates_generatedcertificate b on a.cert_id = b.verify_uuid 
+            join special_institute c on b.course_id = c.course_id
+            where a.user_id = '{user_id}' and b.course_id = '{course_id}'
+        '''.format(user_id=context['accomplishment_user_id'],course_id = course.id)
+        cur.execute(query)
+        mul_info = cur.fetchall()
+
     try:
+
         mul_mem = json.loads(mul_mem[0][0])
-        print mul_mem
+
         context['instNm'] = mul_mem['instNm']
         context['neisId'] = mul_mem['neisId']
         context['mbrNm'] = mul_mem['mbrNm']
+
         try:
-            #생년월일
+            # 생년월일
             context['mbrbirth'] = mul_mem['mbrbirth']
-            #직무
+            # 직무
             context['instqq'] = mul_mem['instqq']
-            #소속
+            # 소속
             context['sosok'] = mul_mem['sosok']
         except:
             # 생년월일
@@ -174,6 +187,14 @@ def _update_certificate_context(context, course, user_certificate, platform_name
             context['sosok'] = "미입력"
     except:
         pass
+
+    try:
+
+        context['enroll_num'] = mul_info[0][0]
+        context['appoint_num'] = mul_info[0][1]
+    except:
+        context['enroll_num'] = '-'
+        context['appoint_num'] = '-'
 
     # {"instNm": "경기도교육청", "neisId": "J101389432", "mbrNm": "김하늘4", "mbrbirth": "20121234", "instqq": "직무"}
 
