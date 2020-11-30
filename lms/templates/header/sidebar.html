@@ -10,12 +10,13 @@
     }
 
     .quick-menu {
+        display: none;
         z-index: 1;
         position: absolute;
         top: 100%;
         right: -125px;
         width: 90px;
-        margin-top: 10%;
+        margin-top: 10px;
         border: 1px solid #d9d9d9;
         border-radius: 2px;
         box-shadow: 0 2px 0 rgba(0, 0, 0, .06);
@@ -131,50 +132,46 @@
     }
 </style>
 <script>
+    let currentPosition, header, title = 0;
 
-  $.ajax({
-    url: '/sidebar',
-  }).done(function (data) {
-    for (let i = 0; i < data.data.length; i++) {
-      let box = '<a href="' + data.data[i][1] + '" class="link"><img src="' + data.data[i][2] + '" style="width:32px; height: 32px;" class="icon">' + data.data[i][0] + '</a>'
-      $('#sidebar').prepend(box);
-    }
+    $(function () {
+        // 사이드바의 내용을 조회하여 생성
+        $.ajax({
+            url: '/sidebar',
+        }).done(function (data) {
+            for (let i = 0; i < data.data.length; i++) {
+                let box = '<a href="' + data.data[i][1] + '" class="link"><img src="' + data.data[i][2] + '" style="width:32px; height: 32px;" class="icon">' + data.data[i][0] + '</a>'
 
-  });
+                header = $(".new-container").outerHeight();
+                title = $(".agency-title").outerHeight() || $(".group-title").outerHeight();
 
-  function top_() {
-    $('html').scrollTop(0);
-  }
+                if (!header)
+                    header = 0;
 
-  $(function () {
+                if (!title)
+                    title = 0;
 
-    //사이드바 스크롤
-    const scrollHeight = 162;
+                $(".quick-menu").css("top", (header + title) + "px");
+                $('#sidebar').prepend(box);
+            } // endfor
 
-    function sidebar() {
-      if ($(window).scrollTop() > scrollHeight) {
-        if($('.new-footer').parent().outerHeight()-$('.new-footer').outerHeight()-550 >$(window).scrollTop() ){
-          let top = $(window).scrollTop() - scrollHeight + 10;
-            document.getElementById('sidebar').style.top = top + 'px';
-        }
+            $('.quick-menu').show();
 
-      }else if ($(".agency-title").length) {
+            currentPosition = parseInt($(".quick-menu").css("top"));
+        });
 
-        document.getElementById('sidebar').style.top = '159px';
+        $(window).scroll(function () {
+            let position = $(window).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다.
+            let t = header + currentPosition - position;
 
-    } else {
-        document.getElementById('sidebar').style.top = '20px';
-      }
-    }
+            if (t < 0) {
+                position = position - header;
+            } else {
+                position = currentPosition;
+            }
 
-
-    sidebar();
-    $('.new-footer').parent().outerHeight()-$('.new-footer').outerHeight();
-
-
-    $(window).scroll(function () {
-      sidebar();
+            $(".quick-menu").stop().animate({"top": position + "px"}, 500);
+        });
     });
 
-  });
 </script>
