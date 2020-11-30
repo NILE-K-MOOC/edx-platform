@@ -142,7 +142,18 @@ def _update_certificate_context(context, course, user_certificate, platform_name
     print "nice_command -> ", nice_command
     enc_data = commands.getoutput(nice_command)
 
+
+
     # 특수분야 직무 이수증 여부
+    with connections['default'].cursor() as cur:
+        query = '''
+                select use_yn from special_institute 
+                where course_id  = '{course_id}'
+            '''.format(course_id = course.id)
+        cur.execute(query)
+        inst_yn = cur.fetchall()
+    context['inst_yn'] = inst_yn[0][0]
+    # 특수분야 직무 이수증 neis_id 여부
     with connections['default'].cursor() as cur:
         query = '''
             select addinfo 

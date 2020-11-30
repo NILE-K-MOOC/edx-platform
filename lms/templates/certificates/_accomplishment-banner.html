@@ -119,7 +119,7 @@ from django.template.defaultfilters import escapejs
                         <span class="action-label">${_("Add to LinkedIn Profile")}</span>
                     </button>
                     %endif
-                    %if neisId:
+                    %if neisId and inst_yn =='Y':
                     <span>이수증 선택 </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;
                     <input type="radio" name="radio2" checked="checked" value="nc" onclick="normal_cert()"> 일반 이수증
                     <input type="radio" name="radio2" value="sc" onclick="special_cert()"> 특수분야 이수증<br>
