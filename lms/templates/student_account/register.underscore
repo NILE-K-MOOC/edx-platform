@@ -1,5 +1,21 @@
 <div class="js-form-feedback" aria-live="assertive" tabindex="-1"></div>
-
+<div class = "info_div" style = "border:2px solid black; padding: 20px; background-color: #ececec;">
+        <div class="" style="text-align:center;">
+            <%- gettext("K-MOOC는 ") %>
+            <a target='_blank' href="https://www.google.co.kr/chrome/" title="설치페이지로 이동" style="text-decoration:none;">
+                <%- gettext(" chrome") %>
+            </a>
+            <%- gettext("브라우저 사용을 권장합니다.") %>
+        </div>
+        <br>
+        <div class="" style="text-align:center;">
+            <%- gettext("( ") %>
+            <a target='_blank' href="https://support.microsoft.com/ko-kr/topic/internet-explorer-%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C%ED%95%98%EA%B8%B0-d49e1f0d-571c-9a7b-d97e-be248806ca70#ID0EBBD=Windows_7" title="설치페이지로 이동" style="text-decoration:none;">
+                <%- gettext("IE") %>
+            </a>
+            <%- gettext("는 10버전 이상)") %>
+        </div>
+    </div>
 <form id="register" class="register-form" autocomplete="off" tabindex="-1" method="POST">
 
     <% if (!context.currentProvider) { %>
