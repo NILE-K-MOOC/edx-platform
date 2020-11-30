@@ -2202,6 +2202,9 @@
         "TAB back to the list of draggable items and repeat this process until all of the draggable items have been placed on their respective dropzones.": "끌어서 놓을 수 있는 항목 목록으로 돌아가서 끌어서 놓을 수 있는 항목이 모두 해당 놓기 영역에 놓일 때까지 이 과정을 반복하십시오.",
         "Keyboard Help": "키보드 도움말",
         "Problem": "문제",
+        "K-MOOC recommends using the %(start_link)sChrome%(end_link)s browser.": "K-MOOC는 %(start_link)sChrome%(end_link)s 브라우저 사용을 권장합니다.",
+        "%(start_link)sIE%(end_link)s is more than 10 versions": "%(start_link)sIE%(end_link)s 는 10버전 이상",
+        "If you can\'t log in, please refer to the %(start_link)sFAQ%(end_link)s.": "로그인할 수 없는 경우 %(start_link)sFAQ%(end_link)s를 참조하시기 바랍니다.",
     };
 
     django.gettext = function (msgid) {
