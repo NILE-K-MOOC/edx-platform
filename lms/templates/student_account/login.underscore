@@ -45,6 +45,13 @@
 
         <% if ( context.providers.length > 0 && !context.currentProvider || context.hasSecondaryProviders ) { %>
             <div class="login-providers">
+                <div style="margin-top: 5px;">
+                    <span style="font-size: 12px;" class="text">
+                        <%= interpolate(
+                            gettext('If you can\'t log in, please refer to the %(start_link)sFAQ%(end_link)s.'), { start_link: '<a target="_self" href="/comm_tabs/login_f/">', end_link: '</a>' }, true
+                        ) %>
+                    </span>
+                </div>
                 <div class="section-title lines">
                     <h3>
                         <span style="font-size: 12px;" class="text"><%- gettext("or sign in with") %></span>
