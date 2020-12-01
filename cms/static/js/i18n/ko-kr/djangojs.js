@@ -2205,6 +2205,7 @@
         "K-MOOC recommends using the %(start_link)sChrome%(end_link)s browser.": "K-MOOC는 %(start_link)sChrome%(end_link)s 브라우저 사용을 권장합니다.",
         "%(start_link)sIE%(end_link)s is more than 10 versions": "%(start_link)sIE%(end_link)s 는 10버전 이상",
         "If you can\'t log in, please refer to the %(start_link)sFAQ%(end_link)s.": "로그인할 수 없는 경우 %(start_link)sFAQ%(end_link)s를 참조하시기 바랍니다.",
+        "Required by clicking the Activate Account link sent to subscribed email": "가입한 이메일로 발송된 계정 활성화 링크 클릭 필수",
     };
 
     django.gettext = function (msgid) {
