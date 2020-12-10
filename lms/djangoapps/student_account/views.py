@@ -72,6 +72,7 @@ from openedx.core.djangoapps.user_api.accounts.image_helpers import get_profile_
 from openedx.core.djangoapps.profile_images.images import remove_profile_images
 from openedx.core.djangoapps.user_api.preferences.api import update_user_preferences
 from django.contrib.auth.models import User
+from kotech_common.utils import Utils
 
 AUDIT_LOG = logging.getLogger("audit")
 log = logging.getLogger(__name__)
@@ -534,6 +535,21 @@ def login_and_registration_form(request, initial_mode="login"):
     enterprise_customer = enterprise_customer_for_request(request)
     update_logistration_context_for_enterprise(request, context, enterprise_customer)
 
+    # nice check ############################################
+    utils = Utils()
+
+    lms_base = settings.ENV_TOKENS.get('LMS_BASE')
+
+    # test
+    lms_base = 'local.kr:18000'
+
+    nice_returnurl = "{scheme}://{lms_base}/account_nice_check_and_save".format(scheme=request.scheme, lms_base=lms_base)  # 성공시 이동될 URL
+    nice_errorurl = "{scheme}://{lms_base}/nicecheckplus_error".format(scheme=request.scheme, lms_base=lms_base)  # 실패시 이동될 URL
+
+    enc_data = utils.nice_enc_data(nice_returnurl=nice_returnurl, nice_errorurl=nice_errorurl)
+    context.update(enc_data=enc_data, correct=None)
+    #########################################################
+
     response = render_to_response('student_account/login_and_register.html', context)
     handle_enterprise_cookies_for_logistration(request, response, context)
 
@@ -854,6 +870,7 @@ def account_settings(request):
     lms_base = settings.ENV_TOKENS.get('LMS_BASE')
     if lms_base != 'www.kmooc.kr':
         return render_to_response('student_account/account_settings.html', account_settings_context(request))
+
     if 'passwdcheck' in request.session and request.session['passwdcheck'] == 'Y':
         # encode data
 
@@ -894,6 +911,48 @@ def account_settings(request):
         context = {'enc_data': enc_data, 'correct': None}
 
         return render_to_response('student_account/account_settings_confirm.html', context)
+
+
+@csrf_exempt
+@require_http_methods(['GET'])
+def account_nice_check_and_save(request):
+    # 기본 context 선언
+    context = {
+        'utf8_name': '',
+        'gender': '',
+        'year_of_birth': ''
+    }
+
+    utils = Utils()
+    enc_data = request.GET.get('EncodeData') if request.GET.get('EncodeData') else request.POST.get('EncodeData')
+    nice_dict = utils.nice_des_data(enc_data)
+
+    if 'UTF8_NAME' in nice_dict:
+        import urllib
+        utf8_name = nice_dict['UTF8_NAME']
+        utf8_name = str(utf8_name).encode('utf-8')
+        utf8_name = urllib.unquote(utf8_name).decode('utf-8')
+        context.update(utf8_name=utf8_name)
+
+    if 'GENDER' in nice_dict:
+        if nice_dict['GENDER'] == '1':
+            context.update(gender='m')
+        elif nice_dict['GENDER'] == '2':
+            context.update(gender='F')
+        else:
+            context.update(gender='o')
+
+    if 'BIRTHDATE' in nice_dict:
+        context.update(year_of_birth=str(nice_dict['BIRTHDATE'])[:4])
+
+    # CI 값을 request.session 에서 삭제
+    if 'CI' in request.session:
+        del request.session['CI']
+
+    if 'CI' in nice_dict:
+        request.session['CI'] = nice_dict['CI']
+
+    return render_to_response('student_account/account_check_and_save.html', context)
 
 
 @csrf_exempt

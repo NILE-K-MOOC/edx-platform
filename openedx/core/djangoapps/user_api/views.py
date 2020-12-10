@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """HTTP end-points for the User API. """
 
 from django.contrib.auth.models import User
@@ -35,6 +36,7 @@ from openedx.core.lib.api.permissions import ApiKeyHeaderPermission
 from student.cookies import set_logged_in_cookies
 from student.views import AccountValidationError, create_account_with_params
 from util.json_request import JsonResponse
+from student.models import TbAuthUserAddinfo
 
 
 class LoginSessionView(APIView):
@@ -124,6 +126,7 @@ class RegistrationView(APIView):
         data = request.POST.copy()
 
         email = data.get('email')
+        subemail = data.get('subemail', '')
         username = data.get('username')
 
         # Handle duplicate email/username
@@ -151,6 +154,10 @@ class RegistrationView(APIView):
 
         try:
             user = create_account_with_params(request, data)
+
+            if subemail:
+                request.session['sub_email'] = subemail
+
         except AccountValidationError as err:
             errors = {
                 err.field: [{"user_message": text_type(err)}]

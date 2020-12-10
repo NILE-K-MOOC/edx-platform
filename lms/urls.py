@@ -180,6 +180,7 @@ urlpatterns = [
     url(r'^parent_agree$', student_account_views.parent_agree, name="parent_agree"),
     url(r'^parent_agree_done$', student_account_views.parent_agree_done, name="parent_agree_done"),
     url(r'^org_check', student_account_views.org_check, name="org_check"),
+    url(r'^account_nice_check_and_save$', student_account_views.account_nice_check_and_save, name="account_nice_check_and_save"),
     url(r'^account_nice_check$', student_account_views.account_nice_check, name="account_nice_check"),
 
 

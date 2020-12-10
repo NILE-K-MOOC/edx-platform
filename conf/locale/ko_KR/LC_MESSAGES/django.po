@@ -10835,6 +10835,9 @@ msgstr "이메일 확인"
 msgid "This name will be used on any certificates that you earn."
 msgstr "입력하신 이름은 획득하신 이수증에 사용됩니다."
 
+msgid "This name will be used on any certificates that you earn. If you proceed with the identity verification, it will be used to find your email."
+msgstr "입력하신 이름은 획득하신 이수증에 사용됩니다. 본인인증을 진행하실 경우 계정찾기에 사용됩니다."
+
 #. #-#-#-#-#  django-partial.po (edx-platform)  #-#-#-#-#
 #. Translators: This label appears above a field on the registration form
 #. meant to hold the user's public username.

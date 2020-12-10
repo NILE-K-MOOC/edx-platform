@@ -2206,6 +2206,13 @@
         "%(start_link)sInternet Explorer%(end_link)s is more than 10 versions": "%(start_link)sInternet Explorer%(end_link)s 는 10버전 이상",
         "If you can\'t log in, please refer to the %(start_link)sFAQ%(end_link)s.": "로그인할 수 없는 경우 %(start_link)sFAQ%(end_link)s를 참조하시기 바랍니다.",
         "Required by clicking the Activate Account link sent to subscribed email": "가입한 이메일로 발송된 계정 활성화 링크 클릭 필수",
+        "Check browser version": "브라우저 버전 확인",
+        "This email is for find primary email.": "입력하신 보조이메일은 이메일찾기에 사용됩니다.",
+        "Secondary email": "보조이메일",
+        "Identity": "본인인증",
+        "Completed": "인증완료",
+        "We recommend updating your browser.": "브라우저의 업데이트를 권장합니다.",
+        "Go to the browser download page": "브라우저 다운로드 페이지로 이동하기"
     };
 
     django.gettext = function (msgid) {

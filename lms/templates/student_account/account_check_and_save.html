@@ -1,0 +1,35 @@
+<%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='/static_content.html'/>
+<%block name="pagetitle">${_('Series Course')}</%block>
+<%inherit file="../main.html" />
+
+<%block name="header_extras"></%block>
+
+<script>
+    'use strict'
+    $(document).ready(function () {
+        let name  = '${ utf8_name }';
+        let gender  = '${ gender }';
+        let year_of_birth  = '${ year_of_birth }';
+
+        // 실명 값 지정
+        if (name)
+            $("#register-name", opener.document).val(name).prop("readonly", true);
+
+        // 성별 값 지정
+        if (gender)
+            $("#register-gender", opener.document).val(gender);
+
+        // 출생연도 값 지정
+        if (year_of_birth){
+            // 출생연도가 셀렉트 박스에 있는지 확인
+            if($("#register-year_of_birth options[value='"+ year_of_birth+"']", opener.document))
+                $("#register-year_of_birth", opener.document).val(year_of_birth);
+        }
+
+        // 본인인증 버튼 텍스트 변경 및 비활성화
+        $(".identity", opener.document).text('${_("Authentication complete")}').prop("disabled", true);
+
+        self.close();
+    });
+</script>

@@ -81,6 +81,7 @@ SessionStore = import_module(settings.SESSION_ENGINE).SessionStore  # pylint: di
 
 class TbAuthUserAddinfo(models.Model):
     user_id = models.IntegerField(primary_key=True)
+    sub_email = models.CharField(blank=True, null=True, max_length=255)
     private_info_use_yn = models.IntegerField(blank=True, null=True)
     event_join_yn = models.IntegerField(blank=True, null=True)
     org_id = models.CharField(max_length=20, blank=True, null=True)
