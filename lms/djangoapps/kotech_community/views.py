@@ -277,7 +277,7 @@ def comm_view(request, section=None, curr_page=None, board_id=None):
 
     if board:
         # board.files = TbBoardAttach.objects.filter(del_yn='N', board_id=board_id)
-        board.files = TbAttach.objects.filter(use_yn=True, group_id=board_id)
+        board.files = TbAttach.objects.filter(use_yn=True, group_id=board_id).filter(~Q(group_name='/verify'))
 
     section = board.section
 
