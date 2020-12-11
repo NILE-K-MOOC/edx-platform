@@ -1,5 +1,16 @@
 <div class="js-form-feedback" aria-live="assertive" tabindex="-1"></div>
-
+<div class = "info_div" style = "border:1px solid #ccc; padding: 20px; background-color: #eee;">
+        <div class="" style="text-align:center;">
+            <%= interpolate(
+                  gettext('K-MOOC recommends using the %(start_link)sChrome%(end_link)s browser.'), { start_link: '<a target="_blank" href="https://www.google.co.kr/chrome/">', end_link: '</a>' }, true
+            ) %>
+        </div>
+        <div style="text-align:center;">
+            (<%= interpolate(
+                  gettext('%(start_link)sInternet Explorer%(end_link)s is more than 10 versions'), { start_link: '<a target="_blank" href="https://support.microsoft.com/ko-kr/topic/internet-explorer-%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C%ED%95%98%EA%B8%B0-d49e1f0d-571c-9a7b-d97e-be248806ca70#ID0EBBD=Windows_7">', end_link: '</a>' }, true
+            ) %>)
+        </div>
+    </div>
 <form id="register" class="register-form" autocomplete="off" tabindex="-1" method="POST">
 
     <% if (!context.currentProvider) { %>
@@ -56,7 +67,7 @@
 
     <div class="section-title lines">
         <h3>
-            <span class="text"><%- gettext("K-MOOC는 chrome 브라우저 사용을 권장합니다.") %></span>
+            <span class="text"><%- gettext("Required by clicking the Activate Account link sent to subscribed email") %></span>
         </h3>
     </div>
 

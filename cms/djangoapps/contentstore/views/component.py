@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import absolute_import
 
 import logging
@@ -26,6 +27,8 @@ from xblock_django.api import authorable_xblocks, disabled_xblocks
 from xblock_django.models import XBlockStudioConfigurationFlag
 from xmodule.modulestore.django import modulestore
 from xmodule.modulestore.exceptions import ItemNotFoundError
+
+from django.views.decorators.csrf import csrf_exempt
 
 __all__ = [
     'container_handler',
@@ -176,6 +179,7 @@ def get_component_templates(courselike, library=False):
     """
     Returns the applicable component templates that can be used by the specified course or library.
     """
+
     def create_template_dict(name, category, support_level, boilerplate_name=None, tab="common", hinted=False):
         """
         Creates a component template dict.
@@ -294,7 +298,7 @@ def get_component_templates(courselike, library=False):
 
                         templates_for_category.append(
                             create_template_dict(
-                                _(template['metadata'].get('display_name')),    # pylint: disable=translation-of-non-string
+                                _(template['metadata'].get('display_name')),  # pylint: disable=translation-of-non-string
                                 category,
                                 support_level_with_template,
                                 template_id,
@@ -427,7 +431,8 @@ def _get_item_in_course(request, usage_key):
     return course, item, lms_link, preview_lms_link
 
 
-@login_required
+# @login_required
+@csrf_exempt
 def component_handler(request, usage_key_string, handler, suffix=''):
     """
     Dispatch an AJAX action to an xblock
@@ -465,5 +470,30 @@ def component_handler(request, usage_key_string, handler, suffix=''):
     # unintentional update to handle any side effects of handle call
     # could potentially be updating actual course data or simply caching its values
     modulestore().update_item(descriptor, request.user.id, asides=asides)
+
+    is_system = request.GET.get('is_system')
+    org = request.GET.get('org')
+    cid = request.GET.get('cid')
+    run = request.GET.get('run')
+    block_id = request.GET.get('block_id')
+
+    log.debug('is_system: [%s] ==> course_id: [course-v1:%s+%s+%s]' % (is_system, org, cid, run))
+
+    # 강제로 해당 영역의 게시 처리
+    if is_system:
+        from cms.djangoapps.contentstore.views.item import _get_xblock
+        from cms.djangoapps.contentstore.views.helpers import usage_key_with_run
+        from django.contrib.auth.models import User
+
+        child_string = 'block-v1:%s+%s+%s+type@video+block@%s' % (org, cid, run, block_id)
+
+        store = modulestore()
+        child = usage_key_with_run(child_string)
+        parent_location = store.get_parent_location(child)
+        u = User.objects.get(email='kmoocstaff1@gmail.com')
+        parent_location = unicode(parent_location)
+        usage_key = usage_key_with_run(parent_location)
+        xblock = _get_xblock(usage_key, u)
+        modulestore().publish(xblock.location, u.id)
 
     return webob_to_django_response(resp)

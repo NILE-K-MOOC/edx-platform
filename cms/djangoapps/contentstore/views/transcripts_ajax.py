@@ -181,6 +181,10 @@ def validate_transcript_upload_data(request):
 
     if not error:
         error, video = validate_video_module(request, video_locator)
+
+        id1 = clean_video_id(edx_video_id)
+        id2 = clean_video_id(video.edx_video_id)
+
         if not error:
             validated_data.update({
                 'video': video,
