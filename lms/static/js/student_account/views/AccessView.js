@@ -1,27 +1,28 @@
-(function(define) {
+(function (define) {
     'use strict';
     define([
-        'jquery',
-        'utility',
-        'underscore',
-        'underscore.string',
-        'backbone',
-        'js/student_account/models/LoginModel',
-        'js/student_account/models/PasswordResetModel',
-        'js/student_account/models/RegisterModel',
-        'js/student_account/views/LoginView',
-        'js/student_account/views/PasswordResetView',
-        'js/student_account/views/RegisterView',
-        'js/student_account/views/InstitutionLoginView',
-        'js/student_account/views/HintedLoginView',
-        'js/vendor/history'
-    ],
-        function($, utility, _, _s, Backbone, LoginModel, PasswordResetModel, RegisterModel, LoginView,
-                 PasswordResetView, RegisterView, InstitutionLoginView, HintedLoginView) {
+            'jquery',
+            'utility',
+            'underscore',
+            'underscore.string',
+            'backbone',
+            'js/student_account/models/LoginModel',
+            'js/student_account/models/PasswordResetModel',
+            'js/student_account/models/RegisterModel',
+            'js/student_account/views/LoginView',
+            'js/student_account/views/PasswordResetView',
+            'js/student_account/views/RegisterView',
+            'js/student_account/views/InstitutionLoginView',
+            'js/student_account/views/HintedLoginView',
+            'js/vendor/history'
+        ],
+        function ($, utility, _, _s, Backbone, LoginModel, PasswordResetModel, RegisterModel, LoginView,
+                  PasswordResetView, RegisterView, InstitutionLoginView, HintedLoginView) {
             return Backbone.View.extend({
                 tpl: '#access-tpl',
                 events: {
-                    'click .form-toggle': 'toggleForm'
+                    'click .form-toggle': 'toggleForm',
+                    'click .find-email': 'findEmailSend',
                 },
                 subview: {
                     login: {},
@@ -31,14 +32,15 @@
                     hintedLogin: {}
                 },
                 nextUrl: '/dashboard',
-            // The form currently loaded
+                // The form currently loaded
                 activeForm: '',
 
-                initialize: function(options) {
-                /* Mix non-conflicting functions from underscore.string
-                 * (all but include, contains, and reverse) into the
-                 * Underscore namespace
-                 */
+                initialize: function (options) {
+                    /* Mix non-conflicting functions from underscore.string
+                     * (all but include, contains, and reverse) into the
+                     * Underscore namespace
+                     */
+
                     _.mixin(_s.exports());
 
                     this.tpl = $(this.tpl).html();
@@ -56,8 +58,8 @@
                     this.accountActivationMessages = options.account_activation_messages || [];
 
                     if (options.login_redirect_url) {
-                    // Ensure that the next URL is internal for security reasons
-                        if (! window.isExternal(options.login_redirect_url)) {
+                        // Ensure that the next URL is internal for security reasons
+                        if (!window.isExternal(options.login_redirect_url)) {
                             this.nextUrl = options.login_redirect_url;
                         }
                     }
@@ -78,7 +80,7 @@
                     this.pipelineUserDetails = options.third_party_auth.pipeline_user_details;
                     this.enterpriseName = options.enterprise_name || '';
 
-                // The login view listens for 'sync' events from the reset model
+                    // The login view listens for 'sync' events from the reset model
                     this.resetModel = new PasswordResetModel({}, {
                         method: 'GET',
                         url: '#'
@@ -86,16 +88,20 @@
 
                     this.render();
 
-                // Once the third party error message has been shown once,
-                // there is no need to show it again, if the user changes mode:
+                    // Once the third party error message has been shown once,
+                    // there is no need to show it again, if the user changes mode:
                     this.thirdPartyAuth.errorMessage = null;
 
                     // Once the account activation messages have been shown once,
                     // there is no need to show it again, if the user changes mode:
                     this.accountActivationMessages = [];
+
+                    if(options.email){
+                        $("#login-email").val(options.email);
+                    }
                 },
 
-                render: function() {
+                render: function () {
                     $(this.el).html(_.template(this.tpl)({
                         mode: this.activeForm
                     }));
@@ -105,21 +111,21 @@
                     return this;
                 },
 
-                postRender: function() {
-                // get & check current url hash part & load form accordingly
+                postRender: function () {
+                    // get & check current url hash part & load form accordingly
                     if (Backbone.history.getHash() === 'forgot-password-modal') {
                         this.resetPassword();
                     }
                     this.loadForm(this.activeForm);
                 },
 
-                loadForm: function(type) {
+                loadForm: function (type) {
                     var loadFunc = _.bind(this.load[type], this);
                     loadFunc(this.formDescriptions[type]);
                 },
 
                 load: {
-                    login: function(data) {
+                    login: function (data) {
                         var model = new LoginModel({}, {
                             method: data.method,
                             url: data.submit_url
@@ -140,14 +146,17 @@
                             enterpriseName: this.enterpriseName
                         });
 
-                    // Listen for 'password-help' event to toggle sub-views
+                        // Listen for 'email-help' event to toggle sub-views
+                        this.listenTo(this.subview.login, 'find-email', this.findEmail);
+
+                        // Listen for 'password-help' event to toggle sub-views
                         this.listenTo(this.subview.login, 'password-help', this.resetPassword);
 
-                    // Listen for 'auth-complete' event so we can enroll/redirect the user appropriately.
+                        // Listen for 'auth-complete' event so we can enroll/redirect the user appropriately.
                         this.listenTo(this.subview.login, 'auth-complete', this.authComplete);
                     },
 
-                    reset: function(data) {
+                    reset: function (data) {
                         this.resetModel.ajaxType = data.method;
                         this.resetModel.urlRoot = data.submit_url;
 
@@ -156,14 +165,14 @@
                             model: this.resetModel
                         });
 
-                    // Listen for 'password-email-sent' event to toggle sub-views
+                        // Listen for 'password-email-sent' event to toggle sub-views
                         this.listenTo(this.subview.passwordHelp, 'password-email-sent', this.passwordEmailSent);
 
-                    // Focus on the form
+                        // Focus on the form
                         $('.password-reset-form').focus();
                     },
 
-                    register: function(data) {
+                    register: function (data) {
                         var model = new RegisterModel({}, {
                             method: data.method,
                             url: data.submit_url
@@ -177,11 +186,11 @@
                             hideAuthWarnings: this.hideAuthWarnings
                         });
 
-                    // Listen for 'auth-complete' event so we can enroll/redirect the user appropriately.
+                        // Listen for 'auth-complete' event so we can enroll/redirect the user appropriately.
                         this.listenTo(this.subview.register, 'auth-complete', this.authComplete);
                     },
 
-                    institution_login: function(unused) {
+                    institution_login: function (unused) {
                         this.subview.institutionLogin = new InstitutionLoginView({
                             thirdPartyAuth: this.thirdPartyAuth,
                             platformName: this.platformName,
@@ -191,7 +200,7 @@
                         this.subview.institutionLogin.render();
                     },
 
-                    hinted_login: function(unused) {
+                    hinted_login: function (unused) {
                         this.subview.hintedLogin = new HintedLoginView({
                             thirdPartyAuth: this.thirdPartyAuth,
                             hintedProvider: this.thirdPartyAuthHint,
@@ -202,14 +211,57 @@
                     }
                 },
 
-                passwordEmailSent: function() {
+                passwordEmailSent: function () {
                     var $loginAnchorElement = $('#login-anchor');
                     this.element.hide($(this.el).find('#password-reset-anchor'));
                     this.element.show($loginAnchorElement);
                     this.element.scrollTop($loginAnchorElement);
                 },
 
-                resetPassword: function() {
+                findEmail: function () {
+                    window.analytics.track('edx.bi.email_reset_form.viewed', {
+                        category: 'user-engagement'
+                    });
+
+                    this.element.hide($(this.el).find('#login-anchor'));
+
+                    $(this.el).html(_.template($('#email_find-tpl').html())({}));
+                    // this.postRender();
+                },
+
+                findEmailSend: function () {
+                    let sub_email = $("#sub-email").val();
+
+                    if (!sub_email) {
+                        swal("", "이메일 주소가 입력 되지 않았습니다.", "info");
+                        return;
+                    }
+
+                    $.post("/find_email/", {
+                        'sub-email': sub_email
+                    }, function (data) {
+
+                        console.log(data);
+
+                        if (data.result) {
+                            // data.result 의 값으로 보조이메일이 존재하는경우 해시코드를 해당 메일로 전송
+                            swal("", "입력된 주소로 메일을 발송하였습니다. 메일을 확인 해주세요.", "success");
+
+                            document.location = "/login";
+
+                        } else {
+                            // 입력된 보조 이메일이 없는경우
+                            swal("", gettext("Not exists secondary email."), "warning");
+
+                        }
+
+                        // 입력된 보조이메일을 조회하고 해시코드를 발송하여 이메일 찾기를 할 수 있도록 함.
+                        //
+                    })
+
+                },
+
+                resetPassword: function () {
                     window.analytics.track('edx.bi.password_reset_form.viewed', {
                         category: 'user-engagement'
                     });
@@ -219,7 +271,7 @@
                     this.element.scrollTop($('#password-reset-anchor'));
                 },
 
-                toggleForm: function(e) {
+                toggleForm: function (e) {
 
                     var type = $(e.currentTarget).data('type'),
                         $form = $('#' + type + '-form'),
@@ -234,7 +286,7 @@
                         category: 'user-engagement'
                     });
 
-                // Load the form. Institution login is always refreshed since it changes based on the previous form.
+                    // Load the form. Institution login is always refreshed since it changes based on the previous form.
                     if (!this.form.isLoaded($form) || type == 'institution_login') {
                         this.loadForm(type);
                     }
@@ -244,65 +296,65 @@
                     this.element.hide($(this.el).find('.form-wrapper'));
                     this.element.show($form);
 
-                // Update url without reloading page
+                    // Update url without reloading page
                     if (type != 'institution_login') {
                         History.pushState(null, document.title, '/' + type + queryStr);
                     }
                     analytics.page('login_and_registration', type);
 
-                // Focus on the form
+                    // Focus on the form
                     $('#' + type).focus();
 
-               // Maintain original scroll position
+                    // Maintain original scroll position
                     window.scrollTo(scrollX, scrollY);
                 },
 
-            /**
-             * Once authentication has completed successfully:
-             *
-             * If we're in a third party auth pipeline, we must complete the pipeline.
-             * Otherwise, redirect to the specified next step.
-             *
-             */
-                authComplete: function() {
+                /**
+                 * Once authentication has completed successfully:
+                 *
+                 * If we're in a third party auth pipeline, we must complete the pipeline.
+                 * Otherwise, redirect to the specified next step.
+                 *
+                 */
+                authComplete: function () {
                     if (this.thirdPartyAuth && this.thirdPartyAuth.finishAuthUrl) {
                         this.redirect(this.thirdPartyAuth.finishAuthUrl);
-                    // Note: the third party auth URL likely contains another redirect URL embedded inside
+                        // Note: the third party auth URL likely contains another redirect URL embedded inside
                     } else {
                         this.redirect(this.nextUrl);
                     }
                 },
 
-            /**
-             * Redirect to a URL.  Mainly useful for mocking out in tests.
-             * @param  {string} url The URL to redirect to.
-             */
-                redirect: function(url) {
+                /**
+                 * Redirect to a URL.  Mainly useful for mocking out in tests.
+                 * @param  {string} url The URL to redirect to.
+                 */
+                redirect: function (url) {
                     window.location.replace(url);
                 },
 
                 form: {
-                    isLoaded: function($form) {
+                    isLoaded: function ($form) {
                         return $form.html().length > 0;
                     }
                 },
 
-            /* Helper method to toggle display
-             * including accessibility considerations
-             */
+                /* Helper method to toggle display
+                 * including accessibility considerations
+                 */
                 element: {
-                    hide: function($el) {
+                    hide: function ($el) {
                         $el.addClass('hidden');
                     },
 
-                    scrollTop: function($el) {
-                    // Scroll to top of selected element
+                    scrollTop: function ($el) {
+                        // Scroll to top of selected element
                         $('html,body').animate({
                             scrollTop: $el.offset().top
                         }, 'slow');
                     },
 
-                    show: function($el) {
+                    show: function ($el) {
                         $el.removeClass('hidden');
                     }
                 }

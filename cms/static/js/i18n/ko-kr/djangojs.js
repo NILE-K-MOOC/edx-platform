@@ -2212,7 +2212,13 @@
         "Identity": "본인인증",
         "Completed": "인증완료",
         "We recommend updating your browser.": "브라우저의 업데이트를 권장합니다.",
-        "Go to the browser download page": "브라우저 다운로드 페이지로 이동하기"
+        "Go to the browser download page": "브라우저 다운로드 페이지로 이동하기",
+        "Find Email": "이메일 찾기",
+        "Find Password": "비밀번호 찾기",
+        "Please enter the sub email you entered at the time of registration. We will inform you of your email with the sub email entered.": "등록 시 입력한 보조 이메일을 입력하십시오. 보조 이메일과 일치하는 이메일을 알려드립니다.",
+        "The secondary email address you used to register with %(platform_name)s": "%(platform_name)s 에 가입시 입력한 보조 이메일",
+        "Not exists secondary email.": "입력된 보조이메일과 일치하는 정보가 없습니다.",
+
     };
 
     django.gettext = function (msgid) {

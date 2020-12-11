@@ -189,18 +189,21 @@
             </label>
         <% } %>
 
-
-
-
         <span id="<%- form %>-<%- name %>-validation-error" class="tip error" aria-live="assertive">
             <span class="sr-only">ERROR: </span>
             <span id="<%- form %>-<%- name %>-validation-error-msg"></span>
         </span>
+
         <% if ( instructions ) { %> <span class="tip tip-input" id="<%- form %>-<%- name %>-desc"><%- instructions %></span><% } %>
+
+    <% } %>
+
+    <% if( form === 'login' && name === 'email' ) { %>
+        <button type="button" class="forgot-email field-link"><%- gettext("Find Email") %></button>
     <% } %>
 
     <% if( form === 'login' && name === 'password' ) { %>
-        <button type="button" class="forgot-password field-link"><%- gettext("Forgot password?") %></button>
+        <button type="button" class="forgot-password field-link"><%- gettext("Find Password") %></button>
     <% } %>
 </div>
 

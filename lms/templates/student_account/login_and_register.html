@@ -72,7 +72,7 @@
 </%block>
 
 <%block name="header_extras">
-    % for template_name in ["account", "access", "form_field", "login", "register", "institution_login", "institution_register", "password_reset", "hinted_login"]:
+    % for template_name in ["account", "access", "form_field", "login", "register", "institution_login", "institution_register", "email_find", "password_reset", "hinted_login"]:
         <script type="text/template" id="${template_name}-tpl">
             <%static:include path="student_account/${template_name}.underscore" />
 
@@ -110,9 +110,7 @@
                     border_class = ''
                 %>
             % endif
-            <div id="login-and-registration-container" class="login-register ${border_class}" style="width: 500px;">
-
-            </div>
+            <div id="login-and-registration-container" class="login-register ${border_class}" style="width: 500px;"></div>
         </div>
     </main>
 </div>

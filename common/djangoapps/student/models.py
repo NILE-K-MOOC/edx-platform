@@ -86,6 +86,8 @@ class TbAuthUserAddinfo(models.Model):
     event_join_yn = models.IntegerField(blank=True, null=True)
     org_id = models.CharField(max_length=20, blank=True, null=True)
     org_set_date = models.DateTimeField(blank=True, null=True)
+    ci = models.CharField(blank=True, null=True, max_length=100)
+    code = models.CharField(blank=True, null=True, max_length=20)
     regist_date = models.DateTimeField(blank=True, null=True)
     modify_date = models.DateTimeField(blank=True, null=True)
 

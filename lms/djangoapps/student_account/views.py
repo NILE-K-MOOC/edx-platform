@@ -73,6 +73,7 @@ from openedx.core.djangoapps.profile_images.images import remove_profile_images
 from openedx.core.djangoapps.user_api.preferences.api import update_user_preferences
 from django.contrib.auth.models import User
 from kotech_common.utils import Utils
+from student.models import TbAuthUserAddinfo
 
 AUDIT_LOG = logging.getLogger("audit")
 log = logging.getLogger(__name__)
@@ -495,10 +496,22 @@ def login_and_registration_form(request, initial_mode="login"):
         initial_mode = 'register'
 
     # Otherwise, render the combined login/registration page
+    code = request.GET.get('code')
+    email = ''
+
+    if code:
+        try:
+            user = TbAuthUserAddinfo.objects.get(code=code)
+            user_id = user.user_id
+            u = User.objects.get(id=user_id)
+            email = u.email
+        except Exception as e:
+            print e.message
+
     context = {
         'org_list': org_list,
         'data': {
-
+            'email': email,
             'login_redirect_url': redirect_to,
             'initial_mode': initial_mode,
             'third_party_auth': _third_party_auth_context(request, redirect_to, third_party_auth_hint),
@@ -549,6 +562,7 @@ def login_and_registration_form(request, initial_mode="login"):
     enc_data = utils.nice_enc_data(nice_returnurl=nice_returnurl, nice_errorurl=nice_errorurl)
     context.update(enc_data=enc_data, correct=None)
     #########################################################
+
 
     response = render_to_response('student_account/login_and_register.html', context)
     handle_enterprise_cookies_for_logistration(request, response, context)
