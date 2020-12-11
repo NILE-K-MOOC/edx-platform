@@ -96,7 +96,7 @@ def comm_list(request, section=None, curr_page=None):
                     FROM
                         tb_attach
                     WHERE
-                        group_id = {board_id} AND use_yn = 1;
+                        group_id = {board_id} AND use_yn = 1 and group_name != '/verify';
                 '''.format(board_id=board_data.board_id)
                 cur.execute(query)
                 cnt = cur.fetchone()[0]
@@ -192,7 +192,7 @@ def mobile_comm_list(request, section=None, curr_page=None):
                     FROM
                         tb_attach
                     WHERE
-                        group_id = {board_id} AND use_yn = 1;
+                        group_id = {board_id} AND use_yn = 1 and group_name != '/verify';
                 '''.format(board_id=board_data.board_id)
                 cur.execute(query)
                 cnt = cur.fetchone()[0]
@@ -349,7 +349,7 @@ def mobile_comm_view(request, section=None, curr_page=None, board_id=None):
 
     if board:
         # board.files = TbBoardAttach.objects.filter(del_yn='N', board_id=board_id)
-        board.files = TbAttach.objects.filter(use_yn=True, group_id=board_id)
+        board.files = TbAttach.objects.filter(use_yn=True, group_id=board_id).filter(~Q(group_name='/verify'))
 
     section = board.section
 
