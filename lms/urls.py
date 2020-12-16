@@ -98,6 +98,7 @@ urlpatterns = [
 
     # Drmt
     url(r'^active_account/(?P<email>.*?)$', student_views.active_account, name='active_account'),
+    url(r'^find_email/$', student_views.find_email, name='find_email'),
     url(r'^del_drmt_url/(?P<email>.*?)$', student_views.del_drmt_url, name='del_drmt_url'),
 
 
@@ -180,6 +181,7 @@ urlpatterns = [
     url(r'^parent_agree$', student_account_views.parent_agree, name="parent_agree"),
     url(r'^parent_agree_done$', student_account_views.parent_agree_done, name="parent_agree_done"),
     url(r'^org_check', student_account_views.org_check, name="org_check"),
+    url(r'^account_nice_check_and_save$', student_account_views.account_nice_check_and_save, name="account_nice_check_and_save"),
     url(r'^account_nice_check$', student_account_views.account_nice_check, name="account_nice_check"),
 
 

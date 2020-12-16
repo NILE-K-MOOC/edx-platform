@@ -216,10 +216,9 @@ def _create_recent_enrollment_message(course_enrollments, course_modes):  # pyli
         )
 
 
-def get_course_enrollments(user, org_to_include, orgs_to_exclude, status=None, start_length=0,multisiteStatus=None):
-
+def get_course_enrollments(user, org_to_include, orgs_to_exclude, status=None, start_length=0, multisiteStatus=None):
     if start_length == None:
-        start_length=0
+        start_length = 0
     else:
         pass
     """
@@ -238,7 +237,7 @@ def get_course_enrollments(user, org_to_include, orgs_to_exclude, status=None, s
     if not status:
         enrollments = CourseEnrollment.enrollments_for_user_ing(user)
     elif status == 'end':
-        enrollments = CourseEnrollment.enrollments_for_user_end(user,start_length)
+        enrollments = CourseEnrollment.enrollments_for_user_end(user, start_length)
     elif status == 'audit':
         enrollments = CourseEnrollment.enrollments_for_user_audit(user)
     elif status == 'interest':
@@ -628,8 +627,8 @@ def student_dashboard(request):
 
     # Get the org whitelist or the org blacklist for the current site
     site_org_whitelist, site_org_blacklist = get_org_black_and_whitelist_for_site()
-    start_length=0
-    course_enrollments = list(get_course_enrollments(user, site_org_whitelist, site_org_blacklist,start_length))
+    start_length = 0
+    course_enrollments = list(get_course_enrollments(user, site_org_whitelist, site_org_blacklist, start_length))
 
     # Get the entitlements for the user and a mapping to all available sessions for that entitlement
     # If an entitlement has no available sessions, pass through a mock course overview object
@@ -699,12 +698,11 @@ def student_dashboard(request):
     if request.POST:
         start_length = request.POST.get('now_length')
 
-
     status = request.GET.get('status')
     status_ = request.POST.get('status_')
 
     # 이수/종료강좌 분기
-    if status_ =='end':
+    if status_ == 'end':
         course_enrollments = list(get_course_enrollments(user, course_org_filter, org_filter_out_set, status_, start_length))
     else:
         course_enrollments = list(get_course_enrollments(user, course_org_filter, org_filter_out_set, status))
@@ -826,6 +824,8 @@ def student_dashboard(request):
             private_info_use_yn = request.session['private_info_use_yn']
             event_join_yn = request.session['event_join_yn']
             org_value = request.session['org_value'] if 'org_value' in request.session else ''
+            sub_email = request.session['sub_email'] if 'sub_email' in request.session else ''
+            ci = request.session['CI'] if 'CI' in request.session else ''
 
             if private_info_use_yn == 'Y':
                 private_info_use_yn = 1
@@ -842,21 +842,36 @@ def student_dashboard(request):
                 with connections['default'].cursor() as cur:
                     query = """
                         INSERT
-                          INTO tb_auth_user_addinfo(user_id, private_info_use_yn, event_join_yn,org_id)
-                        VALUES ('{user_id}', '{private_info_use_yn}', '{event_join_yn}','{org_id}');
+                          INTO tb_auth_user_addinfo(user_id, private_info_use_yn, event_join_yn, org_id, sub_email, ci, regist_date)
+                        VALUES ('{user_id}', '{private_info_use_yn}', '{event_join_yn}', trim('{org_id}'), trim('{sub_email}'), trim('{ci}'), now());
                     """.format(
                         user_id=user.id,
                         private_info_use_yn=private_info_use_yn,
                         event_join_yn=event_join_yn,
-                        org_id=org_value
+                        org_id=org_value,
+                        sub_email=sub_email,
+                        ci=ci
                     )
 
-                    print 'query:', query
+                    print 'insert tb_auth_user_addinfo query check ---------------------- s'
+                    print query
+                    print 'insert tb_auth_user_addinfo query check ---------------------- e'
                     cur.execute(query)
 
-                del request.session['private_info_use_yn']
-                del request.session['event_join_yn']
-                del request.session['org_value']
+                if 'private_info_use_yn' in request.session:
+                    del request.session['private_info_use_yn']
+
+                if 'event_join_yn' in request.session:
+                    del request.session['event_join_yn']
+
+                if 'org_value' in request.session:
+                    del request.session['org_value']
+
+                if 'sub_email' in request.session:
+                    del request.session['sub_email']
+
+                if 'CI' in request.session:
+                    del request.session['CI']
 
             except Exception as e:
                 print 'registration_flag_history error.'
@@ -1132,6 +1147,7 @@ def student_dashboard(request):
     set_user_info_cookie(response, request)
     return response
 
+
 def call_dashboard(request):
     user = request.user
     with connections['default'].cursor() as cur:
@@ -1154,12 +1170,11 @@ def call_dashboard(request):
         cur.execute(query)
         qqqqqq = cur.fetchall()
 
-
-
     if request.POST:
         start_length = request.POST.get('now_length')
 
-    return JsonResponse({"a":"b"})
+    return JsonResponse({"a": "b"})
+
 
 # dashboard survey
 def dashboard_survey_valid(user_enroll):
@@ -1370,7 +1385,6 @@ def modi_course_level(request):
 
 @csrf_exempt
 def modi_course_language(request):
-
     course_language = request.POST.get('course_language')
     addinfo_course_id = request.POST.get('addinfo_course_id')
     addinfo_user_id = request.POST.get('addinfo_user_id')
@@ -1388,9 +1402,9 @@ def modi_course_language(request):
             , modify_id = '{user_id}'
             where course_id = '{course_id}';
         '''.format(
-            course_language = course_language,
-            course_id = addinfo_course_id,
-            user_id = addinfo_user_id)
+            course_language=course_language,
+            course_id=addinfo_course_id,
+            user_id=addinfo_user_id)
         try:
             print query
             cur.execute(query)
@@ -1402,7 +1416,6 @@ def modi_course_language(request):
 
 @csrf_exempt
 def modi_subtitle(request):
-
     subtitle = request.POST.get('subtitle')
     addinfo_course_id = request.POST.get('addinfo_course_id')
     addinfo_user_id = request.POST.get('addinfo_user_id')
@@ -1420,9 +1433,9 @@ def modi_subtitle(request):
             , modify_id = '{user_id}'
             where course_id = '{course_id}';
         '''.format(
-            subtitle = subtitle,
-            course_id = addinfo_course_id,
-            user_id = addinfo_user_id)
+            subtitle=subtitle,
+            course_id=addinfo_course_id,
+            user_id=addinfo_user_id)
         try:
             print query
             cur.execute(query)
