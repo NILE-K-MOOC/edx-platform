@@ -675,10 +675,6 @@
 
                     console.log(browser + ":" + no);
 
-
-                    // test
-                    no = 1;
-
                     if (Number(no) < minNo) {
                         console.log('downlaod link: ' + link);
 
