@@ -553,9 +553,6 @@ def login_and_registration_form(request, initial_mode="login"):
 
     lms_base = settings.ENV_TOKENS.get('LMS_BASE')
 
-    # test
-    lms_base = 'local.kr:18000'
-
     nice_returnurl = "{scheme}://{lms_base}/account_nice_check_and_save".format(scheme=request.scheme, lms_base=lms_base)  # 성공시 이동될 URL
     nice_errorurl = "{scheme}://{lms_base}/nicecheckplus_error".format(scheme=request.scheme, lms_base=lms_base)  # 실패시 이동될 URL
 
