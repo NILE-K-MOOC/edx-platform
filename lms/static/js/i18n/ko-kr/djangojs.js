@@ -2218,6 +2218,7 @@
         "Please enter the sub email you entered at the time of registration. We will inform you of your email with the sub email entered.": "등록 시 입력한 보조 이메일을 입력하십시오. 보조 이메일과 일치하는 이메일을 알려드립니다.",
         "The secondary email address you used to register with %(platform_name)s": "%(platform_name)s 에 가입시 입력한 보조 이메일",
         "Not exists secondary email.": "입력된 보조이메일과 일치하는 정보가 없습니다.",
+        "This is the latest version.": "최신 버전 입니다.",
 
     };
 

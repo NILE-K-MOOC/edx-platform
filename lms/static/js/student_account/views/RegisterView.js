@@ -673,7 +673,7 @@
                             break;
                     }
 
-                    console.log(browser + ":" + no);
+                    console.log("check browser: " + browser + " - " + no);
 
                     if (Number(no) < minNo) {
                         console.log('downlaod link: ' + link);
@@ -701,6 +701,14 @@
                             $(".info_div").append("<div style='text-align: center; margin-top: 10px;'><a href='" + link + "' target='_blank'>" + gettext("Go to the browser download page") + "</a></div>");
 
                         });
+                    } else {
+                        $(".info_div a").css({
+                                "text-decoration": "none",
+                                "color": "#222"
+                            }).removeAttr("href");
+                            $(".check-browser-version").remove();
+
+                            $(".info_div").append("<div style='text-align: center; margin-top: 10px;'>" + gettext("This is the latest version.") + "</div>");
                     }
 
                 },
