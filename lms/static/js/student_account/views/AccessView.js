@@ -23,6 +23,8 @@
                 events: {
                     'click .form-toggle': 'toggleForm',
                     'click .find-email': 'findEmailSend',
+                    'click .find-email-by-nice': 'doNiceCheck',
+                    'click .find-email-by-subemail': 'showSubEmailForm',
                 },
                 subview: {
                     login: {},
@@ -98,6 +100,10 @@
 
                     if(options.email){
                         $("#login-email").val(options.email);
+                    }
+
+                    if(options.message){
+                        swal("", options.message, "info");
                     }
                 },
 
@@ -323,6 +329,24 @@
                     } else {
                         this.redirect(this.nextUrl);
                     }
+                },
+                doNiceCheck: function(){
+                    $.post("/nice_enc_data", {
+                        return_url: 'find_email_by_ci'
+                    }, function(data){
+                        $("#form2 input[name='EncodeData']").val(data.enc_data);
+
+                        window.open('', 'popupNICE', 'width=450, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
+                        document.form2.target = "popupNICE";
+                        document.form2.submit();
+                    });
+
+
+                },
+
+                showSubEmailForm: function(){
+                    $(".choose-find-email-type").hide();
+                    $("#email-find").show();
                 },
 
                 /**

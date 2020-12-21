@@ -7,11 +7,14 @@ from base64 import b64encode
 from path import Path as path
 from django.conf import settings
 import commands
-
+from django.views.decorators.csrf import csrf_exempt
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+from django.views.generic import View
+from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
+from django.http import JsonResponse
 
 
-class Utils:
+class Utils(View):
 
     def __init__(self):
         with open("/edx/app/edxapp/lms.auth.json") as auth_file:
@@ -21,6 +24,27 @@ class Utils:
         self.NICE_SITECODE = AUTH_TOKENS.get('NICE_SITECODE')
         self.NICE_SITEPASSWD = AUTH_TOKENS.get('NICE_SITEPASSWD')
         self.NICE_CB_ENCODE_PATH = AUTH_TOKENS.get('NICE_CB_ENCODE_PATH')
+
+    @csrf_exempt
+    def post(self, request):
+        lms_base = settings.ENV_TOKENS.get('LMS_BASE')
+        return_url = request.POST.get('return_url')
+        error_url = request.POST.get('error_url', 'nicecheckplus_error')
+
+        nice_return_url = "{scheme}://{lms_base}/{return_url}".format(
+            scheme=request.scheme,
+            lms_base=lms_base,
+            return_url=return_url
+        )
+
+        nice_error_url = '{scheme}://{lms_base}/{error_url}'.format(
+            scheme=request.scheme,
+            lms_base=lms_base,
+            error_url=error_url
+        )
+
+        enc_data = self.nice_enc_data(nice_returnurl=nice_return_url, nice_errorurl=nice_error_url)
+        return JsonResponse({'enc_data': enc_data})
 
     def nice_enc_data(self, nice_returnurl, nice_errorurl):
         nice_secret_key = self.NICE_SECRET_KEY

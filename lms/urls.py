@@ -66,6 +66,7 @@ from courseware import courses as courses
 # made by kotech system
 from maeps import views as maeps                               # Markani Solution APP
 from kotech_common import views as kotech_common_views         # Common APP
+from kotech_common.utils import Utils
 from kotech_survey import views as kotech_survey_views         # Course Satisfaction Survey APP
 from kotech_series import views as kotech_series_views         # Series Course APP
 from kotech_memo import views as kotech_memo_views             # Memo APP
@@ -183,6 +184,8 @@ urlpatterns = [
     url(r'^org_check', student_account_views.org_check, name="org_check"),
     url(r'^account_nice_check_and_save$', student_account_views.account_nice_check_and_save, name="account_nice_check_and_save"),
     url(r'^account_nice_check$', student_account_views.account_nice_check, name="account_nice_check"),
+    url(r'^nice_enc_data$', Utils.as_view(), name="nice_enc_data"),
+    url(r'^find_email_by_ci$', student_account_views.find_email_by_ci, name="find_email_by_ci"),
 
 
     # Remove Account

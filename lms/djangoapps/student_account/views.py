@@ -498,6 +498,7 @@ def login_and_registration_form(request, initial_mode="login"):
     # Otherwise, render the combined login/registration page
     code = request.GET.get('code')
     email = ''
+    message = '일치하는 회원이 없습니다.'
 
     if code:
         try:
@@ -505,12 +506,26 @@ def login_and_registration_form(request, initial_mode="login"):
             user_id = user.user_id
             u = User.objects.get(id=user_id)
             email = u.email
+            message = ''
         except Exception as e:
+            try:
+                user = TbAuthUserAddinfo.objects.get(ci=code)
+                user_id = user.user_id
+                u = User.objects.get(id=user_id)
+                email = u.email
+                message = ''
+            except Exception as e2:
+                print e2.message
+                pass
             print e.message
+            pass
+    else:
+        message = ''
 
     context = {
         'org_list': org_list,
         'data': {
+            'message': message,
             'email': email,
             'login_redirect_url': redirect_to,
             'initial_mode': initial_mode,
@@ -560,11 +575,19 @@ def login_and_registration_form(request, initial_mode="login"):
     context.update(enc_data=enc_data, correct=None)
     #########################################################
 
-
     response = render_to_response('student_account/login_and_register.html', context)
     handle_enterprise_cookies_for_logistration(request, response, context)
 
     return response
+
+
+@csrf_exempt
+def find_email_by_ci(request):
+    utils = Utils()
+    enc_data = request.GET.get('EncodeData')
+    nice_dict = utils.nice_des_data(enc_data)
+
+    return render_to_response('student_account/account_find_email.html', {'code': nice_dict['CI']})
 
 
 @require_http_methods(['POST'])
@@ -927,6 +950,8 @@ def account_settings(request):
 @csrf_exempt
 @require_http_methods(['GET'])
 def account_nice_check_and_save(request):
+    action_type = request.GET.get('action_type')
+
     # 기본 context 선언
     context = {
         'utf8_name': '',

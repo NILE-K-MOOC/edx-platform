@@ -3,7 +3,14 @@
 
 <h2><%- gettext("Find Email") %></h2>
 
-<form id="email-find" class="email-find-form" tabindex="-1" method="POST">
+<div class="choose-find-email-type">
+    <p class="action-label"><%- gettext("Please choose a way to find your password.") %></p>
+
+    <button type="button" class="action action-primary find-email-by-nice"><%- gettext("By Identity") %></button>
+    <button type="button" class="action action-primary find-email-by-subemail"><%- gettext("By sub-email") %></button>
+</div>
+
+<form id="email-find" class="email-find-form" tabindex="-1" method="POST" style="display: none;">
 
     <p class="action-label"><%- gettext("Please enter the sub email you entered at the time of registration. We will inform you of your email with the sub email entered.") %></p>
 
