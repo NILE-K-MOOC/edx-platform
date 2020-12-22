@@ -1,0 +1,40 @@
+<div class="js-form-feedback" aria-live="assertive" tabindex="-1">
+</div>
+
+<h2><%- gettext("Find Email") %></h2>
+
+<div class="choose-find-email-type">
+    <p class="action-label"><%- gettext("Please choose a way to find your password.") %></p>
+
+    <button type="button" class="action action-primary find-email-by-nice"><%- gettext("By Identity") %></button>
+    <button type="button" class="action action-primary find-email-by-subemail"><%- gettext("By sub-email") %></button>
+</div>
+
+<form id="email-find" class="email-find-form" tabindex="-1" method="POST" style="display: none;">
+
+    <p class="action-label"><%- gettext("Please enter the sub email you entered at the time of registration. We will inform you of your email with the sub email entered.") %></p>
+
+    <div class="form-field email-email">
+        <label for="sub-email">
+            <span class="label-text"><%- gettext("Secondary email") %></span>
+                <span id="sub-email-required-label" class="label-required hidden"></span>
+                <span class="icon fa" id="sub-email-validation-icon" aria-hidden="true"></span>
+        </label>
+
+        <input id="sub-email" type="email" name="sub-email" class="input-block " aria-describedby="sub-email-desc sub-email-validation-error" minlength="3" maxlength="254" required="" placeholder="username@domain.com" value="">
+
+        <span id="sub-email-validation-error" class="tip error" aria-live="assertive">
+            <span class="sr-only">ERROR: </span>
+            <span id="sub-email-validation-error-msg"></span>
+        </span>
+
+         <span class="tip tip-input" id="password-reset-email-desc">
+            <%= interpolate(
+                  gettext('The secondary email address you used to register with %(platform_name)s'), { platform_name: 'kmooc.kr' }, true
+            ) %>
+
+         </span>
+    </div>
+
+    <button type="button" class="action action-primary find-email"><%- gettext("Find Email") %></button>
+</form>

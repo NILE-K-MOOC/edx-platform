@@ -8764,7 +8764,7 @@ msgstr "소속 기관 계정을 사용합니다."
 
 #: lms/templates/student_account/password_reset.underscore
 msgid "Password assistance"
-msgstr "비밀번호 도움"
+msgstr "비밀번호 찾기"
 
 #: lms/templates/student_account/password_reset.underscore
 msgid ""
