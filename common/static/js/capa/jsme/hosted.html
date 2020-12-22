@@ -265,6 +265,7 @@ gwtOnLoad = function(errFn, modName, modBase){
         break;
       }
     } catch (e) {
+        console.log(e)
     }
   }
   if (!plugin) {
@@ -277,6 +278,7 @@ gwtOnLoad = function(errFn, modName, modBase){
           return;
         }
       } catch (e) {
+          console.log(e)
       }
     }
     loadIframe("http://gwt.google.com/missing-plugin");
@@ -288,6 +290,7 @@ gwtOnLoad = function(errFn, modName, modBase){
           // wrap in try/catch since plugins are not required to supply this
           plugin.disconnect();
         } catch (e) {
+            console.log(e)
         }
       };
     } else {

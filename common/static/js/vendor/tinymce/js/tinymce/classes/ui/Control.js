@@ -1000,6 +1000,7 @@ define("tinymce/ui/Control", [
 			try {
 				this.getEl().focus();
 			} catch (ex) {
+				console.log(ex)
 				// Ignore IE error
 			}
 

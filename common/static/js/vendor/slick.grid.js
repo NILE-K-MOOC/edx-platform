@@ -2206,6 +2206,7 @@ if (typeof Slick === "undefined") {
         // ignore exceptions - setting the original event's keycode throws access denied exception for "Ctrl"
         // (hitting control key only, nothing else), "Shift" (maybe others)
         catch (error) {
+          console.log(error)
         }
       }
     }

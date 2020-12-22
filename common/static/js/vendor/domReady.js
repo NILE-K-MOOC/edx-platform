@@ -64,6 +64,7 @@ define(function () {
             try {
                 isTop = window.frameElement === null;
             } catch (e) {
+                console.log(e)
             }
 
             //DOMContentLoaded approximation that uses a doScroll, as found by

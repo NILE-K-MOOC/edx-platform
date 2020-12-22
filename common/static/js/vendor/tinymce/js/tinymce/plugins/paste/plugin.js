@@ -609,6 +609,7 @@ define("tinymce/pasteplugin/Clipboard", [
 					try {
 						e.dataTransfer.setData('mce-internal', editor.selection.getContent());
 					} catch (ex) {
+						console.log(ex)
 						// IE 10 throws an error since it doesn't support custom data items
 					}
 				}

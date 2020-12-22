@@ -1444,6 +1444,7 @@ window.OpenSeadragon = window.OpenSeadragon || function( options ){
                     try{
                         delete window[ jsonpCallback ];
                     }catch(e){
+                        console.log(e)
                         //swallow
                     }
                 } else {

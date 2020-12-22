@@ -334,6 +334,7 @@ function Sizzle( selector, context, results, seed ) {
 					);
 					return results;
 				} catch(qsaError) {
+					console.log(qsaError)
 				} finally {
 					if ( !old ) {
 						context.removeAttribute("id");
@@ -747,7 +748,9 @@ Sizzle.matchesSelector = function( elem, expr ) {
 					elem.document && elem.document.nodeType !== 11 ) {
 				return ret;
 			}
-		} catch(e) {}
+		} catch(e) {
+			console.log(e)
+		}
 	}
 
 	return Sizzle( expr, document, null, [elem] ).length > 0;
