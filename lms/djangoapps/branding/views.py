@@ -414,9 +414,10 @@ def multisite_index(request, org):
                 # test code
                 log.info('multisite check zero_mode [%s]' % zero_mode)
 
-                if zero_mode == 0:
-                    request.session['multisite_zero'] = 1
-                    return redirect('/')
+                # if zero_mode == 0:
+                #     request.session['multisite_zero'] = 1
+                #     return redirect('/')
+
             # 아니라면 에러페이지 리다이렉트
             else:
                 log.info('multisite check set multisite_userid [%s]' % userid)

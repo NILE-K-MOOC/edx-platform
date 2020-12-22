@@ -22,6 +22,7 @@
             tpl: '#login-tpl',
             events: {
                 'click .js-login': 'submitForm',
+                'click .forgot-email': 'forgotEmail',
                 'click .forgot-password': 'forgotPassword',
                 'click .login-provider': 'thirdPartyAuth'
             },
@@ -54,7 +55,7 @@
                 this.enterpriseName = data.enterpriseName;
 
                 this.listenTo(this.model, 'sync', this.saveSuccess);
-                this.listenTo(this.resetModel, 'sync', this.resetEmail);
+                this.listenTo(this.resetModel, 'sync', this.findEmail);
             },
 
             render: function(html) {
@@ -117,6 +118,14 @@
                 });
             },
 
+            forgotEmail: function(event) {
+                event.preventDefault();
+
+                console.log('start forgotEmail --- s');
+                this.trigger('find-email');
+                console.log('start forgotEmail --- e');
+            },
+
             forgotPassword: function(event) {
                 event.preventDefault();
 
@@ -126,40 +135,6 @@
 
             postFormSubmission: function() {
                 this.clearPasswordResetSuccess();
-            },
-
-            resetEmail: function() {
-                var email = $('#password-reset-email').val(),
-                    successTitle = gettext('Check Your Email'),
-                    successMessageHtml = HtmlUtils.interpolateHtml(
-                        gettext('{paragraphStart}You entered {boldStart}{email}{boldEnd}. If this email address is associated with your {platform_name} account, we will send a message with password reset instructions to this email address.{paragraphEnd}' + // eslint-disable-line max-len
-                        '{paragraphStart}If you do not receive a password reset message, verify that you entered the correct email address, or check your spam folder.{paragraphEnd}' + // eslint-disable-line max-len
-                        '{paragraphStart}If you need further assistance, {anchorStart}contact technical support{anchorEnd}.{paragraphEnd}'), { // eslint-disable-line max-len
-                            boldStart: HtmlUtils.HTML('<b>'),
-                            boldEnd: HtmlUtils.HTML('</b>'),
-                            paragraphStart: HtmlUtils.HTML('<p>'),
-                            paragraphEnd: HtmlUtils.HTML('</p>'),
-                            email: email,
-                            platform_name: this.platformName,
-                            anchorStart: HtmlUtils.HTML(
-                                StringUtils.interpolate(
-                                    '<a href="{passwordResetSupportUrl}">', {
-                                        passwordResetSupportUrl: this.passwordResetSupportUrl
-                                    }
-                                )
-                            ),
-                            anchorEnd: HtmlUtils.HTML('</a>')
-                        }
-                    );
-
-                this.clearFormErrors();
-                this.clearPasswordResetSuccess();
-
-                this.renderFormFeedback(this.formSuccessTpl, {
-                    jsHook: this.passwordResetSuccessJsHook,
-                    title: successTitle,
-                    messageHtml: successMessageHtml
-                });
             },
 
             thirdPartyAuth: function(event) {
