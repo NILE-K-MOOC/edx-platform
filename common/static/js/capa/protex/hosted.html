@@ -75,6 +75,7 @@ function __gwt_jsInvoke(thisObj, methodName) {
     var args = Array.prototype.slice.call(arguments, 2);
     return [0, window[methodName].apply(thisObj, args)];
   } catch (e) {
+      console.log(e)
     return [1, e];
   }
 }
@@ -214,6 +215,7 @@ function findPluginObject() {
   try {
     return document.getElementById('pluginObject');
   } catch (e) {
+      console.log(e)
     return null;
   }
 }
@@ -222,6 +224,7 @@ function findPluginEmbed() {
   try {
     return document.getElementById('pluginEmbed')
   } catch (e) {
+      console.log(e)
     return null;
   }
 }
@@ -230,6 +233,7 @@ function findPluginXPCOM() {
   try {
     return __gwt_HostedModePlugin;
   } catch (e) {
+      console.log(e)
     return null;
   }
 }
@@ -265,6 +269,7 @@ gwtOnLoad = function(errFn, modName, modBase){
         break;
       }
     } catch (e) {
+        console.log(e)
     }
   }
   if (!plugin) {
@@ -277,6 +282,7 @@ gwtOnLoad = function(errFn, modName, modBase){
           return;
         }
       } catch (e) {
+          console.log(e)
       }
     }
     loadIframe("http://gwt.google.com/missing-plugin");
@@ -288,6 +294,7 @@ gwtOnLoad = function(errFn, modName, modBase){
           // wrap in try/catch since plugins are not required to supply this
           plugin.disconnect();
         } catch (e) {
+            console.log(e)
         }
       };
     } else {

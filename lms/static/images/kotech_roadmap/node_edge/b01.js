@@ -1,3 +1,4 @@
+
 var nodes = [
   { id: 1, label: "Introduction to CS and Programming\n(컴퓨터과학 개론 및 프로그래밍)\n파이썬 프로그래밍", shape: VIS_SHAPE, level: 0, color: NORMAL_COLOR, link: "HGUk+HGU02" },
   { id: 2, label: "Math for Artificial Intelligence\n(인공지능을 위한 수학)\n머신 러닝을 위한 기초 수학 및 통계\n(Match業 강좌)", shape: VIS_SHAPE, level: 0, color: FEED_COLOR, link: [['머신 러닝을 위한 기초 수학 및 통계(Match業 강좌)', 'http://www.abedu.co.kr/AI/lecture/ps/1/is/4']] },

@@ -17,6 +17,7 @@ function jsmolcalc(){
       return (query.indexOf('gwt.codesvr=') != -1 || (query.indexOf('gwt.hosted=') != -1 || $wnd_0.external && $wnd_0.external.gwtOnLoad)) && query.indexOf('gwt.hybrid') == -1;
     }
      catch (e) {
+      console.log(e)
     }
     isHostedMode = function(){
       return result;

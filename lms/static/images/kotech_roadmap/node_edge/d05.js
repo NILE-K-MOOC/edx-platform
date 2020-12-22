@@ -41,7 +41,7 @@ var edges = [
 
   { from: 2, to: 7, color: { opacity: OP_HIGH } },
 
-  { from: 2, to: 8, color: { opacity: OP_HIGH } },
+  { from: 1, to: 8, color: { opacity: OP_HIGH } },
   { from: 7, to: 8, color: { opacity: OP_HIGH } },
 
   { from: 5, to: 9, color: { opacity: OP_MID } },

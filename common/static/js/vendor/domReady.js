@@ -63,7 +63,8 @@ define(function () {
             testDiv = document.createElement('div');
             try {
                 isTop = window.frameElement === null;
-            } catch (e) {}
+            } catch (e) {
+            }
 
             //DOMContentLoaded approximation that uses a doScroll, as found by
             //Diego Perini: http://javascript.nwbox.com/IEContentLoaded/,
@@ -73,7 +74,9 @@ define(function () {
                     try {
                         testDiv.doScroll();
                         pageLoaded();
-                    } catch (e) {}
+                    } catch (e) {
+                        console.log(e)
+                    }
                 }, 30);
             }
         }
