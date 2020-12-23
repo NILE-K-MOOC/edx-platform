@@ -64,6 +64,7 @@ define("tinymce/tableplugin/CellSelection", [
 						sel.empty();
 					}
 				} catch (ex) {
+					console.log(ex)
 					// IE9 might throw errors here
 				}
 

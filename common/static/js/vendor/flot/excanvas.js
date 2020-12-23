@@ -501,6 +501,7 @@ if (!document.createElement('canvas').getContext) {
     try {
       style.font = styleString;
     } catch (ex) {
+      console.log(ex)
       // Ignore failures to set to invalid font.
     }
 

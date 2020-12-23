@@ -553,7 +553,7 @@ define("tinymce/EditorCommands", [
 						selection.collapse(TRUE);
 						restoreSelection();
 					} catch (ex) {
-						// Ignore
+						console.log(ex) // Ignore
 					}
 				}
 			},

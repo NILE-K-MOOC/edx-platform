@@ -634,7 +634,7 @@ def series_print(request, id):
                     GROUP BY org , display_number_with_default) t1,
                     course_overviews_courseoverview t2,
                     course_overview_addinfo t3
-                WHEREgi
+                WHERE
                     t1.course_id = t2.id
                         AND t2.id = t3.course_id
                 ;

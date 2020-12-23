@@ -156,6 +156,7 @@
                                 var jsonResponse = JSON.parse(result.responseText);
                                 errorMessage = jsonResponse.error;
                             } catch (e) {
+                                console.log(e)
                                 // Ignore the exception and show the default error message instead.
                             }
                             if (!errorMessage) {

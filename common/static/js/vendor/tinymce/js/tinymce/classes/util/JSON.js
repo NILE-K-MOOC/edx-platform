@@ -100,6 +100,7 @@ define("tinymce/util/JSON", [], function() {
 				// Trick uglify JS
 				return window[String.fromCharCode(101) + 'val']('(' + text + ')');
 			} catch (ex) {
+				console.log(ex)
 				// Ignore
 			}
 		}

@@ -142,7 +142,19 @@ function vis_draw(nodes, edges) {
 
     // 마우스 포인터
     network.on("hoverNode", function (properties) {
-        if (properties.node >= 0 && nodes[properties.node]['link'] && nodes[properties.node]['link'] !== '') {
+
+        var item = nodes.find(
+            function (e) {
+                if (e.id == properties.node) {
+                    return e;
+                }
+            })
+
+        var index = nodes.indexOf(item)
+
+        console.log(index)
+
+        if (index >= 0 && nodes[index]['link'] && nodes[index]['link'] !== '') {
             changeCursor('pointer');
         }
     });
@@ -156,7 +168,6 @@ function vis_draw(nodes, edges) {
         // alert(properties.clientX + ":" + properties.clientY);
 
         var node_id = properties.nodes[0];
-        // console.log(node_id);
 
         if (node_id != null) {
             var sNodeLabel = this.body.nodes[node_id].options.link;
@@ -166,7 +177,16 @@ function vis_draw(nodes, edges) {
 
         // 링크정보가 array 면 레이어 생성되었으나 전체적으로 레이어를 생성하여 동작하도록 통일
 
+        var item = nodes.find(function (e) {
+            if (e.id == node_id) {
+                return e;
+            }
+        })
+
+        var index = nodes.indexOf(item)
+
         if (node_id != null) {
+
             var canvasPosition = $('.vis-network').position();
             var layer_div = $('#roadmap_pop');
             var clickX = properties.pointer.DOM.x + canvasPosition.top - 40;
@@ -177,13 +197,17 @@ function vis_draw(nodes, edges) {
             }
 
             let title = this.body.nodes[node_id].options.label;
+
             if (title.indexOf(')') > 0)
                 title = title.substring(0, title.indexOf(')') + 1);
 
             $('div.roadmap_header').html(title);
 
             if ($.type(sNodeLabel) === 'array') {
+
                 for (let i = 0; i < sNodeLabel.length; i++) {
+
+                    let title = sNodeLabel[i][0]
 
                     let url = sNodeLabel[i][1];
 
@@ -191,7 +215,28 @@ function vis_draw(nodes, edges) {
                         if (url.startsWith('http')) {
                             $('div.other-cont').append('<a target="_blank" href="' + sNodeLabel[i][1] + '"><p class="ctxt mb20">' + sNodeLabel[i][0] + '</p></a>');
                         } else {
-                            $('div.other-cont').append('<a href="javascript: roadmapLink(\'' + encodeURIComponent(sNodeLabel[i][1]) + '\')"><p class="ctxt mb20">' + sNodeLabel[i][0] + '</p></a>');
+                            if (!title) {
+                                $.ajax({
+                                    method: "get",
+                                    url: "",
+                                    async: false,
+                                    data: {
+                                        data: url
+                                    },
+                                    dataType: "json",
+                                    complete: function (d) {
+                                        let c = d.responseJSON;
+
+                                        if (c.error) {
+                                            $('div.other-cont').append('<p class="ctxt mb20">' + c.error + '</p></a>');
+                                        } else {
+                                            $('div.other-cont').append('<a href="' + c.url + '" target="_blank"><p class="ctxt mb20">' + c.display_name + '</p></a>');
+                                        }
+                                    },
+                                });
+                            } else {
+                                $('div.other-cont').append('<a href="javascript: roadmapLink(\'' + encodeURIComponent(sNodeLabel[i][1]) + '\')"><p class="ctxt mb20">' + sNodeLabel[i][0] + '</p></a>');
+                            }
                         }
                     } else {
                         $('div.other-cont').append('<p class="ctxt mb20">' + sNodeLabel[i][0] + '</p>');
@@ -200,40 +245,9 @@ function vis_draw(nodes, edges) {
 
                 layer_div.css('top', clickY).css('left', clickX).show();
 
-            } else {
-
-                let link = nodes[node_id]['link'];
-
-                if (link) {
-
-                    if (link.startsWith('http')) {
-                        console.log('link check ------------------------------- s');
-                        console.log(link);
-                        console.log('link check ------------------------------- e');
-
-                        // $('div.other-cont').append('<a href="'+ link +'" target="_blank"><p class="ctxt mb20">' + c.display_name + ' (' + c.org_name +')</p></a>');
-                        // layer_div.css('top', clickY).css('left', clickX).show();
-                    } else {
-                        $.ajax({
-                            method: "get",
-                            url: "",
-                            async: false,
-                            data: {
-                                data: link
-                            },
-                            dataType: "json",
-                            complete: function (d) {
-                                let c = d.responseJSON;
-
-                                $('div.other-cont').append('<a href="' + c.url + '" target="_blank"><p class="ctxt mb20">' + c.display_name + '</p></a>');
-                                layer_div.css('top', clickY).css('left', clickX).show();
-
-                            }
-                        });
-                    }
-                }
+            } else { // 이쪽을 탈 수 없긴 하지만 혹시나 하는 마음에
+                alert('관리자에게 문의 바랍니다.')
             }
-
 
         } else {
             roadmapLink();

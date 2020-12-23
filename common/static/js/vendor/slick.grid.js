@@ -2208,6 +2208,7 @@ if (typeof Slick === "undefined") {
         // ignore exceptions - setting the original event's keycode throws access denied exception for "Ctrl"
         // (hitting control key only, nothing else), "Shift" (maybe others)
         catch (error) {
+          console.log(error)
         }
       }
     }
@@ -3179,7 +3180,7 @@ if (typeof Slick === "undefined") {
 
     // a debug helper to be able to access private members
     this.eval = function (expr) {
-      return eval(expr);
+      return window[expr];
     };
 
     //////////////////////////////////////////////////////////////////////////////////////////////
