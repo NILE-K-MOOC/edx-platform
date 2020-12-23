@@ -78,7 +78,6 @@ function search(page_no) {
                 html += "<li class='tbody'>";
                 html += "새로운 알림이 존재하지 않습니다.";
                 html += "</li>";
-
             }
 
             for (var i = 0; i < data.length; i++) {
@@ -124,9 +123,11 @@ function search(page_no) {
 
                 var memo_link = '#';
 
+                var total_cnt_paging = total_cnt - (10 * (curr_page - 1) + i)
+
                 html += "<li class='tbody'>";
                 html += "   <span class='check'>" + '<input type="checkbox" class="check_all" id="' + data[i].memo_id + '"/>' + "</span>";
-                html += "   <span class='no'>" + eval(total_cnt - (10 * (curr_page - 1) + i)) + "</span>";
+                html += "   <span class='no'> " + total_cnt_paging + "</span>";
                 html += "   <span class='gubun'>" + gubun + "</span>";
 
                 if (data[i].memo_gubun != '1'){

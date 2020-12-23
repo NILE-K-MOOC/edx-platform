@@ -4551,7 +4551,8 @@ $.extend( $.Viewer.prototype, $.EventSource.prototype, $.ControlDock.prototype, 
                 tileSource = $.parseXml( tileSource );
             }else if( tileSource.match(/\s*[\{\[].*/) ){
                 /*jshint evil:true*/
-                tileSource = eval( '('+tileSource+')' );
+                // tileSource = eval( '('+tileSource+')' );
+                tileSource = JSON.parse(tileSource)
             }
         }
 
@@ -7005,7 +7006,8 @@ function processResponse( xhr ){
         }
     }else if( responseText.match(/\s*[\{\[].*/) ){
         /*jshint evil:true*/
-        data = eval( '('+responseText+')' );
+        // data = eval( '('+responseText+')' );
+        data = JSON.parse(responseText)
     }else{
         data = responseText;
     }

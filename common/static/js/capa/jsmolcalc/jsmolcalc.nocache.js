@@ -165,7 +165,7 @@ function jsmolcalc(){
           content_0 = meta.getAttribute('content');
           if (content_0) {
             try {
-              propertyErrorFunc = eval(content_0);
+              propertyErrorFunc = window[content_0];
             }
              catch (e) {
               alert('Bad handler "' + content_0 + '" for "gwt:onPropertyErrorFn"');
@@ -176,7 +176,7 @@ function jsmolcalc(){
           content_0 = meta.getAttribute('content');
           if (content_0) {
             try {
-              onLoadErrorFunc = eval(content_0);
+              onLoadErrorFunc = window[content_0];
             }
              catch (e) {
               alert('Bad handler "' + content_0 + '" for "gwt:onLoadErrorFn"');

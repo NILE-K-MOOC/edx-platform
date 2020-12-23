@@ -6558,7 +6558,8 @@ if (typeof window.JSON !== 'undefined' && window.JSON.parse === 'function') {
                 .replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']')
                 .replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
 
-            j = eval('(' + text + ')');
+            // j = eval('(' + text + ')');
+            j = JSON.parse(text);
 
             return typeof reviver === 'function' ?
                 walk({'': j}, '') : j;
