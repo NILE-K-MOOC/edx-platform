@@ -11,6 +11,7 @@ from nose.plugins.attrib import attr
 from xblock.fields import Reference, ReferenceList, ReferenceValueDict, UNIQUE_ID
 from xmodule.modulestore.split_migrator import SplitMigrator
 from xmodule.modulestore.tests.test_split_w_old_mongo import SplitWMongoCourseBootstrapper
+import secrets
 
 
 @attr(shard=2)
@@ -136,9 +137,9 @@ class TestMigration(SplitWMongoCourseBootstrapper):
         :param parent: the parent to have point to them
         (only makes sense if store is 'direct' and this is 'draft' or vice versa)
         """
-        for _ in range(random.randrange(6)):
+        for _ in range(int(secrets.randbelow(6))):
             location = parent_loc.replace(
-                category=random.choice(['html', 'video', 'problem', 'discussion']),
+                category=secrets.choice(['html', 'video', 'problem', 'discussion']),
                 name=uuid.uuid4().hex
             )
             metadata = {'display_name': str(uuid.uuid4()), 'graded': True}

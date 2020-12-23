@@ -348,6 +348,7 @@ define("tinymce/dom/DomQuery", [
 						try {
 							style[name] = value;
 						} catch (ex) {
+							console.log(ex)
 							// Ignore
 						}
 					});

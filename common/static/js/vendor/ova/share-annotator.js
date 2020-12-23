@@ -649,8 +649,13 @@ Annotator.Plugin.Share = (function(_super) {
     Share.prototype.getParameterByName = function(name) {
         name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
         var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
-        var results = regex.exec('?' + window.location.href.split('?')[1]);
-        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        var loc = window.location.href.split('?')[1];
+
+        var results = regex.exec('?' + loc.replace(/</g, "").replace(/>/g, ""));
+        // for kmooc anaysis 2020
+        var tmp = results[1];
+        tmp = tmp.replace(/</g, "").replace(/>/g, "");
+        return results === null ? "" : decodeURIComponent(tmp.replace(/\+/g, " "));
     };
     
     Share.prototype.removeVariableFromURL = function(url_string, variable_name) {

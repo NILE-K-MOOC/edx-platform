@@ -3,6 +3,7 @@ Acceptance tests for the teams feature.
 """
 import json
 import random
+import secrets
 import time
 from uuid import uuid4
 
@@ -376,7 +377,8 @@ class BrowseTopicsTest(TeamsTabBase):
         """
         topics = self.create_topics(TOPICS_PER_PAGE + 1)
         self.set_team_configuration({u"max_team_size": 100, u"topics": topics})
-        for i, topic in enumerate(random.sample(topics, len(topics))):
+        secretsGenerator = secrets.SystemRandom()
+        for i, topic in enumerate(secretsGenerator.sample(topics, len(topics))):
             self.create_teams(topic, i)
             topic['team_count'] = i
         self.topics_page.visit()
@@ -668,7 +670,8 @@ class BrowseTeamsWithinTopicTest(TeamsTabBase):
         Then I should see the paginated list of teams in that order
         """
         teams = self.create_teams(self.topic, self.TEAMS_PAGE_SIZE + 1)
-        for i, team in enumerate(random.sample(teams, len(teams))):
+        secretsGenerator = secrets.SystemRandom()
+        for i, team in enumerate(secretsGenerator.sample(teams, len(teams))):
             for _ in range(i):
                 user_info = AutoAuthPage(self.browser, course_id=self.course_id).visit().user_info
                 self.create_membership(user_info['username'], team['id'])

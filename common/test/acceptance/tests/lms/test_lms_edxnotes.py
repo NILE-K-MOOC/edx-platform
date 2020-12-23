@@ -15,6 +15,7 @@ from common.test.acceptance.pages.lms.course_home import CourseHomePage
 from common.test.acceptance.pages.lms.courseware import CoursewarePage
 from common.test.acceptance.pages.lms.edxnotes import EdxNotesPage, EdxNotesPageNoContent, EdxNotesUnitPage
 from common.test.acceptance.tests.helpers import EventsTestMixin, UniqueCourseTest
+import secrets
 
 
 class EdxNotesTestMixin(UniqueCourseTest):
@@ -406,7 +407,7 @@ class EdxNotesPageTest(EventsTestMixin, EdxNotesTestMixin):
             for __ in range(extra_notes):
                 self.raw_note_list.append(
                     Note(
-                        usage_id=xblocks[random.choice([0, 1, 2, 3, 4, 5])].locator,
+                        usage_id=xblocks[secrets.choice([0, 1, 2, 3, 4, 5])].locator,
                         user=self.username,
                         course_id=self.course_fixture._course_key,  # pylint: disable=protected-access
                         text="Fourth note",

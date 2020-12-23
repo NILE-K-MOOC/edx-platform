@@ -103,6 +103,7 @@
                     try {
                         message = JSON.parse(jqXHR.responseText).error;
                     } catch (err) {
+                        console.log(err)
                     }
                 }
                 if (!message) {

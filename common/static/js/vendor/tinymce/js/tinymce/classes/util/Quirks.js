@@ -36,6 +36,7 @@ define("tinymce/util/Quirks", [
 			try {
 				editor.getDoc().execCommand(cmd, false, state);
 			} catch (ex) {
+				console.log(ex)
 				// Ignore
 			}
 		}

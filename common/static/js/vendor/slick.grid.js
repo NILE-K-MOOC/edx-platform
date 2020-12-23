@@ -114,7 +114,9 @@ if (typeof Slick === "undefined") {
     // private
     var initialized = false;
     var $container;
-    var uid = "slickgrid_" + Math.round(1000000 * Math.random());
+    var array = new Uint32Array(1);
+    var randomNum = window.crypto.getRandomValues(array)[0]/10000000000;
+    var uid = "slickgrid_" + Math.round(1000000 * randomNum);
     var self = this;
     var $focusSink, $focusSink2;
     var $headerScroller;
@@ -2206,6 +2208,7 @@ if (typeof Slick === "undefined") {
         // ignore exceptions - setting the original event's keycode throws access denied exception for "Ctrl"
         // (hitting control key only, nothing else), "Shift" (maybe others)
         catch (error) {
+          console.log(error)
         }
       }
     }
@@ -3177,7 +3180,7 @@ if (typeof Slick === "undefined") {
 
     // a debug helper to be able to access private members
     this.eval = function (expr) {
-      return eval(expr);
+      return window[expr];
     };
 
     //////////////////////////////////////////////////////////////////////////////////////////////

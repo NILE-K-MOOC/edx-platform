@@ -12,6 +12,8 @@ from textwrap import dedent
 
 import json
 from pytz import UTC
+import string
+import secrets
 
 # Examples:
 # python manage.py assigngroups summary_test:0.3,skip_summary_test:0.7 log.txt "Do previews of future materials help?"
@@ -87,7 +89,8 @@ class Command(BaseCommand):
             if count % 1000 == 0:
                 print(count)
             count = count + 1
-            v = random.uniform(0, 1)
+            randomNum = float(''.join(secrets.choice(string.digits) for i in range(16))) / 10000000000000000
+            v = randomNum
             group = group_from_value(groups, v)
             group_objects[group].users.add(user)
             f.write(u"Assigned user {name} ({id}) to {group}\n".format(

@@ -249,7 +249,9 @@ class TestCourseListing(ModuleStoreTestCase):
         reversing django groups
         """
         # create list of random course numbers which will be accessible to the user
-        user_course_ids = random.sample(range(TOTAL_COURSES_COUNT), USER_COURSES_COUNT)
+        secretsGenerator = secrets.SystemRandom()
+
+        user_course_ids = secretsGenerator.sample(range(TOTAL_COURSES_COUNT), USER_COURSES_COUNT)
 
         # create courses and assign those to the user which have their number in user_course_ids
         with self.store.default_store(store):

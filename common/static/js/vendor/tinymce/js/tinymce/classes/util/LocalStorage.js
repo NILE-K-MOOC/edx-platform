@@ -36,6 +36,7 @@ define("tinymce/util/LocalStorage", [], function() {
 			return localStorage;
 		}
 	} catch (ex) {
+		console.log(ex)
 		// Ignore
 	}
 
@@ -135,6 +136,7 @@ define("tinymce/util/LocalStorage", [], function() {
 		try {
 			storageElm.save(userDataKey);
 		} catch (ex) {
+			console.log(ex)
 			// Ignore disk full
 		}
 

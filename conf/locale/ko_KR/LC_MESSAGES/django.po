@@ -21039,6 +21039,14 @@ msgid "Collapse All Sections"
 msgstr "모든 주제 접기"
 
 #: cms/templates/course_outline.html
+msgid "Go To Inst"
+msgstr "참여기관"
+
+#: cms/templates/course_outline.html
+msgid "Click to go to the participating organization manager screen"
+msgstr "참여기관 관리자 화면으로 이동 하려면 클릭하세요"
+
+#: cms/templates/course_outline.html
 msgid "Expand All Sections"
 msgstr "모든 주제 펼치기"
 

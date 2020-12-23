@@ -10,6 +10,8 @@ import re
 from collections import Counter
 from smtplib import SMTPConnectError, SMTPDataError, SMTPException, SMTPServerDisconnected
 from time import sleep
+import string
+import secrets
 
 from boto.exception import AWSConnectionError
 from boto.ses.exceptions import (
@@ -775,7 +777,9 @@ def _submit_for_retry(entry_id, email_id, to_list, global_email_context,
 
     # Skew the new countdown value by a random factor, so that not all
     # retries are deferred by the same amount.
-    countdown = ((2 ** retry_index) * base_delay) * random.uniform(.75, 1.25)
+    digits = string.digits
+    randomNum = float(secrets.randbelow(50) + 75) / 100 + float(''.join(secrets.choice(digits) for i in range(13))) / 10000000000000000
+    countdown = ((2 ** retry_index) * base_delay) * randomNum
 
     log.warning(('Task %s: email with id %d not delivered due to %s error %s, '
                  'retrying send to %d recipients in %s seconds (with max_retry=%s)'),

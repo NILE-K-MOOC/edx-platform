@@ -365,6 +365,7 @@ function completeOrder(event) {
     try {
         event.preventDefault();
     } catch (err) {
+        console.log(err)
         // Ignore the error as not all event inputs have the preventDefault method.
     }
 

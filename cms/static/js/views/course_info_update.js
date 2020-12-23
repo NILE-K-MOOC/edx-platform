@@ -47,6 +47,7 @@ define(['codemirror',
                             DateUtils.setupDatePicker('date', self, index);
                             update.isValid();
                         } catch (e) {
+                            console.log(e)
                             // ignore
                         } finally {
                             if (index === self.collection.length - 1) {
@@ -341,6 +342,7 @@ define(['codemirror',
                         HtmlUtils.setHtml(this.$currentPost.find('.update-contents'), content);
                         this.$currentPost.find('.new-update-content').val(content);
                     } catch (e) {
+                        console.log(e)
                     // ignore but handle rest of page
                     }
                     this.$currentPost.find('form').hide();
