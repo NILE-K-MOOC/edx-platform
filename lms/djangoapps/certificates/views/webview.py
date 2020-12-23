@@ -8,6 +8,7 @@ import urllib
 import json
 import MySQLdb as mdb
 import pytz
+from pytz import timezone, utc
 import urllib2
 import commands
 from datetime import datetime
@@ -183,17 +184,10 @@ def _update_certificate_context(context, course, user_certificate, platform_name
         day=date.day,
         year=date.year
     )
-    from_zone = tz.gettz('UTC')
-    to_zone = tz.gettz('Asia/Seoul')
 
-    context['certificate_date_issued2'] = ('{year}.{month}.{day}. ').format(
-        year=datetime.now().replace(tzinfo=from_zone).astimezone(to_zone).year,
-        #year=user_certificate.modified_date.year,
-        month=datetime.now().replace(tzinfo=from_zone).astimezone(to_zone).month,
-        #month=user_certificate.modified_date.month,
-        day=datetime.now().replace(tzinfo=from_zone).astimezone(to_zone).day,
-        #day=user_certificate.modified_date.day
-    )
+    now_date = datetime.now(timezone('Asia/Seoul')).strftime('%Y.%m.%d')
+
+    context['certificate_date_issued2'] = now_date
 
     # Translators:  This text represents the verification of the certificate
     context['document_meta_description'] = _('This is a valid {platform_name} certificate for {user_name}, '
