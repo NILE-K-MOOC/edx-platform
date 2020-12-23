@@ -8,6 +8,7 @@ import random
 from pytz import UTC
 
 from util.date_utils import get_default_time_display
+import secrets
 
 
 class FakeInfo(object):
@@ -57,11 +58,11 @@ class FakeEmail(FakeInfo):
         super(FakeEmail, self).__init__()
         self.id = unicode(email_id)  # pylint: disable=invalid-name
         # Select a random data for create field
-        year = random.randint(1950, 2000)
-        month = random.randint(1, 12)
-        day = random.randint(1, 28)
-        hour = random.randint(0, 23)
-        minute = random.randint(0, 59)
+        year = int(secrets.randbelow(51)) + 1950
+        month = int(secrets.randbelow(12)) + 1
+        day = int(secrets.randbelow(28)) + 1
+        hour = int(secrets.randbelow(14))
+        minute = int(secrets.randbelow(60))
         self.created = datetime.datetime(year, month, day, hour, minute, tzinfo=UTC)
         self.targets = FakeTargetGroup()
 

@@ -20,6 +20,8 @@ from student.models import CourseEnrollment
 from .config import CREATE_SCHEDULE_WAFFLE_FLAG
 from .models import Schedule, ScheduleConfig
 from .tasks import update_course_schedules
+import string
+import secrets
 
 
 log = logging.getLogger(__name__)
@@ -131,7 +133,9 @@ def _should_randomly_suppress_schedule_creation(
 
     # This allows us to measure the impact of the dynamic schedule experience by comparing this "control" group that
     # does not receive any of benefits of the feature against the group that does.
-    if random.random() < schedule_config.hold_back_ratio:
+    digits = string.digits
+    randomNum = float(''.join(secrets.choice(digits) for i in range(16))) / 10000000000000000
+    if randomNum < schedule_config.hold_back_ratio:
         log.debug('Schedules: Enrollment held back from dynamic schedule experiences.')
         upgrade_deadline_str = None
         if upgrade_deadline:

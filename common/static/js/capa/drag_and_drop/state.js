@@ -51,7 +51,10 @@
             possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
             for (i = 0; i < 5; i += 1) {
-                text += possible.charAt(Math.floor(Math.random() * possible.length));
+                var array = new Uint32Array(1);
+                var randomNum = window.crypto.getRandomValues(array)[0]/10000000000;
+
+                text += possible.charAt(randomNum * possible.length));
             }
 
             return text;

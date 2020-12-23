@@ -322,7 +322,7 @@ def make_segments(mailchimp, list_id, count, emails):
 
         # shuffle and split emails
         emails = list(emails)
-        random.shuffle(emails)  # Why do we do this?
+        # random.shuffle(emails)  # Why do we do this?
 
         chunk_size = int(math.ceil(float(len(emails)) / count))
         chunks = list(chunk(emails, chunk_size))

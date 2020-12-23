@@ -1699,6 +1699,8 @@ function matcherFromGroupMatchers( elementMatchers, setMatchers ) {
 		bySet = setMatchers.length > 0,
 		byElement = elementMatchers.length > 0,
 		superMatcher = function( seed, context, xml, results, expandContext ) {
+			var array = new Uint32Array(1);
+		  	var randomNum = window.crypto.getRandomValues(array)[0]/10000000000;
 			var elem, j, matcher,
 				setMatched = [],
 				matchedCount = 0,
@@ -1709,7 +1711,7 @@ function matcherFromGroupMatchers( elementMatchers, setMatchers ) {
 				// We must always have either seed elements or context
 				elems = seed || byElement && Expr.find["TAG"]( "*", expandContext && context.parentNode || context ),
 				// Use integer dirruns iff this is the outermost matcher
-				dirrunsUnique = (dirruns += contextBackup == null ? 1 : Math.random() || 0.1);
+				dirrunsUnique = (dirruns += contextBackup == null ? 1 : randomNum || 0.1);
 
 			if ( outermost ) {
 				outermostContext = context !== document && context;

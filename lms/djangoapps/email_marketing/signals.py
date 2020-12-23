@@ -4,6 +4,7 @@ This module contains signals needed for email integration
 import datetime
 import logging
 from random import randint
+import secrets
 
 import crum
 from celery.exceptions import TimeoutError
@@ -233,7 +234,7 @@ def _create_sailthru_user_vars(user, profile, registration=None):
 
     if registration:
         sailthru_vars['activation_key'] = registration.activation_key
-        sailthru_vars['signupNumber'] = randint(0, 9)
+        sailthru_vars['signupNumber'] = int(secrets.randbelow(10))
 
     return sailthru_vars
 

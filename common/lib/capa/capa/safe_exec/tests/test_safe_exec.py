@@ -13,6 +13,7 @@ from six import text_type
 from capa.safe_exec import safe_exec, update_hash
 from codejail.safe_exec import SafeExecException
 from codejail.jail_code import is_configured
+import secrets
 
 
 class TestSafeExec(unittest.TestCase):
@@ -35,8 +36,8 @@ class TestSafeExec(unittest.TestCase):
 
     def test_random_seeding(self):
         g = {}
-        r = random.Random(17)
-        rnums = [r.randint(0, 999) for _ in xrange(100)]
+        r = secrets.SystemRandom()
+        rnums = [r.randbelow(1000) for _ in xrange(100)]
 
         # Without a seed, the results are unpredictable
         safe_exec("rnums = [random.randint(0, 999) for _ in xrange(100)]", g)
@@ -48,8 +49,8 @@ class TestSafeExec(unittest.TestCase):
 
     def test_random_is_still_importable(self):
         g = {}
-        r = random.Random(17)
-        rnums = [r.randint(0, 999) for _ in xrange(100)]
+        r = secrets.SystemRandom()
+        rnums = [r.randbelow(1000) for _ in xrange(100)]
 
         # With a seed, the results are predictable even from the random module
         safe_exec(

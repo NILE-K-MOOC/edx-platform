@@ -211,7 +211,9 @@ var Channel = (function() {
     // There is one current transaction counter id per page, and it's shared between
     // channel instances.  That means of all messages posted from a single javascript
     // evaluation context, we'll never have two with the same id.
-    var s_curTranId = Math.floor(Math.random() * 1000001);
+    var array = new Uint32Array(1);
+    var randomNum = window.crypto.getRandomValues(array)[0]/10000000000;
+    var s_curTranId = Math.floor(randomNum * 1000001);
 
     // no two bound channels in the same javascript evaluation context may have the same origin, scope, and window.
     // futher if two bound channels have the same window and scope, they may not have *overlapping* origins
@@ -435,7 +437,9 @@ var Channel = (function() {
             var chanId = (function() {
                 var text = '';
                 var alpha = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-                for (var i = 0; i < 5; i++) text += alpha.charAt(Math.floor(Math.random() * alpha.length));
+                var array = new Uint32Array(1);
+                var randomNum = window.crypto.getRandomValues(array)[0]/10000000000;
+                for (var i = 0; i < 5; i++) text += alpha.charAt(Math.floor(randomNum * alpha.length));
                 return text;
             }());
 
