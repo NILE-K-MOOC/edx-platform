@@ -127,6 +127,7 @@ function search(page_no) {
 
                 html += "<li class='tbody'>";
                 html += "   <span class='check'>" + '<input type="checkbox" class="check_all" id="' + data[i].memo_id + '"/>' + "</span>";
+                // html += "   <span class='no'> " + eval(total_cnt - (10 * (curr_page - 1) + i)) + "</span>";
                 html += "   <span class='no'> " + total_cnt_paging + "</span>";
                 html += "   <span class='gubun'>" + gubun + "</span>";
 
