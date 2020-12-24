@@ -8,9 +8,11 @@ import urllib
 import json
 import MySQLdb as mdb
 import pytz
+from pytz import timezone, utc
 import urllib2
 import commands
 from datetime import datetime
+from dateutil import tz
 from uuid import uuid4
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -182,11 +184,10 @@ def _update_certificate_context(context, course, user_certificate, platform_name
         day=date.day,
         year=date.year
     )
-    context['certificate_date_issued2'] = ('{year}.{month}.{day}. ').format(
-        year=user_certificate.modified_date.year,
-        month=user_certificate.modified_date.month,
-        day=user_certificate.modified_date.day
-    )
+
+    now_date = datetime.now(timezone('Asia/Seoul')).strftime('%Y.%m.%d')
+
+    context['certificate_date_issued2'] = now_date
 
     # Translators:  This text represents the verification of the certificate
     context['document_meta_description'] = _('This is a valid {platform_name} certificate for {user_name}, '

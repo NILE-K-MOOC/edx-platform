@@ -19,7 +19,9 @@ class UnenrollView extends Backbone.View {
     // Randomize survey option order
     const survey = document.querySelector('.options');
     for (let i = survey.children.length - 1; i >= 0; i -= 1) {
-      survey.appendChild(survey.children[Math.trunc(Math.random() * i)]);
+      var array = new Uint32Array(1);
+      var randomNum = window.crypto.getRandomValues(array)[0]/10000000000;
+      survey.appendChild(survey.children[Math.trunc(randomNum * i)]);
     }
     this.$('.inner-wrapper header').hide();
     this.$('#unenroll_form').hide();

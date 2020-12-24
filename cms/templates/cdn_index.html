@@ -211,7 +211,11 @@ is-signedin course uploads view-uploads-cdn
         init: {
             PostInit: function () {
                 function s4() {
-                  return ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
+
+                    var array = new Uint32Array(1);
+                    var randomNum = window.crypto.getRandomValues(array)[0]/10000000000;
+
+                  return ((1 + randomNum) * 0x10000 | 0).toString(16).substring(1);
                 }
                 var token_key = s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
                 this.settings.multipart_params.token_key = token_key; /* unique 값 설정 */
@@ -765,7 +769,9 @@ is-signedin course uploads view-uploads-cdn
             }
 
 
-        }catch (e){ }
+        }catch (e){
+            console.log(e)
+        }
 
     }
 

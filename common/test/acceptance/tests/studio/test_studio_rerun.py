@@ -3,6 +3,7 @@ Acceptance tests for Studio related to course reruns.
 """
 
 import random
+import secrets
 
 from bok_choy.promise import EmptyPromise
 from nose.tools import assert_in
@@ -75,7 +76,7 @@ class CourseRerunTest(StudioCourseTest):
 
         rerun_page = CourseRerunPage(self.browser, *course_info)
         rerun_page.wait_for_page()
-        course_run = 'test_rerun_' + str(random.randrange(1000000, 9999999))
+        course_run = 'test_rerun_' + str(int(secrets.randbelow(9000000)) + 1000000)
         rerun_page.course_run = course_run
         rerun_page.create_rerun()
 

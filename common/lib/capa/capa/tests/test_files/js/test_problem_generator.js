@@ -14,7 +14,10 @@ class TestProblemGenerator extends XProblemGenerator {
       if (false) { super(); }
       let thisFn = (() => { this; }).toString();
       let thisName = thisFn.slice(thisFn.indexOf('{') + 1, thisFn.indexOf(';')).trim();
-      eval(`${thisName} = this;`);
+      // eval(`${thisName} = this;`);
+      ( function () {
+          eval(`${thisName} = this;`);
+      }())
     }
     if (parameters == null) { parameters = {}; }
     this.parameters = parameters;

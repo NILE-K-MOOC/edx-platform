@@ -632,6 +632,7 @@ define("tinymce/dom/DOMUtils", [
 						try {
 							style[name] = value;
 						} catch (ex) {
+							console.log(ex)
 							// Ignore IE errors
 						}
 

@@ -106,6 +106,7 @@ define("tinymce/dom/StyleSheetLoader", [], function() {
 						passed();
 						return !!cssRules;
 					} catch (ex) {
+						console.log(ex)
 						// Ignore
 					}
 				}, waitForGeckoLinkLoaded);

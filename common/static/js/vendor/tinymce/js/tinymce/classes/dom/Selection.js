@@ -209,6 +209,7 @@ define("tinymce/dom/Selection", [
 				try {
 					self.setRng(rng);
 				} catch (ex) {
+					console.log(ex)
 					// Might fail on Opera for some odd reason
 				}
 			} else {
@@ -818,6 +819,7 @@ define("tinymce/dom/Selection", [
 					}
 				}
 			} catch (ex) {
+				console.log(ex)
 				// IE throws unspecified error here if TinyMCE is placed in a frame/iframe
 			}
 
@@ -882,6 +884,7 @@ define("tinymce/dom/Selection", [
 				try {
 					rng.select();
 				} catch (ex) {
+					console.log(ex)
 					// Needed for some odd IE bug #1843306
 				}
 
@@ -898,6 +901,7 @@ define("tinymce/dom/Selection", [
 						sel.removeAllRanges();
 						sel.addRange(rng);
 					} catch (ex) {
+						console.log(ex)
 						// IE might throw errors here if the editor is within a hidden container and selection is changed
 					}
 
@@ -917,6 +921,7 @@ define("tinymce/dom/Selection", [
 						self.tridentSel.addRange(rng);
 						return;
 					} catch (ex) {
+						console.log(ex)
 						//IE9 throws an error here if called before selection is placed in the editor
 					}
 				}

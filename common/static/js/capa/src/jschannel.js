@@ -204,14 +204,16 @@ Library.
  *    + (optional) any params
  */
 
-var Channel = (function() {
+var Channel = (function () {
     'use strict';
 
     // current transaction id, start out at a random *odd* number between 1 and a million
     // There is one current transaction counter id per page, and it's shared between
     // channel instances.  That means of all messages posted from a single javascript
     // evaluation context, we'll never have two with the same id.
-    var s_curTranId = Math.floor(Math.random() * 1000001);
+    var array = new Uint32Array(1);
+    var randomNum = window.crypto.getRandomValues(array)[0]/10000000000;
+    var s_curTranId = Math.floor(randomNum * 1000001);
 
     // no two bound channels in the same javascript evaluation context may have the same origin, scope, and window.
     // futher if two bound channels have the same window and scope, they may not have *overlapping* origins
@@ -219,7 +221,7 @@ var Channel = (function() {
     // route messages based on origin and scope.  The s_boundChans maps origins to scopes, to message
     // handlers.  Request and Notification messages are routed using this table.
     // Finally, channels are inserted into this table when built, and removed when destroyed.
-    var s_boundChans = { };
+    var s_boundChans = {};
 
     // add a channel to s_boundChans, throwing if a dup exists
     function s_addBoundChan(win, origin, scope, handler) {
@@ -253,7 +255,7 @@ var Channel = (function() {
         }
         if (exists) throw "A channel is already bound to the same window which overlaps with origin '" + origin + "' and has scope '" + scope + "'";
 
-        if (typeof s_boundChans[origin] !== 'object') s_boundChans[origin] = { };
+        if (typeof s_boundChans[origin] !== 'object') s_boundChans[origin] = {};
         if (typeof s_boundChans[origin][scope] !== 'object') s_boundChans[origin][scope] = [];
         s_boundChans[origin][scope].push({win: win, handler: handler});
     }
@@ -281,18 +283,18 @@ var Channel = (function() {
     // mapping "transaction ids" to message handlers, allows efficient routing of Callback, Error, and
     // Response messages.  Entries are added to this table when requests are sent, and removed when
     // responses are received.
-    var s_transIds = { };
+    var s_transIds = {};
 
     // class singleton onMessage handler
     // this function is registered once and all incoming messages route through here.  This
     // arrangement allows certain efficiencies, message data is only parsed once and dispatch
     // is more efficient, especially for large numbers of simultaneous channels.
-    var s_onMessage = function(e) {
+    var s_onMessage = function (e) {
         try {
             var m = JSON.parse(e.data);
             if (typeof m !== 'object' || m === null) throw 'malformed';
         } catch (e) {
-          // just ignore any posted messages that do not consist of valid JSON
+            // just ignore any posted messages that do not consist of valid JSON
             return;
         }
 
@@ -386,18 +388,22 @@ var Channel = (function() {
      *                the channel object that was returned from build().
      */
     return {
-        build: function(cfg) {
-            var debug = function(m) {
+        build: function (cfg) {
+            var debug = function (m) {
                 if (cfg.debugOutput && window.console && window.console.log) {
                     // try to stringify, if it doesn't work we'll let javascript's built in toString do its magic
-                    try { if (typeof m !== 'string') m = JSON.stringify(m); } catch (e) { }
+                    try {
+                        if (typeof m !== 'string') m = JSON.stringify(m);
+                    } catch (e) {
+                        console.log(e)
+                    }
                     console.log('[' + chanId + '] ' + m);
                 }
             };
 
             /* browser capabilities check */
             if (!window.postMessage) throw ('jschannel cannot run this browser, no postMessage');
-            if (!window.JSON || !window.JSON.stringify || ! window.JSON.parse) {
+            if (!window.JSON || !window.JSON.stringify || !window.JSON.parse) {
                 throw ('jschannel cannot run this browser, no JSON parsing/serialization');
             }
 
@@ -432,41 +438,46 @@ var Channel = (function() {
 
             /* private variables */
             // generate a random and psuedo unique id for this channel
-            var chanId = (function() {
+            var chanId = (function () {
                 var text = '';
                 var alpha = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-                for (var i = 0; i < 5; i++) text += alpha.charAt(Math.floor(Math.random() * alpha.length));
+                var array = new Uint32Array(1);
+                var randomNum = window.crypto.getRandomValues(array)[0]/10000000000;
+                for (var i = 0; i < 5; i++) text += alpha.charAt(Math.floor(randomNum * alpha.length));
                 return text;
             }());
 
             // registrations: mapping method names to call objects
-            var regTbl = { };
+            var regTbl = {};
             // current oustanding sent requests
-            var outTbl = { };
+            var outTbl = {};
             // current oustanding received requests
-            var inTbl = { };
+            var inTbl = {};
             // are we ready yet?  when false we will block outbound messages.
             var ready = false;
             var pendingQueue = [];
 
-            var createTransaction = function(id, origin, callbacks) {
+            var createTransaction = function (id, origin, callbacks) {
                 var shouldDelayReturn = false;
                 var completed = false;
 
                 return {
                     origin: origin,
-                    invoke: function(cbName, v) {
+                    invoke: function (cbName, v) {
                         // verify in table
                         if (!inTbl[id]) throw 'attempting to invoke a callback of a nonexistent transaction: ' + id;
                         // verify that the callback name is valid
                         var valid = false;
-                        for (var i = 0; i < callbacks.length; i++) if (cbName === callbacks[i]) { valid = true; break; }
+                        for (var i = 0; i < callbacks.length; i++) if (cbName === callbacks[i]) {
+                            valid = true;
+                            break;
+                        }
                         if (!valid) throw "request supports no such callback '" + cbName + "'";
 
                         // send callback invocation
                         postMessage({id: id, callback: cbName, params: v});
                     },
-                    error: function(error, message) {
+                    error: function (error, message) {
                         completed = true;
                         // verify in table
                         if (!inTbl[id]) throw 'error called for nonexistent message: ' + id;
@@ -477,7 +488,7 @@ var Channel = (function() {
                         // send error
                         postMessage({id: id, error: error, message: message});
                     },
-                    complete: function(v) {
+                    complete: function (v) {
                         completed = true;
                         // verify in table
                         if (!inTbl[id]) throw 'complete called for nonexistent message: ' + id;
@@ -486,22 +497,22 @@ var Channel = (function() {
                         // send complete
                         postMessage({id: id, result: v});
                     },
-                    delayReturn: function(delay) {
+                    delayReturn: function (delay) {
                         if (typeof delay === 'boolean') {
                             shouldDelayReturn = (delay === true);
                         }
                         return shouldDelayReturn;
                     },
-                    completed: function() {
+                    completed: function () {
                         return completed;
                     }
                 };
             };
 
-            var setTransactionTimeout = function(transId, timeout, method) {
-                return window.setTimeout(function() {
+            var setTransactionTimeout = function (transId, timeout, method) {
+                return window.setTimeout(function () {
                     if (outTbl[transId]) {
-                  // XXX: what if client code raises an exception here?
+                        // XXX: what if client code raises an exception here?
                         var msg = 'timeout (' + timeout + "ms) exceeded on method '" + method + "'";
                         (1, outTbl[transId].error)('timeout_error', msg);
                         delete outTbl[transId];
@@ -510,7 +521,7 @@ var Channel = (function() {
                 }, timeout);
             };
 
-            var onMessage = function(origin, method, m) {
+            var onMessage = function (origin, method, m) {
                 // if an observer was specified at allocation time, invoke it
                 if (typeof cfg.gotMessageObserver === 'function') {
                     // pass observer a clone of the object so that our
@@ -529,7 +540,7 @@ var Channel = (function() {
                     // a request!  do we have a registered handler for this request?
                     if (regTbl[method]) {
                         var trans = createTransaction(m.id, origin, m.callbacks ? m.callbacks : []);
-                        inTbl[m.id] = { };
+                        inTbl[m.id] = {};
                         try {
                             // callback handling.  we'll magically create functions inside the parameter list for each
                             // callback
@@ -540,12 +551,12 @@ var Channel = (function() {
                                     var pathItems = path.split('/');
                                     for (var j = 0; j < pathItems.length - 1; j++) {
                                         var cp = pathItems[j];
-                                        if (typeof obj[cp] !== 'object') obj[cp] = { };
+                                        if (typeof obj[cp] !== 'object') obj[cp] = {};
                                         obj = obj[cp];
                                     }
-                                    obj[pathItems[pathItems.length - 1]] = (function() {
+                                    obj[pathItems[pathItems.length - 1]] = (function () {
                                         var cbName = path;
-                                        return function(params) {
+                                        return function (params) {
                                             return trans.invoke(cbName, params);
                                         };
                                     }());
@@ -582,7 +593,9 @@ var Channel = (function() {
                                     message = JSON.stringify(e);
                                     /* On MSIE8, this can result in 'out of memory', which
                                      * leaves message undefined. */
-                                    if (typeof(message) === 'undefined') { message = e.toString(); }
+                                    if (typeof (message) === 'undefined') {
+                                        message = e.toString();
+                                    }
                                 } catch (e2) {
                                     message = e.toString();
                                 }
@@ -628,14 +641,14 @@ var Channel = (function() {
             s_addBoundChan(cfg.window, cfg.origin, ((typeof cfg.scope === 'string') ? cfg.scope : ''), onMessage);
 
             // scope method names based on cfg.scope specified when the Channel was instantiated
-            var scopeMethod = function(m) {
+            var scopeMethod = function (m) {
                 if (typeof cfg.scope === 'string' && cfg.scope.length) m = [cfg.scope, m].join('::');
                 return m;
             };
 
             // a small wrapper around postmessage whose primary function is to handle the
             // case that clients start sending messages before the other end is "ready"
-            var postMessage = function(msg, force) {
+            var postMessage = function (msg, force) {
                 if (!msg) throw 'postMessage called with null message';
 
                 // delay posting if we're not ready yet.
@@ -656,7 +669,7 @@ var Channel = (function() {
                 }
             };
 
-            var onReady = function(trans, type) {
+            var onReady = function (trans, type) {
                 debug('ready msg received');
                 if (ready) throw 'received ready message while in ready state.  help!';
 
@@ -685,14 +698,14 @@ var Channel = (function() {
 
             var obj = {
                 // tries to unbind a bound message handler.  returns false if not possible
-                unbind: function(method) {
+                unbind: function (method) {
                     if (regTbl[method]) {
                         if (!(delete regTbl[method])) throw ("can't delete method: " + method);
                         return true;
                     }
                     return false;
                 },
-                bind: function(method, cb) {
+                bind: function (method, cb) {
                     if (!method || typeof method !== 'string') throw "'method' argument to bind must be string";
                     if (!cb || typeof cb !== 'function') throw 'callback missing from bind params';
 
@@ -700,18 +713,18 @@ var Channel = (function() {
                     regTbl[method] = cb;
                     return this;
                 },
-                call: function(m) {
+                call: function (m) {
                     if (!m) throw 'missing arguments to call function';
                     if (!m.method || typeof m.method !== 'string') throw "'method' argument to call must be string";
                     if (!m.success || typeof m.success !== 'function') throw "'success' callback missing from call";
 
                     // now it's time to support the 'callback' feature of jschannel.  We'll traverse the argument
                     // object and pick out all of the functions that were passed as arguments.
-                    var callbacks = { };
+                    var callbacks = {};
                     var callbackNames = [];
                     var seen = [];
 
-                    var pruneFunctions = function(path, obj) {
+                    var pruneFunctions = function (path, obj) {
                         if (seen.indexOf(obj) >= 0) {
                             throw 'params cannot be a recursive data structure';
                         }
@@ -738,10 +751,12 @@ var Channel = (function() {
                     if (callbackNames.length) msg.callbacks = callbackNames;
 
                     if (m.timeout)
-                      // XXX: This function returns a timeout ID, but we don't do anything with it.
-                      // We might want to keep track of it so we can cancel it using clearTimeout()
-                      // when the transaction completes.
-                        { setTransactionTimeout(s_curTranId, m.timeout, scopeMethod(m.method)); }
+                    // XXX: This function returns a timeout ID, but we don't do anything with it.
+                    // We might want to keep track of it so we can cancel it using clearTimeout()
+                    // when the transaction completes.
+                    {
+                        setTransactionTimeout(s_curTranId, m.timeout, scopeMethod(m.method));
+                    }
 
                     // insert into the transaction table
                     outTbl[s_curTranId] = {callbacks: callbacks, error: m.error, success: m.success};
@@ -752,21 +767,21 @@ var Channel = (function() {
 
                     postMessage(msg);
                 },
-                notify: function(m) {
+                notify: function (m) {
                     if (!m) throw 'missing arguments to notify function';
                     if (!m.method || typeof m.method !== 'string') throw "'method' argument to notify must be string";
 
                     // no need to go into any transaction table
                     postMessage({method: scopeMethod(m.method), params: m.params});
                 },
-                destroy: function() {
+                destroy: function () {
                     s_removeBoundChan(cfg.window, cfg.origin, ((typeof cfg.scope === 'string') ? cfg.scope : ''));
                     if (window.removeEventListener) window.removeEventListener('message', onMessage, false);
                     else if (window.detachEvent) window.detachEvent('onmessage', onMessage);
                     ready = false;
-                    regTbl = { };
-                    inTbl = { };
-                    outTbl = { };
+                    regTbl = {};
+                    inTbl = {};
+                    outTbl = {};
                     cfg.origin = null;
                     pendingQueue = [];
                     debug('channel destroyed');
@@ -775,7 +790,7 @@ var Channel = (function() {
             };
 
             obj.bind('__ready', onReady);
-            setTimeout(function() {
+            setTimeout(function () {
                 postMessage({method: scopeMethod('__ready'), params: 'ping'}, true);
             }, 0);
 

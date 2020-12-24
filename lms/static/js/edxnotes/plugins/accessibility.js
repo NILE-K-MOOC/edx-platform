@@ -110,7 +110,9 @@
                         highlight = editor.annotation.highlights[0];
                     }
                     highlight.focus();
-                } catch (err) {}
+                } catch (err) {
+                    console.log(err)
+                }
             },
 
             getViewerTabControls: function() {

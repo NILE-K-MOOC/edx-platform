@@ -611,33 +611,33 @@ def series_print(request, id):
     # 15. 강좌 리스트 (분석 필요...하드코딩 쉣!)
     with connections['default'].cursor() as cur:
         query = '''
-            select display_name, start, end, created_date, effort, org, display_number_with_default, teacher_name
-            from (
-                select y.org, y.display_number_with_default, y.display_name, y.start, y.end, z.created_date, effort, teacher_name
-                from (
-                    select org, display_number_with_default
-                    from series_course
-                    where series_seq = '{id}'
-                ) x
-                join (
-                    select x.id, x.org, x.display_number_with_default, x.display_name, x.start, x.end, x.effort, y.teacher_name
-                    from course_overviews_courseoverview x
-                    join course_overview_addinfo y
-                    on x.id = y.course_id
-                    group by x.org, x.display_number_with_default
-                ) y
-                on x.org = y.org
-                and x.display_number_with_default = y.display_number_with_default
-                join (
-                    select course_id, created_date, 'Y' as cert
-                    from certificates_generatedcertificate
-                    where user_id = '{user_id}'
-                    and status = 'downloadable'
-                    order by created_date desc
-                ) z
-                on y.id = z.course_id
-            ) w 
-            group by org, display_number_with_default;
+                SELECT 
+                    display_name,
+                    start,
+                    end,
+                    created_date,
+                    effort,
+                    t1.org,
+                    t1.display_number_with_default,
+                    teacher_name
+                FROM
+                    (SELECT 
+                        org,
+                            display_number_with_default,
+                            MAX(b.course_id) course_id,
+                            MAX(created_date) created_date
+                    FROM
+                        series_course a, certificates_generatedcertificate b
+                    WHERE
+                        a.series_seq = {id} AND b.user_id = {user_id}
+                            AND CONCAT('course-v1:', a.org, '+', a.display_number_with_default) = SUBSTRING_INDEX(b.course_id, '+', 2)
+                    GROUP BY org , display_number_with_default) t1,
+                    course_overviews_courseoverview t2,
+                    course_overview_addinfo t3
+                WHERE
+                    t1.course_id = t2.id
+                        AND t2.id = t3.course_id
+                ;
         '''.format(id=id, user_id=user_id)
         cur.execute(query)
         row4 = cur.fetchall()

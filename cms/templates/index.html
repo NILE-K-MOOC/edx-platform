@@ -82,225 +82,38 @@ from openedx.core.djangolib.js_utils import (
 
     <div class="popup-main">
       <div class="popup-header">
-        <h4 class="popup-title"><b>K-MOOC 문의방법 안내</b></h4>
+        <h4 class="popup-title"><b>K-MOOC DEV 공지사항</b></h4>
       </div>
       <div class="popup-contents">
         <div id="contents_1" style="display: none;"></div>
         <iframe id="frame_1" frameborder="0" scrolling="no" width="100%" class="popup-contents-iframe"></iframe>
       </div>
 
-      <div class="popup-footer">
-        <label class="popup-footer-label" onclick="closeWin('pop_close_1','1','1');">
+      <div class="popup-footer" style="background: black; text-align: right;">
+        <label class="popup-footer-label" onclick="closeWin('pop_close_1','1','1');" style="text-align: left; padding: 0 10px;">
           <input id="pop_close_1" name="pop_close_1" type="checkbox">
           <span class="popup-footer-day"><b>1일간 열지 않음</b></span>
         </label>
-        <span class="popup-footer-day popup-footer-close">
-        <a href="javascript:popClose('1');" title="닫기"><b>[ 닫기 ]</b></a>
-      </span>
+        <span class="popup-footer-day popup-footer-close" style="padding: 0 10px; vertical-align: middle;">
+            <a href="javascript:popClose('1');" title="닫기"><b>[ 닫기 ]</b></a>
+        </span>
       </div>
     </div>
   </div>
 </div>
 <script>
   var popupDate = new Date();
-  var targetDate = new Date(2019, 11, 31, 23, 59, 59);
+  // 월은 0부터 계산되므로 해당월 - 1 한 값으로 지정
+  var targetDate = new Date(2020, 11, 24, 6, 30, 59);
   $(document).ready(function(){
 
-    let contents ='<div style="text-size-adjust: auto; list-style: none; margin: 0px; padding: 0px; color: rgb(34, 34, 34); font-family: &quot;Apple SD Gothic Neo&quot;, &quot;맑은 고딕&quot;, &quot;Malgun Gothic&quot;, 돋움, dotum, sans-serif; font-size: 12px;"><span style="font-family: 나눔고딕, NanumGothic, 돋움; font-size: 12pt;">안녕하세요.</span></div>\n' +
-        '<div style="text-size-adjust: auto; list-style: none; margin: 0px; padding: 0px; color: rgb(34, 34, 34); font-family: &quot;Apple SD Gothic Neo&quot;, &quot;맑은 고딕&quot;, &quot;Malgun Gothic&quot;, 돋움, dotum, sans-serif; font-size: 12px;"><span style="font-family: 나눔고딕, NanumGothic, 돋움; font-size: 12pt;">K-MOOC운영센터에서<span class="Apple-converted-space">&nbsp;</span><span style="font-size: 12pt;"><span style="font-size: 12pt;">안내사항 전달드립니다.</span></span>\n' +
-        '    </span>\n' +
-        '</div>\n' +
-        '<div style="text-size-adjust: auto; list-style: none; margin: 0px; padding: 0px; color: rgb(34, 34, 34); font-family: &quot;Apple SD Gothic Neo&quot;, &quot;맑은 고딕&quot;, &quot;Malgun Gothic&quot;, 돋움, dotum, sans-serif; font-size: 12px;"><span style="font-family: 나눔고딕, NanumGothic, 돋움; font-size: 12pt;"><br></span></div>\n' +
-        '<div style="text-size-adjust: auto; list-style: none; margin: 0px; padding: 0px; color: rgb(34, 34, 34); font-family: &quot;Apple SD Gothic Neo&quot;, &quot;맑은 고딕&quot;, &quot;Malgun Gothic&quot;, 돋움, dotum, sans-serif; font-size: 12px;"><span style="font-family: 나눔고딕, NanumGothic, 돋움; font-size: 12pt;">1. 모든 문의는 가급적<span class="Apple-converted-space">&nbsp;</span><a href="mailto:help_kmooc@nile.or.kr" target="_blank">help_kmooc@nile.or.kr</a><span class="Apple-converted-space">&nbsp;</span>이메일로 부탁드립니다.<span class="Apple-converted-space">&nbsp;</span></span>\n' +
-        '</div>\n' +
-        '<div style="text-size-adjust: auto; list-style: none; margin: 0px; padding: 0px; color: rgb(34, 34, 34); font-family: &quot;Apple SD Gothic Neo&quot;, &quot;맑은 고딕&quot;, &quot;Malgun Gothic&quot;, 돋움, dotum, sans-serif; font-size: 12px;"><span style="font-family: 나눔고딕, NanumGothic, 돋움; font-size: 12pt;">&nbsp;&nbsp; (인원부족으로 인한 유선 문의시 업무가 원활하지 못합니다.&nbsp;양해부탁드립니다)<span class="Apple-converted-space">&nbsp;</span></span>\n' +
-        '</div>\n' +
-        '<div style="text-size-adjust: auto; list-style: none; margin: 0px; padding: 0px; color: rgb(34, 34, 34); font-family: &quot;Apple SD Gothic Neo&quot;, &quot;맑은 고딕&quot;, &quot;Malgun Gothic&quot;, 돋움, dotum, sans-serif; font-size: 12px;"><span style="font-family: 나눔고딕, NanumGothic, 돋움; font-size: 12pt;"><br></span></div>\n' +
-        '<div style="text-size-adjust: auto; list-style: none; margin: 0px; padding: 0px; color: rgb(34, 34, 34); font-family: &quot;Apple SD Gothic Neo&quot;, &quot;맑은 고딕&quot;, &quot;Malgun Gothic&quot;, 돋움, dotum, sans-serif; font-size: 12px;"><span style="font-family: 나눔고딕, NanumGothic, 돋움; font-size: 12pt;">2.<span class="Apple-converted-space">&nbsp;</span><span style="font-size: 12pt;">이메일&nbsp;문의 발송시&nbsp;아래 \'머릿말\' 추가하여 주시기 바랍니다.</span></span>\n' +
-        '</div>\n' +
-        '<div style="text-size-adjust: auto; list-style: none; margin: 0px; padding: 0px; color: rgb(34, 34, 34); font-family: &quot;Apple SD Gothic Neo&quot;, &quot;맑은 고딕&quot;, &quot;Malgun Gothic&quot;, 돋움, dotum, sans-serif; font-size: 12px;"><span style="font-family: 나눔고딕, NanumGothic, 돋움; font-size: 12pt;"><br></span></div>\n' +
-        '<div style="text-size-adjust: auto; list-style: none; margin: 0px; padding: 0px; color: rgb(34, 34, 34); font-family: &quot;Apple SD Gothic Neo&quot;, &quot;맑은 고딕&quot;, &quot;Malgun Gothic&quot;, 돋움, dotum, sans-serif; font-size: 12px;"><span style="font-family: 나눔고딕, NanumGothic, 돋움; font-size: 12pt;"><strong>&lt;머릿말 안내&gt;</strong></span></div>\n' +
-        '<div style="text-size-adjust: auto; list-style: none; margin: 0px; padding: 0px; color: rgb(34, 34, 34); font-family: &quot;Apple SD Gothic Neo&quot;, &quot;맑은 고딕&quot;, &quot;Malgun Gothic&quot;, 돋움, dotum, sans-serif; font-size: 12px;"><span style="font-family: 나눔고딕, NanumGothic, 돋움; font-size: 12pt;"><br></span></div>\n' +
-        '<div style="text-size-adjust: auto; list-style: none; margin: 0px; padding: 0px; color: rgb(34, 34, 34); font-family: &quot;Apple SD Gothic Neo&quot;, &quot;맑은 고딕&quot;, &quot;Malgun Gothic&quot;, 돋움, dotum, sans-serif; font-size: 12px;"><span style="font-family: 나눔고딕, NanumGothic, 돋움; font-size: 12pt;">1) [품질검수]&nbsp; : 사전/최종검수 신청시</span></div>\n' +
-        '<div style="text-size-adjust: auto; list-style: none; margin: 0px; padding: 0px; color: rgb(34, 34, 34); font-family: &quot;Apple SD Gothic Neo&quot;, &quot;맑은 고딕&quot;, &quot;Malgun Gothic&quot;, 돋움, dotum, sans-serif; font-size: 12px;"><span style="font-family: 나눔고딕, NanumGothic, 돋움; font-size: 12pt;">2) [플랫폼문의]&nbsp; :&nbsp; 영상/자막업로드 오류 등 플랫폼 오류</span></div>\n' +
-        '<div style="text-size-adjust: auto; list-style: none; margin: 0px; padding: 0px; color: rgb(34, 34, 34); font-family: &quot;Apple SD Gothic Neo&quot;, &quot;맑은 고딕&quot;, &quot;Malgun Gothic&quot;, 돋움, dotum, sans-serif; font-size: 12px;"><span style="font-family: 나눔고딕, NanumGothic, 돋움; font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;">3) [사업문의] : 사업 또는 협약관련 문의, 타기관 연계 문의, 예산 문의 등</span></span>\n' +
-        '    </span>\n' +
-        '</div>\n' +
-        '<div style="text-size-adjust: auto; list-style: none; margin: 0px; padding: 0px; color: rgb(34, 34, 34); font-family: &quot;Apple SD Gothic Neo&quot;, &quot;맑은 고딕&quot;, &quot;Malgun Gothic&quot;, 돋움, dotum, sans-serif; font-size: 12px;"><span style="font-family: 나눔고딕, NanumGothic, 돋움; font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;">4) [강좌문의]<span style="font-size: 12pt;">&nbsp;: 강좌 만족도 조사, 강좌 요청사항 등 강좌 관련 문의<span class="Apple-converted-space">&nbsp;</span></span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '</div>\n' +
-        '<div style="text-size-adjust: auto; list-style: none; margin: 0px; padding: 0px; color: rgb(34, 34, 34); font-family: &quot;Apple SD Gothic Neo&quot;, &quot;맑은 고딕&quot;, &quot;Malgun Gothic&quot;, 돋움, dotum, sans-serif; font-size: 12px;"><span style="font-family: 나눔고딕, NanumGothic, 돋움; font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;">5) [이수증 발급] : 이수증 발급요청시</span></span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '</div>\n' +
-        '<div style="text-size-adjust: auto; list-style: none; margin: 0px; padding: 0px; color: rgb(34, 34, 34); font-family: &quot;Apple SD Gothic Neo&quot;, &quot;맑은 고딕&quot;, &quot;Malgun Gothic&quot;, 돋움, dotum, sans-serif; font-size: 12px;"><span style="font-family: 나눔고딕, NanumGothic, 돋움; font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><br></span></span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '</div>\n' +
-        '<div style="text-size-adjust: auto; list-style: none; margin: 0px; padding: 0px; color: rgb(34, 34, 34); font-family: &quot;Apple SD Gothic Neo&quot;, &quot;맑은 고딕&quot;, &quot;Malgun Gothic&quot;, 돋움, dotum, sans-serif; font-size: 12px;"><span style="font-family: 나눔고딕, NanumGothic, 돋움; font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;">보다 빠른 대응을 위함이오니 협조하여주시기 바랍니다.</span></span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '</div>\n' +
-        '<div style="text-size-adjust: auto; list-style: none; margin: 0px; padding: 0px; color: rgb(34, 34, 34); font-family: &quot;Apple SD Gothic Neo&quot;, &quot;맑은 고딕&quot;, &quot;Malgun Gothic&quot;, 돋움, dotum, sans-serif; font-size: 12px;"><span style="font-family: 나눔고딕, NanumGothic, 돋움; font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><br></span></span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '</div>\n' +
-        '<div style="text-size-adjust: auto; list-style: none; margin: 0px; padding: 0px; color: rgb(34, 34, 34); font-family: &quot;Apple SD Gothic Neo&quot;, &quot;맑은 고딕&quot;, &quot;Malgun Gothic&quot;, 돋움, dotum, sans-serif; font-size: 12px;"><span style="font-family: 나눔고딕, NanumGothic, 돋움; font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;">학습자 및 참여기관 확대로 인하여 문의 응대가 원활하지 못한점&nbsp;<span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;">죄송스럽게 생각합니다.<span class="Apple-converted-space">&nbsp;</span></span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '</div>\n' +
-        '<div style="text-size-adjust: auto; list-style: none; margin: 0px; padding: 0px; color: rgb(34, 34, 34); font-family: &quot;Apple SD Gothic Neo&quot;, &quot;맑은 고딕&quot;, &quot;Malgun Gothic&quot;, 돋움, dotum, sans-serif; font-size: 12px;"><span style="font-family: 나눔고딕, NanumGothic, 돋움; font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><br></span></span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '</div>\n' +
-        '<div style="text-size-adjust: auto; list-style: none; margin: 0px; padding: 0px; color: rgb(34, 34, 34); font-family: &quot;Apple SD Gothic Neo&quot;, &quot;맑은 고딕&quot;, &quot;Malgun Gothic&quot;, 돋움, dotum, sans-serif; font-size: 12px;"><span style="font-family: 나눔고딕, NanumGothic, 돋움; font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;">최소 인력으로 최대 효과를 내기 위함이오니 양해 부탁드립니다.</span></span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '</div>\n' +
-        '<div style="text-size-adjust: auto; list-style: none; margin: 0px; padding: 0px; color: rgb(34, 34, 34); font-family: &quot;Apple SD Gothic Neo&quot;, &quot;맑은 고딕&quot;, &quot;Malgun Gothic&quot;, 돋움, dotum, sans-serif; font-size: 12px;"><span style="font-family: 나눔고딕, NanumGothic, 돋움; font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;">감사합니다.<span class="Apple-converted-space">&nbsp;</span></span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '</div>\n' +
-        '<div style="text-size-adjust: auto; list-style: none; margin: 0px; padding: 0px; color: rgb(34, 34, 34); font-family: &quot;Apple SD Gothic Neo&quot;, &quot;맑은 고딕&quot;, &quot;Malgun Gothic&quot;, 돋움, dotum, sans-serif; font-size: 12px;"><span style="font-family: 나눔고딕, NanumGothic, 돋움; font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><br></span></span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '</div>\n' +
-        '<div style="text-size-adjust: auto; list-style: none; margin: 0px; padding: 0px; color: rgb(34, 34, 34); font-family: &quot;Apple SD Gothic Neo&quot;, &quot;맑은 고딕&quot;, &quot;Malgun Gothic&quot;, 돋움, dotum, sans-serif; font-size: 12px;"><span style="font-family: 나눔고딕, NanumGothic, 돋움; font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;"><span style="font-size: 12pt;">K-MOOC운영센터 드림.</span></span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '    </span>\n' +
-        '</div>';
+    let contents = "";
+    contents += "<div>";
+    contents += "2020/12/24 06:00 부터 06:30 까지 시스템 업데이트 예정입니다.<br/><br/>";
+    contents += "해당시간동안 (wwwdev.kmooc.kr, studiodev.kmooc.kr) 서버접속이 끊길 에정이며,<br/><br/>";
+    contents += "업로드중인 동영상이 있는경우 재 업로드가 필요할 수 있습니다.<br/><br/>";
+    contents += "양해 부탁 드립니다.<br/><br/> 감사합니다.<br/><br/>";
+    contents += "</div>";
     contents = $.parseHTML(contents);
 
     var $frame = $("#frame_1");

@@ -510,7 +510,9 @@ function($, Backbone, _, gettext, moment, ViewUtils, HtmlUtils, StringUtils, Tra
             // show some error to user
             try {
                 errorMessage = $.parseJSON(data).error;
-            } catch (e) {}   // eslint-disable-line no-empty
+            } catch (e) {
+                console.log(e)
+            }   // eslint-disable-line no-empty
             this.renderResponseStatus(errorMessage || INTERNAL_SERVER_ERROR_MESSAGE, 'error');
         },
 

@@ -315,7 +315,7 @@ class RegistrationFormFactory(object):
         """
         # Translators: This label appears above a field on the registration form
         # meant to hold the user's email address.
-        email_label = _(u"Email")+' *'
+        email_label = _(u"Email") + ' *'
         email_placeholder = _(u"username@domain.com")
         # Translators: These instructions appear on the registration form, immediately
         # below a field meant to hold the user's email address.
@@ -343,7 +343,7 @@ class RegistrationFormFactory(object):
         """
         # Translators: This label appears above a field on the registration form
         # meant to confirm the user's email address.
-        email_label = _(u"Confirm Email")+' *'
+        email_label = _(u"Confirm Email") + ' *'
         email_placeholder = _(u"username@domain.com")
         error_msg = accounts.REQUIRED_FIELD_CONFIRM_EMAIL_MSG
 
@@ -366,11 +366,11 @@ class RegistrationFormFactory(object):
         """
         # Translators: This label appears above a field on the registration form
         # meant to hold the user's full name.
-        name_label = _(u"Full Name")+' *'
+        name_label = _(u"Full Name") + ' *'
         name_placeholder = _(u"Jane Doe")
         # Translators: These instructions appear on the registration form, immediately
         # below a field meant to hold the user's full name.
-        name_instructions = _(u"This name will be used on any certificates that you earn.")
+        name_instructions = _("This name will be used on any certificates that you earn. If you proceed with the identity verification, it will be used to find your email.")
 
         form_desc.add_field(
             "name",
@@ -392,7 +392,7 @@ class RegistrationFormFactory(object):
         """
         # Translators: This label appears above a field on the registration form
         # meant to hold the user's public username.
-        username_label = _(u"Public Username")+' *'
+        username_label = _(u"Public Username") + ' *'
 
         # Translators: This example username is used as a placeholder in
         # a field on the registration form meant to hold the user's username.
@@ -425,8 +425,7 @@ class RegistrationFormFactory(object):
         """
         # Translators: This label appears above a field on the registration form
         # meant to hold the user's password.
-        password_label = _(u"Password")+' *'
-
+        password_label = _(u"Password") + ' *'
 
         password_instructions = _(
             # Translators: These instructions appear on the registration form, immediately
@@ -449,7 +448,7 @@ class RegistrationFormFactory(object):
             "password",
             label=password_label,
             field_type="password",
-            #instructions=password_instructions(),
+            # instructions=password_instructions(),
             instructions=password_instructions,
             restrictions=restrictions,
             required=required
@@ -490,7 +489,7 @@ class RegistrationFormFactory(object):
         """
         # Translators: This label appears above a dropdown menu on the registration
         # form used to select the user's gender.
-        gender_label = _(u"Gender")+' *'
+        gender_label = _(u"Gender") + ' *'
 
         # The labels are marked for translation in UserProfile model definition.
         options = [(name, _(label)) for name, label in UserProfile.GENDER_CHOICES]  # pylint: disable=translation-of-non-string
@@ -512,7 +511,7 @@ class RegistrationFormFactory(object):
         """
         # Translators: This label appears above a dropdown menu on the registration
         # form used to select the user's year of birth.
-        yob_label = _(u"Year of birth")+' *'
+        yob_label = _(u"Year of birth") + ' *'
 
         options = [(unicode(year), unicode(year)) for year in UserProfile.VALID_YEARS]
         form_desc.add_field(
@@ -545,14 +544,14 @@ class RegistrationFormFactory(object):
             include_default_option = False
             options = None
             error_msg = ''
-            exec("error_msg = accounts.REQUIRED_FIELD_%s_TEXT_MSG" % (field_name.upper()))
+            exec ("error_msg = accounts.REQUIRED_FIELD_%s_TEXT_MSG" % (field_name.upper()))
         else:
             field_type = "select"
             include_default_option = True
             field_options = extra_field_options.get(field_name)
             options = [(unicode(option.lower()), option) for option in field_options]
             error_msg = ''
-            exec("error_msg = accounts.REQUIRED_FIELD_%s_SELECT_MSG" % (field_name.upper()))
+            exec ("error_msg = accounts.REQUIRED_FIELD_%s_SELECT_MSG" % (field_name.upper()))
 
         form_desc.add_field(
             field_name,
@@ -954,9 +953,9 @@ class RegistrationFormFactory(object):
                     # enterprise context, we need to hide all fields except for terms of service and
                     # ensure that the user explicitly checks that field.
                     hide_registration_fields_except_tos = (
-                        (
-                            current_provider.skip_registration_form and enterprise_customer_for_request(request)
-                        ) or current_provider.sync_learner_profile_data
+                            (
+                                    current_provider.skip_registration_form and enterprise_customer_for_request(request)
+                            ) or current_provider.sync_learner_profile_data
                     )
 
                     for field_name in self.DEFAULT_FIELDS + self.EXTRA_FIELDS:
@@ -968,7 +967,6 @@ class RegistrationFormFactory(object):
                             if (field_name not in ['terms_of_service', 'honor_code']
                                     and field_overrides[field_name]
                                     and hide_registration_fields_except_tos):
-
                                 form_desc.override_field_properties(
                                     field_name,
                                     field_type="hidden",

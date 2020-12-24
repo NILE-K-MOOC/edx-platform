@@ -16,7 +16,10 @@ class MinimaxProblemDisplay extends XProblemDisplay {
       if (false) { super(); }
       let thisFn = (() => { this; }).toString();
       let thisName = thisFn.slice(thisFn.indexOf('{') + 1, thisFn.indexOf(';')).trim();
-      eval(`${thisName} = this;`);
+      // eval(`${thisName} = this;`);
+      (function () {
+        eval(`${thisName} = this;`);
+      }());
     }
     this.state = state;
     this.submission = submission;

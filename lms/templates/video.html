@@ -95,7 +95,9 @@ from openedx.core.djangolib.js_utils import js_escaped_string
     $.ajax({method: "POST", url: "/performance", data: data});
   }
   var cdnStartTime;
-  var salt = Math.floor((1 + Math.random()) * 0x100000).toString(36);
+  var array = new Uint32Array(1);
+  var randomNum = window.crypto.getRandomValues(array)[0]/10000000000;
+  var salt = Math.floor((1 + randomNum) * 0x100000).toString(36);
   var id = "${id | n, js_escaped_string}";
   function initializeCDNExperiment() {
     sendPerformanceBeacon(id + "_" + salt, ${cdn_exp_group}, "", "load");

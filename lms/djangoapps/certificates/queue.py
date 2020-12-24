@@ -24,6 +24,10 @@ from lms.djangoapps.grades.course_grade_factory import CourseGradeFactory
 from lms.djangoapps.verify_student.services import IDVerificationService
 from student.models import CourseEnrollment, UserProfile
 from xmodule.modulestore.django import modulestore
+import string
+import secrets
+
+
 
 LOGGER = logging.getLogger(__name__)
 
@@ -425,8 +429,10 @@ class XQueueCertInterface(object):
         sends a request to XQueue.
         """
         course_id = unicode(course.id)
+        digits = string.digits
+        randomNum = float(''.join(secrets.choice(digits) for i in range(16))) / 10000000000000000
 
-        key = make_hashkey(random.random())
+        key = make_hashkey(randomNum)
         cert.key = key
         contents = {
             'action': 'create',

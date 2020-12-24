@@ -141,8 +141,13 @@ such that the value can be defined later than this assignment (file load order).
             return firstLink.click();
         };
         if ((new RegExp('^' + HASH_LINK_PREFIX)).test(location.hash)) {
-            rmatch = (new RegExp('^' + HASH_LINK_PREFIX + '(.*)')).exec(location.hash);
-            sectionName = rmatch[1];
+            var loc_hash = location.hash;
+            loc_hash = loc_hash.replace(/</g, "").replace(/>/g, "");
+            rmatch = (new RegExp('^' + HASH_LINK_PREFIX + '(.*)')).exec(loc_hash);
+            // for kmooc anaysis 2020
+            var tmp = rmatch[1];
+            tmp = tmp.replace(/</g, "").replace(/>/g, "");
+            sectionName = tmp;
             link = $links.filter("[data-section='" + sectionName + "']");
             if (link.length === 1) {
                 return link.click();

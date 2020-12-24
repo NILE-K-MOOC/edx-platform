@@ -13,6 +13,7 @@ from unittest import TestCase
 from i18n import config, dummy, extract, generate
 from polib import pofile
 from pytz import UTC
+import secrets
 
 
 class TestGenerate(TestCase):
@@ -120,4 +121,4 @@ class TestGenerate(TestCase):
 def random_name(size=6):
     """Returns random filename as string, like test-4BZ81W"""
     chars = string.ascii_uppercase + string.digits
-    return 'test-' + ''.join(random.choice(chars) for x in range(size))
+    return 'test-' + ''.join(secrets.choice(chars) for x in range(size))

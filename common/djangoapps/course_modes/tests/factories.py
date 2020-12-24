@@ -8,6 +8,7 @@ from factory.django import DjangoModelFactory
 from opaque_keys.edx.locator import CourseLocator
 
 from course_modes.models import CourseMode
+import secrets
 
 
 # Factories are self documenting
@@ -25,7 +26,7 @@ class CourseModeFactory(DjangoModelFactory):
     @lazy_attribute
     def min_price(self):
         if CourseMode.is_verified_slug(self.mode_slug):
-            return random.randint(1, 100)
+            return secrets.randbelow(99) + 1
         return 0
 
     @lazy_attribute

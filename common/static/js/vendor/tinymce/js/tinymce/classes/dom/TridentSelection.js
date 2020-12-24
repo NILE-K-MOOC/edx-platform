@@ -481,6 +481,7 @@ define("tinymce/dom/TridentSelection", [], function() {
 							return;
 						}
 					} catch (ex) {
+						console.log(ex)
 						// Ignore
 					}
 				}

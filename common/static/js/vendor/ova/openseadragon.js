@@ -1444,6 +1444,7 @@ window.OpenSeadragon = window.OpenSeadragon || function( options ){
                     try{
                         delete window[ jsonpCallback ];
                     }catch(e){
+                        console.log(e)
                         //swallow
                     }
                 } else {
@@ -2392,7 +2393,10 @@ $.EventSource.prototype = {
             };
         }
 
-        this.hash               = Math.random();
+        var array = new Uint32Array(1);
+        var randomNum = window.crypto.getRandomValues(array)[0]/10000000000;
+
+        this.hash               = randomNum;
         this.element            = $.getElement( options.element );
         this.clickTimeThreshold = options.clickTimeThreshold;
         this.clickDistThreshold = options.clickDistThreshold;
@@ -3915,8 +3919,11 @@ $.Control.prototype = {
             layout,
             i;
 
+        var array = new Uint32Array(1);
+        var randomNum = window.crypto.getRandomValues(array)[0]/10000000000;
+
         $.extend( true, this, {
-            id: 'controldock-'+$.now()+'-'+Math.floor(Math.random()*1000000),
+            id: 'controldock-'+$.now()+'-'+Math.floor(randomNum*1000000),
             container: $.makeNeutralElement('form'),
             controls: []
         }, options );
@@ -4550,7 +4557,8 @@ $.extend( $.Viewer.prototype, $.EventSource.prototype, $.ControlDock.prototype, 
                 tileSource = $.parseXml( tileSource );
             }else if( tileSource.match(/\s*[\{\[].*/) ){
                 /*jshint evil:true*/
-                tileSource = eval( '('+tileSource+')' );
+                // tileSource = eval( '('+tileSource+')' );
+                tileSource = JSON.parse(tileSource)
             }
         }
 
@@ -7004,7 +7012,8 @@ function processResponse( xhr ){
         }
     }else if( responseText.match(/\s*[\{\[].*/) ){
         /*jshint evil:true*/
-        data = eval( '('+responseText+')' );
+        // data = eval( '('+responseText+')' );
+        data = JSON.parse(responseText)
     }else{
         data = responseText;
     }
@@ -11078,6 +11087,9 @@ $.Drawer.prototype = {
  */
  function addOverlayFromConfiguration( drawer, overlay ){
 
+    var array = new Uint32Array(1);
+    var randomNum = window.crypto.getRandomValues(array)[0]/10000000000;
+
     var element  = null,
         rect = ( overlay.height && overlay.width ) ? new $.Rect(
             overlay.x || overlay.px,
@@ -11090,7 +11102,7 @@ $.Drawer.prototype = {
         ),
         id = overlay.id ?
             overlay.id :
-            "openseadragon-overlay-"+Math.floor(Math.random()*10000000);
+            "openseadragon-overlay-"+Math.floor(randomNum*10000000);
 
     element = $.getElement(overlay.id);
     if( !element ){

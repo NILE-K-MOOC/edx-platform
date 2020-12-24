@@ -77,6 +77,12 @@ import pytz
 
 from django.db import connections
 import MySQLdb as mdb
+from django.views.decorators.http import require_http_methods
+
+import string
+import random
+from student.models import TbAuthUserAddinfo
+from django.core.mail import send_mail
 
 log = logging.getLogger("edx.student")
 AUDIT_LOG = logging.getLogger("audit")
@@ -947,7 +953,90 @@ def active_account(request, email):
 
     return redirect('/login')
 
-## drmt delete -----------------
+
+@csrf_exempt
+# @require_http_methods(['POST'])
+def find_email(request):
+    """
+    post 방식은 이메일 찾기 기능을 수행하고,
+    get 방식은 코드 확인후 이메일을 알려준다.
+
+    :param request:
+    :return:
+    """
+    if request.method == 'POST':
+        result = False
+        sub_email = request.POST.get("sub-email")
+
+        # 해쉬코드 생성 및 DB 에 입력
+        source = string.ascii_letters
+        source = source + string.digits
+        # source = source + string.punctuation
+
+        count = 20
+
+        temp_string = random.sample(source, count)
+        random_string = "".join(temp_string)
+
+        try:
+            user = TbAuthUserAddinfo.objects.get(sub_email=sub_email)
+        except Exception as e:
+            print e.message
+            user = None
+
+        if user:
+            platform_name = configuration_helpers.get_value("platform_name", settings.PLATFORM_NAME)
+            domain = settings.ENV_TOKENS.get('LMS_BASE')
+            subject = '%s 이메일 찾기' % platform_name
+            message = '{platform_name} 이메일을 찾기 코드: {code}\n(http://{domain}/login?code={code})'.format(
+                platform_name=platform_name,
+                code=random_string,
+                domain=domain
+            )
+            from_address = configuration_helpers.get_value('email_from_address', settings.DEFAULT_FROM_EMAIL)
+
+            try:
+                send_mail(subject, message, from_address, [sub_email])
+                user.code = random_string
+                user.save()
+
+                result = True
+            except Exception:  # pylint: disable=broad-except
+                log.error(
+                    u'Unable to send find email from "%s" to "%s"',
+                    from_address,
+                    user.email,
+                    exc_info=True
+                )
+                result = False
+
+        context = {
+            'result': result
+        }
+
+        return JsonResponse(context)
+    else:
+        code = request.GET.get('code')
+
+        print 'code =================================== s'
+        print code
+        print 'code =================================== e'
+
+        if code:
+            try:
+                user = TbAuthUserAddinfo.objects.get(code=code)
+                user_id = user.user_id
+                u = User.object.get(id=user_id)
+            except Exception as e:
+                print e.message
+                user = None
+
+            if user:
+                return redirect('/login?email=%s' % u.email)
+
+    return redirect('/login')
+
+
 @csrf_exempt
 def del_drmt_url(request, email):
     user = User.objects.get(email=email)

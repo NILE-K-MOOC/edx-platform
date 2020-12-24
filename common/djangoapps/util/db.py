@@ -2,6 +2,7 @@
 Utility functions related to databases.
 """
 import random
+import secrets
 # TransactionManagementError used below actually *does* derive from the standard "Exception" class.
 # pylint: disable=nonstandard-exception
 from contextlib import contextmanager
@@ -271,10 +272,12 @@ def generate_int_id(minimum=0, maximum=MYSQL_MAX_INT, used_ids=None):
     if used_ids is None:
         used_ids = []
 
-    cid = random.randint(minimum, maximum)
+    cid = secrets.randbelow(maximum - minimum)
+    cid = cid + minimum
 
     while cid in used_ids:
-        cid = random.randint(minimum, maximum)
+        cid = secrets.randbelow(maximum - minimum)
+        cid = cid + minimum
 
     return cid
 
