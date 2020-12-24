@@ -714,7 +714,7 @@ def student_dashboard(request):
         with connections['default'].cursor() as cur:
             query = """
                 SELECT DISTINCT
-                    b.course_id
+                    a.course_select_type, b.course_id
                 FROM
                     multisite a,
                     multisite_course b
@@ -725,10 +725,14 @@ def student_dashboard(request):
             cur.execute(query)
             org_courses = cur.fetchall()
 
-            # tuple to list
-            org_courses = [course_id[0] for course_id in org_courses]
+            course_select_type = org_courses[0][0]
 
-        course_enrollments = [course_enrollment for course_enrollment in course_enrollments if str(course_enrollment.course_id) in org_courses]
+            # tuple to list
+            org_courses = [course_id[1] for course_id in org_courses]
+
+        # 멀티사이트의 강좌를 선택으로 이용할 경우 필터링
+        if course_select_type == 'C':
+            course_enrollments = [course_enrollment for course_enrollment in course_enrollments if str(course_enrollment.course_id) in org_courses]
 
     print 'course_enrollments check 2 : ', len(course_enrollments)
 
