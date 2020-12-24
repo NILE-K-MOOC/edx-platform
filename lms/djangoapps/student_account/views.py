@@ -497,22 +497,35 @@ def login_and_registration_form(request, initial_mode="login"):
 
     # Otherwise, render the combined login/registration page
     code = request.GET.get('code')
-    email = ''
+    email = list()
     message = '일치하는 회원이 없습니다.'
 
     if code:
+        code = str(code.replace(' ', '+'))
+
         try:
-            user = TbAuthUserAddinfo.objects.get(code=code)
-            user_id = user.user_id
-            u = User.objects.get(id=user_id)
-            email = u.email
-            message = ''
-        except Exception as e:
-            try:
-                user = TbAuthUserAddinfo.objects.get(ci=code)
+            users = TbAuthUserAddinfo.objects.filter(code=code)
+
+            if len(users) == 0:
+                raise Exception("not exists match code")
+
+            for user in users:
                 user_id = user.user_id
                 u = User.objects.get(id=user_id)
-                email = u.email
+                email.append(u.email)
+            message = ''
+
+        except Exception as e:
+            try:
+                users = TbAuthUserAddinfo.objects.filter(ci=code)
+
+                if len(users) == 0:
+                    raise Exception("not exists match ci")
+
+                for user in users:
+                    user_id = user.user_id
+                    u = User.objects.get(id=user_id)
+                    email.append(u.email)
                 message = ''
             except Exception as e2:
                 print e2.message

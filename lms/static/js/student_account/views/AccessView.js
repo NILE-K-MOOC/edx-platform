@@ -98,12 +98,30 @@
                     // there is no need to show it again, if the user changes mode:
                     this.accountActivationMessages = [];
 
-                    if(options.email){
-                        $("#login-email").val(options.email);
+                    if (options.email) {
+                        // $("#login-email").val(options.email);
+                        console.log(options);
+
+                        let emails = '';
+                        $.each(options.email, function (index, item) {
+                            emails += item + '\n';
+                        });
+
+                        swal({
+                            title: '확인되는 이메일 주소 입니다',
+                            text: emails,
+                            showCloseButton: true,
+                            type: "info"
+                        });
+
                     }
 
-                    if(options.message){
-                        swal("", options.message, "info");
+                    if (options.message) {
+                        swal({
+                            text: options.message,
+                            buttons: ["확인"],
+                            type: "info"
+                        });
                     }
                 },
 
@@ -330,10 +348,10 @@
                         this.redirect(this.nextUrl);
                     }
                 },
-                doNiceCheck: function(){
+                doNiceCheck: function () {
                     $.post("/nice_enc_data", {
                         return_url: 'find_email_by_ci'
-                    }, function(data){
+                    }, function (data) {
                         $("#form2 input[name='EncodeData']").val(data.enc_data);
 
                         window.open('', 'popupNICE', 'width=450, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
@@ -344,7 +362,7 @@
 
                 },
 
-                showSubEmailForm: function(){
+                showSubEmailForm: function () {
                     $(".choose-find-email-type").hide();
                     $("#email-find").show();
                 },
