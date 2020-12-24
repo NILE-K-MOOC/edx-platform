@@ -110,7 +110,7 @@
                         swal({
                             title: '확인되는 이메일 주소 입니다',
                             text: emails,
-                            showCloseButton: true,
+                            button: '확인',
                             type: "info"
                         });
 
