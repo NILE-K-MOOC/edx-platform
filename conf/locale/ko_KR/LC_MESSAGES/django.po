@@ -10803,9 +10803,6 @@ msgstr "이메일 찾기"
 msgid "Find Password"
 msgstr "비밀번호 찾기"
 
-msgid "By Identity"
-msgstr "본인인증으로 찾기"
-
 #. #-#-#-#-#  django-partial.po (edx-platform)  #-#-#-#-#
 #. Translators: This label appears above a field on the login form
 #. meant to hold the user's password.

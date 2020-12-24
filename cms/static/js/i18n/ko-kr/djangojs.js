@@ -2221,8 +2221,7 @@
         "This is the latest version.": "최신 버전 입니다.",
         "Please choose a way to find your password.": "이메일 찾기 방식을 선택해주세요.",
         "By Identity": "본인인증으로 찾기",
-        "By sub-email": "보조이메일로 찾기",
-
+        "By sub-email": "보조이메일로 찾기"
     };
 
     django.gettext = function (msgid) {
