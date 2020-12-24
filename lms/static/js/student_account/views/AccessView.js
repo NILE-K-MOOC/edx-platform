@@ -98,9 +98,9 @@
                     // there is no need to show it again, if the user changes mode:
                     this.accountActivationMessages = [];
 
-                        // $("#login-email").val(options.email);
+                    // $("#login-email").val(options.email);
                     if (options.email) {
-                        
+
                         //console.log(options);
 
                         let emails = '';
@@ -109,11 +109,11 @@
                         });
 
 
-                        if (emails){
+                        if (emails) {
                             swal({
-                                title: '확인되는 이메일 주소 입니다',
+                                title: gettext("This is the list of emails being verified."),
                                 text: emails,
-                                button: '확인',
+                                button: gettext("OK"),
                                 type: "info"
                             });
                         }
@@ -122,8 +122,8 @@
 
                     if (options.message) {
                         swal({
-                            text: options.message,
-                            buttons: ["확인"],
+                            text: gettext(options.message),
+                            button: gettext("OK"),
                             type: "info"
                         });
                     }
@@ -261,7 +261,11 @@
                     let sub_email = $("#sub-email").val();
 
                     if (!sub_email) {
-                        swal("", "이메일 주소가 입력 되지 않았습니다.", "info");
+                        swal({
+                                text: gettext("Email address was not entered."),
+                                button: gettext("OK"),
+                                type: "info"
+                            });
                         return;
                     }
 
@@ -273,13 +277,21 @@
 
                         if (data.result) {
                             // data.result 의 값으로 보조이메일이 존재하는경우 해시코드를 해당 메일로 전송
-                            swal("", "입력된 주소로 메일을 발송하였습니다. 메일을 확인 해주세요.", "success");
+                            swal({
+                                text: gettext("Sent the mail to the entered address. Please check the mail."),
+                                button: gettext("OK"),
+                                type: "success"
+                            });
 
                             document.location = "/login";
 
                         } else {
                             // 입력된 보조 이메일이 없는경우
-                            swal("", gettext("Not exists secondary email."), "warning");
+                            swal({
+                                text: gettext("Not exists secondary email."),
+                                button: gettext("OK"),
+                                type: "warning"
+                            });
 
                         }
 
