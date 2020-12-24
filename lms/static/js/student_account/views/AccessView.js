@@ -98,21 +98,25 @@
                     // there is no need to show it again, if the user changes mode:
                     this.accountActivationMessages = [];
 
-                    if (options.email) {
                         // $("#login-email").val(options.email);
-                        console.log(options);
+                    if (options.email) {
+                        
+                        //console.log(options);
 
                         let emails = '';
                         $.each(options.email, function (index, item) {
                             emails += item + '\n';
                         });
 
-                        swal({
-                            title: '확인되는 이메일 주소 입니다',
-                            text: emails,
-                            button: '확인',
-                            type: "info"
-                        });
+
+                        if (emails){
+                            swal({
+                                title: '확인되는 이메일 주소 입니다',
+                                text: emails,
+                                button: '확인',
+                                type: "info"
+                            });
+                        }
 
                     }
 
