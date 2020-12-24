@@ -988,7 +988,7 @@ def find_email(request):
             platform_name = configuration_helpers.get_value("platform_name", settings.PLATFORM_NAME)
             domain = settings.ENV_TOKENS.get('LMS_BASE')
             subject = '%s 이메일 찾기' % platform_name
-            message = '{platform_name} 이메일을 찾기 코드: {code}\n(<a href="http://{domain}/login?code={code}" target="_blank">바로가기</a>)'.format(
+            message = '{platform_name} 이메일을 찾기 코드: {code}\n(http://{domain}/login?code={code})'.format(
                 platform_name=platform_name,
                 code=random_string,
                 domain=domain
