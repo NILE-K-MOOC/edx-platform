@@ -9,6 +9,7 @@
 %>
 <link rel="stylesheet" type="text/css" href="/static/css/pop.css">
 <%include file="header/course-detail-view.html"/>
+
 <div id="layerPopupArea" class="layerPopupArea">
     % for pop in popup_list:
         % if pop['popup_type'] == 'H' and pop['site_id'] is None:
@@ -19,9 +20,15 @@
     % endfor
 </div>
 
-
 <script language="Javascript">
+
 $( document ).ready(function() {
+
+    let popup_id = $(".popup-area").attr("id");
+
+    $("#"+popup_id).attr("tabindex", 0).focus();
+
+    $("#"+popup_id).css('outline','none');
 
     var spin_lock = false;
     $( window ).scroll(function() {
@@ -72,7 +79,6 @@ $( document ).ready(function() {
         }
     });
 });
-
 
 function popClose(id){
     $("#" + id).hide();
@@ -213,7 +219,9 @@ cookiedata = document.cookie;
 
 
 <script type="text/javascript" src="/static/new_index/js/spin.js"></script>
+
 <script>
+
     function change_course(type){
         // $('#section_owl').show();
         $('#section_no').hide();
@@ -312,7 +320,7 @@ cookiedata = document.cookie;
                     % else:
                     <p class="content" style="color: #222;">K-MOOC is a Korean MOOC established in 2015<br>as an open online service to provide free courses<br>to anyone, anywhere.</p>
                     % endif
-                    <a href="/about_intro" class="more">more</a>
+                    <a href="/about_intro" class="more" title="K-MOOC 소개 더 보기">more</a>
                 </div>
                 <div class="visual-col img"></div>
             </div>
@@ -336,7 +344,7 @@ cookiedata = document.cookie;
                             <a target="_blank" href="https://cb.kmooc.kr/search">${_("Academic Credit Bank System")}</a>
                         </li>
                     </ul>
-                    <a href="/courses" class="more">more</a>
+                    <a href="/courses" class="more" title="강좌찾기 더 보기">more</a>
                 </div>
             </div>
         </div>

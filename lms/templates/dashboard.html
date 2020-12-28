@@ -25,8 +25,8 @@ from student.models import CourseEnrollment
   cert_name_long = settings.CERT_NAME_LONG
 %>
 
-
 <%block name="pagetitle">${_("Dashboard")}</%block>
+
 <%block name="bodyclass">view-dashboard is-authenticated</%block>
 
 <style>
@@ -61,9 +61,6 @@ from student.models import CourseEnrollment
         display: none;
     }
 
-    nav.faq-tab > a:focus {
-        outline: none;
-    }
     .loader {
       border: 16px solid #f3f3f3; /* Light grey */
       border-top: 16px solid #3498db; /* Blue */
@@ -208,6 +205,19 @@ from student.models import CourseEnrollment
       var status_ = $(location).attr('href')
       status_.split('=')
       var isVisible = false;
+
+      let url_status = status_.split('=')[1]
+
+      if(url_status == 'ing' || url_status == undefined){
+          $('html > head > title').text('${_("ing course")} | Your Platform Name Here');
+      }else if(url_status == 'audit'){
+          $('html > head > title').text('${_("Audit Course")} | Your Platform Name Here');
+      }else if(url_status == 'end'){
+          $('html > head > title').text('${_("complete/end Course")} | Your Platform Name Here');
+      }else{
+          $('html > head > title').text('${_("interest")} | Your Platform Name Here');
+      }
+
       if (status_.split('=')[1] == 'end') {
         $(window).scroll(function () {
           if (($(document).height()) / ($(window).scrollTop() + $(window).height()) <= 1.8 && !isVisible) {
@@ -506,18 +516,18 @@ from student.models import CourseEnrollment
                 <h2 class="header-courses">${_("Dashboard")}</h2>
                 %if multisite_status is not True:
                 <div class="corona-wrap">
-                    <div class="corona-box" onclick='window.location.replace("/new_dashboard");'>
-                        <img class="corona-img" src="/static/images/kotech_survey/dp01.png">
+                    <a class="corona-box" href='/new_dashboard'>
+                        <img class="corona-img" src="/static/images/kotech_survey/dp01.png" alt="">
                         <div class="corona-txt">
                             묶음강좌
                         </div>
-                    </div>
-                    <div class="corona-box corona-gap" onclick='window.location.replace("/cb_course_list");'>
-                        <img class="corona-img" src="/static/images/kotech_survey/dp02.png">
+                    </a>
+                    <a class="corona-box corona-gap" href='/cb_course_list'>
+                        <img class="corona-img" src="/static/images/kotech_survey/dp02.png" alt="">
                         <div class="corona-txt">
                             학점은행과정
                         </div>
-                    </div>
+                    </a>
                 </div>
                 % endif
 
@@ -525,21 +535,16 @@ from student.models import CourseEnrollment
                 <nav class="faq-tab">
                     % if 'status' in request.session:
                     <a href="#" class="${'on' if status_flag == 'ing' or not status_flag else ''} dash-link" data-status="ing" title="진행중"><span>${_("ing course")}</span>
-                        <h2 class="hidden_head">${_("ing course")}</h2>
                     </a>
                     % else:
                     <a href="#" class="${'on' if status_flag == 'ing' or not status_flag else ''}  dash-link" data-status="ing" title="진행중"><span>${_("ing course")}</span>
-                        <h2 class="hidden_head">${_("ing course")}</h2>
                     </a>
-                    <a href="#" data-status="audit" hellll ='qweqwe' class="${'on' if status_flag == 'audit' else ''} dash-link" title="청강강좌"><span>${_("Audit Course")}</span>
-                        <h2 class="hidden_head">${_("Audit Course")}</h2>
+                    <a href="#" data-status="audit" class="${'on' if status_flag == 'audit' else ''} dash-link" title="청강강좌"><span>${_("Audit Course")}</span>
                     </a>
                     % endif
-                    <a href="#" data-status="end" hellll ='qweqwe' class="${'on' if status_flag == 'end' else ''} dash-link" title="완료"><span>${_("complete/end Course")}</span>
-                        <h2 class="hidden_head">${_("complete/end Course")}</h2>
+                    <a href="#" data-status="end" class="${'on' if status_flag == 'end' else ''} dash-link" title="완료"><span>${_("complete/end Course")}</span>
                     </a>
                     <a href="#" data-status="interest" class="${'on' if status_flag == 'interest' else ''} dash-link" title="관심강좌"><span>${_("interest")}</span>
-                        <h2 class="hidden_head">${_("interest")}</h2>
                     </a>
                 </nav>
                 <div class="sub-end">
