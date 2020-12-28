@@ -36,7 +36,7 @@
                 this.startHeader = 4; // Start the header levels at H<startHeader>
             }
 
-            var l = window.location.href;
+            var loc = window.location.href;
             match = this.page_re.exec(l.replace(/</g, "").replace(/>/g, ""));
             if (match) {
                 var tmp = match[1];
