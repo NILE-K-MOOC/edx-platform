@@ -128,7 +128,7 @@ from util.course import get_link_for_about_page, get_encoded_course_sharing_utm_
                   </button>
                   <!--<h1>${can_unenroll}</h1>-->
                   <div class="actions-dropdown" id="actions-dropdown-${dashboard_index}" tabindex="-1">
-                    <ul class="actions-dropdown-list" id="actions-dropdown-list-${dashboard_index}" aria-label="${_('Available Actions')}" role="menu">
+                    <ul class="actions-dropdown-list" id="actions-dropdown-list-${dashboard_index}" aria-label="${_('Available Actions')} 창을 종료하시려면 esc를 눌러주세요" role="menu">
                       % if can_unenroll:
                         <li class="actions-item" id="actions-item-unenroll-${dashboard_index}" role="menuitem">
                           <% course_refund_url = reverse('course_run_refund_status', args=[unicode(course_overview.id)]) %>
@@ -182,7 +182,7 @@ from util.course import get_link_for_about_page, get_encoded_course_sharing_utm_
             % if enrollment.mode == 'honor' and status_flag != 'interest':
           <span class="kr01_dashTs01 kr01_dashTs01_first">
             <div class="survey-status-div">
-              <a href="#" class="enter-course ${'disabled' if enrollment.survey_valid['r_status'] in [4, 5] else ''}" onclick="survey_btn_click('${enrollment.course_id}', '${enrollment.survey_valid['r_status']}')">강좌 만족도 설문</a>
+              <a href="#" tabindex="${'-1' if enrollment.survey_valid['r_status'] in [4, 5] else ''}" class="enter-course ${'disabled' if enrollment.survey_valid['r_status'] in [4, 5] else ''}" onclick="survey_btn_click('${enrollment.course_id}', '${enrollment.survey_valid['r_status']}')">강좌 만족도 설문</a>
                 <span class="survey-msg">${enrollment.survey_valid['r_msg']}</span>
             </div>
             % else:

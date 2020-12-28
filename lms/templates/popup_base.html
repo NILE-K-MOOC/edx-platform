@@ -19,7 +19,7 @@ from django.urls import reverse
       </div>
 
     <div class="popup-footer">
-      <a href="#" style="color:white" for="pop_close_${pop['pop_id']}" class="popup-footer-label popup-footer-day" onclick="closeWin('pop_close_${pop['pop_id']}', '${pop['pop_id']}', '${pop['pop_hidden_day'][0]}');">
+      <a href="#" style="color:white" for="pop_close_${pop['pop_id']}" class="popup-footer-label popup-footer-day" onclick="closeWin('pop_close_${pop['pop_id']}', '${pop['pop_id']}', '${pop['pop_hidden_day'][0]}'); return false;">
         <input id="pop_close_${pop['pop_id']}" name="pop_close_${pop['pop_id']}" type="checkbox" class="hidden">${pop['pop_hidden_day'][1]}
       </a>
       <a href="javascript:popClose('${pop['pop_id']}');" class="popup-footer-label popup-footer-close" title='${_("Close")}'>닫기</a>

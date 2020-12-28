@@ -534,17 +534,17 @@ from student.models import CourseEnrollment
 
                 <nav class="faq-tab">
                     % if 'status' in request.session:
-                    <a href="#" class="${'on' if status_flag == 'ing' or not status_flag else ''} dash-link" data-status="ing" title="진행중"><span>${_("ing course")}</span>
+                    <a href="#" class="${'on' if status_flag == 'ing' or not status_flag else ''} dash-link" data-status="ing" ><span>${_("ing course")}</span>
                     </a>
                     % else:
-                    <a href="#" class="${'on' if status_flag == 'ing' or not status_flag else ''}  dash-link" data-status="ing" title="진행중"><span>${_("ing course")}</span>
+                    <a href="#" class="${'on' if status_flag == 'ing' or not status_flag else ''}  dash-link" data-status="ing" ><span>${_("ing course")}</span>
                     </a>
-                    <a href="#" data-status="audit" class="${'on' if status_flag == 'audit' else ''} dash-link" title="청강강좌"><span>${_("Audit Course")}</span>
+                    <a href="#" data-status="audit" class="${'on' if status_flag == 'audit' else ''} dash-link" ><span>${_("Audit Course")}</span>
                     </a>
                     % endif
-                    <a href="#" data-status="end" class="${'on' if status_flag == 'end' else ''} dash-link" title="완료"><span>${_("complete/end Course")}</span>
+                    <a href="#" data-status="end" class="${'on' if status_flag == 'end' else ''} dash-link" ><span>${_("complete/end Course")}</span>
                     </a>
-                    <a href="#" data-status="interest" class="${'on' if status_flag == 'interest' else ''} dash-link" title="관심강좌"><span>${_("interest")}</span>
+                    <a href="#" data-status="interest" class="${'on' if status_flag == 'interest' else ''} dash-link"><span>${_("interest")}</span>
                     </a>
                 </nav>
                 <div class="sub-end">

@@ -416,6 +416,13 @@ memo_sync();
 </script>
 <script type="text/javascript">
 
+$(document).keyup(function (event) {
+  if(event.keyCode != 27) return true;
+  let $exp_menu = $('#explore_menu');
+  $exp_menu.hide('fast');
+  $(event.target).parents().children().eq(0).focus();
+  return false;
+})
 
 function course_search(){
     var search_me;

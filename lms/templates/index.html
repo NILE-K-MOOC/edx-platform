@@ -96,21 +96,23 @@ function setCookie( name, value, expiredays ) {
 
 
 function closeWin(check, id, hidden_day) {
+    /*
     if ($("#" + check).is(":checked")){
         setCookie( id , "done" , hidden_day);
     }
+     */
+
+    setCookie( id , "done" , hidden_day);
+
     $("#" + id).css("display" , "none");
 }
 
-
 cookiedata = document.cookie;
-
 
 $("#layerPopupArea .pop_content").each(function() {
     var content_id = $(this).attr("id");
     $("#"+content_id).html($("#"+content_id).text());
 });
-
 
 var leng = '${max_pop}';
 leng = Number(leng);
@@ -128,8 +130,11 @@ for (var i = 1; i<=leng; i++) {
 
 
 function setCookie1( name, value, expiredays ) {
+    console.log('1')
     var todayDate = new Date();
+    console.log('2')
     todayDate.setDate( todayDate.getDate() + parseInt(expiredays) );
+    console.log('3')
     document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
 }
 
@@ -268,6 +273,27 @@ cookiedata = document.cookie;
             }
         }
     }
+
+    $(document).on("keyup", ".csp", function (event) {
+
+        console.log(event.keyCode)
+
+        let change_type = String($(this).attr("id")).split("_")
+
+        console.log(change_type)
+
+        if(event.keyCode == 13){
+            if(change_type[1] == 'pop'){
+                change_course('pop')
+            }else if(change_type[1] == 'new'){
+                change_course('new')
+            }else if(change_type[1] == 'today'){
+                change_course('today')
+            }else if(change_type[1] == 'my'){
+                change_course('my')
+            }
+        }
+    })
 </script>
 
 
@@ -380,17 +406,17 @@ cookiedata = document.cookie;
                 <h1 class="title">${_("How about this lecture?")}</h1>
                 <ul class="tab-group">
                     <li>
-                        <div onclick="change_course('pop')" id="hack_pop" class="csp tab active">${_("Popular Courses")}</div>
+                        <h2 tabindex="0" onclick="change_course('pop');" id="hack_pop" class="csp tab active">${_("Popular Courses")}</h2>
                     </li>
                     <li>
-                        <div onclick="change_course('new')" id="hack_new" class="csp tab">${_("New Courses")}</div>
+                        <h2 tabindex="0" onclick="change_course('new');" id="hack_new" class="csp tab">${_("New Courses")}</h2>
                     </li>
                     <li>
-                        <div onclick="change_course('today')" id="hack_today" class="csp tab">${_("Today Courses")}</div>
+                        <h2 tabindex="0" onclick="change_course('today');" id="hack_today" class="csp tab">${_("Today Courses")}</h2>
                     </li>
                     % if user.is_authenticated:
                     <li>
-                        <div onclick="change_course('my')" id="hack_my" class="csp tab">${_("My Courses")}</div>
+                        <h2 tabindex="0" onclick="change_course('my');" id="hack_my" class="csp tab">${_("My Courses")}</h2>
                     </li>
                     % endif
                 </ul>
@@ -403,24 +429,24 @@ cookiedata = document.cookie;
 
                         % for courses in pop_courses:
                         <div class="owl-item active" style="width: 277.5px; margin-right: 20px;">
-                            <div class="item">
+                            <div class="item" tabindex="0">
                                 <a href="/courses/${courses.id}/about" class="course-item">
                                     <div class="course-thumb">
                                         % if courses.ribbon_yn == 'Y' and courses.ribbon_year is not null and courses.ribbon_year != '' :
-                                        <i class="kr01-ribbonArea"><img alt="" src="/static/images/main/ribbon_${courses.ribbon_year}.png">
+                                        <i class="kr01-ribbonArea"><img alt="K-MOOC 우수강좌" src="/static/images/main/ribbon_${courses.ribbon_year}.png">
                                             <span class="ribbon-tooltip-text">K-MOOC 우수강좌</span>
                                         </i>
                                         % elif courses.ribbon_yn == 'Y' and courses.ribbon_year == '':
-                                        <i class="kr01-ribbonArea"><img alt="" src="/static/images/main/ribbon.png">
+                                        <i class="kr01-ribbonArea"><img alt="K-MOOC 우수강좌" src="/static/images/main/ribbon.png">
                                             <span class="ribbon-tooltip-text">K-MOOC 우수강좌</span>
                                         </i>
                                         % elif courses.ribbon_yn == 'Y':
-                                        <i class="kr01-ribbonArea"><img alt="" src="/static/images/main/ribbon.png">
+                                        <i class="kr01-ribbonArea"><img alt="K-MOOC 우수강좌" src="/static/images/main/ribbon.png">
                                             <span class="ribbon-tooltip-text">K-MOOC 우수강좌</span>
                                         </i>
                                         % endif
                                         <figure>
-                                            <img src="${courses.course_image_url}" onerror="this.src='/static/images/blank.png'">
+                                            <img src="${courses.course_image_url}" onerror="this.src='/static/images/blank.png'" alt="${courses.display_name} 강좌의 이미지">
                                             <span class="more">
                                                 <span>${_("LEARN MORE")}</span>
                                             </span>
@@ -476,15 +502,15 @@ cookiedata = document.cookie;
                                 <a href="/courses/${courses.id}/about" class="course-item">
                                     <div class="course-thumb">
                                         % if courses.ribbon_yn == 'Y' and courses.ribbon_year is not null and courses.ribbon_year != '' :
-                                        <i class="kr01-ribbonArea"><img alt="" src="/static/images/main/ribbon_${courses.ribbon_year}.png">
+                                        <i class="kr01-ribbonArea"><img alt="K-MOOC 우수강좌" src="/static/images/main/ribbon_${courses.ribbon_year}.png">
                                             <span class="ribbon-tooltip-text">K-MOOC 우수강좌</span>
                                         </i>
                                         % elif courses.ribbon_yn == 'Y' and courses.ribbon_year == '':
-                                        <i class="kr01-ribbonArea"><img alt="" src="/static/images/main/ribbon.png">
+                                        <i class="kr01-ribbonArea"><img alt="K-MOOC 우수강좌" src="/static/images/main/ribbon.png">
                                             <span class="ribbon-tooltip-text">K-MOOC 우수강좌</span>
                                         </i>
                                         % elif courses.ribbon_yn == 'Y':
-                                        <i class="kr01-ribbonArea"><img alt="" src="/static/images/main/ribbon.png">
+                                        <i class="kr01-ribbonArea"><img alt="K-MOOC 우수강좌" src="/static/images/main/ribbon.png">
                                             <span class="ribbon-tooltip-text">K-MOOC 우수강좌</span>
                                         </i>
                                         % endif
