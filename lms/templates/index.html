@@ -274,6 +274,7 @@ cookiedata = document.cookie;
         }
     }
 
+    /*
     $(document).on("keyup", ".csp", function (event) {
 
         console.log(event.keyCode)
@@ -294,6 +295,7 @@ cookiedata = document.cookie;
             }
         }
     })
+     */
 </script>
 
 
@@ -406,17 +408,17 @@ cookiedata = document.cookie;
                 <h1 class="title">${_("How about this lecture?")}</h1>
                 <ul class="tab-group">
                     <li>
-                        <h2 tabindex="0" onclick="change_course('pop');" id="hack_pop" class="csp tab active">${_("Popular Courses")}</h2>
+                        <a onclick="change_course('pop');" id="hack_pop" class="csp tab active">${_("Popular Courses")}</a>
                     </li>
                     <li>
-                        <h2 tabindex="0" onclick="change_course('new');" id="hack_new" class="csp tab">${_("New Courses")}</h2>
+                        <a onclick="change_course('new');" id="hack_new" class="csp tab">${_("New Courses")}</a>
                     </li>
                     <li>
-                        <h2 tabindex="0" onclick="change_course('today');" id="hack_today" class="csp tab">${_("Today Courses")}</h2>
+                        <a onclick="change_course('today');" id="hack_today" class="csp tab">${_("Today Courses")}</a>
                     </li>
                     % if user.is_authenticated:
                     <li>
-                        <h2 tabindex="0" onclick="change_course('my');" id="hack_my" class="csp tab">${_("My Courses")}</h2>
+                        <a onclick="change_course('my');" id="hack_my" class="csp tab">${_("My Courses")}</a>
                     </li>
                     % endif
                 </ul>
@@ -424,6 +426,7 @@ cookiedata = document.cookie;
 
             <!-- 인기강좌 -->
             <div id="section_pop" class="owl-carousel course-carousel owl-loaded owl-drag">
+                <h2>${_("Popular Courses")}</h2>
                 <div class="owl-stage-outer">
                     <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 1488px;">
 
@@ -493,6 +496,7 @@ cookiedata = document.cookie;
 
             <!-- 신규강좌 -->
             <div id="section_new" class="owl-carousel course-carousel owl-loaded owl-drag" style="display: none">
+                <h2>${_("New Courses")}</h2>
                 <div class="owl-stage-outer">
                     <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 1488px;">
 
@@ -562,6 +566,7 @@ cookiedata = document.cookie;
 
             <!-- 오늘의강좌 -->
             <div id="section_today" class="owl-carousel course-carousel owl-loaded owl-drag" style="display: none">
+                <h2>${_("Today Courses")}</h2>
                 <div class="owl-stage-outer">
                     <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 1488px;">
 
@@ -631,6 +636,7 @@ cookiedata = document.cookie;
 
             <!-- 수강중인 강좌 -->
             <div id="section_my" class="owl-carousel course-carousel owl-loaded owl-drag" style="display: none;">
+                <h2>${_("My Courses")}</h2>
                 <div class="owl-stage-outer">
                     <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 1488px;">
 
