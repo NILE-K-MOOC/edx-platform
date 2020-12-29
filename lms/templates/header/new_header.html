@@ -420,7 +420,7 @@ $(document).keyup(function (event) {
   if(event.keyCode != 27) return true;
   let $exp_menu = $('#explore_menu');
   $exp_menu.hide('fast');
-  $(event.target).parents().children().eq(0).focus();
+  $(event.target).parents().find("a.new-search-left").focus();
   return false;
 })
 
