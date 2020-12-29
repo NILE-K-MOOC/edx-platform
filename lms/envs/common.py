@@ -1656,7 +1656,7 @@ proctoring_js = (
 # In the future, we will likely refactor this to use
 # RequireJS and an optimizer.
 base_vendor_js = [
-    'common/js/vendor/jquery.js',
+    'common/js/vendor/jquery-2.2.4.min.js',
     'common/js/vendor/jquery-migrate.js',
     'js/vendor/jquery.cookie.js',
     'js/vendor/url.min.js',
@@ -1678,9 +1678,9 @@ base_vendor_js = [
 
 main_vendor_js = base_vendor_js + [
     'js/vendor/json2.js',
-    'js/vendor/jquery-ui.min.js',
-    'js/vendor/jquery.qtip.min.js',
-    'js/vendor/jquery.ba-bbq.min.js',
+    # 'js/vendor/jquery-ui.min.js',
+    # 'js/vendor/jquery.qtip.min.js',
+    # 'js/vendor/jquery.ba-bbq.min.js',
 ]
 
 # Common files used by both RequireJS code and non-RequireJS code
@@ -1767,7 +1767,7 @@ incourse_reverify_js = [
 ccx_js = sorted(rooted_glob(PROJECT_ROOT / 'static', 'js/ccx/**/*.js'))
 
 certificates_web_view_js = [
-    'common/js/vendor/jquery.js',
+    'common/js/vendor/jquery-2.2.4.min.js',
     'common/js/vendor/jquery-migrate.js',
     'js/vendor/jquery.cookie.js',
     'js/src/logger.js',
@@ -1775,7 +1775,7 @@ certificates_web_view_js = [
 ]
 
 credit_web_view_js = [
-    'common/js/vendor/jquery.js',
+    'common/js/vendor/jquery-2.2.4.min.js',
     'common/js/vendor/jquery-migrate.js',
     'js/vendor/jquery.cookie.js',
     'js/src/logger.js',

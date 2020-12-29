@@ -100,7 +100,7 @@ from pipeline_mako import render_require_js_path_overrides
   % if disable_courseware_js or uses_pattern_library:
     <%static:js group='base_vendor'/>
     <%static:js group='base_application'/>
-    <script type="text/javascript" src="/static/js/vendor/jquery-ui.min.js"></script>
+    <!-- <script type="text/javascript" src="/static/js/vendor/jquery-ui.min.js"></script> -->
   % else:
     <%static:js group='main_vendor'/>
     <%static:js group='application'/>
@@ -199,14 +199,19 @@ from pipeline_mako import render_require_js_path_overrides
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.flash.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<!-- <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script> -->
+<!-- <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script> -->
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/select/1.2.7/js/dataTables.select.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/scroller/2.0.0/js/dataTables.scroller.min.js"></script>
 <script type="text/javascript" charset="utf8"
         src='https://cdnjs.cloudflare.com/ajax/libs/cloudinary-jquery-file-upload/2.6.2/cloudinary-jquery-file-upload.min.js'></script>
+
+<!--
+    비활성 js 테스트
+
+-->
 
 <% branch_key = static.get_value("BRANCH_IO_KEY", settings.BRANCH_IO_KEY) %>
 % if branch_key and not is_from_mobile_app:
