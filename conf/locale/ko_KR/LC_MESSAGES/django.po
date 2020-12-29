@@ -27488,6 +27488,12 @@ msgstr "진행중"
 msgid "ing course"
 msgstr "수강강좌"
 
+msgid "My Info"
+msgstr "내 정보"
+
+msgid "Notification list"
+msgstr "알림 목록"
+
 msgid "complete/end Course"
 msgstr "이수/종료강좌"
 

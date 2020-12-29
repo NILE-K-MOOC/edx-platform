@@ -5,10 +5,12 @@
 <% } %>
 
 <% if (name == "org"){ %>
-    <select style="width:100%" data-facet="<%- name %>" class="facet-list collapse" title="<%- gettext('Organization') %>">
+    <select id="org_select" style="width:69%" data-facet="<%- name %>" class="facet-list collapse" title="<%- gettext('Organization') %>">
         <option value="">전체</option>
         <%= HtmlUtils.ensureHtml(optionsHtml) %>
     </select>
+
+    <button data-facet="<%- name %>" id="course-org-select-move" style="color: white;"><%- gettext('이동') %></button>
 
 <% } else if (name == "fourth_industry_yn") { %>
 

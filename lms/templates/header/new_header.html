@@ -72,9 +72,11 @@
                 <div class="new-logo">
                     % if 'multisite_org' not in request.session:
                     <!-- 렌더 : 메인 로고 -->
-                    <a href="${branding_api.get_home_url()}">
-                        <img class="new-logo-img" src="/static/images/common/logo_top.png" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}">
-                    </a>
+                    <h1 style="margin-bottom: 0px">
+                        <a href="${branding_api.get_home_url()}">
+                            <img class="new-logo-img" src="/static/images/common/logo_top.png" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}">
+                        </a>
+                    </h1>
                     % endif
                     <!-- 렌더 : 기관연계 로고 -->
                     % if 'multisite_org' in request.session and 'save_path' in request.session:
@@ -91,45 +93,45 @@
                 <!-- 렌더 : 검색창 -->
                 % if 'multisite_org' not in request.session:
                 <div class="new-rc-search" id="new_search_div" style="max-width: 320px;">
-                    <div class="new-search-left" onclick="toggle_ex()">
+                    <a href="#" class="new-search-left" onclick="toggle_ex(); return false;" tabindex="0" style="color: white;">
                         <div class="new-st">
                             ${_("Explorer")}
                         </div>
                         <div class="new-ar">
                             <img class="new-ar-img" src="/static/new_index/images/icon_arrow_down_w.png"/>
                         </div>
-                    </div>
-                    <input type="text" id="search_me" class="new-search-input"  style="max-width: 170px;">
-                    <div class="new-search-right" onclick="course_search();">
-                        <img src="/static/new_index/images/icon_search.png"/>
-                    </div>
+                    </a>
+                    <input type="text" id="search_me" class="new-search-input" title="분류 검색" style="max-width: 170px;">
+                    <a href="#" class="new-search-right" onclick="course_search(); return false;" tabindex="0">
+                        <img src="/static/new_index/images/icon_search.png" alt="검색"/>
+                    </a>
                     <!-- 분류 탐색 익스플로러 -->
                     <div id="explore_menu" class="link_to_courses explore-menu open xxx-box" style="display: none;">
                         <div class="menu-group link_to_courses">
                             <ul class="menu-items">
                                 <li class="list-item">
-                                    <a href="#" data-facet="classfy" data-term="hum">${_("Humanities")}</a>
+                                    <a href="#" data-tabgroup="section1" data-tabgroupindex="1" data-facet="classfy" data-term="hum">${_("Humanities")}</a>
                                 </li>
                                 <li class="list-item">
-                                    <a href="#" data-facet="classfy" data-term="nat">${_("Natural")}</a>
+                                    <a href="#" data-tabgroup="section1" data-tabgroupindex="5" data-facet="classfy" data-term="nat">${_("Natural")}</a>
+                                </li>
+                                <li class="list-item" >
+                                    <a href="#"data-tabgroup="section1" data-tabgroupindex="2" data-facet="classfy" data-term="social">${_("Social")}</a>
                                 </li>
                                 <li class="list-item">
-                                    <a href="#" data-facet="classfy" data-term="social">${_("Social")}</a>
+                                    <a href="#" data-tabgroup="section1" data-tabgroupindex="6" data-facet="classfy" data-term="med">${_("Medical")}</a>
                                 </li>
                                 <li class="list-item">
-                                    <a href="#" data-facet="classfy" data-term="med">${_("Medical")}</a>
+                                    <a href="#" data-tabgroup="section1" data-tabgroupindex="3" data-facet="classfy" data-term="art">${_("Arts & Physical")}</a>
                                 </li>
                                 <li class="list-item">
-                                    <a href="#" data-facet="classfy" data-term="art">${_("Arts & Physical")}</a>
+                                    <a href="#" data-tabgroup="section1" data-tabgroupindex="7" data-facet="classfy" data-term="eng">${_("Engineering")}</a>
                                 </li>
                                 <li class="list-item">
-                                    <a href="#" data-facet="classfy" data-term="eng">${_("Engineering")}</a>
+                                    <a href="#" data-tabgroup="section1" data-tabgroupindex="4" data-facet="classfy" data-term="intd">${_("Interdisciplinary")}</a>
                                 </li>
                                 <li class="list-item">
-                                    <a href="#" data-facet="classfy" data-term="intd">${_("Interdisciplinary")}</a>
-                                </li>
-                                <li class="list-item">
-                                    <a href="#" data-facet="ribbon_yn" data-term="ribbon_y">${_("Blue Ribbon")}</a>
+                                    <a href="#" data-tabgroup="section1" data-tabgroupindex="8" data-facet="ribbon_yn" data-term="ribbon_y">${_("Blue Ribbon")}</a>
                                 </li>
                             </ul>
                             <div class="menu-link">
@@ -150,11 +152,13 @@
                         <!-- 렌더 : 알람, 마이메뉴 -->
                         <div class="new-rc-sign">
                             <div class="new-dash new-login-memo inject-h">
-                                <div style="padding-top: 4px;" onclick='window.location.href = "/dashboard";'>${_("Dashboard")}</div>
+                                <a href="/dashboard" style="color:black;">
+                                    <div style="padding-top: 4px;">${_("Dashboard")}</div>
+                                </a>
                             </div>
                             <div class="new-login-memo inject-h" onclick='toggle_notice();'>
                                 <img class="mr5" src="/static/new_index/images/icon_notice.png">
-                                <span id="cnt">0</span>
+                                <a href="#" onclick="return false;" id="cnt" style="color: black;" aria-label='${_("Notification list")}'>0</a>
                                 <img class="" src="/static/new_index/images/icon_arrow_down_g.png">
                                 <div id="new_notice" class="new-dropdown-menu2" style="display: none;">
                                     <ul class="new-notice-list"></ul>
@@ -165,14 +169,14 @@
                             </div>
                             <div class="new-login-my inject-h" onclick='toggle_my();'>
                                 <img class="mr5" src="/static/new_index/images/icon_user.png">
-                                <span style="display: inline-block; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; word-wrap: normal; vertical-align: top;">
+                                <a href="#" onclick="return false;" aria-label='${_("My Info")}' style="color:black; display: inline-block; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; word-wrap: normal; vertical-align: top;">
                                 ${user.username}
-                                </span>
+                                </a>
                                 <img class="" src="/static/new_index/images/icon_arrow_down_g.png">
                                 <div id="new_my" class="new-dropdown-menu" style="display: none;">
                                     <ul class="new-menu-list">
                                         <li>
-                                            <a href="${reverse('dashboard')}">${_("Dashboard")}</a>
+                                            <a href="${reverse('dashboard')}" >${_("Dashboard")}</a>
                                         </li>
                                         % if 'multisite_org' not in request.session:
                                         <li>
@@ -197,23 +201,25 @@
 
                             % if 'multisite_org' not in request.session:
                                 % if LANGUAGE_CODE == 'ko-kr':
-                                    <input id="ko-kr" class="toggle toggle-left" name="toggle" value="ko-kr" type="radio">
-                                    <div tabindex="0" for="ko-kr" class="language-btn new-lang-kor">
+                                    <a href="#" onclick="return false" for="ko-kr" class="language-btn new-lang-kor" style="font-size: 17px; font-weight: 700; color: #222222;">
+                                        <input id="ko-kr" class="toggle toggle-left" name="toggle" value="ko-kr" type="radio" title="한국어로 보기"/>
                                         Kor
-                                    </div>
-                                    <input id="en" class="toggle toggle-right" name="toggle" value="en" type="radio">
-                                    <div tabindex="0" for="en" class="language-btn new-lang-eng new-gray">
+                                    </a>
+
+                                    <a href="#" onclick="return false" for="en" class="language-btn new-lang-eng new-gray" style="font-size: 17px; font-weight: 700; color: #b5b5b5; ">
+                                        <input id="en" class="toggle toggle-right" name="toggle" value="en" type="radio" title="영어로 보기" >
                                         Eng
-                                    </div>
+                                    </a>
                                 % else:
-                                    <input id="ko-kr" class="toggle toggle-left" name="toggle" value="ko-kr" type="radio">
-                                    <div tabindex="0" for="ko-kr" class="language-btn new-lang-kor new-gray">
+                                    <a href="#" onclick="return false" for="ko-kr" class="language-btn new-lang-kor new-gray" style="font-size: 17px; font-weight: 700; color: #b5b5b5;">
+                                        <input id="ko-kr" class="toggle toggle-left" name="toggle" value="ko-kr" type="radio" title="한국어로 보기" >
                                         Kor
-                                    </div>
-                                    <input id="en" class="toggle toggle-right" name="toggle" value="en" type="radio">
-                                    <div tabindex="0" for="en" class="language-btn new-lang-eng">
+                                    </a>
+
+                                    <a href="#" onclick="return false" for="en" class="language-btn new-lang-eng" style="font-size: 17px; font-weight: 700; color: #222222;">
+                                        <input id="en" class="toggle toggle-right" name="toggle" value="en" type="radio" title="영어로 보기">
                                         Eng
-                                    </div>
+                                    </a>
                                 % endif
                             % else:
                                 <div style="margin-left: 20px;">
@@ -226,27 +232,35 @@
                     % else:
                         <!-- 렌더 : 로그인, 회원가입 -->
                         <div class="new-rc-sign">
-                            <div class="new-btn-signin" onclick='window.location.href = "/login${login_query()}";'>${_("Sign In")}</div>
-                            <div class="new-btn-signup new-blue" onclick='window.location.href = "/register${login_query()}";'>${_("Register")}</div>
+                            <div class="new-btn-signin" onclick='window.location.href = "/login${login_query()}";' tabindex="0">${_("Sign In")}</div>
+                            <div class="new-btn-signup new-blue" onclick='window.location.href = "/register${login_query()}";' tabindex="0">${_("Register")}</div>
 
                             % if LANGUAGE_CODE == 'ko-kr':
+                            <a href="#" onclick="return false;">
                             <input id="ko-kr" class="toggle toggle-left" name="toggle" value="ko-kr" type="radio">
-                            <div tabindex="0" for="ko-kr" class="language-btn new-lang-kor">
-                                Kor
-                            </div>
-                            <input id="en" class="toggle toggle-right" name="toggle" value="en" type="radio">
-                            <div tabindex="0" for="en" class="language-btn new-lang-eng new-gray">
-                                Eng
-                            </div>
+                                <div tabindex="0" for="ko-kr" class="language-btn new-lang-kor">
+                                    Kor
+                                </div>
+                            </a>
+                            <a href="#" onclick="return false;">
+                                    <input id="en" class="toggle toggle-right" name="toggle" value="en" type="radio">
+                                    <div tabindex="0" for="en" class="language-btn new-lang-eng new-gray">
+                                        Eng
+                                    </div>
+                                    </a>
                             % else:
-                            <input id="ko-kr" class="toggle toggle-left" name="toggle" value="ko-kr" type="radio">
-                            <div tabindex="0" for="ko-kr" class="language-btn new-lang-kor new-gray">
-                                Kor
-                            </div>
-                            <input id="en" class="toggle toggle-right" name="toggle" value="en" type="radio">
-                            <div tabindex="0" for="en" class="language-btn new-lang-eng">
-                                Eng
-                            </div>
+                            <a href="#" onclick="return false;">
+                                    <input id="ko-kr" class="toggle toggle-left" name="toggle" value="ko-kr" type="radio">
+                                    <div for="ko-kr" class="language-btn new-lang-kor new-gray">
+                                        Kor
+                                    </div>
+                            </a>
+                            <a href="#" onclick="return false;">
+                                    <input id="en" class="toggle toggle-right" name="toggle" value="en" type="radio">
+                                    <div for="en" class="language-btn new-lang-eng">
+                                        Eng
+                                    </div>
+                            </a>
                             % endif
                         </div>
                     % endif
@@ -261,6 +275,104 @@
 % endif
 
 <script>
+
+$(document).on('focus', '[data-tabgroup]', function(e) {
+    // TODO : 키보드로 들어올 때만 체크 필요
+
+    var node = $(e.target);
+    var nodeIndex = node.data("tabgroupindex");
+    var tabgroup = node.data("tabgroup");
+    var tabgroupNodes = $("[data-tabgroup='" + tabgroup + "']");
+    var tabgroupIndexes = [];
+    _.each(tabgroupNodes, function(item) {
+      tabgroupIndexes.push(+$(item).data("tabgroupindex"));
+    });
+    tabgroupIndexes = _(tabgroupIndexes).compact();
+    var orderedTabgroupIndexes = _.sortBy(tabgroupIndexes, function(num) { return num; });
+    var lastNodeIndex = tabgroupIndexes.length - 1;
+
+    if (
+        (nodeIndex == tabgroupIndexes[0])
+        && (nodeIndex != orderedTabgroupIndexes[0])
+        && ($(e.relatedTarget).data('tabgroup') != tabgroup)
+    ) {
+        $("[data-tabgroup='" + tabgroup + "'][data-tabgroupindex='" + orderedTabgroupIndexes[0] + "']").focus();
+    }
+    // tabgroup 의 마지막 객체이긴 하지만, 가장 나중 tabgroupindex 가 아니고, 외부에서 진입했을 때
+    else if (
+        (nodeIndex == tabgroupIndexes[lastNodeIndex])
+        && (nodeIndex != orderedTabgroupIndexes[orderedTabgroupIndexes.length - 1])
+         && ($(e.relatedTarget).data('tabgroup') != tabgroup)
+    ) {
+        $("[data-tabgroup='" + tabgroup + "'][data-tabgroupindex='" + orderedTabgroupIndexes[lastNodeIndex] + "']").focus();
+    }
+    e.preventDefault();
+});
+
+$(document).on('keydown', '[data-tabgroup]', function(e) {
+  if (e.which === 9) {
+    var node = $(e.target);
+    var nodeIndex = node.data("tabgroupindex");
+    var tabgroup = node.data("tabgroup");
+    var allNodes = $(document).find("input,a,textarea,select");
+    var tabgroupNodes = $("[data-tabgroup='" + tabgroup + "']");
+    var tabgroupIndexes = [];
+    _.each(tabgroupNodes, function(item) {
+      tabgroupIndexes.push(+$(item).data("tabgroupindex"));
+    });
+    tabgroupIndexes = _(tabgroupIndexes).compact();
+    var orderedTabgroupIndexes = _.sortBy(tabgroupIndexes, function(num) {
+      return num;
+    });
+    var lastNodeIndex = tabgroupIndexes.length - 1;
+
+    // 숫자 validation
+    if (isNaN(parseFloat(nodeIndex)) || !isFinite(nodeIndex)) {  return; }
+
+    if (e.which === 9)
+        if (e.shiftKey) {
+            // Shift + Tab 키가 입력되었을 경우 (역방향)
+            var prevElement = orderedTabgroupIndexes[orderedTabgroupIndexes.indexOf(nodeIndex) - 1];
+            if (typeof(prevElement) === "undefined") {                           // prevElement is not exist
+                var prevIndex = parseInt(
+                    $.map(
+                        allNodes,
+                        function(obj, index) {
+                            if ($(obj).data('tabgroup') == tabgroup && $(obj).data('tabgroupindex') == nodeIndex) {
+                                return index;
+                            }
+                        }
+                    )
+                ) - tabgroupIndexes.indexOf(nodeIndex) - 3;
+                allNodes[prevIndex].focus();
+            } else {
+                $("[data-tabgroup='" + tabgroup + "'][data-tabgroupindex='" + prevElement + "']").focus();
+            }
+        } else {
+            // Tab 키가 눌렸을 경우 (정방향)
+            var nextElement = orderedTabgroupIndexes[orderedTabgroupIndexes.indexOf(nodeIndex) + 1];
+            if (typeof(nextElement) === "undefined") {
+                var nextIndex = parseInt(
+                    $.map(
+                        allNodes,
+                        function(obj, index) {
+                            if ($(obj).data('tabgroup') == tabgroup && $(obj).data('tabgroupindex') == nodeIndex) {
+                                return index;
+                            }
+                        }
+                    )
+                ) + (lastNodeIndex - tabgroupIndexes.indexOf(nodeIndex)) + 1;
+                // 뒤에 더 이상 객체가 없으면 원래 동작을 수행 (주소창으로 이동)
+                if (typeof(allNodes[nextIndex]) === "undefined") { return; }
+                allNodes[nextIndex].focus();
+            } else {
+                $("[data-tabgroup='" + tabgroup + "'][data-tabgroupindex='" + nextElement + "']").focus();
+            }
+        }
+        e.preventDefault();
+    }
+});
+
 function memo_sync(){
     let user_id = "${user.id if user.is_authenticated() else ''}";
     if(user_id !== ''){
@@ -304,6 +416,13 @@ memo_sync();
 </script>
 <script type="text/javascript">
 
+$(document).keyup(function (event) {
+  if(event.keyCode != 27) return true;
+  let $exp_menu = $('#explore_menu');
+  $exp_menu.hide('fast');
+  $(event.target).parents().children().eq(0).focus();
+  return false;
+})
 
 function course_search(){
     var search_me;
@@ -321,6 +440,7 @@ function course_search(){
 
 
 function toggle_ex(){
+
     let $exp_menu;
     if($('.new-rc-search-mobile').css('display') !== 'none'){
         $exp_menu = $('#explore_menu_mobile');
@@ -331,8 +451,10 @@ function toggle_ex(){
        $exp_menu.show('fast');
        $('#new_notice').hide('fast');
        $('#new_my').hide('fast');
+       $exp_menu.attr("tabindex","0").focus();
     } else {
        $exp_menu.hide('fast');
+       $this.find("a").focus();
     }
 }
 

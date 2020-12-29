@@ -52,7 +52,7 @@ from branding.api import get_footer
                     ${_("Related Link")}
                 </div>
                 <div>
-                    <select class="new-ff-select" id="fam-select">
+                    <select class="new-ff-select" id="fam-select" title='${_("FAMILY SITE")}'>
                         <option value="">선택</option>
                         <option value="http://www.moe.go.kr">교육부</option>
                         <option value="http://www.nile.or.kr">국가평생교육진흥원</option>
@@ -68,6 +68,7 @@ from branding.api import get_footer
                         <option value="http://www.cbinfo.or.kr">학점은행제 알리미</option>
                         <option value="http://univ.nile.or.kr">대학평생교육활성화</option>
                     </select>
+                    <button id="fam-move" style="background: white; color: black; border: white; box-shadow: none; height: 38px;" aria-label='${_("FAMILY SITE")} 새창으로 열림'> ${_("move")} </button>
                 </div>
             </div>
 
@@ -77,8 +78,12 @@ from branding.api import get_footer
                     ${_("Download Apps")}
                 </div>
                 <div>
-                    <img onclick='window.open("https://play.google.com/store/apps/details?id=com.nile.kmooc", "_blank");' class="new-ff-app" src="/static/new_index/images/icon_app_android.png">
-                    <img onclick='window.open("https://itunes.apple.com/kr/app/k-mooc-%ED%95%9C%EA%B5%AD%ED%98%95-%EC%98%A8%EB%9D%BC%EC%9D%B8-%EA%B3%B5%EA%B0%9C%EA%B0%95%EC%A2%8C/id1194436387?mt=8", "_blank");' class="new-ff-app" src="/static/new_index/images/icon_app_ios.png">
+                    <a target='_blank' onclick='window.open("https://play.google.com/store/apps/details?id=com.nile.kmooc", "_blank");' href="#" class="new-ff-link-item" title="새창으로 열림">
+                        <img class="new-ff-app" src="/static/new_index/images/icon_app_android.png" alt="앱 다운로드 플레이 스토어">
+                    </a>
+                    <a target='_blank' href="#" onclick='window.open("https://itunes.apple.com/kr/app/k-mooc-%ED%95%9C%EA%B5%AD%ED%98%95-%EC%98%A8%EB%9D%BC%EC%9D%B8-%EA%B3%B5%EA%B0%9C%EA%B0%95%EC%A2%8C/id1194436387?mt=8", "_blank");' class="new-ff-link-item" title="새창으로 열림">
+                        <img class="new-ff-app" src="/static/new_index/images/icon_app_ios.png" alt="앱 다운로드 앱스토어 ">
+                    </a>
                 </div>
             </div>
         </div>
@@ -138,9 +143,10 @@ from branding.api import get_footer
 </footer>
 
 <script>
-$('#fam-select').on('change', function() {
-    if (this.value != '') {
-        window.open(this.value, "_blank");
+$('#fam-move').on('click', function() {
+    let select_val = $("#fam-select").val();
+    if ($("#fam-select").val() != '') {
+        window.open(select_val, "_blank");
     }
 });
 </script>
