@@ -8,7 +8,6 @@
     from openedx.core.djangolib.markup import HTML, Text
 %>
 <link rel="stylesheet" type="text/css" href="/static/css/pop.css">
-<%include file="header/course-detail-view.html"/>
 
 <div id="layerPopupArea" class="layerPopupArea">
     % for pop in popup_list:
@@ -23,6 +22,82 @@
 <script language="Javascript">
 
 $( document ).ready(function() {
+    let secCourseTop = $(".sec-course").offset().top;
+    let windowHeight = $(window).height();
+    let currScrollTop = $(window).scrollTop();
+    let isScrolled = false;
+    let isEmpty = true;
+
+    console.log('secCourseTop: ' + secCourseTop);
+    console.log('windowHeight: ' + windowHeight);
+    console.log('currScrollTop: ' + currScrollTop);
+    console.log(windowHeight + currScrollTop > secCourseTop);
+
+    if (windowHeight + currScrollTop > secCourseTop){
+        setMainCourses();
+    }
+
+    // 스크롤을 할경우 강좌 목록을 가져오도록 변경
+    $(window).scroll(function(){
+        currScrollTop = $(window).scrollTop();
+
+        if (windowHeight + currScrollTop < secCourseTop)
+            return;
+
+        // 스크롤 한적이 있거나 목록이 있다면 실행하지 않음
+        if (isScrolled)
+            return;
+        else
+            isScrolled = true;
+
+        if (isEmpty){
+            setMainCourses();
+        }
+    });
+
+    function setMainCourses(){
+        isScrolled = true;
+        $.post(
+                "/get_index_courses",
+                {csrfmiddlewaretoken: '${ csrf_token }'},
+                function(data){
+                    console.log('data check ----------------------------------------------------- s');
+                    console.log(data);
+                    console.log('data check ----------------------------------------------------- e');
+
+                   if(data){
+                        $(".loading").hide();
+
+                        $("section.sec-course>.container-fluid").append(data);
+
+                        $('.owl-carousel').owlCarousel({
+                            margin: 20,
+                            nav: true,
+                            dots: false,
+                            responsive:{
+                                0:{
+                                    items: 1
+                                },
+                                443:{
+                                    items: 2
+                                },
+
+                                768:{
+                                    items: 3
+                                },
+
+                                992:{
+                                    items: 4
+                                }
+                            }
+                        });
+
+                        isEmpty = false;
+                   }
+            },
+            "html");
+    }
+
 
     let popup_id = $(".popup-area").attr("id");
 
@@ -627,74 +702,10 @@ cookiedata = document.cookie;
                         % endfor
                     </div>
                 </div>
+            <div style="width: 100%; text-align: center;">
+                <img src="${STATIC_URL}images/spinner.gif" class="loading" alt="Loading"/>
             </div>
 
-            <!-- 수강중인 강좌 -->
-            <div id="section_my" class="owl-carousel course-carousel owl-loaded owl-drag" style="display: none;">
-                <div class="owl-stage-outer">
-                    <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 1488px;">
-
-                        % for courses in my_courses:
-                        <div class="owl-item active" style="width: 277.5px; margin-right: 20px;">
-                            <div class="item">
-                                <a href="/courses/${courses.id}/about" class="course-item">
-                                    <div class="course-thumb">
-                                        % if courses.ribbon_yn == 'Y' and courses.ribbon_year is not null and courses.ribbon_year != '' :
-                                        <i class="kr01-ribbonArea"><img alt="" src="/static/images/main/ribbon_${courses.ribbon_year}.png">
-                                            <span class="ribbon-tooltip-text">K-MOOC 우수강좌</span>
-                                        </i>
-                                        % elif courses.ribbon_yn == 'Y' and courses.ribbon_year == '':
-                                        <i class="kr01-ribbonArea"><img alt="" src="/static/images/main/ribbon.png">
-                                            <span class="ribbon-tooltip-text">K-MOOC 우수강좌</span>
-                                        </i>
-                                        % elif courses.ribbon_yn == 'Y':
-                                        <i class="kr01-ribbonArea"><img alt="" src="/static/images/main/ribbon.png">
-                                            <span class="ribbon-tooltip-text">K-MOOC 우수강좌</span>
-                                        </i>
-                                        % endif
-                                        <figure>
-                                            <img src="${courses.course_image_url}" onerror="this.src='/static/images/blank.png'">
-                                            <span class="more">
-                                                <span>${_("LEARN MORE")}</span>
-                                            </span>
-                                        </figure>
-                                    </div>
-                                    <h2 class="course-title">${courses.display_name}</h2>
-                                    <div class="course-info">
-                                        <p class="instructor">
-                                            <span class="course-instructor">${courses.teacher_name}</span>
-                                            % if LANGUAGE_CODE == 'ko-kr':
-                                            <span class="kr01_school">${courses.org_kname}</span>
-                                            % else:
-                                            <span class="kr01_school">${courses.org_ename}</span>
-                                            % endif
-                                        </p>
-                                        <p class="period">
-                                            % if courses.start != None and courses.end != None:
-                                                <span class="date">${courses.start.strftime("%Y/%m/%d")} ~ ${courses.end.strftime("%Y/%m/%d")}</span>
-                                            % else:
-                                                <span class="date">0000/00/00 ~ 0000/00/00</span>
-                                            % endif
-
-                                            % if courses.status == 'ing':
-                                                <span class="state ing">진행중</span>
-                                            % elif courses.status == 'end':
-                                                <span class="state end">종료</span>
-                                            % else:
-                                                <span class="state soon">개강예정</span>
-                                            % endif
-                                            <!--<span class="state soon">개강예정</span>-->
-                                            <!--<span class="state possible">청강가능</span>-->
-                                            <!--<span class="state end">종료</span>-->
-                                        </p>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        % endfor
-                    </div>
-                </div>
-            </div>
             <div class="no-content" style="display: none;" id="section_no">
                 <p>수강중인 강좌가 존재하지 않습니다.</p>
                 <a href="/courses" class="go">강좌 탐색</a>

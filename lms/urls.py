@@ -84,11 +84,9 @@ if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
         admin.site.login_form = PasswordPolicyAwareAdminAuthForm
 
 
-
-
-
 urlpatterns = [
     url(r'^$', branding_views.index, name='root'),
+    url(r'^get_index_courses$', student_views.get_index_courses, name='get_index_courses'),
 
     # Common
     # made by kotech system
