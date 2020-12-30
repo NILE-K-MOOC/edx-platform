@@ -13,11 +13,11 @@
 .sec-visual .visual-row .visual-col .more:hover {padding-right: 18px;}
 .sec-visual .visual-row .visual-col .more:after {content: ''; display: block; position: absolute; top: 10px; right: 0; width: 5px; height: 8px; background: url(../images/icon_arrow_right_b.png) no-repeat;}
 .sec-visual.about .visual-row .visual-col.txt {background-color: #658cd2;}
-.sec-visual.about .visual-row .visual-col.img {background-image: url(/static/new_index/images/img_visual_001.png);}
+.sec-visual.about .visual-row .visual-col.img {background-image: url(/static/new_index/images/img_visual_001.jpg);}
 .sec-visual.lec .visual-row .visual-col.txt {background-color: #4c96c1;}
-.sec-visual.lec .visual-row .visual-col.img {background-image: url(/static/new_index/images/img_visual_002.png);}
+.sec-visual.lec .visual-row .visual-col.img {background-image: url(/static/new_index/images/img_visual_002.jpg);}
 .sec-visual.com .visual-row .visual-col.txt {background-color: #38a99b;}
-.sec-visual.com .visual-row .visual-col.img {background-image: url(/static/new_index/images/img_visual_003.png);}
+.sec-visual.com .visual-row .visual-col.img {background-image: url(/static/new_index/images/img_visual_003.jpg);}
 
 .sec-classify {padding: 15px 0; border-bottom: 1px solid #eee;}
 .sec-classify .classify-item {word-break: keep-all; display: block; padding-top: 75px; font-size: 14px; text-align: center; transition: all .15s ease-in-out;}
