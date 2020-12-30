@@ -336,6 +336,11 @@ cookiedata = document.cookie;
     .csp {
         cursor: pointer;
     }
+
+    .course-item {
+        display: block;
+    }
+
 </style>
 <main id="main" aria-label="Content" tabindex="-1" class="main-content">
     <section class="sec-visual about">
@@ -408,17 +413,17 @@ cookiedata = document.cookie;
                 <h1 class="title">${_("How about this lecture?")}</h1>
                 <ul class="tab-group">
                     <li>
-                        <a onclick="change_course('pop');" id="hack_pop" class="csp tab active">${_("Popular Courses")}</a>
+                        <a href="#" onclick="change_course('pop'); return false;" id="hack_pop" class="csp tab active">${_("Popular Courses")}</a>
                     </li>
                     <li>
-                        <a onclick="change_course('new');" id="hack_new" class="csp tab">${_("New Courses")}</a>
+                        <a href="#" onclick="change_course('new'); return false;" id="hack_new" class="csp tab">${_("New Courses")}</a>
                     </li>
                     <li>
-                        <a onclick="change_course('today');" id="hack_today" class="csp tab">${_("Today Courses")}</a>
+                        <a href="#" onclick="change_course('today'); return false;" id="hack_today" class="csp tab">${_("Today Courses")}</a>
                     </li>
                     % if user.is_authenticated:
                     <li>
-                        <a onclick="change_course('my');" id="hack_my" class="csp tab">${_("My Courses")}</a>
+                        <a href="#" onclick="change_course('my'); return false;" id="hack_my" class="csp tab">${_("My Courses")}</a>
                     </li>
                     % endif
                 </ul>
@@ -432,7 +437,7 @@ cookiedata = document.cookie;
 
                         % for courses in pop_courses:
                         <div class="owl-item active" style="width: 277.5px; margin-right: 20px;">
-                            <div class="item" tabindex="0">
+                            <div class="item">
                                 <a href="/courses/${courses.id}/about" class="course-item">
                                     <div class="course-thumb">
                                         % if courses.ribbon_yn == 'Y' and courses.ribbon_year is not null and courses.ribbon_year != '' :
@@ -519,7 +524,7 @@ cookiedata = document.cookie;
                                         </i>
                                         % endif
                                         <figure>
-                                            <img src="${courses.course_image_url}" onerror="this.src='/static/images/blank.png'">
+                                            <img src="${courses.course_image_url}" onerror="this.src='/static/images/blank.png'" alt="${courses.display_name} 강좌의 이미지">
                                             <span class="more">
                                                 <span>${_("LEARN MORE")}</span>
                                             </span>
@@ -589,7 +594,7 @@ cookiedata = document.cookie;
                                         </i>
                                         % endif
                                         <figure>
-                                            <img src="${courses.course_image_url}" onerror="this.src='/static/images/blank.png'">
+                                            <img src="${courses.course_image_url}" onerror="this.src='/static/images/blank.png'" alt="${courses.display_name} 강좌의 이미지">
                                             <span class="more">
                                                 <span>${_("LEARN MORE")}</span>
                                             </span>
@@ -646,7 +651,7 @@ cookiedata = document.cookie;
                                 <a href="/courses/${courses.id}/about" class="course-item">
                                     <div class="course-thumb">
                                         % if courses.ribbon_yn == 'Y' and courses.ribbon_year is not null and courses.ribbon_year != '' :
-                                        <i class="kr01-ribbonArea"><img alt="" src="/static/images/main/ribbon_${courses.ribbon_year}.png">
+                                        <i class="kr01-ribbonArea"><img alt="" src="/static/images/main/ribbon_${courses.ribbon_year}.png" alt="${courses.display_name} 강좌의 이미지">
                                             <span class="ribbon-tooltip-text">K-MOOC 우수강좌</span>
                                         </i>
                                         % elif courses.ribbon_yn == 'Y' and courses.ribbon_year == '':
