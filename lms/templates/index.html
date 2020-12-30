@@ -66,6 +66,7 @@ $( document ).ready(function() {
                     console.log('data check ----------------------------------------------------- e');
 
                    if(data){
+                        $(".sec-course .owl-carousel").remove();
                         $(".loading").hide();
 
                         $("section.sec-course>.container-fluid").append(data);
