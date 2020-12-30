@@ -350,6 +350,7 @@ cookiedata = document.cookie;
         }
     }
 
+    /*
     $(document).on("keyup", ".csp", function (event) {
 
         console.log(event.keyCode)
@@ -370,6 +371,7 @@ cookiedata = document.cookie;
             }
         }
     })
+     */
 </script>
 
 
@@ -410,6 +412,11 @@ cookiedata = document.cookie;
     .csp {
         cursor: pointer;
     }
+
+    .course-item {
+        display: block;
+    }
+
 </style>
 <main id="main" aria-label="Content" tabindex="-1" class="main-content">
     <section class="sec-visual about">
@@ -482,17 +489,17 @@ cookiedata = document.cookie;
                 <h1 class="title">${_("How about this lecture?")}</h1>
                 <ul class="tab-group">
                     <li>
-                        <h2 tabindex="0" onclick="change_course('pop');" id="hack_pop" class="csp tab active">${_("Popular Courses")}</h2>
+                        <a href="#" onclick="change_course('pop'); return false;" id="hack_pop" class="csp tab active">${_("Popular Courses")}</a>
                     </li>
                     <li>
-                        <h2 tabindex="0" onclick="change_course('new');" id="hack_new" class="csp tab">${_("New Courses")}</h2>
+                        <a href="#" onclick="change_course('new'); return false;" id="hack_new" class="csp tab">${_("New Courses")}</a>
                     </li>
                     <li>
-                        <h2 tabindex="0" onclick="change_course('today');" id="hack_today" class="csp tab">${_("Today Courses")}</h2>
+                        <a href="#" onclick="change_course('today'); return false;" id="hack_today" class="csp tab">${_("Today Courses")}</a>
                     </li>
                     % if user.is_authenticated:
                     <li>
-                        <h2 tabindex="0" onclick="change_course('my');" id="hack_my" class="csp tab">${_("My Courses")}</h2>
+                        <a href="#" onclick="change_course('my'); return false;" id="hack_my" class="csp tab">${_("My Courses")}</a>
                     </li>
                     % endif
                 </ul>
@@ -500,12 +507,13 @@ cookiedata = document.cookie;
 
             <!-- 인기강좌 -->
             <div id="section_pop" class="owl-carousel course-carousel owl-loaded owl-drag">
+                <h2>${_("Popular Courses")}</h2>
                 <div class="owl-stage-outer">
                     <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 1488px;">
 
                         % for courses in pop_courses:
                         <div class="owl-item active" style="width: 277.5px; margin-right: 20px;">
-                            <div class="item" tabindex="0">
+                            <div class="item">
                                 <a href="/courses/${courses.id}/about" class="course-item">
                                     <div class="course-thumb">
                                         % if courses.ribbon_yn == 'Y' and courses.ribbon_year is not null and courses.ribbon_year != '' :
@@ -569,6 +577,7 @@ cookiedata = document.cookie;
 
             <!-- 신규강좌 -->
             <div id="section_new" class="owl-carousel course-carousel owl-loaded owl-drag" style="display: none">
+                <h2>${_("New Courses")}</h2>
                 <div class="owl-stage-outer">
                     <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 1488px;">
 
@@ -591,7 +600,7 @@ cookiedata = document.cookie;
                                         </i>
                                         % endif
                                         <figure>
-                                            <img src="${courses.course_image_url}" onerror="this.src='/static/images/blank.png'">
+                                            <img src="${courses.course_image_url}" onerror="this.src='/static/images/blank.png'" alt="${courses.display_name} 강좌의 이미지">
                                             <span class="more">
                                                 <span>${_("LEARN MORE")}</span>
                                             </span>
@@ -638,6 +647,7 @@ cookiedata = document.cookie;
 
             <!-- 오늘의강좌 -->
             <div id="section_today" class="owl-carousel course-carousel owl-loaded owl-drag" style="display: none">
+                <h2>${_("Today Courses")}</h2>
                 <div class="owl-stage-outer">
                     <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 1488px;">
 
@@ -660,7 +670,7 @@ cookiedata = document.cookie;
                                         </i>
                                         % endif
                                         <figure>
-                                            <img src="${courses.course_image_url}" onerror="this.src='/static/images/blank.png'">
+                                            <img src="${courses.course_image_url}" onerror="this.src='/static/images/blank.png'" alt="${courses.display_name} 강좌의 이미지">
                                             <span class="more">
                                                 <span>${_("LEARN MORE")}</span>
                                             </span>
@@ -707,6 +717,73 @@ cookiedata = document.cookie;
                 <img src="${STATIC_URL}images/spinner.gif" class="loading" alt="Loading"/>
             </div>
 
+            <!-- 수강중인 강좌 -->
+            <div id="section_my" class="owl-carousel course-carousel owl-loaded owl-drag" style="display: none;">
+                <h2>${_("My Courses")}</h2>
+                <div class="owl-stage-outer">
+                    <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 1488px;">
+
+                        % for courses in my_courses:
+                        <div class="owl-item active" style="width: 277.5px; margin-right: 20px;">
+                            <div class="item">
+                                <a href="/courses/${courses.id}/about" class="course-item">
+                                    <div class="course-thumb">
+                                        % if courses.ribbon_yn == 'Y' and courses.ribbon_year is not null and courses.ribbon_year != '' :
+                                        <i class="kr01-ribbonArea"><img alt="" src="/static/images/main/ribbon_${courses.ribbon_year}.png" alt="${courses.display_name} 강좌의 이미지">
+                                            <span class="ribbon-tooltip-text">K-MOOC 우수강좌</span>
+                                        </i>
+                                        % elif courses.ribbon_yn == 'Y' and courses.ribbon_year == '':
+                                        <i class="kr01-ribbonArea"><img alt="" src="/static/images/main/ribbon.png">
+                                            <span class="ribbon-tooltip-text">K-MOOC 우수강좌</span>
+                                        </i>
+                                        % elif courses.ribbon_yn == 'Y':
+                                        <i class="kr01-ribbonArea"><img alt="" src="/static/images/main/ribbon.png">
+                                            <span class="ribbon-tooltip-text">K-MOOC 우수강좌</span>
+                                        </i>
+                                        % endif
+                                        <figure>
+                                            <img src="${courses.course_image_url}" onerror="this.src='/static/images/blank.png'">
+                                            <span class="more">
+                                                <span>${_("LEARN MORE")}</span>
+                                            </span>
+                                        </figure>
+                                    </div>
+                                    <h2 class="course-title">${courses.display_name}</h2>
+                                    <div class="course-info">
+                                        <p class="instructor">
+                                            <span class="course-instructor">${courses.teacher_name}</span>
+                                            % if LANGUAGE_CODE == 'ko-kr':
+                                            <span class="kr01_school">${courses.org_kname}</span>
+                                            % else:
+                                            <span class="kr01_school">${courses.org_ename}</span>
+                                            % endif
+                                        </p>
+                                        <p class="period">
+                                            % if courses.start != None and courses.end != None:
+                                                <span class="date">${courses.start.strftime("%Y/%m/%d")} ~ ${courses.end.strftime("%Y/%m/%d")}</span>
+                                            % else:
+                                                <span class="date">0000/00/00 ~ 0000/00/00</span>
+                                            % endif
+
+                                            % if courses.status == 'ing':
+                                                <span class="state ing">진행중</span>
+                                            % elif courses.status == 'end':
+                                                <span class="state end">종료</span>
+                                            % else:
+                                                <span class="state soon">개강예정</span>
+                                            % endif
+                                            <!--<span class="state soon">개강예정</span>-->
+                                            <!--<span class="state possible">청강가능</span>-->
+                                            <!--<span class="state end">종료</span>-->
+                                        </p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        % endfor
+                    </div>
+                </div>
+            </div>
             <div class="no-content" style="display: none;" id="section_no">
                 <p>수강중인 강좌가 존재하지 않습니다.</p>
                 <a href="/courses" class="go">강좌 탐색</a>
