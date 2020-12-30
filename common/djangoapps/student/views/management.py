@@ -949,6 +949,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
     return render_to_response('index.html', context)
 
 
+@csrf_exempt
 def get_index_courses(request):
     user = request.user
 
