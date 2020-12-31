@@ -962,7 +962,7 @@ def get_index_courses(request):
             FROM
                 student_courseenrollment
             WHERE
-                user_id = '' AND is_active = 1
+                user_id = '{user_id}' AND is_active = 1
             ORDER BY created DESC
             LIMIT 12            
         '''.format(user_id=user.id)
