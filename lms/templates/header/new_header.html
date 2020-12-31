@@ -98,7 +98,7 @@
                             ${_("Explorer")}
                         </div>
                         <div class="new-ar">
-                            <img class="new-ar-img" src="/static/new_index/images/icon_arrow_down_w.png"/>
+                            <img class="new-ar-img" src="/static/new_index/images/icon_arrow_down_w.png" alt=""/>
                         </div>
                     </a>
                     <input type="text" id="search_me" class="new-search-input" title="전체 강좌 검색" style="max-width: 170px;">
@@ -135,12 +135,13 @@
                                 </li>
                             </ul>
                             <div class="menu-link">
-                                <a data-facet="fourth_industry_yn" data-term="fourth_industry_y" href="#" class="item">${_("Fourth Industry")}</a>
-                                <a data-facet="ai_sec_yn" data-term="ai_sec_y" href="#" class="item">${_("Artificial intelligence")}</a>
+                                <a data-facet="fourth_industry_yn" data-term="fourth_industry_y" href="#" class="item" data-tabgroup="section1" data-tabgroupindex="9">${_("Fourth Industry")}</a>
+                                <a data-facet="ai_sec_yn" data-term="ai_sec_y" href="#" class="item" data-tabgroup="section1" data-tabgroupindex="10">${_("Artificial intelligence")}</a>
                             </div>
                         </div>
                         <div class="menu-bottom">
-                            <a href="/courses" class="more">${_("View All Course")} +</a>
+                            <a style="float: left" href="/courses" class="more" data-tabgroup="section1" data-tabgroupindex="11">${_("View All Course")} +</a>
+                            <a onclick="toggle_ex(); return false;" href="#" class="more" data-tabgroup="section1" data-tabgroupindex="12">${_("Close")}</a>
                         </div>
                     </div>
                 </div>
@@ -157,9 +158,9 @@
                                 </a>
                             </div>
                             <div class="new-login-memo inject-h" onclick='toggle_notice();'>
-                                <img class="mr5" src="/static/new_index/images/icon_notice.png">
+                                <img class="mr5" src="/static/new_index/images/icon_notice.png" alt="">
                                 <a href="#" onclick="return false;" id="cnt" style="color: black;" aria-label='${_("Notification list")}'>0</a>
-                                <img class="" src="/static/new_index/images/icon_arrow_down_g.png">
+                                <img class="" src="/static/new_index/images/icon_arrow_down_g.png" alt="">
                                 <div id="new_notice" class="new-dropdown-menu2" style="display: none;">
                                     <ul class="new-notice-list"></ul>
                                     <div class="new-notice-gab">
@@ -168,11 +169,11 @@
                                 </div>
                             </div>
                             <div class="new-login-my inject-h" onclick='toggle_my();'>
-                                <img class="mr5" src="/static/new_index/images/icon_user.png">
+                                <img class="mr5" src="/static/new_index/images/icon_user.png" alt="">
                                 <a href="#" onclick="return false;" aria-label='${_("My Info")}' style="color:black; display: inline-block; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; word-wrap: normal; vertical-align: top;">
                                 ${user.username}
                                 </a>
-                                <img class="" src="/static/new_index/images/icon_arrow_down_g.png">
+                                <img class="" src="/static/new_index/images/icon_arrow_down_g.png" alt="">
                                 <div id="new_my" class="new-dropdown-menu" style="display: none;">
                                     <ul class="new-menu-list">
                                         <li>
@@ -412,9 +413,12 @@ memo_sync();
 
 $(document).keyup(function (event) {
   if(event.keyCode != 27) return true;
+
   let $exp_menu = $('#explore_menu');
-  $exp_menu.hide('fast');
-  $(event.target).parents().find("a.new-search-left").focus();
+  if($exp_menu.attr('display') == 'none'){
+      $exp_menu.hide('fast');
+      $(event.target).parents().find("a.new-search-left").focus();
+  }
   return false;
 })
 
@@ -445,10 +449,11 @@ function toggle_ex(){
        $exp_menu.show('fast');
        $('#new_notice').hide('fast');
        $('#new_my').hide('fast');
-       $exp_menu.attr("tabindex","0").focus();
+
+       // 확장 메뉴 열릴시 제일 첫번째 항목에 포커싱
+       $exp_menu.children().eq(0).children().children().eq(0).children().attr("tabindex","0").focus()
     } else {
        $exp_menu.hide('fast');
-       $this.find("a").focus();
     }
 }
 

@@ -15,12 +15,12 @@ from django.urls import reverse
       </div>
       <div class="popup-contents">
         <div id="contents_${pop['pop_id']}" style="display: none;">${pop['pop_contents']}</div>
-        <iframe id="frame_${pop['pop_id']}" frameborder="0" scrolling="no" width="100%" class="popup-contents-iframe"></iframe>
+        <iframe id="frame_${pop['pop_id']}" frameborder="0" scrolling="no" width="100%" class="popup-contents-iframe" title="공지사항"></iframe>
       </div>
 
     <div class="popup-footer">
       <a href="#" style="color:white" for="pop_close_${pop['pop_id']}" class="popup-footer-label popup-footer-day" onclick="closeWin('pop_close_${pop['pop_id']}', '${pop['pop_id']}', '${pop['pop_hidden_day'][0]}'); return false;">
-        <input id="pop_close_${pop['pop_id']}" name="pop_close_${pop['pop_id']}" type="checkbox" class="hidden">${pop['pop_hidden_day'][1]}
+        <input title="일정기간 열지 않기" id="pop_close_${pop['pop_id']}" name="pop_close_${pop['pop_id']}" type="checkbox" class="hidden">${pop['pop_hidden_day'][1]}
       </a>
       <a href="javascript:popClose('${pop['pop_id']}');" class="popup-footer-label popup-footer-close" title='${_("Close")}'>닫기</a>
     </div>

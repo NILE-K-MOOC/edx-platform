@@ -171,10 +171,10 @@ function org_search_send(){
 
             if (check_intro == 'Y') {
                 var template = ''+
-                '<div class="org-item" onclick="window.location.href = \t&#39;/school/'+org_id+'/\t&#39;;">'+
+                '<div class="org-item" onclick="window.location.href = \t&#39;/school/'+org_id+'/\t&#39;" data-org_id=' + org_id + '>'+
                 '    <div class="item" tabindex="0">'+
                 '        <div class="item-img">'+
-                '            <img onerror="this.src=\'/static/images/blank.png\'" src="'+logo_img+'" tabindex="0" alt="'+ univ_name +'">'+
+                '            <img onerror="this.src=\'/static/images/blank.png\'" src="'+logo_img+'" alt="'+ univ_name +'">'+
                 '        </div>'+
                 '        <div class="item-subj">'+
                 '            <span>'+org_type+'</span>'+
@@ -184,7 +184,7 @@ function org_search_send(){
                 '            <div class="org" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">'+univ_name+'</div>'+
                 '            <div class="tel">'+org_phone+'</div>'+
                 '        </div>'+
-                '        <a style="text-decoration: none;" href="#" class="item-hover">'+
+                '        <a style="text-decoration: none;" class="item-hover">'+
                 '            <span>'+part_b+'ㆍ'+part_c+'</span>'+
                 '        </a>'+
                 '    </div>'+
@@ -194,7 +194,7 @@ function org_search_send(){
                 '<div class="org-item">'+
                 '    <div class="item" tabindex="0">'+
                 '        <div class="item-img">'+
-                '            <img onerror="this.src=\'/static/images/blank.png\'" src="'+logo_img+'">'+
+                '            <img onerror="this.src=\'/static/images/blank.png\'" src="'+logo_img+'" alt="'+ univ_name +'">'+
                 '        </div>'+
                 '        <div class="item-subj">'+
                 '            <span>'+org_type+'</span>'+
@@ -204,7 +204,7 @@ function org_search_send(){
                 '            <div class="org" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">'+univ_name+'</div>'+
                 '            <div class="tel">'+org_phone+'</div>'+
                 '        </div>'+
-                '        <a style="text-decoration: none;" href="#" >'+
+                '        <a style="text-decoration: none;" >'+
                 '        </a>'+
                 '    </div>'+
                 '</div>';
@@ -251,4 +251,25 @@ $(document).ready(function(){
     });
 
 });
+
+$(document).on('keydown','.org-item',function (event) {
+
+    if(event.keyCode == 13){
+
+        let org_id = $(this).data('org_id')
+
+        if (org_id != undefined){
+            let url = '/school/'+org_id
+            window.location = url
+        }
+    }
+})
+
 </script>
+
+<style>
+
+    .org-item{
+        cursor: pointer;
+    }
+</style>
