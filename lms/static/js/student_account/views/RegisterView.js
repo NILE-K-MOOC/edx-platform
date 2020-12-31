@@ -25,6 +25,7 @@
                     'click .login-provider': 'thirdPartyAuth',
                     'click input[required][type="checkbox"]': 'liveValidateHandler',
                     'blur input[required], textarea[required], select[required]': 'liveValidateHandler',
+                    'blur input[name="subemail"], input[name="password2"]': 'liveValidateHandler2',
                     'focus input[required], textarea[required], select[required]': 'handleRequiredInputFocus',
                     'click .check-browser-version': 'checkBrowserVersion',
                     'click .identity': 'identity',
@@ -582,6 +583,74 @@
                     this.hideRequiredMessageExceptOnError($el);
                 },
 
+                liveValidateHandler2: function (event) {
+
+                    var $el = $(event.currentTarget);
+
+                    if ($el.attr("name") === 'subemail') {
+                        let email1 = $("#register-email").val();
+                        let email2 = $el.val();
+
+                        $("#register-sub-email-validation-error").remove();
+
+                        // 보조이메일을 입력했을 경우 일치한다면 경고 후 삭제
+                        if (email2) {
+
+                            // 이메일 형식이 아니라면 오류 처리
+                            var emailRule = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;//이메일 정규식
+
+                            if (!emailRule.test(email2)) {
+                                $("div.email-subemail").find("span, input").each(function () {
+                                    $(this).removeClass("success");
+                                    $(this).addClass("error");
+                                });
+
+                            } else if (email1 == email2) {
+
+
+                                var errorHtml = '<span id="register-sub-email-validation-error" aria-live="assertive">' +
+                                    '<span id="register-email-validation-error-msg" class="tip error" >이메일과 보조 이메일은 같을 수 없습니다.</span>' +
+                                '</span>';
+
+                                $("#register-subemail").after(errorHtml);
+
+                                // div.email-subemail 안의 span 과 input 에서 error 클래스 추가
+                                $("div.email-subemail").find(".label-text, .label-optional, input").each(function () {
+                                    $(this).removeClass("success");
+                                    $(this).addClass("error");
+                                });
+
+                            } else {
+                                // div.email-subemail 안의 span 과 input 에서 success 클래스 추가 후 3초후 삭제
+
+                                $("div.email-subemail").find("span, input").each(function () {
+                                    $(this).removeClass("error");
+                                    $(this).addClass("success");
+
+                                    setTimeout(function () {
+                                        $("div.email-subemail").find("span, input").each(function () {
+                                            $(this).removeClass("success");
+                                        });
+
+                                    }, 2000);
+                                });
+
+
+                            }
+                        }
+
+                        console.log("check email: " + email1 + " : " + email2);
+
+                    } else if ($el.attr("name") === 'password2') {
+                        let pw1 = $("#register-password").val();
+                        let pw2 = $el.val();
+
+                        console.log("check password: " + pw1 == pw2);
+
+                    }
+
+                },
+
                 liveValidate: function ($el) {
                     var data = {},
                         field,
@@ -703,12 +772,12 @@
                         });
                     } else {
                         $(".info_div a").css({
-                                "text-decoration": "none",
-                                "color": "#222"
-                            }).removeAttr("href");
-                            $(".check-browser-version").remove();
+                            "text-decoration": "none",
+                            "color": "#222"
+                        }).removeAttr("href");
+                        $(".check-browser-version").remove();
 
-                            $(".info_div").append("<div style='text-align: center; margin-top: 10px;'>" + gettext("This is the latest version.") + "</div>");
+                        $(".info_div").append("<div style='text-align: center; margin-top: 10px;'>" + gettext("This is the latest version.") + "</div>");
                     }
 
                 },

@@ -22,6 +22,7 @@
 </%block>
 
 <%block name="js_extra">
+    <script type="text/javascript" src="/static/js/vendor/jquery-ui.min.js"></script>
     <%static:require_module module_name="js/student_account/logistration_factory" class_name="LogistrationFactory">
         var options = ${data | n, dump_js_escaped_json};
         LogistrationFactory(options);

@@ -2192,6 +2192,7 @@
         "How to create useful text alternatives.": "유용한 텍스트 대안을 만드는 방법.",
         "Expand": "확장",
         "Contract": "접기",
+        "Secondary email must be different from email.": "보조이메일은 이메일과 달라야 합니다.",
 
         // drag_and_drop_v2
         "You can complete this problem using only your keyboard by following the guidance below:": "아래 지침에 따라 키보드 만 사용하여 이 문제를 완료 할 수 있습니다",
@@ -2205,7 +2206,7 @@
         "K-MOOC recommends using the %(start_link)sChrome%(end_link)s browser.": "K-MOOC는 %(start_link)sChrome%(end_link)s 브라우저 사용을 권장합니다.",
         "%(start_link)sInternet Explorer%(end_link)s is more than 10 versions": "%(start_link)sInternet Explorer%(end_link)s 는 10버전 이상",
         "If you can\'t log in, please refer to the %(start_link)sFAQ%(end_link)s.": "로그인할 수 없는 경우 %(start_link)sFAQ%(end_link)s를 참조하시기 바랍니다.",
-        "Required by clicking the Activate Account link sent to subscribed emailPlease choose a way to find your password.": "가입한 이메일로 발송된 계정 활성화 링크 클릭 필수",
+        "Required by clicking the Activate Account link sent to subscribed email": "가입한 이메일로 발송된 계정 활성화 링크 클릭 필수",
         "Check browser version": "브라우저 버전 확인",
         "This email is for find primary email.": "입력하신 보조이메일은 이메일찾기에 사용됩니다.",
         "Secondary email": "보조이메일",

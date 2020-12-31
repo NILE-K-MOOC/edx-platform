@@ -370,7 +370,7 @@ class RegistrationFormFactory(object):
         name_placeholder = _(u"Jane Doe")
         # Translators: These instructions appear on the registration form, immediately
         # below a field meant to hold the user's full name.
-        name_instructions = _("This name will be used on any certificates that you earn. If you proceed with the identity verification, it will be used to find your email.")
+        name_instructions = _("The name is used by the user for this certificate. You can use the functions of Find Your Own Account Email.")
 
         form_desc.add_field(
             "name",

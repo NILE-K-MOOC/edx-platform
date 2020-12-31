@@ -72,7 +72,9 @@
 
     <div class="section-title lines">
         <h3>
-            <span class="text"><%- gettext("Required by clicking the Activate Account link sent to subscribed email") %></span>
+            <span class="text">
+                <%- gettext("Required by clicking the Activate Account link sent to subscribed email") %>
+            </span>
         </h3>
     </div>
 
