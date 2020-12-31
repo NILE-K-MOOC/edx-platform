@@ -22,16 +22,17 @@
 <script language="Javascript">
 
 $( document ).ready(function() {
-    let secCourseTop = $(".sec-course").offset().top;
+    // 실제로 강좌 목록 위에 영역 선택 부분이 있으므로 해당 높이를 추가
+    let secCourseTop = $(".sec-course").offset().top + $(".course-top").height();
     let windowHeight = $(window).height();
     let currScrollTop = $(window).scrollTop();
     let isScrolled = false;
     let isEmpty = true;
 
-    console.log('secCourseTop: ' + secCourseTop);
-    console.log('windowHeight: ' + windowHeight);
-    console.log('currScrollTop: ' + currScrollTop);
-    console.log(windowHeight + currScrollTop > secCourseTop);
+    console.debug('secCourseTop: ' + secCourseTop);
+    console.debug('windowHeight: ' + windowHeight);
+    console.debug('currScrollTop: ' + currScrollTop);
+    console.debug('initialize action: ' + windowHeight + currScrollTop > secCourseTop);
 
     if (windowHeight + currScrollTop > secCourseTop){
         setMainCourses();
