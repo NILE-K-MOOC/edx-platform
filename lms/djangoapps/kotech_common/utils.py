@@ -12,6 +12,9 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
 from django.views.generic import View
 from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.http import JsonResponse
+import logging
+
+log = logging.getLogger(__name__)
 
 
 class Utils(View):
@@ -82,6 +85,12 @@ class Utils(View):
         d = {}
         pos1 = 0
         ci = None
+
+        log.info('plain_data check ----------------------------------------- s')
+        log.info(plain_data)
+        log.info('plain_data check ----------------------------------------- m')
+        log.info(plain_data.find(':'))
+        log.info('plain_data check ----------------------------------------- e')
 
         while pos1 <= len(plain_data):
             pos1 = plain_data.find(':')
