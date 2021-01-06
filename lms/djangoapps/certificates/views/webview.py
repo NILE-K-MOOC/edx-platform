@@ -144,8 +144,6 @@ def _update_certificate_context(context, course, user_certificate, platform_name
     print "nice_command -> ", nice_command
     enc_data = commands.getoutput(nice_command)
 
-
-
     # 특수분야 직무 이수증 여부
     with connections['default'].cursor() as cur:
         query = '''
@@ -160,7 +158,7 @@ def _update_certificate_context(context, course, user_certificate, platform_name
         query = '''
             select addinfo 
             from multisite_member 
-            where user_id = '{user_id}';
+            where user_id = '{user_id}' AND site_id = 7;
         '''.format(user_id=context['accomplishment_user_id'])
         cur.execute(query)
         mul_mem = cur.fetchall()
@@ -185,13 +183,17 @@ def _update_certificate_context(context, course, user_certificate, platform_name
         context['mbrNm'] = mul_mem['mbrNm']
 
         try:
-            # 생년월일
-            context['mbrbirth'] = mul_mem['mbrbirth']
+            # 생년월일 date_format
+            date_format = datetime.strptime(str(mul_mem['mbrbirth']), '%Y%m%d').date().strftime('%Y년 %m월 %d일')
+            context['mbrbirth'] = date_format
             # 직무
             context['instqq'] = mul_mem['instqq']
             # 소속
             context['sosok'] = mul_mem['sosok']
-        except:
+        except Exception as e:
+            print 'exception'
+            print e
+            print 'exception'
             # 생년월일
             context['mbrbirth'] = "미입력"
             # 직무
@@ -253,8 +255,10 @@ def _update_certificate_context(context, course, user_certificate, platform_name
     )
 
     now_date = datetime.now(timezone('Asia/Seoul')).strftime('%Y.%m.%d')
-
     context['certificate_date_issued2'] = now_date
+
+    now_date_special = datetime.now(timezone('Asia/Seoul')).strftime('%Y년 %m월 %d일')
+    context['certificate_date_issued3'] = now_date_special
 
     # Translators:  This text represents the verification of the certificate
     context['document_meta_description'] = _('This is a valid {platform_name} certificate for {user_name}, '
