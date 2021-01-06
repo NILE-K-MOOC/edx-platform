@@ -115,7 +115,8 @@ if (typeof Slick === "undefined") {
     var initialized = false;
     var $container;
     var array = new Uint32Array(1);
-    var randomNum = window.crypto.getRandomValues(array)[0]/10000000000;
+    var crypto = window.crypto || window.msCrypto;
+    var randomNum = crypto.getRandomValues(array)[0]/10000000000;
     var uid = "slickgrid_" + Math.round(1000000 * randomNum);
     var self = this;
     var $focusSink, $focusSink2;
