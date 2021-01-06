@@ -3409,6 +3409,7 @@ def start_certificate_generation(request, course_id):
         'task_id': task.task_id
     }
 
+
     return JsonResponse(response_payload)
 
 

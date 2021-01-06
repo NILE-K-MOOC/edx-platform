@@ -17,6 +17,11 @@ urlpatterns = [
 
     # Certificates HTML view end point to render web certs by certificate_uuid
     url(
+        r'^(?P<certificate_uuid>[0-9a-f]{32})/special$',
+        views.render_cert_by_uuid_special,
+        name='render_cert_by_uuid_special'
+    ),
+    url(
         r'^(?P<certificate_uuid>[0-9a-f]{32})$',
         views.render_cert_by_uuid,
         name='render_cert_by_uuid'
