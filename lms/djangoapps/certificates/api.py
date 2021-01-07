@@ -181,28 +181,34 @@ def generate_user_certificates(student, course_key, course=None, insecure=False,
         from django.db import connections
         with connections['default'].cursor() as cur:
             query = """
-                select * from (SELECT *, CONCAT(t, LPAD(@rownum:=@rownum + 1, 4, '0')) AS special_cert_num
+                SELECT 
+                    user_id, t, @rownum:=0, special_cert_num
                 FROM
                     (SELECT 
+                        *,
+                            CONCAT(t, LPAD(@rownum:=@rownum + 1, 4, '0')) AS special_cert_num
+                    FROM
+                        (SELECT 
                         a.user_id,
-                        CONCAT(IF(QUARTER(c.start) IN (1 , 2),'a','b')) AS t
+                            CONCAT(IF(QUARTER(c.start) IN (1 , 2), 'a', 'b')) AS t
                     FROM
                         student_courseenrollment a
-                            JOIN
-                        multisite_member b ON a.user_id = b.user_id AND b.site_id = 7 
-                            JOIN
-                        course_overviews_courseoverview c ON a.course_id = c.id
+                    JOIN multisite_member b ON a.user_id = b.user_id AND b.site_id = 7
+                    JOIN course_overviews_courseoverview c ON a.course_id = c.id
+                    JOIN multisite_course d ON a.course_id = d.course_id
+                        AND d.site_id = 7
                     WHERE
                         b.addinfo LIKE '%neisId%'
                             AND a.course_id = '{course_id}'
-                    ORDER BY a.created ASC) sub,
-                    (SELECT @rownum:=0) TM)ad
-                    where ad.user_id = '{user_id}';
+                    ORDER BY a.created ASC) sub, (SELECT @rownum:=0) TM) ad
+                WHERE
+                    ad.user_id = '{user_id}';
             """.format(user_id=student.id, course_id=unicode(course_key))
+
             cur.execute(query)
-            appoint_num = cur.fetchall()
+            appoint_num = cur.fetchone()
             # print 'appoint_num',appoint_num
-            appoint_num = appoint_num[0][3]
+            appoint_num = appoint_num[3]
             # print 'appoint_num_type',type(appoint_num)
 
         with connections['default'].cursor() as cur:
