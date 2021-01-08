@@ -270,6 +270,7 @@
                     this.model.save();
                     this.clearFormErrors();
                 } else {
+
                     this.renderErrors(this.defaultFormErrorsTitle, this.errors);
                     this.scrollToFormFeedback();
                     this.toggleDisableButton(false);
@@ -295,6 +296,12 @@
             },
 
             clearFormFeedbackItems: function(query) {
+                if($("#login-email").hasClass('error')){
+                    $("#login-email").focus();
+                }else if($("#login-password").hasClass('error')){
+                    $("#login-password").focus();
+                }
+
                 var $items = this.$formFeedback.find(query);
                 if ($items.length > 0) {
                     $items.remove();
