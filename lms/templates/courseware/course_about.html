@@ -1087,7 +1087,7 @@ $("#audit_mode").click(function(event) {
                         <div class="side-about">
                             <div class="about-side-title">
                                 <span class="icon fa fa-graduation-cap fa-lg" aria-hidden="true"></span>
-                                <p class="important-dates-item-title">${_("Subject")}</p>
+                                <p class="important-dates-item-title" >${_("Subject")}</p>
                             </div>
                             <span class="important-dates-item-text prerequisites" style="display: inline-block; vertical-align: middle;">
                                 <span>${_(classfy_name)}</span>
@@ -1232,7 +1232,7 @@ $("#audit_mode").click(function(event) {
                                             <div class="about-side-title star-tit">
                                                 <span class="icon fa fa-star" style="" aria-hidden="true">
                                                 </span>
-                                                <p class="important-dates-item-title survey-star" style="">강좌 만족도</p>
+                                                <p class="important-dates-item-title survey-star" style="" tabindex="0">강좌 만족도 (${course_survey_data['r_rating']})</p>
                                             </div>
                                             <div class="rating">
                                                 % for s in range(course_survey_data['r_course'][0]):

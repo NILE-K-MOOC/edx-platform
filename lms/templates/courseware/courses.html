@@ -103,7 +103,7 @@ getParameterByName('search_query')
 </%block>
 % endif
 
-<%block name="pagetitle">${_("Courses")}</%block>
+<%block name="pagetitle">${_("Departmental Courses")}</%block>
 ##${course_discovery_enabled}
 <main id="main" aria-label="Content" tabindex="-1">
 
@@ -191,13 +191,14 @@ getParameterByName('search_query')
                     <h3 class="header-facet">${_('Opening Status')}</h3>
                     <div id="sel_status">
                         <label class="hidden_head" for="course_status">${_('Opening Status')}</label>
-                        <select style="width:100%" class="course-facets-select" id="course_status" style="margin-bottom: 10px;" title="${_('Opening Status')}">
+                        <select style="width:69%;" class="course-facets-select" id="course_status" style="margin-bottom: 10px;" title="${_('Opening Status')}">
                             <option value="">${_('All')}</option>
                             <option value="i">${_('ing')}</option>
                             <option value="t">${_('ready')}</option>
                             <option value="a">${_('end & audit course')}</option>
                             <option value="e">${_('end')}</option>
                         </select>
+                        <button id="course-factes-select-move" style="color: white;">${_('move')}</button>
                     </div>
                 </section>
                 <section class="search-facets-lists">
@@ -302,7 +303,7 @@ getParameterByName('search_query')
         var msie = ua.indexOf("MSIE ");
         $(function(){
             if(msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./) || navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
-                $('#sel_status').append('<input class="btn" type="button" id="go1" value="이동" title="이동" style="height: 23.22222px;padding-top: 0px;padding-bottom: 0px;">');
+                /* $('#sel_status').append('<input class="btn" type="button" id="go1" value="이동" title="이동" style="height: 23.22222px;padding-top: 0px;padding-bottom: 0px;">'); */
                 $('#sel_status_mo').append('<input class="btn" type="button" id="go1" value="이동" title="이동" style="height: 23.22222px;padding-top: 0px;padding-bottom: 0px;">');
             }
         });
@@ -317,9 +318,9 @@ getParameterByName('search_query')
             }else{
                 document.location.href = url;
             }
-
         });
 
+        /*
         $(".course-facets-select").change(function () {
             var url = '/courses';
             var list_val = $(this).val();
@@ -331,6 +332,16 @@ getParameterByName('search_query')
                 location.href = url;
             }
         });
+         */
+
+        $("#course-factes-select-move").click(function () {
+            var url = '/courses';
+            var list_val = $(".course-facets-select").val();
+            if (list_val){
+                url = url + '?range=' + list_val;
+            }
+            document.location.href = url;
+        })
 
         var p_range = getTermParameter("range");
         console.log(p_range);

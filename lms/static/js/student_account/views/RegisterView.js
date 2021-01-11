@@ -1,4 +1,4 @@
-(function(define) {
+(function (define) {
     'use strict';
     define([
             'jquery',
@@ -9,7 +9,7 @@
             'js/student_account/views/FormView',
             'text!templates/student_account/form_status.underscore'
         ],
-        function(
+        function (
             $, _, gettext,
             StringUtils,
             HtmlUtils,
@@ -25,7 +25,10 @@
                     'click .login-provider': 'thirdPartyAuth',
                     'click input[required][type="checkbox"]': 'liveValidateHandler',
                     'blur input[required], textarea[required], select[required]': 'liveValidateHandler',
-                    'focus input[required], textarea[required], select[required]': 'handleRequiredInputFocus'
+                    'blur input[name="subemail"], input[name="password2"]': 'liveValidateHandler2',
+                    'focus input[required], textarea[required], select[required]': 'handleRequiredInputFocus',
+                    'click .check-browser-version': 'checkBrowserVersion',
+                    'click .identity': 'identity',
                 },
                 liveValidationFields: [
                     'name',
@@ -49,7 +52,7 @@
                 positiveValidationEnabled: true,
                 negativeValidationEnabled: true,
 
-                preRender: function(data) {
+                preRender: function (data) {
                     this.providers = data.thirdPartyAuth.providers || [];
                     this.hasSecondaryProviders = (
                         data.thirdPartyAuth.secondaryProviders && data.thirdPartyAuth.secondaryProviders.length
@@ -69,7 +72,7 @@
                 },
 
 
-                renderFields: function(fields, className) {
+                renderFields: function (fields, className) {
                     var html = [],
                         i,
                         fieldTpl = this.fieldTpl;
@@ -92,7 +95,7 @@
                     return html;
                 },
 
-                buildForm: function(data) {
+                buildForm: function (data) {
                     var html = [],
                         i,
                         field,
@@ -131,7 +134,7 @@
                     this.render(html.join(''));
                 },
 
-                render: function(html) {
+                render: function (html) {
 
                     var org_list = function () {
                         var tmp = null;
@@ -205,14 +208,14 @@
                     return this;
                 },
 
-                postRender: function() {
+                postRender: function () {
 
 
                     var inputs = this.$('.form-field'),
                         inputSelectors = 'input, select, textarea',
                         inputTipSelectors = ['tip error', 'tip tip-input'],
                         inputTipSelectorsHidden = ['tip error hidden', 'tip tip-input hidden'],
-                        onInputFocus = function() {
+                        onInputFocus = function () {
                             // // Apply on focus styles to input
                             // $(this).find('label').addClass('focus-in')
                             //     .removeClass('focus-out');
@@ -224,7 +227,7 @@
                             //     }
                             // });
                         },
-                        onInputFocusOut = function() {
+                        onInputFocusOut = function () {
                             // If input has no text apply focus out styles
                             // if ($(this).find(inputSelectors).val().length === 0) {
                             //     $(this).find('label').addClass('focus-out')
@@ -238,7 +241,7 @@
                             //     }
                             // });
                         },
-                        handleInputBehavior = function(input) {
+                        handleInputBehavior = function (input) {
                             // Initially put label in input
                             // if (input.find(inputSelectors).val().length === 0) {
                             //     input.find('label').addClass('focus-out')
@@ -255,7 +258,7 @@
                             // input.focusin(onInputFocus);
                             // input.focusout(onInputFocusOut);
                         },
-                        handleAutocomplete = function() {
+                        handleAutocomplete = function () {
                             // $(inputs).each(function() {
                             //     var $input = $(this),
                             //         isCheckbox = $input.attr('class').indexOf('checkbox') !== -1;
@@ -294,15 +297,15 @@
                     $('.checkbox-terms_of_service').insertAfter('.optional-fields');
 
                     // Clicking on links inside a label should open that link.
-                    $('label a').click(function(ev) {
+                    $('label a').click(function (ev) {
                         ev.stopPropagation();
                         ev.preventDefault();
                         window.open($(this).attr('href'), $(this).attr('target'));
                     });
-                    $('.form-field').each(function() {
+                    $('.form-field').each(function () {
                         $(this).find('option:first').html('');
                     });
-                    $(inputs).each(function() {
+                    $(inputs).each(function () {
                         var $input = $(this),
                             isCheckbox = $input.attr('class').indexOf('checkbox') !== -1;
                         if ($input.length > 0 && !isCheckbox) {
@@ -312,48 +315,48 @@
                     setTimeout(handleAutocomplete, 1000);
                 },
 
-                hideRequiredMessageExceptOnError: function($el) {
+                hideRequiredMessageExceptOnError: function ($el) {
                     // We only handle blur if not in an error state.
                     if (!$el.hasClass('error')) {
                         this.hideRequiredMessage($el);
                     }
                 },
 
-                hideRequiredMessage: function($el) {
-                    this.doOnInputLabel($el, function($label) {
+                hideRequiredMessage: function ($el) {
+                    this.doOnInputLabel($el, function ($label) {
                         $label.addClass('hidden');
                     });
                 },
 
-                doOnInputLabel: function($el, action) {
+                doOnInputLabel: function ($el, action) {
                     var $label = this.getRequiredTextLabel($el);
                     action($label);
                 },
 
-                handleRequiredInputFocus: function(event) {
+                handleRequiredInputFocus: function (event) {
                     var $el = $(event.currentTarget);
                     // Avoid rendering for required checkboxes.
                     if ($el.attr('type') !== 'checkbox') {
                         this.renderRequiredMessage($el);
                     }
                     if ($el.hasClass('error')) {
-                        this.doOnInputLabel($el, function($label) {
+                        this.doOnInputLabel($el, function ($label) {
                             $label.addClass('error');
                         });
                     }
                 },
 
-                renderRequiredMessage: function($el) {
-                    this.doOnInputLabel($el, function($label) {
+                renderRequiredMessage: function ($el) {
+                    this.doOnInputLabel($el, function ($label) {
                         //$label.removeClass('hidden').text(gettext('(required)'));
                     });
                 },
 
-                getRequiredTextLabel: function($el) {
+                getRequiredTextLabel: function ($el) {
                     return $('#' + $el.attr('id') + '-required-label');
                 },
 
-                renderLiveValidations: function($el, decisions) {
+                renderLiveValidations: function ($el, decisions) {
                     var $label = this.getLabel($el),
                         $requiredTextLabel = this.getRequiredTextLabel($el),
                         $icon = this.getIcon($el),
@@ -371,28 +374,28 @@
                     }
                 },
 
-                getLabel: function($el) {
+                getLabel: function ($el) {
                     return this.$form.find('label[for=' + $el.attr('id') + ']');
                 },
 
-                getIcon: function($el) {
+                getIcon: function ($el) {
                     //return $('#' + $el.attr('id') + '-validation-icon');
                     return $('#' + $el.attr('id'));
                 },
 
-                getErrorTip: function($el) {
+                getErrorTip: function ($el) {
                     return $('#' + $el.attr('id') + '-validation-error-msg');
                 },
 
-                getFieldTimeout: function($el) {
+                getFieldTimeout: function ($el) {
                     return $('#' + $el.attr('id')).attr('timeout-id') || null;
                 },
 
-                setFieldTimeout: function($el, time, action) {
+                setFieldTimeout: function ($el, time, action) {
                     $el.attr('timeout-id', setTimeout(action, time));
                 },
 
-                clearFieldTimeout: function($el) {
+                clearFieldTimeout: function ($el) {
                     var timeout = this.getFieldTimeout($el);
                     if (timeout) {
                         clearTimeout(this.getFieldTimeout($el));
@@ -400,7 +403,7 @@
                     }
                 },
 
-                renderLiveValidationError: function($el, $label, $req, $icon, $tip, error) {
+                renderLiveValidationError: function ($el, $label, $req, $icon, $tip, error) {
                     this.removeLiveValidationIndicators(
                         $el, $label, $req, $icon,
                         'success', this.positiveValidationIcon
@@ -412,7 +415,7 @@
                     this.renderRequiredMessage($el);
                 },
 
-                renderLiveValidationSuccess: function($el, $label, $req, $icon, $tip) {
+                renderLiveValidationSuccess: function ($el, $label, $req, $icon, $tip) {
                     var self = this,
                         validationFadeTime = this.successfulValidationDisplaySeconds * 1000;
                     this.removeLiveValidationIndicators(
@@ -427,7 +430,7 @@
 
                     // Hide success indicators after some time.
                     this.clearFieldTimeout($el);
-                    this.setFieldTimeout($el, validationFadeTime, function() {
+                    this.setFieldTimeout($el, validationFadeTime, function () {
                         self.removeLiveValidationIndicators(
                             $el, $label, $req, $icon,
                             'success', self.positiveValidationIcon
@@ -436,7 +439,7 @@
                     });
                 },
 
-                addLiveValidationIndicators: function($el, $label, $req, $icon, $tip, indicator, icon, msg) {
+                addLiveValidationIndicators: function ($el, $label, $req, $icon, $tip, indicator, icon, msg) {
                     $el.addClass(indicator);
                     $label.addClass(indicator);
                     $req.addClass(indicator);
@@ -444,14 +447,14 @@
                     $tip.text(msg);
                 },
 
-                removeLiveValidationIndicators: function($el, $label, $req, $icon, indicator, icon) {
+                removeLiveValidationIndicators: function ($el, $label, $req, $icon, indicator, icon) {
                     $el.removeClass(indicator);
                     $label.removeClass(indicator);
                     $req.removeClass(indicator);
                     $icon.removeClass(indicator + ' ' + icon);
                 },
 
-                thirdPartyAuth: function(event) {
+                thirdPartyAuth: function (event) {
                     var providerUrl = $(event.currentTarget).data('provider-url') || '';
 
                     if (providerUrl) {
@@ -459,20 +462,20 @@
                     }
                 },
 
-                saveSuccess: function() {
+                saveSuccess: function () {
                     this.trigger('auth-complete');
                 },
 
-                saveError: function(error) {
+                saveError: function (error) {
                     $(this.el).show(); // Show in case the form was hidden for auto-submission
                     this.errors = _.flatten(
                         _.map(
                             // Something is passing this 'undefined'. Protect against this.
                             JSON.parse(error.responseText || '[]'),
-                            function(errorList) {
+                            function (errorList) {
                                 return _.map(
                                     errorList,
-                                    function(errorItem) {
+                                    function (errorItem) {
                                         return StringUtils.interpolate('<li>{error}</li>', {
                                             error: errorItem.user_message
                                         });
@@ -486,19 +489,19 @@
                     this.toggleDisableButton(false);
                 },
 
-                postFormSubmission: function() {
+                postFormSubmission: function () {
                     if (_.compact(this.errors).length) {
                         // The form did not get submitted due to validation errors.
                         $(this.el).show(); // Show in case the form was hidden for auto-submission
                     }
                 },
 
-                resetValidationVariables: function() {
+                resetValidationVariables: function () {
                     this.positiveValidationEnabled = true;
                     this.negativeValidationEnabled = true;
                 },
 
-                renderAuthWarning: function() {
+                renderAuthWarning: function () {
                     var msgPart1 = gettext('You\'ve successfully signed into %(currentProvider)s.'),
                         msgPart2 = gettext(
                             'We just need a little more information before you start learning with %(platformName)s.'
@@ -514,19 +517,17 @@
                     });
                 },
 
-                submitForm: function(event) { // eslint-disable-line no-unused-vars
+                submitForm: function (event) { // eslint-disable-line no-unused-vars
 
 
-                        $.ajax({
-                            'type': "POST",
-                            'url': "/org_check",
-                            'data': {
-                                'org_check':$('#org_chk').prop("checked"),
-                                'org_value':$("#org_select_option").val()
-                            }
-                        });
-
-
+                    $.ajax({
+                        'type': "POST",
+                        'url': "/org_check",
+                        'data': {
+                            'org_check': $('#org_chk').prop("checked"),
+                            'org_value': $("#org_select_option").val()
+                        }
+                    });
 
 
                     var elements = this.$form[0].elements,
@@ -548,7 +549,7 @@
                     FormView.prototype.submitForm.apply(this, arguments);
                 },
 
-                getFormData: function() {
+                getFormData: function () {
                     var obj = FormView.prototype.getFormData.apply(this, arguments),
                         $emailElement = this.$form.find('input[name=email]'),
                         $confirmEmail = this.$form.find('input[name=confirm_email]');
@@ -565,7 +566,7 @@
                     return obj;
                 },
 
-                liveValidateHandler: function(event) {
+                liveValidateHandler: function (event) {
                     var $el = $(event.currentTarget);
                     // Until we get a back-end that can handle all available
                     // registration fields, we do some generic validation here.
@@ -582,7 +583,75 @@
                     this.hideRequiredMessageExceptOnError($el);
                 },
 
-                liveValidate: function($el) {
+                liveValidateHandler2: function (event) {
+
+                    var $el = $(event.currentTarget);
+
+                    if ($el.attr("name") === 'subemail') {
+                        let email1 = $("#register-email").val();
+                        let email2 = $el.val();
+
+                        $("#register-sub-email-validation-error").remove();
+
+                        // 보조이메일을 입력했을 경우 일치한다면 경고 후 삭제
+                        if (email2) {
+
+                            // 이메일 형식이 아니라면 오류 처리
+                            var emailRule = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;//이메일 정규식
+
+                            if (!emailRule.test(email2)) {
+                                $("div.email-subemail").find("span, input").each(function () {
+                                    $(this).removeClass("success");
+                                    $(this).addClass("error");
+                                });
+
+                            } else if (email1 == email2) {
+
+
+                                var errorHtml = '<span id="register-sub-email-validation-error" aria-live="assertive">' +
+                                    '<span id="register-email-validation-error-msg" class="tip error" >이메일과 보조 이메일은 같을 수 없습니다.</span>' +
+                                '</span>';
+
+                                $("#register-subemail").after(errorHtml);
+
+                                // div.email-subemail 안의 span 과 input 에서 error 클래스 추가
+                                $("div.email-subemail").find(".label-text, .label-optional, input").each(function () {
+                                    $(this).removeClass("success");
+                                    $(this).addClass("error");
+                                });
+
+                            } else {
+                                // div.email-subemail 안의 span 과 input 에서 success 클래스 추가 후 3초후 삭제
+
+                                $("div.email-subemail").find("span, input").each(function () {
+                                    $(this).removeClass("error");
+                                    $(this).addClass("success");
+
+                                    setTimeout(function () {
+                                        $("div.email-subemail").find("span, input").each(function () {
+                                            $(this).removeClass("success");
+                                        });
+
+                                    }, 2000);
+                                });
+
+
+                            }
+                        }
+
+                        console.log("check email: " + email1 + " : " + email2);
+
+                    } else if ($el.attr("name") === 'password2') {
+                        let pw1 = $("#register-password").val();
+                        let pw2 = $el.val();
+
+                        console.log("check password: " + pw1 == pw2);
+
+                    }
+
+                },
+
+                liveValidate: function ($el) {
                     var data = {},
                         field,
                         i;
@@ -595,7 +664,7 @@
                     );
                 },
 
-                liveValidateCheckbox: function($checkbox) {
+                liveValidateCheckbox: function ($checkbox) {
                     var validationDecisions = {validation_decisions: {}},
                         decisions = validationDecisions.validation_decisions,
                         name = $checkbox.attr('name'),
@@ -605,7 +674,7 @@
                     this.renderLiveValidations($checkbox, validationDecisions);
                 },
 
-                genericLiveValidateHandler: function($el) {
+                genericLiveValidateHandler: function ($el) {
                     var elementType = $el.attr('type');
                     if (elementType === 'checkbox') {
                         // We are already validating checkboxes in a generic way.
@@ -615,13 +684,108 @@
                     }
                 },
 
-                genericLiveValidate: function($el) {
+                genericLiveValidate: function ($el) {
                     var validationDecisions = {validation_decisions: {}},
                         decisions = validationDecisions.validation_decisions,
                         name = $el.attr('name'),
                         error = $el.data('errormsg-required');
                     decisions[name] = $el.val() ? '' : error;
                     this.renderLiveValidations($el, validationDecisions);
+                },
+
+                checkBrowserVersion: function () {
+                    navigator.sayswho = (function () {
+                        var ua = navigator.userAgent, tem,
+                            M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+                        if (/trident/i.test(M[1])) {
+                            tem = /\brv[ :]+(\d+)/g.exec(ua) || [];
+                            return 'IE ' + (tem[1] || '');
+                        }
+                        if (M[1] === 'Chrome') {
+                            tem = ua.match(/\b(OPR|Edge)\/(\d+)/);
+                            if (tem != null) return tem.slice(1).join(' ').replace('OPR', 'Opera');
+                        }
+                        M = M[2] ? [M[1], M[2]] : [navigator.appName, navigator.appVersion, '-?'];
+                        if ((tem = ua.match(/version\/(\d+)/i)) != null) M.splice(1, 1, tem[1]);
+                        return M.join(' ');
+                    })();
+
+                    let v = navigator.sayswho.split(' '); // outputs: `Chrome 62`
+                    let browser = v[0];
+                    let no = v[v.length - 1];
+                    let minNo = 0;
+                    let link = '';
+                    switch (browser) {
+                        case 'Firefox':
+                            minNo = 83;
+                            link = 'https://www.mozilla.org/ko/firefox/new/';
+                            break;
+                        case 'Chrome':
+                            minNo = 86;
+                            link = 'https://www.google.co.kr/chrome/';
+                            break;
+                        case 'Opera':
+                            minNo = 72;
+                            link = 'https://www.opera.com/ko';
+                            break;
+                        case 'Edge':
+                            minNo = 18;
+                            link = 'https://www.microsoft.com/ko-kr/edge';
+                            break;
+                        case 'Safari':
+                            minNo = 13;
+                            link = 'https://safari.softonic.kr/mac';
+                            break;
+                        case 'IE':
+                            minNo = 10;
+                            link = 'https://www.microsoft.com/ko-kr/download/internet-explorer.aspx';
+                            break;
+                    }
+
+                    console.log("check browser: " + browser + " - " + no);
+
+                    if (Number(no) < minNo) {
+                        console.log('downlaod link: ' + link);
+
+                        // 기준 브라우저 버전 보다 낮은경우 알림
+                        swal({
+                            title: gettext("Check browser version"),
+                            text: gettext("We recommend updating your browser."),
+                            icon: "warning",
+                            buttons: {
+                                confirm: {
+                                    text: gettext("Confirm"),
+                                    value: true,
+                                    className: "action action-primary"
+                                }
+                            }
+                        }).then(function (isConfirm) {
+                            console.log('isConfirm:' + isConfirm);
+
+                            $(".info_div a").css({
+                                "text-decoration": "none",
+                                "color": "#222"
+                            }).removeAttr("href");
+                            $(".check-browser-version").remove();
+                            $(".info_div").append("<div style='text-align: center; margin-top: 10px;'><a href='" + link + "' target='_blank'>" + gettext("Go to the browser download page") + "</a></div>");
+
+                        });
+                    } else {
+                        $(".info_div a").css({
+                            "text-decoration": "none",
+                            "color": "#222"
+                        }).removeAttr("href");
+                        $(".check-browser-version").remove();
+
+                        $(".info_div").append("<div style='text-align: center; margin-top: 10px;'>" + gettext("This is the latest version.") + "</div>");
+                    }
+
+                },
+
+                identity: function () {
+                    window.open('', 'popupNICE', 'width=450, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
+                    document.form2.target = "popupNICE";
+                    document.form2.submit();
                 }
             });
         });

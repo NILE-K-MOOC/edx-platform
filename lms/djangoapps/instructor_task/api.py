@@ -44,7 +44,7 @@ from lms.djangoapps.instructor_task.tasks import (
 from util import milestones_helpers
 from xmodule.modulestore.django import modulestore
 
-
+from django.db import connections
 class SpecificStudentIdMissingError(Exception):
     """
     Exception indicating that a student id was not provided when generating a certificate for a specific student.

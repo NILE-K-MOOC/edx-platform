@@ -13,11 +13,11 @@
 .sec-visual .visual-row .visual-col .more:hover {padding-right: 18px;}
 .sec-visual .visual-row .visual-col .more:after {content: ''; display: block; position: absolute; top: 10px; right: 0; width: 5px; height: 8px; background: url(../images/icon_arrow_right_b.png) no-repeat;}
 .sec-visual.about .visual-row .visual-col.txt {background-color: #658cd2;}
-.sec-visual.about .visual-row .visual-col.img {background-image: url(/static/new_index/images/img_visual_001.png);}
+.sec-visual.about .visual-row .visual-col.img {background-image: url(/static/new_index/images/img_visual_001.jpg);}
 .sec-visual.lec .visual-row .visual-col.txt {background-color: #4c96c1;}
-.sec-visual.lec .visual-row .visual-col.img {background-image: url(/static/new_index/images/img_visual_002.png);}
+.sec-visual.lec .visual-row .visual-col.img {background-image: url(/static/new_index/images/img_visual_002.jpg);}
 .sec-visual.com .visual-row .visual-col.txt {background-color: #38a99b;}
-.sec-visual.com .visual-row .visual-col.img {background-image: url(/static/new_index/images/img_visual_003.png);}
+.sec-visual.com .visual-row .visual-col.img {background-image: url(/static/new_index/images/img_visual_003.jpg);}
 
 .sec-classify {padding: 15px 0; border-bottom: 1px solid #eee;}
 .sec-classify .classify-item {word-break: keep-all; display: block; padding-top: 75px; font-size: 14px; text-align: center; transition: all .15s ease-in-out;}
@@ -63,8 +63,8 @@
 .sec-course .course-carousel .course-item .course-info .period {display: -webkit-box; display: -ms-flexbox; display: flex; margin-top: 10px; padding-top: 10px; border-top: 1px solid #eee;}
 .sec-course .course-carousel .course-item .course-info .period .date {font-size: 13px; color: #666;}
 .sec-course .course-carousel .course-item .course-info .period .state {margin-left: auto; padding: 1px 4px 2px; border-radius: 3px; font-size: 12px; color: #fff;}
-.sec-course .course-carousel .course-item .course-info .period .state.ing  {background-color: #37b24d;}
-.sec-course .course-carousel .course-item .course-info .period .state.soon {background-color: #f59f00;}
+.sec-course .course-carousel .course-item .course-info .period .state.ing  {background-color: #05A823;}
+.sec-course .course-carousel .course-item .course-info .period .state.soon {background-color: #C28400;}
 .sec-course .course-carousel .course-item .course-info .period .state.possible {background-color: #4c6ef5;}
 .sec-course .course-carousel .course-item .course-info .period .state.end {background-color: #888;}
 .sec-course .course-carousel .owl-nav > button {position: absolute; top: 20%; width: 50px; height: 50px; border-radius: 50%; box-shadow: 0 3px 6px rgba(0, 0, 0, .2); background-color: rgba(255, 255, 255, .95); background-repeat: no-repeat;}

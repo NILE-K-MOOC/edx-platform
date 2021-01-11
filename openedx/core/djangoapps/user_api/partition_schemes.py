@@ -8,6 +8,7 @@ import course_tag.api as course_tag_api
 from eventtracking import tracker
 
 from xmodule.partitions.partitions import UserPartitionError, NoSuchUserPartitionGroupError
+import secrets
 
 log = logging.getLogger(__name__)
 
@@ -45,7 +46,7 @@ class RandomUserPartitionScheme(object):
     """
     This scheme randomly assigns users into the partition's groups.
     """
-    RANDOM = random.Random()
+    RANDOM = secrets.SystemRandom()
 
     @classmethod
     def get_group_for_user(cls, course_key, user, user_partition, assign=True):

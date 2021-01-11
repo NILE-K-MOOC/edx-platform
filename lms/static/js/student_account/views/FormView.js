@@ -245,6 +245,15 @@
 
                 this.toggleDisableButton(true);
 
+                // 보조 이메일의 값이 동일하다면 오류 메세지 추가
+                if($("#register-subemail").length && $("#register-email").val() == $("#register-subemail").val()){
+                    this.errors.push("<li>"+ gettext('Secondary email must be different from email.') +"</li>");
+                } else {
+                    $(".email-subemail").find("*").each(function(){
+                        $(this).removeClass("error");
+                    });
+                }
+
                 // 비밀번호를 재입력값이 동일한지 확인하고 오류 메세지를 표시하도록 함
                 if($("#register-password2").length && $("#register-password").val() != $("#register-password2").val()){
                     this.errors.push("<li>"+ gettext('is not correct bettween passwords') +"</li>");
@@ -261,6 +270,7 @@
                     this.model.save();
                     this.clearFormErrors();
                 } else {
+
                     this.renderErrors(this.defaultFormErrorsTitle, this.errors);
                     this.scrollToFormFeedback();
                     this.toggleDisableButton(false);
@@ -286,6 +296,12 @@
             },
 
             clearFormFeedbackItems: function(query) {
+                if($("#login-email").hasClass('error')){
+                    $("#login-email").focus();
+                }else if($("#login-password").hasClass('error')){
+                    $("#login-password").focus();
+                }
+
                 var $items = this.$formFeedback.find(query);
                 if ($items.length > 0) {
                     $items.remove();

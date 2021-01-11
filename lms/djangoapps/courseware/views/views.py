@@ -2416,6 +2416,7 @@ def survey_result_star(org, display_number_with_default):
         data['r_total'] = result_data[0]  # 총 응답자
         # 강좌 만족도
         data['r_course'] = [int(result_data[1]), str(result_data[1] % int(result_data[1]))[2]] if result_data[1] != 0.0 else [0, 0]
+        data['r_rating'] = result_data[1]
     else:
         data = False
     return data

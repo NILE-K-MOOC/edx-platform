@@ -45,6 +45,7 @@ define("tinymce/ForceBlocks", [], function() {
 				try {
 					restoreSelection = editor.getDoc().activeElement === rootNode;
 				} catch (ex) {
+					console.log(ex)
 					// IE throws unspecified error here sometimes
 				}
 			} else {

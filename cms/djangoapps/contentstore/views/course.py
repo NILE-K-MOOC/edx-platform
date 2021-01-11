@@ -740,6 +740,7 @@ def course_index(request, course_key):
         locator_to_show = request.GET.get('show', None)
         course_release_date = get_default_time_display(course_module.start) if course_module.start != DEFAULT_START_DATE else _("Unscheduled")
         settings_url = reverse_course_url('settings_handler', course_key)
+        inst_url = "https://inst.kmooc.kr"
 
         try:
             current_action = CourseRerunState.objects.find_first(course_key=course_key, should_display=True)
@@ -760,6 +761,7 @@ def course_index(request, course_key):
             'course_release_date': course_release_date,
             'settings_url': settings_url,
             'reindex_link': reindex_link,
+            'inst_link': inst_url,
             'deprecated_blocks_info': deprecated_blocks_info,
             'notification_dismiss_url': reverse_course_url(
                 'course_notifications_handler',

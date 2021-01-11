@@ -24,6 +24,7 @@ from xmodule.modulestore.tests.mongo_connection import MONGO_PORT_NUM, MONGO_HOS
 from xmodule.modulestore.xml import XMLModuleStore
 from xmodule.modulestore.xml_importer import LocationMixin
 from xmodule.tests import DATA_DIR
+import secrets
 
 
 def load_function(path):
@@ -205,7 +206,7 @@ class MongoContentstoreBuilder(object):
         when the context closes.
         """
         contentstore = MongoContentStore(
-            db='contentstore{}'.format(random.randint(0, 10000)),
+            db='contentstore{}'.format(int(secrets.randbelow(10001))),
             collection='content',
             **COMMON_DOCSTORE_CONFIG
         )
@@ -263,7 +264,7 @@ class MongoModulestoreBuilder(StoreBuilderBase):
                 all of its assets.
         """
         doc_store_config = dict(
-            db='modulestore{}'.format(random.randint(0, 10000)),
+            db='modulestore{}'.format(int(secrets.randbelow(10001))),
             collection='xmodule',
             asset_collection='asset_metadata',
             **COMMON_DOCSTORE_CONFIG
@@ -311,7 +312,7 @@ class VersioningModulestoreBuilder(StoreBuilderBase):
                 all of its assets.
         """
         doc_store_config = dict(
-            db='modulestore{}'.format(random.randint(0, 10000)),
+            db='modulestore{}'.format(int(secrets.randbelow(10001))),
             collection='split_module',
             **COMMON_DOCSTORE_CONFIG
         )

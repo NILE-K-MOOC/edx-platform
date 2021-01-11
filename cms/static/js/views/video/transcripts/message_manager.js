@@ -76,6 +76,8 @@ function($, Backbone, _, Utils, FileUploader, gettext) {
 
             template = _.template(tplHtml);
 
+            // 기본자막의 업로드 기능을 수정하고, 안내 문구를 수정
+
             this.$el.find('.transcripts-status')
                 .removeClass('is-invisible')
                 .find(this.elClass).html(template({
@@ -86,6 +88,14 @@ function($, Backbone, _, Utils, FileUploader, gettext) {
                 }));
 
             this.fileUploader.render();
+
+            $(".transcripts-message-status, .setting-upload").hide();
+
+            // 자막 업로드 시도시 동영상 아이디 생성 필요
+            $(".setting-upload-link").click(function(){
+                $(".tab[data-tab_name='Advanced']").trigger('click');
+                $(".wrapper-translations-settings .create-setting").focus();
+            });
 
             return this;
         },

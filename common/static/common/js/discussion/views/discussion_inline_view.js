@@ -36,9 +36,12 @@
                 this.startHeader = 4; // Start the header levels at H<startHeader>
             }
 
-            match = this.page_re.exec(window.location.href);
+            var l = window.location.href;
+            match = this.page_re.exec(l.replace(/</g, "").replace(/>/g, ""));
             if (match) {
-                this.page = parseInt(match[1], 10);
+                var tmp = match[1];
+                tmp = tmp.replace(/</g, "").replace(/>/g, "");
+                this.page = parseInt(tmp, 10);
             } else {
                 this.page = 1;
             }

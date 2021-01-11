@@ -76,7 +76,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 '        </div>'+
                 '    </div>'+
                 '    <div style="margin-top: 5px;">'+
-                '       <input id="vtt_txt" type="text" placeholder="http://kmooc.kr/asset-v1:KMOOC+exam+001+type@asset+block@chinese_subtitles.vtt">'+
+                '       <input id="vtt_txt" type="text" placeholder="/asset-v1:KMOOC+exam+001+type@asset+block@chinese_subtitles.vtt">'+
                 '    </div>'+
                 '</div>';
                 $('#vtt_list').append(box);
@@ -630,7 +630,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     '        </div>'+
                     '    </div>'+
                     '    <div style="margin-top: 5px;">'+
-                    '       <input placeholder="http://kmooc.kr/asset-v1:KMOOC+exam+001+type@asset+block@chinese_subtitles.vtt" id="vtt_txt" type="text" value="' + vtt_src + '">'+
+                    '       <input placeholder="/asset-v1:KMOOC+exam+001+type@asset+block@chinese_subtitles.vtt" id="vtt_txt" type="text" value="' + vtt_src + '">'+
                     '    </div>'+
                     '</div>';
 

@@ -7,7 +7,7 @@ from django.urls import reverse
 %>
 <%page args="pop" expression_filter="h"/>
 
-<div id="${pop['pop_id']}" class="popup-area" style="display: none; width: ${pop['pop_width']}px;">
+<div id="${pop['pop_id']}" class="popup-area" style="display: none; width: ${pop['pop_width']}px;" title=${_("Updates")}>
 
   <div class="popup-main">
       <div class="popup-header">
@@ -15,14 +15,14 @@ from django.urls import reverse
       </div>
       <div class="popup-contents">
         <div id="contents_${pop['pop_id']}" style="display: none;">${pop['pop_contents']}</div>
-        <iframe id="frame_${pop['pop_id']}" frameborder="0" scrolling="no" width="100%" class="popup-contents-iframe"></iframe>
+        <iframe id="frame_${pop['pop_id']}" frameborder="0" scrolling="no" width="100%" class="popup-contents-iframe" title="공지사항"></iframe>
       </div>
 
     <div class="popup-footer">
-      <label class="popup-footer-label popup-footer-day" onclick="closeWin('pop_close_${pop['pop_id']}', '${pop['pop_id']}', '${pop['pop_hidden_day'][0]}');">
-        <input id="pop_close_${pop['pop_id']}" name="pop_close_${pop['pop_id']}" type="checkbox" class="hidden">${pop['pop_hidden_day'][1]}
-      </label>
-      <a href="javascript:popClose('${pop['pop_id']}');" class="popup-footer-label popup-footer-close" title="닫기">닫기</a>
+      <a href="#" style="color:white" for="pop_close_${pop['pop_id']}" class="popup-footer-label popup-footer-day" onclick="closeWin('pop_close_${pop['pop_id']}', '${pop['pop_id']}', '${pop['pop_hidden_day'][0]}'); return false;">
+        <input title="일정기간 열지 않기" id="pop_close_${pop['pop_id']}" name="pop_close_${pop['pop_id']}" type="checkbox" class="hidden">${pop['pop_hidden_day'][1]}
+      </a>
+      <a href="javascript:popClose('${pop['pop_id']}');" class="popup-footer-label popup-footer-close" title='${_("Close")}'>닫기</a>
     </div>
   </div>
 </div>

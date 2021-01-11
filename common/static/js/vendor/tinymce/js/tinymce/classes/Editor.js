@@ -1469,6 +1469,7 @@ define("tinymce/Editor", [
 			try {
 				return self.getDoc().queryCommandState(cmd);
 			} catch (ex) {
+				console.log(ex)
 				// Fails sometimes see bug: 1896577
 			}
 		},
@@ -1508,6 +1509,7 @@ define("tinymce/Editor", [
 			try {
 				return self.getDoc().queryCommandValue(cmd);
 			} catch (ex) {
+				console.log(ex)
 				// Fails sometimes see bug: 1896577
 			}
 		},

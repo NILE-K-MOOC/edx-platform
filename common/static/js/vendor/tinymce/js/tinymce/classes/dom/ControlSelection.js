@@ -416,6 +416,7 @@ define("tinymce/dom/ControlSelection", [
 				// Disable object resizing on Gecko
 				editor.getDoc().execCommand('enableObjectResizing', false, false);
 			} catch (ex) {
+				console.log(ex)
 				// Ignore
 			}
 		}
@@ -434,6 +435,7 @@ define("tinymce/dom/ControlSelection", [
 				ctrlRng.select();
 				return true;
 			} catch (ex) {
+				console.log(ex)
 				// Ignore since the element can't be control selected for example a P tag
 			}
 		}

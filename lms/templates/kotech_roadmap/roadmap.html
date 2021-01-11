@@ -33,73 +33,42 @@
           </tr>
           </thead>
           <tbody>
-          <tr>
-            <td class="type">
-              <span class="number">1</span>
-              <a href="/roadmap_view/f01">호기심 차원에서 인공지능(AI)을 공부하려는 일반인</a>
-            </td>
-            <td>하</td>
-            <td>지식 습득</td>
-          </tr>
-          <tr>
-            <td class="type">
-              <span class="number">2</span>
-              <a href="/roadmap_view/e01">기업에 인공지능(AI) 기술 적용을 결정할 수 있는 경영인</a>
-            </td>
-            <td>중/하</td>
-            <td>의사결정</td>
-          </tr>
-          <tr>
-            <td class="type">
-              <span class="number">3</span>
-              <a href="javascript:void(0)" class="type-sublist">실무에 인공지능(AI) 기술을 적용하고자 하는 직업인(AI+X)</a>
-              <div class="list-down">
-                <ul>
-                  <li>
-                    <a href="/roadmap_view/d02">로보틱스 분야(AI+X)</a>
-                  </li>
-                  <li>
-                    <a href="/roadmap_view/d04">인지과학 분야(AI+X)</a>
-                  </li>
-                  <li>
-                    <a href="/roadmap_view/d01">자율주행 분야(AI+X)</a>
-                  </li>
-                  <li>
-                    <a href="/roadmap_view/d05">경제학 분야(AI+X)</a>
-                  </li>
-                  <li>
-                    <a href="/roadmap_view/d03">의료 및 헬스케어 분야(AI+X)</a>
-                  </li>
-                </ul>
-              </div>
-            </td>
-            <td>중/하</td>
-            <td>업무에 활용</td>
-          </tr>
-          <tr>
-            <td class="type">
-              <span class="number">4</span>
-              <a href="/roadmap_view/c01">인문, 사회과학을 비롯한 다양한 학문 전공자</a>
-            </td>
-            <td>하</td>
-            <td>AI 전문가</td>
-          </tr>
-          <tr>
-            <td class="type">
-              <span class="number">5</span>
-              <a href="/roadmap_view/b01">공학, 자연과학 전공자</a>
-            </td>
-            <td>중</td>
-            <td>AI 전문가</td>
-          </tr>
-          <tr>
-            <td class="type">
-              <span class="number">6</span>
-              <a href="/roadmap_view/a01">컴퓨터공학 전공자</a>
-            </td>
-            <td>상</td>
-            <td>AI 전문가</td>
-          </tr>
+
+          % for ai in ai_not_group_list:
+              <tr>
+                <td class="type">
+                  <span class="number">${ai['rn']}</span>
+                    <a href="/roadmap_view/${ai['id']}">${ai['target']}</a>
+                </td>
+                <td>${ai['basic_knowledge']}</td>
+                <td>${ai['purpose_of_course']}</td>
+              </tr>
+          % endfor
+
+          % for group_name in ai_group_name_list:
+              <tr>
+                <td class="type">
+                  <span class="number">${group_name['rn']}</span>
+                    <a href="javascript:void(0)" class="type-sublist">${group_name['group_name']}</a>
+                  <div class="list-down">
+                    <ul>
+                        <!-- 여기만 for 문 돌아야 될거같은데 -->
+                        % for ai_group in ai_group_list:
+                           % if group_name['group_name'] == ai_group['group_name']:
+                          <li>
+                            <a href="/roadmap_view/${ai_group['id']}">${ai_group['target']}</a>
+                          </li>
+                            %endif
+                        <!-- 여기만 for 문 돌아야 될거같은데 -->
+                        % endfor
+                    </ul>
+                  </div>
+                </td>
+                <td>${group_name['basic_knowledge']}</td>
+                <td>${group_name['purpose_of_course']}</td>
+              </tr>
+          % endfor
+
           </tbody>
         </table>
         <div class="roadmap-info">

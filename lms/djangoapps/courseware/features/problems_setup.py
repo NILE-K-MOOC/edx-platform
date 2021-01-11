@@ -27,6 +27,7 @@ from capa.tests.response_xml_factory import (
     StringResponseXMLFactory
 )
 from common import section_location
+import secrets
 
 # Factories from capa.tests.response_xml_factory that we will use
 # to generate the problem XML, with the keyword args used to configure
@@ -217,7 +218,7 @@ def answer_problem(course, problem_type, correctness):
         world.css_fill(inputfield(course, 'string'), textvalue)
 
     elif problem_type == 'numerical':
-        textvalue = "pi + 1" if correctness == 'correct' else str(random.randint(-2, 2))
+        textvalue = "pi + 1" if correctness == 'correct' else str(int(secrets.randbelow(5)) - 2)
         world.css_fill(inputfield(course, 'numerical'), textvalue)
 
     elif problem_type == 'formula':
@@ -226,13 +227,13 @@ def answer_problem(course, problem_type, correctness):
 
     elif problem_type == 'script':
         # Correct answer is any two integers that sum to 10
-        first_addend = random.randint(-100, 100)
+        first_addend = int(secrets.randbelow(201)) - 100
         second_addend = 10 - first_addend
 
         # If we want an incorrect answer, then change
         # the second addend so they no longer sum to 10
         if correctness == 'incorrect':
-            second_addend += random.randint(1, 10)
+            second_addend += int(secrets.randbelow(10)) + 1
 
         world.css_fill(inputfield(course, 'script', input_num=1), str(first_addend))
         world.css_fill(inputfield(course, 'script', input_num=2), str(second_addend))

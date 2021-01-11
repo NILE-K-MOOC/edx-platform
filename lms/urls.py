@@ -66,12 +66,14 @@ from courseware import courses as courses
 # made by kotech system
 from maeps import views as maeps                               # Markani Solution APP
 from kotech_common import views as kotech_common_views         # Common APP
+from kotech_common.utils import Utils
 from kotech_survey import views as kotech_survey_views         # Course Satisfaction Survey APP
 from kotech_series import views as kotech_series_views         # Series Course APP
 from kotech_memo import views as kotech_memo_views             # Memo APP
 from kotech_community import views as kotech_community_views   # Community APP
 from kotech_lifelong import views as kotech_lifelong_views     # Lifelong APP
 from kotech_roadmap import views as kotech_roadmap_views     # Lifelong APP
+
 
 LogAction()
 if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
@@ -82,18 +84,20 @@ if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
         admin.site.login_form = PasswordPolicyAwareAdminAuthForm
 
 
-
-
-
 urlpatterns = [
     url(r'^$', branding_views.index, name='root'),
+    url(r'^get_index_courses$', student_views.get_index_courses, name='get_index_courses'),
 
     # Common
     # made by kotech system
     url(r'^api/get_org_value$', kotech_common_views.get_org_value, name='get_org_value'),
 
+    # kotech_sidebar
+    url(r'^sidebar$', kotech_common_views.sidebar, name='sidebar'),
+
     # Drmt
     url(r'^active_account/(?P<email>.*?)$', student_views.active_account, name='active_account'),
+    url(r'^find_email/$', student_views.find_email, name='find_email'),
     url(r'^del_drmt_url/(?P<email>.*?)$', student_views.del_drmt_url, name='del_drmt_url'),
 
 
@@ -176,7 +180,10 @@ urlpatterns = [
     url(r'^parent_agree$', student_account_views.parent_agree, name="parent_agree"),
     url(r'^parent_agree_done$', student_account_views.parent_agree_done, name="parent_agree_done"),
     url(r'^org_check', student_account_views.org_check, name="org_check"),
+    url(r'^account_nice_check_and_save$', student_account_views.account_nice_check_and_save, name="account_nice_check_and_save"),
     url(r'^account_nice_check$', student_account_views.account_nice_check, name="account_nice_check"),
+    url(r'^nice_enc_data$', Utils.as_view(), name="nice_enc_data"),
+    url(r'^find_email_by_ci$', student_account_views.find_email_by_ci, name="find_email_by_ci"),
 
 
     # Remove Account

@@ -19,19 +19,19 @@
             <div class="select-row">
                 <div class="select-col">
                     <label class="label-overwrite" for="">기관유형</label>
-                    <select id="f_org_filter">
+                    <select id="f_org_filter" title="기관유형">
                         <option value="A">전체</option>
                     </select>
                 </div>
                 <div class="select-col">
                     <label class="label-overwrite" for="">참여년도</label>
-                    <select id="f_year_filter">
+                    <select id="f_year_filter" title="참여년도">
                         <option value="A">전체</option>
                     </select>
                 </div>
                 <div class="select-col">
-                    <label class="label-overwrite" for="" style="margin-top: -6px;">참여기관명</label>
-                    <input id="f_name_filter" type="text" class="search-input">
+                    <label class="label-overwrite" for="" style="margin-top: -6px;" tabindex="0">참여기관명</label>
+                    <input id="f_name_filter" type="text" class="search-input" title="참여기관명">
                     <button id="xxx_search" class="search-button">검색</button>
                 </div>
             </div>
@@ -171,10 +171,10 @@ function org_search_send(){
 
             if (check_intro == 'Y') {
                 var template = ''+
-                '<div class="org-item" onclick="window.location.href = \t&#39;/school/'+org_id+'/\t&#39;;">'+
-                '    <div class="item">'+
+                '<div class="org-item" onclick="window.location.href = \t&#39;/school/'+org_id+'/\t&#39;" data-org_id=' + org_id + '>'+
+                '    <div class="item" tabindex="0">'+
                 '        <div class="item-img">'+
-                '            <img onerror="this.src=\'/static/images/blank.png\'" src="'+logo_img+'">'+
+                '            <img onerror="this.src=\'/static/images/blank.png\'" src="'+logo_img+'" alt="'+ univ_name +'">'+
                 '        </div>'+
                 '        <div class="item-subj">'+
                 '            <span>'+org_type+'</span>'+
@@ -184,7 +184,7 @@ function org_search_send(){
                 '            <div class="org" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">'+univ_name+'</div>'+
                 '            <div class="tel">'+org_phone+'</div>'+
                 '        </div>'+
-                '        <a style="text-decoration: none;" href="#" class="item-hover">'+
+                '        <a style="text-decoration: none;" class="item-hover">'+
                 '            <span>'+part_b+'ㆍ'+part_c+'</span>'+
                 '        </a>'+
                 '    </div>'+
@@ -192,9 +192,9 @@ function org_search_send(){
             } else {
                 var template = ''+
                 '<div class="org-item">'+
-                '    <div class="item">'+
+                '    <div class="item" tabindex="0">'+
                 '        <div class="item-img">'+
-                '            <img onerror="this.src=\'/static/images/blank.png\'" src="'+logo_img+'">'+
+                '            <img onerror="this.src=\'/static/images/blank.png\'" src="'+logo_img+'" alt="'+ univ_name +'">'+
                 '        </div>'+
                 '        <div class="item-subj">'+
                 '            <span>'+org_type+'</span>'+
@@ -204,7 +204,7 @@ function org_search_send(){
                 '            <div class="org" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">'+univ_name+'</div>'+
                 '            <div class="tel">'+org_phone+'</div>'+
                 '        </div>'+
-                '        <a style="text-decoration: none;" href="#">'+
+                '        <a style="text-decoration: none;" >'+
                 '        </a>'+
                 '    </div>'+
                 '</div>';
@@ -251,4 +251,25 @@ $(document).ready(function(){
     });
 
 });
+
+$(document).on('keydown','.org-item',function (event) {
+
+    if(event.keyCode == 13){
+
+        let org_id = $(this).data('org_id')
+
+        if (org_id != undefined){
+            let url = '/school/'+org_id
+            window.location = url
+        }
+    }
+})
+
 </script>
+
+<style>
+
+    .org-item{
+        cursor: pointer;
+    }
+</style>

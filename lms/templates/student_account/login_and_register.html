@@ -22,6 +22,7 @@
 </%block>
 
 <%block name="js_extra">
+    <script type="text/javascript" src="/static/js/vendor/jquery-ui.min.js"></script>
     <%static:require_module module_name="js/student_account/logistration_factory" class_name="LogistrationFactory">
         var options = ${data | n, dump_js_escaped_json};
         LogistrationFactory(options);
@@ -72,7 +73,7 @@
 </%block>
 
 <%block name="header_extras">
-    % for template_name in ["account", "access", "form_field", "login", "register", "institution_login", "institution_register", "password_reset", "hinted_login"]:
+    % for template_name in ["account", "access", "form_field", "login", "register", "institution_login", "institution_register", "email_find", "password_reset", "hinted_login"]:
         <script type="text/template" id="${template_name}-tpl">
             <%static:include path="student_account/${template_name}.underscore" />
 
@@ -110,9 +111,7 @@
                     border_class = ''
                 %>
             % endif
-            <div id="login-and-registration-container" class="login-register ${border_class}" style="width: 500px;">
-
-            </div>
+            <div id="login-and-registration-container" class="login-register ${border_class}" style="width: 500px;"></div>
         </div>
     </main>
 </div>
@@ -370,3 +369,7 @@ function multisite_btn(){
 }
 </script>
 
+<form id="form2" name="form2" method="post" action="https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb">
+    <input type="hidden" name="m" value="checkplusSerivce">
+    <input type="hidden" name="EncodeData" value="${enc_data}">
+</form>

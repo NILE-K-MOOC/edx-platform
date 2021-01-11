@@ -82,7 +82,9 @@ function() {
             }
             if (!id) {
                 // Generate random alpha-numeric string.
-                id = Math.random().toString(36).slice(2);
+                var array = new Uint32Array(1);
+                var randomNum = window.crypto.getRandomValues(array)[0]/10000000000;
+                id = randomNum.toString(36).slice(2);
             }
 
             window[namespace] = window[namespace] || {};

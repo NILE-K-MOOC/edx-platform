@@ -123,7 +123,9 @@
                 if (jXHR.responseText) {
                     try {
                         message = $.parseJSON(jXHR.responseText).error;
-                    } catch (error) { }
+                    } catch (error) {
+                        console.log(error)
+                    }
                 }
 
                 this.options.error(message || this.errorMessage, searchQuery);

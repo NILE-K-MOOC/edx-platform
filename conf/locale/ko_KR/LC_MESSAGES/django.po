@@ -10797,6 +10797,12 @@ msgstr "username@domain.com"
 msgid "The email address you used to register with {platform_name}"
 msgstr "{platform_name} 회원 가입 시 입력한 이메일 주소"
 
+msgid "Find Email"
+msgstr "이메일 찾기"
+
+msgid "Find Password"
+msgstr "비밀번호 찾기"
+
 #. #-#-#-#-#  django-partial.po (edx-platform)  #-#-#-#-#
 #. Translators: This label appears above a field on the login form
 #. meant to hold the user's password.
@@ -10834,6 +10840,9 @@ msgstr "이메일 확인"
 #: openedx/core/djangoapps/user_api/api.py
 msgid "This name will be used on any certificates that you earn."
 msgstr "입력하신 이름은 획득하신 이수증에 사용됩니다."
+
+msgid "This name will be used on any certificates that you earn. If you proceed with the identity verification, it will be used to find your email."
+msgstr "입력하신 이름은 획득하신 이수증에 사용됩니다. 본인인증을 진행하실 경우 계정찾기에 사용됩니다."
 
 #. #-#-#-#-#  django-partial.po (edx-platform)  #-#-#-#-#
 #. Translators: This label appears above a field on the registration form
@@ -21030,6 +21039,14 @@ msgid "Collapse All Sections"
 msgstr "모든 주제 접기"
 
 #: cms/templates/course_outline.html
+msgid "Go To Inst"
+msgstr "참여기관"
+
+#: cms/templates/course_outline.html
+msgid "Click to go to the participating organization manager screen"
+msgstr "참여기관 관리자 화면으로 이동 하려면 클릭하세요"
+
+#: cms/templates/course_outline.html
 msgid "Expand All Sections"
 msgstr "모든 주제 펼치기"
 
@@ -27471,6 +27488,12 @@ msgstr "진행중"
 msgid "ing course"
 msgstr "수강강좌"
 
+msgid "My Info"
+msgstr "내 정보"
+
+msgid "Notification list"
+msgstr "알림 목록"
+
 msgid "complete/end Course"
 msgstr "이수/종료강좌"
 
@@ -28157,3 +28180,8 @@ msgstr "중분류"
 msgid "K-MOOC recommends using the chrome browser."
 msgstr "K-MOOC는 chrome 브라우저 사용을 권장합니다."
 
+msgid "The certificate of completion can be printed in [Dashboard - Complete/End Courses] 1~2 weeks after the end of the semester."
+msgstr "이수증은 종강일로부터 1~2주후 [내 강의실-이수/종료강좌]에서 출력 가능"
+
+msgid "The name is used by the user for this certificate. You can use the functions of Find Your Own Account Email."
+msgstr "이름은 사용자가 이수증에 사용됩니다. 본인인증시 이메일 찾기의 기능을 이용할 수 있습니다."

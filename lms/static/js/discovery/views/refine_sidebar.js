@@ -12,7 +12,8 @@
             el: '.search-facets',
             events: {
                 // 'click li button': 'selectOption',
-                'change .facet-list': 'selectOption',
+                // 'change .facet-list': 'selectOption1',
+                'click #course-org-select-move' : 'selectOption1',
                 'click li button': 'selectOption2',
                 'click .show-less': 'collapse',
                 'click .show-more': 'expand'
@@ -523,6 +524,26 @@
 
                 $(".facet-list option[value=" + select_val + "]").attr("selected", "selected")
             },
+
+            selectOption1: function (event) {
+
+                $(".course-facets-select").focus();
+                $(".search-facets-lists").focus();
+
+                var $target = $(event.currentTarget);
+                var select_val = $("#org_select").val();
+                var select_index = select_val.split('+');
+
+                this.trigger(
+                    'selectOption',
+                    $target.data('facet'),
+                    select_index[0],
+                    select_index[1]
+                );
+
+                $(".facet-list option[value='" + select_val + "']").attr("selected", "selected")
+            },
+
             selectOption2: function (event) {
                 $(".course-facets-select").focus();
                 var $target = $(event.currentTarget);

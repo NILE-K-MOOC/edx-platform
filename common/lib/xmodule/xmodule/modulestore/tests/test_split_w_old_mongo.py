@@ -14,6 +14,7 @@ from xmodule.modulestore.mongo import DraftMongoModuleStore
 from xmodule.modulestore.split_mongo.split import SplitMongoModuleStore
 from xmodule.modulestore.tests.mongo_connection import MONGO_PORT_NUM, MONGO_HOST
 from xmodule.modulestore.tests.utils import MemoryCache
+import secrets
 
 
 @attr('mongo')
@@ -50,7 +51,7 @@ class SplitWMongoCourseBootstrapper(unittest.TestCase):
     def setUp(self):
         self.db_config['collection'] = 'modulestore{0}'.format(uuid.uuid4().hex[:5])
 
-        self.user_id = random.getrandbits(32)
+        self.user_id = secrets.randbits(32)
         super(SplitWMongoCourseBootstrapper, self).setUp()
         self.split_mongo = SplitMongoModuleStore(
             None,

@@ -207,6 +207,7 @@ $(document).ready(function(){
 });
 function onKeyDown()
 {
+    console.log('1234')
      if(event.keyCode == 13)
      {
 		 search();

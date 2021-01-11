@@ -64,7 +64,13 @@ function checkForHash() {
     }
 }
 
-
+function onKeyDown_memo()
+{
+     if(event.keyCode == 13)
+     {
+		 search();
+     }
+}
 
 function search(page_no) {
 

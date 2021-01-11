@@ -8,6 +8,7 @@ import urllib
 import json
 import MySQLdb as mdb
 import pytz
+from pytz import timezone, utc
 import urllib2
 import commands
 from datetime import datetime
@@ -140,8 +141,84 @@ def _update_certificate_context(context, course, user_certificate, platform_name
 
     nice_command = '{0} ENC {1} {2} {3}'.format(nice_cb_encode_path, nice_sitecode, nice_sitepasswd, plaindata)
 
-    print "nice_command -> ", nice_command
     enc_data = commands.getoutput(nice_command)
+
+    # 특수분야 직무 이수증 여부
+    with connections['default'].cursor() as cur:
+        query = '''
+                select use_yn from special_institute 
+                where course_id  = '{course_id}'
+            '''.format(course_id=course.id)
+
+        cur.execute(query)
+        inst_yn = cur.fetchall()
+
+    try:
+        context['inst_yn'] = inst_yn[0][0]
+
+    except Exception as e:
+        print 'no special course ', e
+        context['inst_yn'] = ''
+
+    # 특수분야 직무 이수증 neis_id 여부
+    with connections['default'].cursor() as cur:
+        query = '''
+            select addinfo 
+            from multisite_member 
+            where user_id = '{user_id}' AND site_id = 7;
+        '''.format(user_id=context['accomplishment_user_id'])
+        cur.execute(query)
+        mul_mem = cur.fetchall()
+
+    # 특수분야 직무 이수증 정보
+    with connections['default'].cursor() as cur:
+        query = '''
+            select a.enroll_num,c.appoint_num from special_certificates a 
+            join certificates_generatedcertificate b on a.cert_id = b.verify_uuid 
+            join special_institute c on b.course_id = c.course_id
+            where a.user_id = '{user_id}' and b.course_id = '{course_id}'
+        '''.format(user_id=context['accomplishment_user_id'], course_id=course.id)
+        cur.execute(query)
+        mul_info = cur.fetchall()
+
+    try:
+
+        mul_mem = json.loads(mul_mem[0][0])
+
+        context['instNm'] = mul_mem['instNm']
+        context['neisId'] = mul_mem['neisId']
+        context['mbrNm'] = mul_mem['mbrNm']
+
+        try:
+            # 생년월일 date_format
+            date_format = datetime.strptime(str(mul_mem['mbrbirth']), '%Y%m%d').date().strftime('%Y년 %m월 %d일')
+            context['mbrbirth'] = date_format
+            # 직무
+            context['instqq'] = mul_mem['instqq']
+            # 소속
+            context['sosok'] = mul_mem['sosok']
+        except Exception as e:
+            print 'exception'
+            print e
+            print 'exception'
+            # 생년월일
+            context['mbrbirth'] = "미입력"
+            # 직무
+            context['instqq'] = "미입력"
+            # 소속
+            context['sosok'] = "미입력"
+    except:
+        pass
+
+    try:
+
+        context['enroll_num'] = mul_info[0][0]
+        context['appoint_num'] = mul_info[0][1]
+    except:
+        context['enroll_num'] = '-'
+        context['appoint_num'] = '-'
+
+    # {"instNm": "경기도교육청", "neisId": "J101389432", "mbrNm": "김하늘4", "mbrbirth": "20121234", "instqq": "직무"}
 
     with connections['default'].cursor() as cur:
         query = '''
@@ -167,7 +244,7 @@ def _update_certificate_context(context, course, user_certificate, platform_name
     context['multisite'] = multisite
 
     context['enc_data'] = enc_data
-
+    context['year']=user_certificate.modified_date.year
     # Override the defaults with any mode-specific static values
     context['certificate_id_number'] = user_certificate.verify_uuid
     context['certificate_verify_url'] = "{prefix}{uuid}{suffix}".format(
@@ -183,17 +260,12 @@ def _update_certificate_context(context, course, user_certificate, platform_name
         day=date.day,
         year=date.year
     )
-    from_zone = tz.gettz('UTC')
-    to_zone = tz.gettz('Asia/Seoul')
 
-    context['certificate_date_issued2'] = ('{year}.{month}.{day}. ').format(
-        year=datetime.now().replace(tzinfo=from_zone).astimezone(to_zone).year,
-        #year=user_certificate.modified_date.year,
-        month=datetime.now().replace(tzinfo=from_zone).astimezone(to_zone).month,
-        #month=user_certificate.modified_date.month,
-        day=datetime.now().replace(tzinfo=from_zone).astimezone(to_zone).day,
-        #day=user_certificate.modified_date.day
-    )
+    now_date = datetime.now(timezone('Asia/Seoul')).strftime('%Y.%m.%d')
+    context['certificate_date_issued2'] = now_date
+
+    now_date_special = datetime.now(timezone('Asia/Seoul')).strftime('%Y년 %m월 %d일')
+    context['certificate_date_issued3'] = now_date_special
 
     # Translators:  This text represents the verification of the certificate
     context['document_meta_description'] = _('This is a valid {platform_name} certificate for {user_name}, '
@@ -326,6 +398,7 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
         birth_date = nice_dict['BIRTHDATE']
         user_name = urllib.unquote(user_name).decode('utf8')
         context['user_name'] = user_name
+        
         context['birth_date'] = birth_date[0:4]
         """
 
@@ -854,13 +927,32 @@ def render_cert_by_uuid(request, certificate_uuid):
     except GeneratedCertificate.DoesNotExist:
         raise Http404
 
+def render_cert_by_uuid_special(request, certificate_uuid):
+    """
+    create by 92hoy
+
+    This public view generates an HTML representation of the specified certificate
+    """
+    try:
+        certificate = GeneratedCertificate.eligible_certificates.get(
+            verify_uuid=certificate_uuid,
+            status=CertificateStatuses.downloadable
+        )
+        special = 'Y'
+        return render_html_view(request, certificate.user.id, unicode(certificate.course_id),special)
+    except GeneratedCertificate.DoesNotExist:
+        raise Http404
+
 
 @handle_500(
     template_path="certificates/server-error.html",
     test_func=lambda request: request.GET.get('preview', None)
 )
-def render_html_view(request, user_id, course_id):
+def render_html_view(request, user_id, course_id, special=None):
     """
+    modify by 92hoy
+     - special : 특수분야 이수증 param
+
     This public view generates an HTML representation of the specified user and course
     If a certificate is not available, we display a "Sorry!" screen instead
     """
@@ -869,6 +961,7 @@ def render_html_view(request, user_id, course_id):
     except ValueError:
         raise Http404
 
+    print 'speicalspeicalspeicalspeical',special
     preview_mode = request.GET.get('preview', None)
     platform_name = configuration_helpers.get_value("platform_name", settings.PLATFORM_NAME)
     configuration = CertificateHtmlViewConfiguration.get_config()
@@ -946,7 +1039,7 @@ def render_html_view(request, user_id, course_id):
     with translation.override(certificate_language):
         context = {'user_language': user_language}
 
-        _update_context_with_basic_info(context, course_id, platform_name, configuration,user_id,preview_mode)
+        _update_context_with_basic_info(context, course_id, platform_name, configuration, user_id, preview_mode)
 
         context['certificate_data'] = active_configuration
 
@@ -988,7 +1081,7 @@ def render_html_view(request, user_id, course_id):
         _track_certificate_events(request, context, course, user, user_certificate)
 
         # Render the certificate
-        return _render_valid_certificate(request, context, custom_template)
+        return _render_valid_certificate(request, context, custom_template, special)
 
 
 def _get_catalog_data_for_course(course_key):
@@ -1042,7 +1135,7 @@ def _render_invalid_certificate(course_id, platform_name, configuration, user_id
     return render_to_response(INVALID_CERTIFICATE_TEMPLATE_PATH, context)
 
 
-def _render_valid_certificate(request, context, custom_template=None):
+def _render_valid_certificate(request, context, custom_template=None, special=None):
     if custom_template:
         template = Template(
             custom_template.template,
@@ -1052,6 +1145,20 @@ def _render_valid_certificate(request, context, custom_template=None):
             encoding_errors='replace',
         )
         context = RequestContext(request, context)
+        # print 'context 1', context
         return HttpResponse(template.render(context))
     else:
+        # print 'context 2', context
+        # print 'special', special
+
+        context['special'] = special
         return render_to_response("certificates/valid.html", context)
+
+
+def dictfetchall(cursor):
+    "Returns all rows from a cursor as a dict"
+    desc = cursor.description
+    return [
+        dict(zip([col[0] for col in desc], row))
+        for row in cursor.fetchall()
+    ]

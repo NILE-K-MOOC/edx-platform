@@ -243,7 +243,7 @@
   /*border: 3px black solid;*/
    background-color: #ffffff;
    background-image: none;
-  box-shadow: white;
+   /*box-shadow: white;*/
 }
 
 .btn:hover:not(:disabled), .btn:hover:not(:disabled) {

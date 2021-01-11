@@ -27,7 +27,7 @@ from django.db import transaction
 from django.db.models.signals import post_save
 from django.dispatch import Signal, receiver
 from django.http import Http404, HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.template.context_processors import csrf
 from django.template.response import TemplateResponse
 from django.utils.encoding import force_bytes, force_text
@@ -233,13 +233,12 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
         return redirect('/multisite_error?error=error001')
     search_word = ''
     if site_id != None:
-        now_length=0
+        now_length = 0
 
         course_list = []
         module_store = modulestore()
 
-
-        search_word=''
+        search_word = ''
 
         if request.POST:
             search_cnt = int(request.POST.get('search_cnt'))
@@ -499,7 +498,6 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
         log.info("management.multisite_index step 4")
 
     # ----------------------------------------------------------------
-
     context['course_select_type'] = course_select_type
     context['max_pop'] = max_pop[0]
     context['popup_base'] = theming_helpers.get_template_path('popup_base.html')
@@ -561,53 +559,10 @@ def index(request, extra_context=None, user=AnonymousUser()):
 
     user = request.user
 
-    # courses = get_courses(user)
-    # filter test ::: filter_={'start__lte': datetime.datetime.now(), 'org':'edX'}
-    with connections['default'].cursor() as cur:
-        query = '''
-            select course_id
-            from student_courseenrollment
-            where user_id = {user_id}
-            and is_active = 1
-            order by created desc
-            limit 12;
-        '''.format(user_id=user.id)
-        try:
-            cur.execute(query)
-            my_raw_course = cur.fetchall()
-        except BaseException:
-            my_raw_course = []
-
-        # N: new, P: popular, T:today
-        query = '''
-            SELECT course_division, course_id
-              FROM tb_main_course
-             WHERE course_division in ('N', 'P', 'T') 
-              ;
-        '''
-        cur.execute(query)
-        main_course = cur.fetchall()
-
-        log.debug('len(main_course) : {}'.format(len(main_course)))
-
-        my_course = [CourseKey.from_string(course[0]) for course in my_raw_course]
-        new_course = [CourseKey.from_string(course[1]) for course in main_course if course[0] == 'N']
-        pop_course = [CourseKey.from_string(course[1]) for course in main_course if course[0] == 'P']
-        today_course = [CourseKey.from_string(course[1]) for course in main_course if course[0] == 'T']
-
-    f1 = {'id__in': new_course}
-    log.debug('***** def index time check1.1.1 [%s]' % format(time.time() - start, ".6f"))
-    f2 = {'id__in': pop_course}
-    log.debug('***** def index time check1.1.2 [%s]' % format(time.time() - start, ".6f"))
-    f3 = {'id__in': today_course}
-    log.debug('***** def index time check1.1.3 [%s]' % format(time.time() - start, ".6f"))
-    f4 = {'id__in': my_course}
-    log.debug('***** def index time check1.1.3 [%s]' % format(time.time() - start, ".6f"))
-
-    new_courses = index_courses(user, f1)
-    pop_courses = index_courses(user, f2)
-    today_courses = index_courses(user, f3)
-    my_courses = index_courses(user, f4)
+    new_courses = list()
+    pop_courses = list()
+    today_courses = list()
+    my_courses = list()
 
     log.debug('***** def index time check1.3 [%s]' % format(time.time() - start, ".6f"))
 
@@ -992,6 +947,69 @@ def index(request, extra_context=None, user=AnonymousUser()):
     log.debug('***** def index time check9 [%s]' % format(time.time() - start, ".6f"))
 
     return render_to_response('index.html', context)
+
+
+@csrf_exempt
+def get_index_courses(request):
+    user = request.user
+
+    # courses = get_courses(user)
+    # filter test ::: filter_={'start__lte': datetime.datetime.now(), 'org':'edX'}
+    with connections['default'].cursor() as cur:
+        query = '''
+            SELECT 
+                course_id
+            FROM
+                student_courseenrollment
+            WHERE
+                user_id = '{user_id}' AND is_active = 1
+            ORDER BY created DESC
+            LIMIT 12            
+        '''.format(user_id=user.id)
+
+        try:
+            cur.execute(query)
+            my_raw_course = cur.fetchall()
+        except BaseException:
+            my_raw_course = []
+
+        # N: new, P: popular, T:today
+        query = '''
+                SELECT course_division, course_id
+                  FROM tb_main_course
+                 WHERE course_division in ('N', 'P', 'T') 
+                  ;
+            '''
+        cur.execute(query)
+        main_course = cur.fetchall()
+
+        log.debug('len(main_course) : {}'.format(len(main_course)))
+
+        my_course = [CourseKey.from_string(course[0]) for course in my_raw_course]
+        new_course = [CourseKey.from_string(course[1]) for course in main_course if course[0] == 'N']
+        pop_course = [CourseKey.from_string(course[1]) for course in main_course if course[0] == 'P']
+        today_course = [CourseKey.from_string(course[1]) for course in main_course if course[0] == 'T']
+
+    f1 = {'id__in': new_course}
+    f2 = {'id__in': pop_course}
+    f3 = {'id__in': today_course}
+    f4 = {'id__in': my_course}
+
+    new_courses = index_courses(user, f1)
+    pop_courses = index_courses(user, f2)
+    today_courses = index_courses(user, f3)
+    my_courses = index_courses(user, f4)
+
+    context = {
+        'new_courses': new_courses,
+        'pop_courses': pop_courses,
+        'today_courses': today_courses,
+        'my_courses': my_courses
+    }
+
+    r = render_to_response('index_courses.html', context)
+    # r = JsonResponse({'result': 'success'})
+    return r
 
 
 def mobile_index(request, extra_context=None, user=AnonymousUser()):
@@ -1723,7 +1741,7 @@ def change_enrollment(request, check_access=True):
                 cur.execute(sql)
 
         except Exception as e:
-            print 'not recognition',e
+            print 'not recognition', e
             pass
         REFUND_ORDER.send(sender=None, course_enrollment=enrollment)
         return HttpResponse()

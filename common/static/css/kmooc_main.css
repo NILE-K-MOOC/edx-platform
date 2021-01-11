@@ -1719,7 +1719,7 @@ article.course.end.audit .kr01-courInfo-bar{
 }
 /*개강예정*/
 article.course.ready .kr01-courInfo-bar{
-  display: block; font-size: 12px; padding: 5px; background:#f5c42d; color: #fff;
+  display: block; font-size: 12px; padding: 5px; background:#C28400; color: #fff;
 }
 /*미정*/
 article.course.none .kr01-courInfo-bar{

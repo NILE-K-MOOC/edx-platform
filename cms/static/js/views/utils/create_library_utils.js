@@ -25,7 +25,9 @@ define(['jquery', 'gettext', 'common/js/components/utils/view_utils', 'js/views/
                             if (detailedReason) {
                                 reason = detailedReason;
                             }
-                        } catch (e) {}
+                        } catch (e) {
+                            console.log(e)
+                        }
                     }
                     errorHandler(reason);
                 });

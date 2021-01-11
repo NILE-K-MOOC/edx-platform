@@ -11050,7 +11050,9 @@ var PartialEvaluator = (function PartialEvaluatorClosure() {
                                      subtype && subtype.name);
           var xrefFontStats = xref.stats.fontTypes;
           xrefFontStats[fontType] = true;
-        } catch (ex) { }
+        } catch (ex) {
+            console.log(ex)
+        }
 
         fontCapability.resolve(new TranslatedFont(font.loadedName,
           new ErrorFont(reason instanceof Error ? reason.message : reason),
