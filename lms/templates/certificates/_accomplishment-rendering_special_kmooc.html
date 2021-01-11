@@ -10,19 +10,8 @@ if accomplishment_course_title.find('(') == -1 :
 accomplishment_course_title = accomplishment_course_title.replace(')','').split('(')
 %>
 <style>
-
-    .paper {
-        width: 230mm;
-        min-height: 297mm;
-        padding: 6.5mm !important;
-        margin: 10mm auto !important;
-        background: #fff !important;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1) !important;
-        position: relative !important;
-    }
-
     .content {
-        padding: 20px 10px;
+        padding: 0px 10px;
         border: 3px solid #000;
     }
 
@@ -41,34 +30,6 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
 
     .content .ctable td {
         padding: 20px 0;
-    }
-
-    .content .ctable th {
-        width: 15%;
-        font-size: 14pt;
-        font-weight: bold;
-    }
-
-    .content .seal {
-        position: relative;
-        margin-left: 10px;
-        font-size: 5pt;
-        font-weight: bold;
-    }
-
-    .content .seal img {
-        position: absolute;
-        top: -30px;
-        left: -20px;
-        width: 100px;
-        height: 55px;
-        margin-left: 10px;
-    }
-</style>
-
-<style>
-    .ce-txt-second {
-        max-width: 540px;
     }
 
     body {
@@ -110,8 +71,8 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
         list-style: none !important;
     }
 
-    .paper {
-        width: 230mm;
+    .page {
+        width: 21cm;
         min-height: 297mm;
         padding: 6.5mm !important;
         margin: 10mm auto !important;
@@ -127,21 +88,21 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
     .content {
         padding: 25px !important;
         border: 4px solid #6c6f73 !important;
-        height: 90% !important;
+        height: 100% !important;
         width: 100% !important;
         position: relative !important;
     }
 
     @page {
         size: A4 !important;
+        padding: 0 !important;
         margin: 0 !important;
     }
 
     @media print {
         html, body {
-            width: 100% !important;
-            height: 100% !important;
-            background: #fff !important;
+            border: 0px solid red;
+            height: 99%;
         }
 
         .page {
@@ -156,180 +117,17 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
         }
     }
 
-    .ribbon {
-        display: inline-block !important;
-        position: absolute !important;
-        right: 110px !important;
-        z-index: 10 !important;
-        top: 0px !important;
-    }
-
     h5 {
         margin: 0 !important;
     }
 
-    .t-center {
-        display: inline-block !important;
-        margin-left: 20px !important;
-        width: 160px !important;
-        float: left !important;
-    }
-
-    .t-center_empty {
-        width: 0px !important;
-        margin: 0px !important;
-    }
-
-    .t-sign {
-        margin-bottom: 5px;
-        padding-bottom: 5px;
-        border-bottom: 1px solid #333;
-    }
-
-    .t-center:first-child {
-        margin-left: 3px;
-    }
-
-    .t-center h5 {
-        text-align: center !important;
-        font-size: 11px !important;
-    }
-
-    .ce-bg {
-        background: url(${static_url}/static/images/certi_bg2.png) no-repeat !important;
-        width: 643px !important;
-        height: 232px !important;
-        display: inline-block !important;
-        position: absolute !important;
-        top: 393px !important;
-        left: 100px !important;
-    }
-
-    .ce-t-gray {
-        color: #959595 !important;
-        font-size: 15px !important;
-    }
-
-    .content .k_h1 {
-        font-size: 50px !important;
-        margin-bottom: 46.5px !important;
-        margin-top: 36.5px !important;
-    }
-
-    .content .e_h1 {
-        font-size: 43px !important;
-        margin-bottom: 55px !important;
-        margin-top: 45px !important;
-    }
-
-    .content h2 {
-        font-size: 20px !important;
-    }
-
-    .ce-txt-second {
-        margin-top: 0px !important;
-        font-size: 20px !important;
-    }
-
-    .ce-center-txt1 {
-        text-align: center !important;
-        margin: 0 auto !important;
-        margin-bottom: 20px !important;
-        margin-top: -10px !important;
-    }
-
-    .ce-center-txt2 {
-        text-align: center !important;
-        margin-bottom: 35px !important;
-        font-size: 20px;
-    }
-
-    .sign-area {
-        display: inline-block !important;
-        width: 100% !important;
-        margin-bottom: -80px;
-    }
-
-    .sign-area-depth1, .sign-area-depth2, .sign-area-depth0 {
-        display: block !important;
-        height: 70px !important;
-        width: 100% !important;
-        float: left !important;
-        margin-top: 10px;
-    }
-
-    .sign-area-depth2 {
-        margin-bottom: 10px;
-    }
-
-    .sign-none {
-        display: inline-block !important;
-        text-indent: -9999px !important;
-        overflow: hidden !important;
-    }
-
-    .ce-logo-area {
-        display: inline-block !important;
-        width: 100% !important;
-    }
-
-    .ce-logo1 {
-        float: right !important;
-        font-size: 25px !important;
-    }
-
-    .ce-logo2 {
-        float: left !important;
-        margin-top: 21px !important;
-    }
-
-    #k_box1 {
-        visibility: hidden;
-        margin-bottom: 0px !important;
-    }
-
-    #e_box1 {
-        visibility: hidden;
-        margin-bottom: 0px !important;
-    }
-
-    .t-sign {
-        height: 34px !important;
-        width: 160px !important;
-    }
-
-    .ce-logo1 {
-        height: 60px !important;
-        width: auto !important;
-        margin-top: 20px !important;
-    }
-
-    .check_img {
-        height: 20px !important;
-        width: 14px !important;
-    }
-
-    .certifi_index {
-        font-size: 14px !important;
-    }
-
-    .e_name_text {
-        margin-top: 0px !important;
-    }
-
-    .helloworld {
-        margin-top: -15px;
-        margin-bottom: 20px;
-        font-size: 20px;
-        color: #8a8585;
-    }
 </style>
 
 <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 <main id="printArea_S" class="accomplishment accomplishment-main" style="display: block;">
     <body>
 
-    <div class="paper">
+    <div class="page">
 
         <div class="content">
             <h5>발급번호 : ${certificate_id_number}</h5>
@@ -342,6 +140,11 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
                 </tr>
                 <tr>
                     <th style="text-align: left;">이수번호 :</th>
+                    <!--
+                    20210111 기준
+                    경기 교육-유초중-국가평생교육진흥원-직무 까지는 고정으로 표시
+                    year 값은 해당 강좌의 시작일 연도를 표시
+                    -->
                     <td colspan="3">경기 교육-유초중-국가평생교육진흥원-${instqq}${year}-${enroll_num}</td>
                 </tr>
                 <tr>
@@ -359,8 +162,8 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
                 <tr>
                     <th style="text-align: left;">연수종별 :</th>
                     <td style="width: 35%;">직무연수</td>
-                    <th rowspan="2" style="text-align: left;">이수시간 :</th>
-                    <td rowspan="2" style="width: 35%;">${course_effort_h}시간 ${course_effort_m}분</td>
+                    <th style="text-align: left;">이수시간 :</th>
+                    <td style="width: 35%;">${course_effort_h}시간 ${course_effort_m}분</td>
                 </tr>
                 <tr>
                     <th style="text-align: left;">연수과정명 :</th>
@@ -372,8 +175,9 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
                     start_date_index = start_date.split(' ')
                     end_date_index = end_date.split(' ')
                     %>
-                    <td colspan="3">${start_date_index[0]}.${start_date_index[1]}.${start_date_index[2]} ~
-                        ${end_date_index[0]}.${end_date_index[1]}.${end_date_index[2]}
+                    <td colspan="3">
+                        ${start_date_index[0]}년 ${start_date_index[1]}월 ${start_date_index[2]}일 ~
+                        ${end_date_index[0]}년 ${end_date_index[1]}월 ${end_date_index[2]}일 (${date_diff} 일간)
                     </td>
                 </tr>
                 <tr>
@@ -406,22 +210,21 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
     </body>
 </main>
 
-<%! from django.utils.translation import ugettext as _ %>
-<%namespace name='static' file='../static_content.html'/>
+
 
 <script>
-  function special_cert_print() {
-    window.print();
-  };
-  $("input:radio[name='radio2']:radio[value='sc']").prop('checked', true);
-  $("img").error(function () {
-    var alt_index = $(this).attr("alt")
-    var class_index = $(this).attr("class")
-    $(this).replaceWith("<b><p class=" + class_index + ">" + alt_index + "</p></b>");
-  });
-  $("img").error(function () {
-    var alt_index = $(this).attr("alt")
-    var class_index = $(this).attr("class")
-    $(this).replaceWith("<b><p class=" + class_index + ">" + alt_index + "</p></b>");
-  });
+    function special_cert_print() {
+        window.print();
+    };
+    $("input:radio[name='radio2']:radio[value='sc']").prop('checked', true);
+    $("img").error(function () {
+        var alt_index = $(this).attr("alt")
+        var class_index = $(this).attr("class")
+        $(this).replaceWith("<b><p class=" + class_index + ">" + alt_index + "</p></b>");
+    });
+    $("img").error(function () {
+        var alt_index = $(this).attr("alt")
+        var class_index = $(this).attr("class")
+        $(this).replaceWith("<b><p class=" + class_index + ">" + alt_index + "</p></b>");
+    });
 </script>

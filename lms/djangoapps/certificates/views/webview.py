@@ -63,7 +63,6 @@ from django.utils.translation import ugettext_lazy as _
 log = logging.getLogger(__name__)
 _ = translation.ugettext
 
-
 INVALID_CERTIFICATE_TEMPLATE_PATH = 'certificates/invalid.html'
 
 
@@ -120,7 +119,7 @@ def _update_certificate_context(context, course, user_certificate, platform_name
     nice_reqseq = 'REQ0000000001'  # 요청 번호, 이는 성공/실패후에 같은 값으로 되돌려주게 되므로
     # 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.
     lms_base = settings.ENV_TOKENS.get('LMS_BASE')
-    #lms_base = 'dev.kr:18000'
+    # lms_base = 'dev.kr:18000'
 
     nice_returnurl = "http://{lms_base}/nicecheckplus".format(lms_base=lms_base)  # 성공시 이동될 URL
     # nice_returnurl = "http://localhost:8000/nicecheckplus".format(lms_base=lms_base)  # 성공시 이동될 URL
@@ -163,57 +162,67 @@ def _update_certificate_context(context, course, user_certificate, platform_name
     # 특수분야 직무 이수증 neis_id 여부
     with connections['default'].cursor() as cur:
         query = '''
-            select addinfo 
-            from multisite_member 
-            where user_id = '{user_id}' AND site_id = 7;
+            SELECT 
+                addinfo
+            FROM
+                multisite_member
+            WHERE
+                user_id = '{user_id}' AND site_id = 7;
         '''.format(user_id=context['accomplishment_user_id'])
         cur.execute(query)
-        mul_mem = cur.fetchall()
+        multisite_member_addinfo = cur.fetchone()
 
     # 특수분야 직무 이수증 정보
     with connections['default'].cursor() as cur:
         query = '''
-            select a.enroll_num,c.appoint_num from special_certificates a 
-            join certificates_generatedcertificate b on a.cert_id = b.verify_uuid 
-            join special_institute c on b.course_id = c.course_id
-            where a.user_id = '{user_id}' and b.course_id = '{course_id}'
+            SELECT 
+                course_id,
+                CONCAT(IF(quarter IN (1 , 2), 'A', 'B'),
+                        LPAD(rn, 4, '0')) cert_num,
+                appoint_num
+            FROM
+                (SELECT 
+                    a.id course_id,
+                        b.user_id,
+                        QUARTER(ADDDATE(a.start, INTERVAL 9 HOUR)) quarter,
+                        (@rn:=@rn + 1) rn,
+                        c.appoint_num
+                FROM
+                    course_overviews_courseoverview a
+                JOIN student_courseenrollment b ON a.id = b.course_id
+                JOIN (SELECT @rn:=0) rn
+                LEFT JOIN special_institute c ON a.id = c.course_id
+                WHERE
+                    a.id = '{course_id}'
+                ORDER BY b.id) t1
+            WHERE
+                user_id = {user_id};
         '''.format(user_id=context['accomplishment_user_id'], course_id=course.id)
         cur.execute(query)
-        mul_info = cur.fetchall()
+        multisite_cert_info = cur.fetchone()
 
     try:
-
-        mul_mem = json.loads(mul_mem[0][0])
-
-        context['instNm'] = mul_mem['instNm']
-        context['neisId'] = mul_mem['neisId']
-        context['mbrNm'] = mul_mem['mbrNm']
-
-        try:
-            # 생년월일 date_format
-            date_format = datetime.strptime(str(mul_mem['mbrbirth']), '%Y%m%d').date().strftime('%Y년 %m월 %d일')
-            context['mbrbirth'] = date_format
-            # 직무
-            context['instqq'] = mul_mem['instqq']
-            # 소속
-            context['sosok'] = mul_mem['sosok']
-        except Exception as e:
-            print 'exception'
-            print e
-            print 'exception'
-            # 생년월일
-            context['mbrbirth'] = "미입력"
-            # 직무
-            context['instqq'] = "미입력"
-            # 소속
-            context['sosok'] = "미입력"
+        addinfo_json = json.loads(multisite_member_addinfo[0])
     except:
-        pass
+        addinfo_json = dict()
+
+    context['instNm'] = addinfo_json.get('instNm', '미입력')
+    context['neisId'] = addinfo_json.get('neisId', '미입력')
+    context['mbrNm'] = addinfo_json.get('mbrNm', '미입력')
+    mbrbirth = addinfo_json.get('mbrbirth')
+
+    context['instqq'] = addinfo_json.get('instqq', '미입력')
+    context['sosok'] = addinfo_json.get('sosok', '미입력')
+
+    if mbrbirth:
+        mbrbirth_format = datetime.strptime(mbrbirth, '%Y%m%d').date().strftime('%Y년 %m월 %d일')
+        context['mbrbirth'] = mbrbirth_format
+    else:
+        context['mbrbirth'] = '미입력'
 
     try:
-
-        context['enroll_num'] = mul_info[0][0]
-        context['appoint_num'] = mul_info[0][1]
+        context['enroll_num'] = multisite_cert_info[1]
+        context['appoint_num'] = multisite_cert_info[2]
     except:
         context['enroll_num'] = '-'
         context['appoint_num'] = '-'
@@ -244,7 +253,7 @@ def _update_certificate_context(context, course, user_certificate, platform_name
     context['multisite'] = multisite
 
     context['enc_data'] = enc_data
-    context['year']=user_certificate.modified_date.year
+    context['year'] = user_certificate.modified_date.year
     # Override the defaults with any mode-specific static values
     context['certificate_id_number'] = user_certificate.verify_uuid
     context['certificate_verify_url'] = "{prefix}{uuid}{suffix}".format(
@@ -309,7 +318,7 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     Updates context dictionary with basic info required before rendering simplest
     certificate templates.
     """
-    #course_id = 'course-v1:CAUk+ACE_CAU01+2017_T2'
+    # course_id = 'course-v1:CAUk+ACE_CAU01+2017_T2'
 
     context['platform_name'] = platform_name
     context['course_id'] = course_id
@@ -434,22 +443,27 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     # ----이수증 query--
     cur = con.cursor()
     query = """
-                SELECT effort, date_format(start, '%Y %m %d'), date_format(end, '%Y %m %d') FROM course_overviews_courseoverview where id = '{0}';
+                SELECT effort, date_format(start, '%Y %m %d'), date_format(end, '%Y %m %d'), datediff(end, start) date_diff FROM course_overviews_courseoverview where id = '{0}';
                 """.format(course_id)
     cur.execute(query)
-    row = cur.fetchall()
+    row = cur.fetchone()
     cur.close()
-    start_date = row[0][1]
-    end_date = row[0][2]
-    effort = row[0][0]
+
+    effort = row[0]
+    start_date = row[1]
+    end_date = row[2]
+    date_diff = row[3]
+
     course_effort = effort.split('@')[0] if effort and '@' in effort else '-'
     course_week = effort.split('@')[1].split('#')[0] if effort and '@' in effort and '#' in effort else '-'
+
     if '$' in effort:
         course_video = effort.split('#')[1].split('$')[0] if effort and '#' in effort else '-'
     else:
         course_video = effort.split('#')[1] if effort and '#' in effort else '-'
     cert_effort = effort.split('$')[1] if effort and '$' in effort else None
     time = course_effort.split(':')
+
     context['course_week'] = course_week
     context['course_effort'] = course_effort
 
@@ -507,6 +521,7 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     context['created_date'] = created_date
     context['start_date'] = start_date
     context['end_date'] = end_date
+    context['date_diff'] = date_diff
 
     static_url = "http://" + settings.ENV_TOKENS.get('LMS_BASE')
     # static_url = 'http://kmooc.kr'
@@ -758,7 +773,7 @@ def _update_context_with_user_info(context, user, user_certificate):
     context['course_mode'] = user_certificate.mode
     context['accomplishment_user_id'] = user.id
     context['accomplishment_copy_name'] = user_fullname
-    print 'name!',user ,'/',user.id,'/',user.profile,'/', user.profile.name,'/',user_fullname
+    print 'name!', user, '/', user.id, '/', user.profile, '/', user.profile.name, '/', user_fullname
     context['accomplishment_copy_username'] = user.username
 
     context['accomplishment_more_title'] = _("More Information About {user_name}'s Certificate:").format(
@@ -902,7 +917,7 @@ def _update_organization_context(context, course):
     partner_short_name = course.display_organization if course.display_organization else course.org
     organizations = organization_api.get_course_organizations(course_id=course.id)
     if organizations:
-        #TODO Need to add support for multiple organizations, Currently we are interested in the first one.
+        # TODO Need to add support for multiple organizations, Currently we are interested in the first one.
         organization = organizations[0]
         partner_long_name = organization.get('name', partner_long_name)
         partner_short_name = organization.get('short_name', partner_short_name)
@@ -927,6 +942,7 @@ def render_cert_by_uuid(request, certificate_uuid):
     except GeneratedCertificate.DoesNotExist:
         raise Http404
 
+
 def render_cert_by_uuid_special(request, certificate_uuid):
     """
     create by 92hoy
@@ -939,7 +955,7 @@ def render_cert_by_uuid_special(request, certificate_uuid):
             status=CertificateStatuses.downloadable
         )
         special = 'Y'
-        return render_html_view(request, certificate.user.id, unicode(certificate.course_id),special)
+        return render_html_view(request, certificate.user.id, unicode(certificate.course_id), special)
     except GeneratedCertificate.DoesNotExist:
         raise Http404
 
@@ -961,14 +977,14 @@ def render_html_view(request, user_id, course_id, special=None):
     except ValueError:
         raise Http404
 
-    print 'speicalspeicalspeicalspeical',special
+    print 'speicalspeicalspeicalspeical', special
     preview_mode = request.GET.get('preview', None)
     platform_name = configuration_helpers.get_value("platform_name", settings.PLATFORM_NAME)
     configuration = CertificateHtmlViewConfiguration.get_config()
 
     # Kick the user back to the "Invalid" screen if the feature is disabled globally
     if not settings.FEATURES.get('CERTIFICATES_HTML_VIEW', False):
-        return _render_invalid_certificate(course_id, platform_name, configuration,user_id,preview_mode)
+        return _render_invalid_certificate(course_id, platform_name, configuration, user_id, preview_mode)
 
     # Load the course and user objects
     try:
@@ -983,7 +999,7 @@ def render_html_view(request, user_id, course_id, special=None):
             "%d. Specific error: %s"
         )
         log.info(error_str, course_id, user_id, str(exception))
-        return _render_invalid_certificate(course_id, platform_name, configuration,user_id,preview_mode)
+        return _render_invalid_certificate(course_id, platform_name, configuration, user_id, preview_mode)
 
     # Kick the user back to the "Invalid" screen if the feature is disabled for the course
     if not course.cert_html_view_enabled:
@@ -992,7 +1008,7 @@ def render_html_view(request, user_id, course_id, special=None):
             course_id,
             user_id,
         )
-        return _render_invalid_certificate(course_id, platform_name, configuration,user_id,preview_mode)
+        return _render_invalid_certificate(course_id, platform_name, configuration, user_id, preview_mode)
 
     # Load user's certificate
     user_certificate = _get_user_certificate(request, user, course_key, course, preview_mode)
@@ -1002,7 +1018,7 @@ def render_html_view(request, user_id, course_id, special=None):
             user_id,
             course_id,
         )
-        return _render_invalid_certificate(course_id, platform_name, configuration,user_id,preview_mode)
+        return _render_invalid_certificate(course_id, platform_name, configuration, user_id, preview_mode)
 
     # Get the active certificate configuration for this course
     # If we do not have an active certificate, we'll need to send the user to the "Invalid" screen
@@ -1014,7 +1030,7 @@ def render_html_view(request, user_id, course_id, special=None):
             course_id,
             user_id,
         )
-        return _render_invalid_certificate(course_id, platform_name, configuration,user_id,preview_mode)
+        return _render_invalid_certificate(course_id, platform_name, configuration, user_id, preview_mode)
 
     # Get data from Discovery service that will be necessary for rendering this Certificate.
     catalog_data = _get_catalog_data_for_course(course_key)
@@ -1129,9 +1145,9 @@ def _get_custom_template_and_language(course_id, course_mode, course_language):
         return (None, None)
 
 
-def _render_invalid_certificate(course_id, platform_name, configuration, user_id,preview_mode):
+def _render_invalid_certificate(course_id, platform_name, configuration, user_id, preview_mode):
     context = {}
-    _update_context_with_basic_info(context, course_id, platform_name, configuration, user_id,preview_mode)
+    _update_context_with_basic_info(context, course_id, platform_name, configuration, user_id, preview_mode)
     return render_to_response(INVALID_CERTIFICATE_TEMPLATE_PATH, context)
 
 
