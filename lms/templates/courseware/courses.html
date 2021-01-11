@@ -303,7 +303,7 @@ getParameterByName('search_query')
         var msie = ua.indexOf("MSIE ");
         $(function(){
             if(msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./) || navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
-                $('#sel_status').append('<input class="btn" type="button" id="go1" value="이동" title="이동" style="height: 23.22222px;padding-top: 0px;padding-bottom: 0px;">');
+                /* $('#sel_status').append('<input class="btn" type="button" id="go1" value="이동" title="이동" style="height: 23.22222px;padding-top: 0px;padding-bottom: 0px;">'); */
                 $('#sel_status_mo').append('<input class="btn" type="button" id="go1" value="이동" title="이동" style="height: 23.22222px;padding-top: 0px;padding-bottom: 0px;">');
             }
         });
@@ -340,10 +340,7 @@ getParameterByName('search_query')
             if (list_val){
                 url = url + '?range=' + list_val;
             }
-            if(msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./) || navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
-            }else{
-                location.href = url;
-            }
+            document.location.href = url;
         })
 
         var p_range = getTermParameter("range");
