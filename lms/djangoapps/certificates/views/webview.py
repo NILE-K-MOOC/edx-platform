@@ -141,7 +141,6 @@ def _update_certificate_context(context, course, user_certificate, platform_name
 
     nice_command = '{0} ENC {1} {2} {3}'.format(nice_cb_encode_path, nice_sitecode, nice_sitepasswd, plaindata)
 
-    print "nice_command -> ", nice_command
     enc_data = commands.getoutput(nice_command)
 
     # 특수분야 직무 이수증 여부
@@ -149,10 +148,18 @@ def _update_certificate_context(context, course, user_certificate, platform_name
         query = '''
                 select use_yn from special_institute 
                 where course_id  = '{course_id}'
-            '''.format(course_id = course.id)
+            '''.format(course_id=course.id)
+
         cur.execute(query)
         inst_yn = cur.fetchall()
-    context['inst_yn'] = inst_yn[0][0]
+
+    try:
+        context['inst_yn'] = inst_yn[0][0]
+
+    except Exception as e:
+        print 'no special course ', e
+        context['inst_yn'] = ''
+
     # 특수분야 직무 이수증 neis_id 여부
     with connections['default'].cursor() as cur:
         query = '''
@@ -170,7 +177,7 @@ def _update_certificate_context(context, course, user_certificate, platform_name
             join certificates_generatedcertificate b on a.cert_id = b.verify_uuid 
             join special_institute c on b.course_id = c.course_id
             where a.user_id = '{user_id}' and b.course_id = '{course_id}'
-        '''.format(user_id=context['accomplishment_user_id'],course_id = course.id)
+        '''.format(user_id=context['accomplishment_user_id'], course_id=course.id)
         cur.execute(query)
         mul_info = cur.fetchall()
 
@@ -1146,3 +1153,12 @@ def _render_valid_certificate(request, context, custom_template=None, special=No
 
         context['special'] = special
         return render_to_response("certificates/valid.html", context)
+
+
+def dictfetchall(cursor):
+    "Returns all rows from a cursor as a dict"
+    desc = cursor.description
+    return [
+        dict(zip([col[0] for col in desc], row))
+        for row in cursor.fetchall()
+    ]
