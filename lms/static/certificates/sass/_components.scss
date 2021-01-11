@@ -35,7 +35,7 @@
 }
 
 %depth-well {
-  box-shadow: 0 rem(1) rem(3) 0 palette(grayscale, back) inset;
+  box-shadow: 0 rem(1) rem(3) 0 palette(grayscale, back);
   padding: spacing-vertical(small) spacing-horizontal(base);
   background: palette(grayscale, x-back);
 }
@@ -461,7 +461,7 @@
     .accomplishment-statement,
     .accomplishment-statement-lead,
     .accomplishment-recipient,
-    .accomplishment-course,
+    .accomplishment-course
          {
       font-family: $font-family-serif;
     }
