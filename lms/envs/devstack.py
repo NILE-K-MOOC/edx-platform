@@ -233,7 +233,6 @@ COURSE_DISCOVERY_MEANINGS = {
         }
     }
 }
-# Il-Hee, Maeng addition end ----------------------------
 
 FEATURES['ENABLE_COURSE_DISCOVERY'] = True
 # Setting for overriding default filtering facets for Course discovery

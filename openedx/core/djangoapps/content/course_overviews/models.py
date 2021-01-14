@@ -341,6 +341,8 @@ class CourseOverview(TimeStampedModel):
                 course_overview.passing_grade = course_overview.lowest_passing_grade
                 course_overview.audit_yn = addinfo.audit_yn
                 course_overview.fourth_industry_yn = addinfo.fourth_industry_yn
+                course_overview.home_course_yn = addinfo.home_course_yn
+                course_overview.home_course_step = addinfo.home_course_step
                 course_overview.ribbon_yn = addinfo.ribbon_yn
                 course_overview.ribbon_year = addinfo.ribbon_year
                 course_overview.job_edu_yn = addinfo.job_edu_yn
@@ -369,6 +371,8 @@ class CourseOverview(TimeStampedModel):
                 course_overview.level = ''
                 course_overview.audit_yn = ''
                 course_overview.fourth_industry_yn = ''
+                course_overview.home_course_yn = ''
+                course_overview.home_course_step = ''
                 course_overview.ribbon_yn = ''
                 course_overview.ribbon_year = ''
                 course_overview.job_edu_yn = ''
@@ -762,6 +766,7 @@ class CourseOverview(TimeStampedModel):
             passing_grade=Coalesce(F('lowest_passing_grade'), V('')),
             audit_yn=Coalesce(F('courseoverviewaddinfo__audit_yn'), V('N')),
             fourth_industry_yn=Coalesce(F('courseoverviewaddinfo__fourth_industry_yn'), V('N')),
+            home_course_yn=Coalesce(F('courseoverviewaddinfo__home_course_yn'), V('N')),
             ribbon_yn=Coalesce(F('courseoverviewaddinfo__ribbon_yn'), V('N')),
             ribbon_year=Coalesce(F('courseoverviewaddinfo__ribbon_year'), V('')),
             job_edu_yn=Coalesce(F('courseoverviewaddinfo__job_edu_yn'), V('N')),

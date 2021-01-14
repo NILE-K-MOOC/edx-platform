@@ -100,7 +100,7 @@
                             if(key == 'fourth_industry_yn' && (term == 'Y' || term == 'y'))
                                 term = 'fourth_industry_y';
                             else if (key == 'job_edu_yn' && (term == 'Y' || term == 'y'))
-                                term = 'job_edu_y';
+                                term = 'job_edu_y';1``
                             else if (key == 'ai_sec_yn' && (term == 'Y' || term == 'y'))
                                 term = 'ai_sec_y';
                             else if (key == 'basic_science_sec_yn' && (term == 'Y' || term == 'y'))

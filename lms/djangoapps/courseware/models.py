@@ -488,6 +488,7 @@ class CourseOverviewAddinfo(models.Model):
     classfy_sub = models.CharField(max_length=200, blank=True, null=True)
     linguistics = models.CharField(max_length=1, blank=True, null=True)
     job_edu_yn = models.CharField(max_length=1, blank=True, null=True)
+    home_course_yn = models.CharField(max_length=1, blank=True, null=True)
     ribbon_yn = models.CharField(max_length=1, blank=True, null=True)
     ribbon_year = models.CharField(max_length=4, blank=True, null=True)
     middle_classfy_sub = models.CharField(max_length=200, blank=True, null=True)
