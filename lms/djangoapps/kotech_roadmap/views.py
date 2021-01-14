@@ -128,34 +128,7 @@ def roadmap_view(request, id):
 
     node_list = list(TbAiNode.objects.values().filter(ai_id=id, use_yn='Y').all())
     edge_list = list(TbAiEdge.objects.values().filter(ai_id=id, use_yn='Y').all())
-
-    # title = ''
-    # if id == 'a01':
-    #     title = '컴퓨터공학 전공자'
-    # elif id == 'b01':
-    #     title = '공학, 자연과학 전공자'
-    # elif id == 'c01':
-    #     title = '인문, 사회과학을 비롯한 다양한 학문 전공자'
-    # elif id == 'd01':
-    #     title = '자율주행 분야 (AI+X)'
-    # elif id == 'd02':
-    #     title = '로보틱스 분야 (AI+X)'
-    # elif id == 'd03':
-    #     title = '의료 및 헬스케어 분야 (AI+X)'
-    # elif id == 'd04':
-    #     title = '인지과학 분야 (AI+X)'
-    # elif id == 'd05':
-    #     title = '경제학 분야 (AI+X)'
-    # elif id == 'f01':
-    #     title = '호기심 차원에서 인공지능(AI)를 공부하려는 일반인'
-    # elif id == 'e01':
-    #     title = '기업에 인공지능(AI) 기술 적용을 결정할 수 있는 경영인'
-    print "----------edge_list----------"
-    print edge_list
-    print "----------edge_list----------"
-    print "----------node_list----------"
-    print node_list
-    print "----------node_list----------"
+    ai_info = TbAi.objects.values('id', 'target').filter(id=id)[0]
 
     for edge in edge_list:
 
@@ -166,27 +139,6 @@ def roadmap_view(request, id):
         edge['color']['opacity'] = edge['opacity']
 
         edge['regist_date'] = json_serial(edge['regist_date'])
-
-    # for node in node_list:
-    #     node['link'] = dict()
-    #
-    #     link_dict_list = list(TbAiLink.objects.values().filter(ai_id=id, node_id=node['id']))
-    #
-    #     link_list_data = list()
-    #     for link in link_dict_list:
-    #         link_list = list()
-    #
-    #         if link['link_type'] == 'Y':
-    #             link_list.append(link['title'])
-    #             link_list.append(link['url'])
-    #
-    #             link_list_data.append(link_list)
-    #
-    #             node['link'] = link_list_data
-    #         else:
-    #             node['link'] = link['url']
-    #
-    #     node['regist_date'] = json_serial(node['regist_date'])
 
     for node in node_list:
         node['link'] = dict()
@@ -211,6 +163,7 @@ def roadmap_view(request, id):
 
     context = {}
     context['id'] = id
+    context['ai_info'] = ai_info
     context['nodes'] = node
     context['edges'] = edge
 
