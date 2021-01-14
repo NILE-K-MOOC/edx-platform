@@ -177,7 +177,7 @@ def _update_certificate_context(context, course, user_certificate, platform_name
         query = '''
             SELECT 
                 course_id,
-                CONCAT(IF(quarter IN (1 , 2), 'A', 'B'),
+                CONCAT(IF(quarter IN (1 , 2), 'a', 'b'),
                         LPAD(rn, 4, '0')) cert_num,
                 appoint_num
             FROM
