@@ -27952,6 +27952,9 @@ msgstr "기관을 선택하시면 기관 소개와 등록된 기관의 강좌가
 msgid "Organization matching search criteria does not exist"
 msgstr "검색 조건에 일치하는 참여기관이 존재하지 않습니다"
 
+msgid "Home Courses"
+msgstr "집콕강좌"
+
 msgid "New Courses"
 msgstr "신규강좌"
 

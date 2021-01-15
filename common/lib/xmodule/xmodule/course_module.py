@@ -1029,6 +1029,14 @@ class CourseFields(object):
         hidden=True
     )
 
+    home_course_yn = String(
+        display_name=_("home_course_yn"),
+        help=_("home_course_yn hidden value"),
+        scope=Scope.settings,
+        default='N',
+        hidden=True
+    )
+
     ribbon_yn = String(
         display_name=_("ribbon_yn"),
         help=_("ribbon_yn hidden value"),

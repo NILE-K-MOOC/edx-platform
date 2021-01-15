@@ -118,6 +118,9 @@ from bson import ObjectId
 
 from pymongo import MongoClient
 from bson import ObjectId
+from datetime import datetime
+from pytz import utc
+
 
 log = logging.getLogger(__name__)
 
@@ -924,7 +927,13 @@ def _create_or_rerun_course(request):
         course = request.json.get('number', request.json.get('course'))
         display_name = request.json.get('display_name')
         # force the start date for reruns and allow us to override start via the client
-        start = request.json.get('start', CourseFields.start.default)
+        # start = request.json.get('start', CourseFields.start.default)
+
+        # 강좌 기본 일정을 2030 년도 로 셋팅
+        enrollment_start = datetime(2030, 1, 1, tzinfo=utc)
+        enrollment_end = datetime(2030, 1, 2, tzinfo=utc)
+        start = datetime(2030, 1, 1, tzinfo=utc)
+        end = datetime(2030, 1, 2, tzinfo=utc)
         run = request.json.get('run')
 
         # allow/disable unicode characters in course_id according to settings
@@ -935,7 +944,13 @@ def _create_or_rerun_course(request):
                     status=400
                 )
 
-        fields = {'start': start}
+        fields = {
+            'enrollment_start': enrollment_start,
+            'enrollment_end': enrollment_end,
+            'start': start,
+            'end': end
+        }
+
         if display_name is not None:
             fields['display_name'] = display_name
 
@@ -959,6 +974,7 @@ def _create_or_rerun_course(request):
             'classfy_plus': classfy_plus,
             'linguistics': linguistics,
             'fourth_industry_yn': 'N',
+            'home_course_yn': 'N',
             'ribbon_yn': 'N',
             'job_edu_yn': 'N',
             'ai_sec_yn': 'N',
@@ -1280,6 +1296,7 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
                     ,classfy_sub
                     ,linguistics
                     ,job_edu_yn
+                    ,home_course_yn
                     ,ribbon_yn
                     ,ribbon_year
                     ,middle_classfy_sub
@@ -1309,6 +1326,7 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
                     ,classfy_sub
                     ,linguistics
                     ,job_edu_yn
+                    ,home_course_yn
                     ,ribbon_yn
                     ,ribbon_year
                     ,middle_classfy_sub

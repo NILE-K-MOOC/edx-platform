@@ -65,7 +65,6 @@ LMS_ENROLLMENT_API_PATH = "/api/enrollment/v1/"
 # Default choices for role dropdown in the membership tab of the instructor dashboard
 # This setting is used when a site does not define its own choices via site configuration
 MANUAL_ENROLLMENT_ROLE_CHOICES = ['Learner', 'Support', 'Partner']
-# Il-Hee, Maeng addition start ---------------------------------
 ALL_LANGUAGES = (
     [u"aa", u"Afar"],
     [u"ab", u"Abkhazian"],
@@ -339,6 +338,8 @@ COURSE_DISCOVERY_FILTERS = [
     'course_level',
     'ai_sec_yn',
     'basic_science_sec_yn',
+    'home_course_yn',
+    'home_course_step',
     'ribbon_yn',
     'ribbon_year'
 ]

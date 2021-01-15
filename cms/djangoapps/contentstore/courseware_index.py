@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """ Code to allow module store to interface with courseware index """
 from __future__ import absolute_import
 
@@ -544,7 +545,6 @@ class CourseAboutSearchIndexer(object):
     INDEX_NAME = CoursewareSearchIndexer.INDEX_NAME
 
     # List of properties to add to the index - each item in the list is an instance of AboutInfo object
-    # Il Hee, Maeng : addition
     ABOUT_INFORMATION_TO_INCLUDE = [
         AboutInfo("advertised_start", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("announcement", AboutInfo.PROPERTY, AboutInfo.FROM_ABOUT_INFO),
@@ -586,6 +586,7 @@ class CourseAboutSearchIndexer(object):
         AboutInfo("audit_yn", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("fourth_industry_yn", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("job_edu_yn", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
+        AboutInfo("home_course_yn", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("ribbon_yn", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("ai_sec_yn", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("basic_science_sec_yn", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),

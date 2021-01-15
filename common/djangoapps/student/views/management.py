@@ -392,6 +392,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                 multi_course_id = module_store.make_course_key(c_org, c_course, c_name)
                 course_overviews = CourseOverview.objects.get(id=multi_course_id)
 
+                course_overviews.home_course_yn = 'N'
                 course_overviews.audit_yn = item[1]
                 course_overviews.ribbon_yn = item[2]
                 course_overviews.teacher_name = item[3]
@@ -973,11 +974,11 @@ def get_index_courses(request):
         except BaseException:
             my_raw_course = []
 
-        # N: new, P: popular, T:today
+        # H: Home N: New, P: Popular, T:Today
         query = '''
                 SELECT course_division, course_id
                   FROM tb_main_course
-                 WHERE course_division in ('N', 'P', 'T') 
+                 WHERE course_division in ('H', 'N', 'P', 'T') 
                   ;
             '''
         cur.execute(query)
@@ -986,21 +987,25 @@ def get_index_courses(request):
         log.debug('len(main_course) : {}'.format(len(main_course)))
 
         my_course = [CourseKey.from_string(course[0]) for course in my_raw_course]
+        home_course = [CourseKey.from_string(course[1]) for course in main_course if course[0] == 'H']
         new_course = [CourseKey.from_string(course[1]) for course in main_course if course[0] == 'N']
         pop_course = [CourseKey.from_string(course[1]) for course in main_course if course[0] == 'P']
         today_course = [CourseKey.from_string(course[1]) for course in main_course if course[0] == 'T']
 
+    f0 = {'id__in': home_course}
     f1 = {'id__in': new_course}
     f2 = {'id__in': pop_course}
     f3 = {'id__in': today_course}
     f4 = {'id__in': my_course}
 
+    home_courses = index_courses(user, f0)
     new_courses = index_courses(user, f1)
     pop_courses = index_courses(user, f2)
     today_courses = index_courses(user, f3)
     my_courses = index_courses(user, f4)
 
     context = {
+        'home_courses': home_courses,
         'new_courses': new_courses,
         'pop_courses': pop_courses,
         'today_courses': today_courses,

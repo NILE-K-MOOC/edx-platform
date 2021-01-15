@@ -168,7 +168,6 @@ SECRET_KEY = 'dev key'
 STUDIO_NAME = _("Your Platform Studio")
 STUDIO_SHORT_NAME = _("Studio")
 
-# Il-Hee, Maeng addition start -------------------------------
 ALL_LANGUAGES = (
     [u"aa", u"Afar"],
     [u"ab", u"Abkhazian"],
@@ -423,7 +422,6 @@ COURSE_DISCOVERY_MEANINGS = {
         }
     }
 }
-# Il-Hee, Maeng addition start -------------------------------
 
 FEATURES = {
     'GITHUB_PUSH': False,
