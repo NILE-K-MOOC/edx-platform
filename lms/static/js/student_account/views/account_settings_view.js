@@ -55,7 +55,7 @@
             },
 
             render: function() {
-//console.log('account_settings_view.js render -------');
+console.log('account_settings_view.js render -------');
                 var tabName,
                     view = this;
                 HtmlUtils.setHtml(this.$el, HtmlUtils.template(accountSettingsTemplate)({

@@ -920,6 +920,10 @@ msgid "Old email is the same as the new email."
 msgstr "새로 입력한 이메일 주소가 이전과 같습니다."
 
 #: common/djangoapps/student/views/management.py
+msgid "Secondary email cannot be the same as email."
+msgstr "보조 이메일은 이메일과 같을 수 없습니다."
+
+#: common/djangoapps/student/views/management.py
 msgid "An account with this e-mail already exists."
 msgstr "이 이메일 주소의 계정이 이미 존재합니다."
 

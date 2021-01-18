@@ -178,14 +178,16 @@ define(['backbone',
                 BASIC_ACCOUNT_INFORMATION: 0,
                 ADDITIONAL_INFORMATION: 1
             };
+            console.log('account_settings_factory_spec.js')
             var basicAccountInfoFields = {
                 USERNAME: 0,
                 FULL_NAME: 1,
                 EMAIL_ADDRESS: 2,
-                PASSWORD: 3,
-                LANGUAGE: 4,
-                COUNTRY: 5,
-                TIMEZONE: 6
+                SUB_EMAIL_ADDRESS: 3,
+                PASSWORD: 4,
+                LANGUAGE: 5,
+                COUNTRY: 6,
+                TIMEZONE: 7
             };
             var additionalInfoFields = {
                 EDUCATION: 0,
@@ -279,7 +281,8 @@ define(['backbone',
                 textFields = [
                     sectionsData[accountInfoTab.BASIC_ACCOUNT_INFORMATION].fields[basicAccountInfoFields.USERNAME],
                     sectionsData[accountInfoTab.BASIC_ACCOUNT_INFORMATION].fields[basicAccountInfoFields.FULL_NAME],
-                    sectionsData[accountInfoTab.BASIC_ACCOUNT_INFORMATION].fields[basicAccountInfoFields.EMAIL_ADDRESS]
+                    sectionsData[accountInfoTab.BASIC_ACCOUNT_INFORMATION].fields[basicAccountInfoFields.EMAIL_ADDRESS],
+                    sectionsData[accountInfoTab.BASIC_ACCOUNT_INFORMATION].fields[basicAccountInfoFields.SUB_EMAIL_ADDRESS],
                 ];
                 for (i = 0; i < textFields.length; i++) {
                     view = textFields[i].view;

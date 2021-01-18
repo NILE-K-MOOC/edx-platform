@@ -3295,6 +3295,7 @@ ACCOUNT_VISIBILITY_CONFIGURATION = {
     "admin_fields": [
         "username",
         "email",
+        "sub_email",
         "is_active",
         "bio",
         "country",

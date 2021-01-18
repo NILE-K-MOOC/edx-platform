@@ -9,6 +9,7 @@
                 username: '',
                 name: '',
                 email: '',
+                sub_email: '',
                 password: '',
                 language: null,
                 country: null,

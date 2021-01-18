@@ -589,6 +589,7 @@
         "Elementary Education": "\ucd08\ub4f1\uad50\uc721",
         "Email Address": "\uc774\uba54\uc77c \uc8fc\uc18c",
         "Email Address (Sign In)": "\uc774\uba54\uc77c \uc8fc\uc18c\u0028\ub85c\uadf8\uc778\u0029",
+        "Used for email search.": "\uC774\uBA54\uC77C\uCC3E\uAE30\uC5D0 \uC0AC\uC6A9\uB429\uB2C8\uB2E4.",
         "Email": "\uc774\uba54\uc77c",
         "Emails successfully sent. The following users are no longer enrolled in the course:": "\uc774\uba54\uc77c \uc804\uc1a1\uc644\ub8cc. \ub2e4\uc74c \uc0ac\uc6a9\uc790\ub4e4\uc740 \uc774 \uac15\uc88c\uc5d0 \ub354\uc774\uc0c1 \ub4f1\ub85d\ub418\uc5b4 \uc788\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4:",
         "Embed": "Embed",
