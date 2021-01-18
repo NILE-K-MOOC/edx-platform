@@ -281,7 +281,8 @@ define(['backbone',
                 textFields = [
                     sectionsData[accountInfoTab.BASIC_ACCOUNT_INFORMATION].fields[basicAccountInfoFields.USERNAME],
                     sectionsData[accountInfoTab.BASIC_ACCOUNT_INFORMATION].fields[basicAccountInfoFields.FULL_NAME],
-                    sectionsData[accountInfoTab.BASIC_ACCOUNT_INFORMATION].fields[basicAccountInfoFields.EMAIL_ADDRESS]
+                    sectionsData[accountInfoTab.BASIC_ACCOUNT_INFORMATION].fields[basicAccountInfoFields.EMAIL_ADDRESS],
+                    sectionsData[accountInfoTab.BASIC_ACCOUNT_INFORMATION].fields[basicAccountInfoFields.SUB_EMAIL_ADDRESS],
                 ];
                 for (i = 0; i < textFields.length; i++) {
                     view = textFields[i].view;
