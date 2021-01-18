@@ -515,11 +515,6 @@
                 var select_val = $target.val();
                 var select_index = select_val.split('+');
 
-                console.log($target.data('facet'))
-                console.log($target)
-                console.log(select_val)
-                console.log(select_index)
-
                 this.trigger(
                     'selectOption',
                     $target.data('facet'),
@@ -531,8 +526,10 @@
             },
 
             selectOption1: function (event) {
+
                 $(".course-facets-select").focus();
                 $(".search-facets-lists").focus();
+
                 var $target = $(event.currentTarget);
                 var select_val = $("#org_select").val();
                 var select_index = select_val.split('+');
@@ -544,7 +541,7 @@
                     select_index[1]
                 );
 
-                $(".facet-list option[value=" + select_val + "]").attr("selected", "selected")
+                $(".facet-list option[value='" + select_val + "']").attr("selected", "selected")
             },
 
             selectOption2: function (event) {

@@ -85,7 +85,7 @@
 <div id="container">
     <section class="page-title">
         <div class="container-fluid">
-            <h1 class="visual-title"></h1>
+            <h1 class="visual-title">${ai_info['target']}</h1>
             <h2 class="visual-subtitle">인공지능(AI) 로드맵</h2>
             <a href="/roadmap" class="visual-back">AI 이수체계도 처음 페이지로</a>
         </div>
@@ -149,9 +149,6 @@
 
     var nodes = ${nodes}
     var edges = ${edges}
-
-    console.log(nodes)
-    console.log(edges)
 
     vis_draw(nodes, edges);
 
