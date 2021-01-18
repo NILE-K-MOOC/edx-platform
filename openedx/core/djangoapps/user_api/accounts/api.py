@@ -82,6 +82,9 @@ def get_account_settings(request, usernames=None, configuration=None, view=None)
         has_full_access = requesting_user.is_staff or requesting_user.username == user.username
         if has_full_access and view != 'shared':
             admin_fields = settings.ACCOUNT_VISIBILITY_CONFIGURATION.get('admin_fields')
+            print 'seon debug s'
+            print admin_fields
+            print 'seon debug e'
         else:
             admin_fields = None
         serialized_users.append(UserReadOnlySerializer(
@@ -171,6 +174,29 @@ def update_account_settings(requesting_user, update, username=None):
         new_email = update["email"]
         del update["email"]
 
+    changing_sub_email = False
+    if "sub_email" in update:
+        changing_sub_email = True
+        new_sub_email = update["sub_email"]
+
+        try:
+            user_addinfo = TbAuthUserAddinfo.objects.get(user_id=requesting_user.id)
+            user_addinfo.sub_email = new_sub_email
+            user_addinfo.modify_date = datetime.datetime.now()
+            user_addinfo.save()
+        except BaseException:
+            user_addinfo = TbAuthUserAddinfo(
+                user_id=requesting_user.id,
+                private_info_use_yn=False,
+                event_join_yn=False,
+                sub_email=new_sub_email,
+                org_id=update[u'organization'],
+                org_set_date=datetime.datetime.now(),
+                regist_date=datetime.datetime.now(),
+                modify_date=datetime.datetime.now()
+            )
+            user_addinfo.save()
+
     # If user has requested to change name, store old name because we must update associated metadata
     # after the save process is complete.
     changing_full_name = False
@@ -207,6 +233,15 @@ def update_account_settings(requesting_user, update, username=None):
             student_views.validate_new_email(existing_user, new_email)
         except ValueError as err:
             field_errors["email"] = {
+                "developer_message": u"Error thrown from validate_new_email: '{}'".format(text_type(err)),
+                "user_message": text_type(err)
+            }
+
+    if changing_sub_email:
+        try:
+            student_views.validate_new_email(existing_user, new_sub_email)
+        except ValueError as err:
+            field_errors["sub_email"] = {
                 "developer_message": u"Error thrown from validate_new_email: '{}'".format(text_type(err)),
                 "user_message": text_type(err)
             }

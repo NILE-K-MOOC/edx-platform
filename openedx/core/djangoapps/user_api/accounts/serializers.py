@@ -19,6 +19,7 @@ from openedx.core.djangoapps.user_api.models import (
     UserPreference,
     UserRetirementStatus
 )
+from student.models import TbAuthUserAddinfo
 from openedx.core.djangoapps.user_api.serializers import ReadOnlyFieldsSerializerMixin
 from student.models import UserProfile, LanguageProficiency, SocialLink
 
@@ -87,8 +88,10 @@ class UserReadOnlySerializer(serializers.Serializer):
         """
         try:
             user_profile = user.profile
+            sub_email = TbAuthUserAddinfo.objects.get(user_id=user.id).sub_email
         except ObjectDoesNotExist:
             user_profile = None
+            sub_email = ''
             LOGGER.warning("user profile for the user [%s] does not exist", user.username)
 
         accomplishments_shared = badges_enabled()
@@ -99,6 +102,7 @@ class UserReadOnlySerializer(serializers.Serializer):
                 reverse('accounts_api', kwargs={'username': user.username})
             ),
             "email": user.email,
+            "sub_email": sub_email,
             # For backwards compatibility: Tables created after the upgrade to Django 1.8 will save microseconds.
             # However, mobile apps are not expecting microsecond in the serialized value. If we set it to zero the
             # DRF JSONEncoder will not include it in the serialized value.

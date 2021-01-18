@@ -5723,6 +5723,14 @@ msgid "Email Address (Sign In)"
 msgstr "이메일 주소(로그인)"
 
 #: lms/static/js/student_account/views/account_settings_factory.js
+msgid "Secondary email"
+msgstr "보조 이메일"
+
+#: lms/static/js/student_account/views/account_settings_factory.js
+msgid "Used for email search."
+msgstr "이메일찾기에 사용됩니다."
+
+#: lms/static/js/student_account/views/account_settings_factory.js
 msgid ""
 "You receive messages from {platform_name} and course teams at this address."
 msgstr "{platform_name}과 강좌 팀으로부터 메시지를 수신받습니다."

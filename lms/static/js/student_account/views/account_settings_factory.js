@@ -35,7 +35,7 @@
                 showLoadingError, orderNumber, getUserField, userFields, timeZoneDropdownField, countryDropdownField,
                 emailFieldView, socialFields, accountDeletionFields, platformData,
                 aboutSectionMessageType, aboutSectionMessage, fullnameFieldView, countryFieldView,
-                fullNameFieldData, emailFieldData, countryFieldData, additionalFields, fieldItem;
+                fullNameFieldData, emailFieldData, countryFieldData, additionalFields, fieldItem, subEmailFieldView, subEmailFieldData;
 
             $accountSettingsElement = $('.wrapper-account-settings');
 
@@ -73,6 +73,7 @@
                 ),
                 persistChanges: true
             };
+
             if (!allowEmailChange || (syncLearnerProfileData && enterpriseReadonlyAccountFields.fields.indexOf('email') !== -1)) {  // eslint-disable-line max-len
                 emailFieldView = {
                     view: new AccountSettingsFieldViews.ReadonlyFieldView(emailFieldData)
@@ -80,6 +81,26 @@
             } else {
                 emailFieldView = {
                     view: new AccountSettingsFieldViews.EmailFieldView(emailFieldData)
+                };
+            }
+
+            subEmailFieldData = {
+                model: userAccountModel,
+                title: gettext('Secondary email'),
+                valueAttribute: 'sub_email',
+                helpMessage: StringUtils.interpolate(
+                    gettext('Used for email search.')  // eslint-disable-line max-len
+                ),
+                persistChanges: true
+            };
+
+            if ((syncLearnerProfileData && enterpriseReadonlyAccountFields.fields.indexOf('sub_email') !== -1)) {  // eslint-disable-line max-len
+                subEmailFieldView = {
+                    view: new AccountSettingsFieldViews.ReadonlyFieldView(subEmailFieldData)
+                };
+            } else {
+                subEmailFieldView = {
+                    view: new AccountSettingsFieldViews.SubEmailFieldView(subEmailFieldData)
                 };
             }
 
@@ -174,6 +195,7 @@
                         },
 //                        fullnameFieldView,
                         emailFieldView,
+                        subEmailFieldView,
                         {
                             view: new AccountSettingsFieldViews.PasswordFieldView({
                                 model: userAccountModel,

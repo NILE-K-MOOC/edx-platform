@@ -48,6 +48,18 @@
                     );
                 }
             }),
+            SubEmailFieldView: FieldViews.TextFieldView.extend({
+                fieldTemplate: field_text_account_template,
+                successMessage: function() {
+                    return HtmlUtils.joinHtml(
+                        this.indicators.success,
+                        StringUtils.interpolate(
+                            gettext('Your policy changes have been saved.'),  // eslint-disable-line max-len
+                            {new_sub_email_address: this.fieldValue()}
+                        )
+                    );
+                }
+            }),
             LanguagePreferenceFieldView: FieldViews.DropdownFieldView.extend({
                 fieldTemplate: field_dropdown_account_template,
                 saveSucceeded: function() {
