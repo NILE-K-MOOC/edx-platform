@@ -2089,7 +2089,7 @@
         "Are you sure you want to unenroll from %(courseName)s (%(courseNumber)s)?": "%(courseName)s (%(courseNumber)s) \uac15\uc88c\uc758 \uc218\uac15\uc2e0\uccad\uc744 \ucde8\uc18c \ud558\uc2dc\uaca0\uc2b5\ub2c8\uae4c\u003f",
         "fourth_industry_yn": "4차 산업혁명 여부",
         "job_edu_yn": "직업교육 여부",
-        "home_course_yn": "집콕강좌",
+        "home_course_yn": "집콕 이벤트",
         "ribbon_yn": "블루 리본",
         "ribbon_y": "블루 리본 강좌",
         "ribbon_n": "리본 없음",
@@ -2227,6 +2227,7 @@
         "Sent the mail to the entered address. Please check the mail.": "입력된 주소로 메일을 발송하였습니다. 메일을 확인 해주세요.",
         "Email address was not entered.": "이메일 주소가 입력 되지 않았습니다.",
         "This is the list of emails being verified.": "확인되는 이메일들 목록입니다.",
+        "home_course_y": "집콕 이벤트 강좌",
     };
 
     django.gettext = function (msgid) {

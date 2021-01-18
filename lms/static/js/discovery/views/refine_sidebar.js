@@ -48,7 +48,7 @@
                 return HtmlUtils.joinHtml.apply(this, _.map(options, function (option) {
                     var data = _.clone(option.attributes);
 
-                    // console.debug('renderOptions check:: ' + data.facet + " : " + data.term);
+                    console.debug('renderOptions check facet > ' + data.facet + " : term >" + data.term);
 
                     if (data.facet == 'classfy' || data.facet == 'classfysub') {
                         switch (data.term) {
@@ -137,6 +137,13 @@
                         } else {
                             data.name = this.termName(data.facet, data.term);
                         }
+                    }
+                    else if (data.facet == 'home_course_yn') {
+                        // 집콕강좌 옵션 추가
+                        if (data.term.toUpperCase() == 'Y') {
+                            data.name = this.termName('home_course_yn', gettext("home_course_y"));
+                        }
+
                     }
                     else if (data.facet == 'fourth_industry_yn' || data.facet == 'job_edu_yn' || data.facet == 'ai_sec_yn' || data.facet == 'basic_science_sec_yn' || data.facet == 'linguistics_yn') {
 
