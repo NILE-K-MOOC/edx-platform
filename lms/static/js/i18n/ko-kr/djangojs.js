@@ -812,6 +812,7 @@
         "Increase indent": "\ub4e4\uc5ec\uc4f0\uae30 \ub298\ub9ac\uae30",
         "Industrial Engineering": "\uc0b0\uc5c5",
         "ing": "\uc9c4\ud589\uc911",
+        "audit": "청강가능",
         "INHAuniversityK": "\uc778\ud558\ub300\ud559\uad50",
         "Inheriting Student Visibility": "\ud559\uc2b5\uc790 \uacf5\uac1c \uc124\uc815 \uc774\uc5b4\ubc1b\uae30",
         "Inline": "inline",
@@ -2229,6 +2230,7 @@
         "Email address was not entered.": "이메일 주소가 입력 되지 않았습니다.",
         "This is the list of emails being verified.": "확인되는 이메일들 목록입니다.",
         "home_course_y": "집콕 이벤트 강좌",
+        "K-MOOC Excellent Course": "K-MOOC 우수 강좌",
     };
 
     django.gettext = function (msgid) {

@@ -20,7 +20,7 @@
         <header class="course-image">
                 % if course.ribbon_yn == 'Y':
                 <i class="kr01-ribbonArea"><img alt="" src="/static/images/main/ribbon.png">
-                  <span class="ribbon-tooltip-text">K-MOOC 우수강좌</span>
+                  <span class="ribbon-tooltip-text">${_("K-MOOC Excellent Course")}</span>
                 </i>
                 % endif
             <div class="cover-image">
@@ -35,7 +35,7 @@
                 <img src="${course.course_image_url}" alt="${course.display_name_with_default} 개강일 ${course.start.strftime("%Y-%m-%d") if course.start else ''} 종강일 ${course.end.strftime("%Y-%m-%d") if course.end else ''} 강좌상태 ${_(course.status)}" onerror="this.src='/static/images/blank.png'">
               %endif
               % if course.ribbon_yn == 'Y':
-                <div class="learn-more" aria-hidden="true">${_("K-MOOC 우수강좌")}</div>
+                <div class="learn-more" aria-hidden="true">${_("K-MOOC Excellent Course")}</div>
               % else:
                 <div class="learn-more" aria-hidden="true">${_("LEARN MORE")}</div>
               % endif

@@ -17,16 +17,16 @@
                     <a href="/courses/${courses.id}/about" class="course-item">
                         <div class="course-thumb">
                             % if courses.ribbon_yn == 'Y' and courses.ribbon_year is not null and courses.ribbon_year != '' :
-                            <i class="kr01-ribbonArea"><img alt="K-MOOC 우수강좌" src="/static/images/main/ribbon_${courses.ribbon_year}.png">
-                                <span class="ribbon-tooltip-text">K-MOOC 우수강좌</span>
+                            <i class="kr01-ribbonArea"><img alt="${_('K-MOOC Excellent Course')}" src="/static/images/main/ribbon_${courses.ribbon_year}.png">
+                                <span class="ribbon-tooltip-text">${_('K-MOOC Excellent Course')}</span>
                             </i>
                             % elif courses.ribbon_yn == 'Y' and courses.ribbon_year == '':
-                            <i class="kr01-ribbonArea"><img alt="K-MOOC 우수강좌" src="/static/images/main/ribbon.png">
-                                <span class="ribbon-tooltip-text">K-MOOC 우수강좌</span>
+                            <i class="kr01-ribbonArea"><img alt="${_('K-MOOC Excellent Course')}" src="/static/images/main/ribbon.png">
+                                <span class="ribbon-tooltip-text">${_('K-MOOC Excellent Course')}</span>
                             </i>
                             % elif courses.ribbon_yn == 'Y':
-                            <i class="kr01-ribbonArea"><img alt="K-MOOC 우수강좌" src="/static/images/main/ribbon.png">
-                                <span class="ribbon-tooltip-text">K-MOOC 우수강좌</span>
+                            <i class="kr01-ribbonArea"><img alt="${_('K-MOOC Excellent Course')}" src="/static/images/main/ribbon.png">
+                                <span class="ribbon-tooltip-text">${_('K-MOOC Excellent Course')}</span>
                             </i>
                             % endif
                             <figure>
@@ -54,13 +54,13 @@
                                 % endif
 
                                 % if courses.status == 'ing':
-                                <span class="state ing">진행중</span>
+                                <span class="state ing">${_("ing")}</span>
                                 % elif courses.status == 'end' and courses.audit_yn == 'N':
-                                <span class="state end">종료</span>
+                                <span class="state end">${_("end")}</span>
                                 % elif courses.status == 'end' and courses.audit_yn == 'Y':
-                                <span class="state possible">청강가능</span>
+                                <span class="state possible">${_("audit")}</span>
                                 % else:
-                                <span class="state soon">개강예정</span>
+                                <span class="state soon">${_("ready")}</span>
                                 % endif
                                 <!--<span class="state soon">개강예정</span>-->
                                 <!--<span class="state possible">청강가능</span>-->
