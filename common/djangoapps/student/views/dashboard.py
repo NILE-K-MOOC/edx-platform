@@ -1300,13 +1300,18 @@ def dashboard_course_addinfo(course_overview):
         info_dict['classfy'] = addinfo_data[3]
         info_dict['middle_classfy'] = addinfo_data[4]
 
-        c_start = course_overview.start.strftime('`%y.%m.%d.')
-        c_end = course_overview.end.strftime('`%y.%m.%d.') if course_overview.end else ''
-        # if course_overview.end.strftime('%H:%M:%S') == '15:00:00':
-        #     c_end
+        c_start = course_overview.start + datetime.timedelta(hours=9)
+        c_end = course_overview.end + datetime.timedelta(hours=9) if course_overview.end else ''
+
+        c_start_fmt = c_start.strftime('`%y.%m.%d.')
+
+        if c_end:
+            c_end_fmt = c_end.strftime('`%y.%m.%d.')
+        else:
+            c_end_fmt = ''
 
         # 강좌운영기간
-        info_dict['course_date'] = str(c_start) + ' ~ ' + str(c_end)
+        info_dict['course_date'] = str(c_start_fmt) + ' ~ ' + str(c_end_fmt)
 
         # 주차
         effort = course_overview.effort if course_overview.effort else '0'
