@@ -382,7 +382,7 @@ input, select, button {font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고
     }
     
     .col-lg-2 {
-        width: 16.66666667%;
+        width: calc((100% - 1px)/7);
     }
     
     .col-lg-3 {

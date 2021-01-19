@@ -450,9 +450,11 @@ cookiedata = document.cookie;
                         <li>
                             <a target="_blank" href="https://cb.kmooc.kr/search">${_("Academic Credit Bank System")}</a>
                         </li>
+                        <!--
                         <li>
                             <a href="#" data-facet="home_course_yn" data-term="Y"><span style="color: antiquewhite;">${_("Home Courses")}</span></a>
                         </li>
+                        -->
                     </ul>
                     <a href="/courses" class="more" title="강좌찾기 더 보기">more</a>
                 </div>
@@ -462,6 +464,9 @@ cookiedata = document.cookie;
     <section class="sec-classify">
         <div class="container-fluid">
             <div class="row link_to_courses">
+                <div class="col-sm-4 col-md-4 col-lg-2 el-xbox" style="background: radial-gradient(pink 20%, white 80%);">
+                    <a data-facet="home_course_yn" data-term="Y" href="#" class="classify-item inject-h">${_("Home Courses")}</a>
+                </div>
                 <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
                     <a data-facet="fourth_industry_yn" data-term="fourth_industry_y" href="#" class="classify-item inject-h">${_("Fourth Industry")}</a>
                 </div>
