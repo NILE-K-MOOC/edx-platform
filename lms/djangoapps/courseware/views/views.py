@@ -12,7 +12,7 @@ import json
 import crum
 import pytz
 from collections import OrderedDict, namedtuple
-from datetime import datetime, date,timedelta
+from datetime import datetime, date, timedelta
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser, User
@@ -249,74 +249,15 @@ def courses(request):
         else:
             courses_list = sort_by_announcement(courses_list)
 
-    import time
-    try:
-        from urllib import urlencode
-    except ImportError:
-        CourseDescriptorWithMixins
-
-    from elasticsearch.exceptions import ConnectionError
-    from elasticsearch.connection.http_urllib3 import Urllib3HttpConnection
-
-    def perform_request(self, method, url, params=None, body=None, timeout=None, ignore=()):
-
-        print '##### perform_request called 111'
-        log.info('##### perform_request called 111')
-
-        url = self.url_prefix + url
-        if 'size' in params:
-            params['sort'] = '_score:desc,enrollment_start:desc,start:desc,enrollment_end:desc,end:desc,display_name:asc'
-
-        if params:
-            url = '%s?%s' % (url, urlencode(params or {}))
-        full_url = self.host + url
-
-        start = time.time()
-
-        if body:
-
-            log.info('##### body ------------------------------------------------------- s1')
-            log.info(body)
-            log.info('##### body ------------------------------------------------------- e1')
-
-            if '{"term": {"org": "SMUk"}}' in body:
-                body = body.replace('{"term": {"org": "SMUk"}}', '{"terms": {"org": ["SMUk", "SMUCk"]}}')
-
-            if '{"term": {"linguistics": "all"}' in body:
-                body = body.replace('{"term": {"linguistics": "all"}', '{"terms": {"linguistics": ["Korean", "Korean Culture"]}')
-
-            log.info('##### body ------------------------------------------------------- s2')
-            log.info(body)
-            log.info('##### body ------------------------------------------------------- e2')
-
-        try:
-            kw = {}
-            if timeout:
-                kw['timeout'] = timeout
-            response = self.pool.urlopen(method, url, body, **kw)
-            duration = time.time() - start
-            raw_data = response.data.decode('utf-8')
-        except Exception as e:
-            self.log_request_fail(method, full_url, body, time.time() - start, exception=e)
-            raise ConnectionError('N/A', str(e), e)
-
-        if not (200 <= response.status < 300) and response.status not in ignore:
-            self.log_request_fail(method, url, body, duration, response.status)
-            self._raise_error(response.status, raw_data)
-
-        self.log_request_success(method, full_url, url, body, response.status,
-                                 raw_data, duration)
-
-        return response.status, response.getheaders(), raw_data
-
-    Urllib3HttpConnection.perform_request = perform_request
-
     # Add marketable programs to the context.
     programs_list = get_programs_with_type(request.site, include_hidden=False)
 
     # course post parameter setting to html
     parameter_list = ['job_edu_yn', 'fourth_industry_yn', 'home_course_yn', 'ribbon_yn', 'linguistics', 'linguistics_yn', 'classfy', 'middle_classfy', 'ai_sec_yn', 'basic_science_sec_yn']
     parameter_json = {key: str(request.POST.get(key)) for key in parameter_list if key in request.POST}
+
+    if not parameter_json:
+        parameter_json = {key: str(request.GET.get(key)) for key in parameter_list if key in request.GET}
 
     return render_to_response(
         "courseware/courses.html",
@@ -345,54 +286,7 @@ def mobile_courses(request):
             courses_list = sort_by_start_date(courses_list)
         else:
             courses_list = sort_by_announcement(courses_list)
-    import time
-    try:
-        from urllib import urlencode
-    except ImportError:
-        CourseDescriptorWithMixins
 
-    from elasticsearch.exceptions import ConnectionError
-    from elasticsearch.connection.http_urllib3 import Urllib3HttpConnection
-
-    def perform_request(self, method, url, params=None, body=None, timeout=None, ignore=()):
-
-        print '##### perform_request called 2'
-
-        url = self.url_prefix + url
-        if 'size' in params:
-            params['sort'] = '_score:desc,enrollment_start:desc,start:desc,enrollment_end:desc,end:desc,display_name:asc'
-
-        if params:
-            url = '%s?%s' % (url, urlencode(params or {}))
-        full_url = self.host + url
-
-        start = time.time()
-
-        if body:
-            if '{"term": {"org": "SMUk"}}' in body:
-                body = body.replace('{"term": {"org": "SMUk"}}', '{"terms": {"org": ["SMUk", "SMUCk"]}}')
-
-        try:
-            kw = {}
-            if timeout:
-                kw['timeout'] = timeout
-            response = self.pool.urlopen(method, url, body, **kw)
-            duration = time.time() - start
-            raw_data = response.data.decode('utf-8')
-        except Exception as e:
-            self.log_request_fail(method, full_url, body, time.time() - start, exception=e)
-            raise ConnectionError('N/A', str(e), e)
-
-        if not (200 <= response.status < 300) and response.status not in ignore:
-            self.log_request_fail(method, url, body, duration, response.status)
-            self._raise_error(response.status, raw_data)
-
-        self.log_request_success(method, full_url, url, body, response.status,
-                                 raw_data, duration)
-
-        return response.status, response.getheaders(), raw_data
-
-    Urllib3HttpConnection.perform_request = perform_request
     # Add marketable programs to the context.
     programs_list = get_programs_with_type(request.site, include_hidden=False)
 
@@ -725,7 +619,6 @@ class CourseTabView(EdxFragmentView):
                         redirect_url = get_next_url_for_login_page(request)
 
                         path = str(request.path)
-                        # return redirect('/login?next=' + urllib.urlencode(path))
                         enc_path = urllib.quote_plus(path)
                         return redirect('/login?next=' + enc_path)
 
@@ -1163,7 +1056,6 @@ def course_about(request, course_id):
                     redirect_url = get_next_url_for_login_page(request)
 
                     path = str(request.path)
-                    # return redirect('/login?next=' + urllib.urlencode(path))
                     enc_path = urllib.quote_plus(path)
                     return redirect('/login?next=' + enc_path)
 
@@ -1770,7 +1662,7 @@ def course_about(request, course_id):
             user_tz = timezone('Asia/Seoul')
 
         utc_dt_start = datetime(int(s1), int(s2), int(s3), int(s4), int(s5), int(s6), tzinfo=utc)
-        print 'utc_dt_start',utc_dt_start
+        print 'utc_dt_start', utc_dt_start
         utc_dt_end = datetime(int(e1), int(e2), int(e3), int(e4), int(e5), int(e6), tzinfo=utc) if course_details.end_date is not None else None
         utc_dt_enroll_start = datetime(int(rs1), int(rs2), int(rs3), int(rs4), int(rs5), int(rs6), tzinfo=utc) if course_details.enrollment_start is not None else None
         utc_dt_enroll_end = datetime(int(re1), int(re2), int(re3), int(re4), int(re5), int(re6), tzinfo=utc) if course_details.enrollment_end is not None else None
@@ -1870,7 +1762,7 @@ def course_about(request, course_id):
             'end': end,
             'enroll_audit': enroll_audit,
             'course_survey_data': course_survey_data,
-            'recog_org':recog_org
+            'recog_org': recog_org
         }
 
         return render_to_response('courseware/course_about.html', context)
@@ -3533,7 +3425,7 @@ def schools_make_filter(request):
 
     year_list = []
     current_year = int(datetime.now().year)
-    for year in range(2015, current_year+1):
+    for year in range(2015, current_year + 1):
         year_list.append(year)
 
     print 'current_year = ', current_year
