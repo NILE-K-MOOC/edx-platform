@@ -57,20 +57,19 @@ $( document ).ready(function() {
         }
     });
 
+    /***
+     * index 화면의 강좌목록을 로드
+     * 로드된 강좌별 크기를 확인하여 표시되는 기본 영역을 지정
+    ***/
     function setMainCourses(){
         isScrolled = true;
         $.post(
                 "/get_index_courses",
                 {csrfmiddlewaretoken: '${ csrf_token }'},
                 function(data){
-                    console.log('data check ----------------------------------------------------- s');
-                    console.log(data);
-                    console.log('data check ----------------------------------------------------- e');
-
                    if(data){
                         $(".sec-course .owl-carousel").remove();
                         $(".loading").hide();
-
                         $("#sections").append(data);
 
                         $('.owl-carousel').owlCarousel({
@@ -96,6 +95,16 @@ $( document ).ready(function() {
                         });
 
                         isEmpty = false;
+
+                        // data append 이후 item 갯수를 확인하여 아이템이 존재하는 영역을 표시
+                        if($("#section_home .item").size() > 0)
+                            change_course('home');
+                        else if($("#section_pop .item").size() > 0)
+                            change_course('pop');
+                        else if($("#section_new .item").size() > 0)
+                            change_course('new');
+                        else if($("#section_today .item").size() > 0)
+                            change_course('today');
                    }
             },
             "html");
@@ -306,7 +315,7 @@ cookiedata = document.cookie;
 <script>
 
     function change_course(type){
-        console.debug("type: " + type);
+
         // 강좌 탭
         $(".tab-group>li>a").removeClass("active");
 
@@ -428,7 +437,7 @@ cookiedata = document.cookie;
         <div class="container-fluid">
             <div class="visual-row">
                 <div class="visual-col img"></div>
-                <div class="visual-col txt">
+                <div class="visual-col txt link_to_courses">
                     <h1 class="title" style="text-align: left; color: #222;">${_("Courses")}</h1>
                     <p class="content" style="color: #222;">${_("Achieve your goals with a variety of K-MOOC courses.")}</p>
                     <ul class="quick-link">
@@ -442,7 +451,7 @@ cookiedata = document.cookie;
                             <a target="_blank" href="https://cb.kmooc.kr/search">${_("Academic Credit Bank System")}</a>
                         </li>
                         <li>
-                            <a href="/courses">${_("Home Courses")}</a>
+                            <a href="#" data-facet="home_course_yn" data-term="Y"><span style="color: antiquewhite;">${_("Home Courses")}</span></a>
                         </li>
                     </ul>
                     <a href="/courses" class="more" title="강좌찾기 더 보기">more</a>

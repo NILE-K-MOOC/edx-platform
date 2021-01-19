@@ -480,6 +480,11 @@
                             v = 'y';
                             t = 'linguistics_y';
                             break;
+                        case 'home_course_yn':
+                            k = 'home_course_yn';
+                            v = 'Y';
+                            t = 'home_course_y';
+                            break;
                     }
 
                     if ($("button[data-facet='" + k + "'][data-value='" + v + "']").size() > 0) {
