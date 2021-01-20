@@ -108,9 +108,11 @@ getParameterByName('search_query')
 <main id="main" aria-label="Content" tabindex="-1">
 
     % if parameter_json:
-    % for key, value in parameter_json.items():
-    <input type="hidden" name="default_term" data-key="${key}" data-value="${value}"/>
-    % endfor
+        % for key, value in parameter_json.items():
+        <input type="hidden" name="default_term" data-key="${key}" data-value="${value}"/>
+        % endfor
+    % else:
+        <input type="hidden" name="parameter_json_check" data-check="not_exists"/>
     % endif
 
     <h2 title="강좌목록" style="font-size: 1px; margin-bottom: 0px; color: white;">강좌 목록</h2>
