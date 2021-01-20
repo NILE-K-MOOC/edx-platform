@@ -256,8 +256,13 @@ def courses(request):
     parameter_list = ['job_edu_yn', 'fourth_industry_yn', 'home_course_yn', 'ribbon_yn', 'linguistics', 'linguistics_yn', 'classfy', 'middle_classfy', 'ai_sec_yn', 'basic_science_sec_yn']
     parameter_json = {key: str(request.POST.get(key)) for key in parameter_list if key in request.POST}
 
-    if 'home_course_yn' in request.GET:
-        parameter_json = {key: str(request.GET.get(key)) for key in parameter_list if key in request.GET}
+    if not parameter_json and 'home_course_yn' in request.GET:
+        log.info('home_course_yn check case 1')
+        parameter_json = {'home_course_yn': 'Y'}
+    else:
+        log.info('home_course_yn check case 2')
+
+    log.info('parameter_json = %s' % parameter_json)
 
     return render_to_response(
         "courseware/courses.html",
