@@ -256,7 +256,7 @@ def courses(request):
     parameter_list = ['job_edu_yn', 'fourth_industry_yn', 'home_course_yn', 'ribbon_yn', 'linguistics', 'linguistics_yn', 'classfy', 'middle_classfy', 'ai_sec_yn', 'basic_science_sec_yn']
     parameter_json = {key: str(request.POST.get(key)) for key in parameter_list if key in request.POST}
 
-    if not parameter_json:
+    if 'home_course_yn' in request.GET:
         parameter_json = {key: str(request.GET.get(key)) for key in parameter_list if key in request.GET}
 
     return render_to_response(
