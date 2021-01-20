@@ -232,7 +232,7 @@ def search_org_name(request):
 
 
 @ensure_csrf_cookie
-@cache_if_anonymous()
+# @cache_if_anonymous()
 def courses(request):
     """
     Render "find courses" page.  The course selection work is done in courseware.courses.
