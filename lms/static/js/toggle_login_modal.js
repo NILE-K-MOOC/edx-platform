@@ -216,13 +216,17 @@
 
     $(document).ready(function ($) {
 
+        let honor_check = ''
+
         $('.preview_video_id').on('timeupdate', function (event) {
 
             if ($(this)[0].currentTime == '0') {
                 $(this)[0].play();
             }
 
-            let honor_check = $(".register")[0]
+            if($(".register")[0]){
+                honor_check = true
+            }
             let title = ''
 
             if ($(this)[0].duration > 300) {
