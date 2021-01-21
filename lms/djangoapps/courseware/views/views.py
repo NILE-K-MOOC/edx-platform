@@ -1514,6 +1514,7 @@ def course_about(request, course_id):
             course_language = coai[0][2]
         except BaseException:
             course_language = '-'
+
         cur.close()
 
         cur = con.cursor()
@@ -1870,7 +1871,7 @@ def course_about(request, course_id):
             'end': end,
             'enroll_audit': enroll_audit,
             'course_survey_data': course_survey_data,
-            'recog_org':recog_org
+            'recog_org': recog_org,
         }
 
         return render_to_response('courseware/course_about.html', context)
@@ -2693,6 +2694,25 @@ def video(request, course_id):
     }
 
     return render_to_response('courseware/video.html', context)
+
+
+def video_check(request):
+
+    video_url = request.POST.get('video_url')
+    is_error = 'false'
+
+    try:
+        check = urllib.urlopen(video_url)
+        check.getcode()
+    except Exception as e:
+        print e
+        is_error = 'true'
+
+    data = dict()
+
+    data['is_error'] = is_error
+
+    return JsonResponse(data)
 
 
 @transaction.non_atomic_requests

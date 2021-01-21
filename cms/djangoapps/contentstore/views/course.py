@@ -36,6 +36,7 @@ from contentstore.course_group_config import (
     GroupConfiguration,
     GroupConfigurationsValidationError
 )
+from lms.djangoapps.courseware.courses import get_course_with_access
 from opaque_keys.edx.locator import BlockUsageLocator
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 from openedx.core.djangoapps.waffle_utils import WaffleSwitchNamespace
@@ -132,7 +133,8 @@ __all__ = ['course_info_handler', 'course_handler', 'course_listing', 'level_Ver
            'advanced_settings_handler',
            'course_notifications_handler',
            'textbooks_list_handler', 'textbooks_detail_handler',
-           'group_configurations_list_handler', 'group_configurations_detail_handler']
+           'group_configurations_list_handler', 'group_configurations_detail_handler'
+           ]
 
 WAFFLE_NAMESPACE = 'studio_home'
 
@@ -979,7 +981,8 @@ def _create_or_rerun_course(request):
             'job_edu_yn': 'N',
             'ai_sec_yn': 'N',
             'basic_science_sec_yn': 'N',
-            'course_level': None
+            'course_level': None,
+            'preview_video': None
         })
 
         # 기관코드를 이용하여 기관 한글명, 기관 영문명을 가져온다.
@@ -1304,6 +1307,7 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
                     ,ai_sec_yn
                     ,basic_science_sec_yn
                     ,classfy_plus
+                    ,preview_video
                     )
                 select '{destination_course_key}'
                     ,create_type
@@ -1334,6 +1338,7 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
                     ,ai_sec_yn 
                     ,basic_science_sec_yn 
                     ,classfy_plus
+                    ,preview_video
                     from course_overview_addinfo where course_id = '{source_course_id}'
             """.format(
                 destination_course_key=destination_course_key
@@ -1425,6 +1430,7 @@ def _rerun_course(request, org, number, run, fields):
         fields['classfy'] = source_course.classfy
         fields['classfysub'] = source_course.classfysub
         fields['classfyplus'] = source_course.classfyplus
+        fields['preview_video'] = source_course.preview_video
         fields['middle_classfy'] = source_course.middle_classfy
         fields['middle_classfysub'] = source_course.middle_classfysub
         fields['linguistics'] = source_course.linguistics
@@ -1492,6 +1498,7 @@ def _rerun_course(request, org, number, run, fields):
         classfy = fields['classfy']
         classfy_plus = fields['classfy_plus']
         course_period = fields['course_period']
+        preview_video = fields['preview_video']
 
         with connections['default'].cursor() as cur:
             query = """
@@ -1504,7 +1511,8 @@ def _rerun_course(request, org, number, run, fields):
                                                     middle_classfy,
                                                     classfy,
                                                     classfy_plus,
-                                                    course_period)
+                                                    course_period,
+                                                    preview_video)
                      VALUES ('{course_id}',
                              date_format(now(), '%Y'),
                              (SELECT count(*)
@@ -1517,10 +1525,11 @@ def _rerun_course(request, org, number, run, fields):
                              '{middle_classfy}',
                              '{classfy}',
                              '{classfy_plus}',
-                             '{course_period}');
+                             '{course_period}',
+                             '{preview_video}');
             """.format(course_id=destination_course_key, user_id=user_id, middle_classfy=middle_classfy,
                        classfy=classfy, course_number=number, org=org, classfy_plus=classfy_plus,
-                       course_period=course_period)
+                       course_period=course_period,preview_video=preview_video)
 
             print 'rerun_course insert -------------- ', query
             cur.execute(query)
@@ -1626,6 +1635,7 @@ def course_info_update_handler(request, course_key_string, provided_id=None):
 @require_http_methods(("GET", "PUT", "POST"))
 @expect_json
 def settings_handler(request, course_key_string):
+
     """
     Course settings for dates and about pages
     GET
@@ -1634,6 +1644,7 @@ def settings_handler(request, course_key_string):
     PUT
         json: update the Course and About xblocks through the CourseDetails model
     """
+
     course_info_text = ""
 
     f = open("/edx/app/edxapp/edx-platform/common/static/courseinfo/CourseInfoPage.html", 'r')
@@ -1678,9 +1689,9 @@ def settings_handler(request, course_key_string):
                               settings.DATABASES.get('default').get('NAME'),
                               charset='utf8')
             cur = con.cursor()
-            # 교수자명
+            # 교수자명, 강좌미리보기
             query = """
-                             SELECT IFNULL(teacher_name, ''), IFNULL(course_level, '')
+                             SELECT IFNULL(teacher_name, ''), IFNULL(course_level, ''), IFNULL(preview_video, '')
                               FROM course_overview_addinfo
                              WHERE course_id = '{0}';
                         """.format(course_key)
@@ -1688,11 +1699,14 @@ def settings_handler(request, course_key_string):
             row = cur.fetchone()
             cur.close()
             teacher_name = ''
+            preview_video = ''
 
             if cur.rowcount:
                 teacher_name = row[0]
                 course_module.teacher_name = row[0]
                 course_module.course_level = row[1]
+                preview_video = row[2]
+                course_module.preview_video = row[2]
 
             cur = con.cursor()
             query = """
@@ -1795,7 +1809,244 @@ def settings_handler(request, course_key_string):
             except:
                 classfy = [("TBD", "TBD", "TBD")]
 
+            # 강좌 미리보기
+            print 'video called'
+
+            """ Display the progress page. """
+            course_key = CourseKey.from_string(course_id)
+
+            course = get_course_with_access(request.user, 'load', course_key)
+
+            # 강좌의 영상목록 생성 --- s
+
+            client = MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'),
+                                 settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port'))
+            db = client.edxapp
+
+            o = course_id.split('+')[0].replace('course-v1:', '')
+            c = course_id.split('+')[1]
+            r = course_id.split('+')[2]
+
+            active_versions = db.modulestore.active_versions.find({"org": o, "course": c, "run": r})
+
+            temp_list = []
+
+            for active_version in active_versions:
+                pb = active_version.get('versions').get('published-branch')
+                wiki_slug = active_version.get('search_targets').get('wiki_slug')
+
+                if wiki_slug and pb:
+                    print 'published-branch is [%s]' % pb
+
+                    structure = db.modulestore.structures.find_one({'_id': ObjectId(pb)},
+                                                                   {"blocks": {"$elemMatch": {"block_type": "course"}}})
+                    block = structure.get('blocks')[0]
+
+                    course_fields = block.get('fields')
+                    chapters = course_fields.get('children')
+
+                    for chapter_type, chapter_id in chapters:
+                        # print block_type, block_id
+                        chapter = db.modulestore.structures.find_one({'_id': ObjectId(pb)}, {"blocks": {
+                            "$elemMatch": {"block_id": chapter_id, "fields.visible_to_staff_only": {"$ne": True}}}})
+
+                        if not 'blocks' in chapter:
+                            continue
+
+                        chapter_fields = chapter['blocks'][0].get('fields')
+
+                        if not chapter_fields:
+                            continue
+
+                        chapter_name = chapter_fields.get('display_name')
+                        chapter_start = chapter_fields.get('start')
+                        sequentials = chapter_fields.get('children')
+
+                        for sequential_type, sequential_id in sequentials:
+                            sequential = db.modulestore.structures.find_one({'_id': ObjectId(pb)}, {"blocks": {
+                                "$elemMatch": {"block_id": sequential_id,
+                                               "fields.visible_to_staff_only": {"$ne": True}}}})
+
+                            if not 'blocks' in sequential:
+                                continue
+
+                            sequential_fields = sequential['blocks'][0].get('fields')
+
+                            if not sequential_fields:
+                                continue
+
+                            sequential_name = sequential_fields.get('display_name')
+                            sequential_start = sequential_fields.get('start')
+                            verticals = sequential_fields.get('children')
+
+                            for vertical_type, vertical_id in verticals:
+                                vertical = db.modulestore.structures.find_one({'_id': ObjectId(pb)}, {"blocks": {
+                                    "$elemMatch": {"block_id": vertical_id,
+                                                   "fields.visible_to_staff_only": {"$ne": True}}}})
+
+                                if not 'blocks' in vertical:
+                                    continue
+
+                                vertical_fields = vertical['blocks'][0].get('fields')
+
+                                if not vertical_fields:
+                                    continue
+
+                                xblocks = vertical_fields.get('children')
+
+                                for xblock_type, xblock_id in xblocks:
+
+                                    if xblock_type != 'video':
+                                        continue
+
+                                    xblock = db.modulestore.structures.find_one({'_id': ObjectId(pb)}, {
+                                        "blocks": {"$elemMatch": {"block_id": xblock_id}}})
+                                    xblock_fields = xblock['blocks'][0].get('fields')
+
+                                    if not xblock_fields:
+                                        continue
+
+                                    vertical_name = xblock_fields.get('display_name')
+
+                                    html5_sources = xblock_fields.get('html5_sources')
+
+                                    if not html5_sources:
+                                        continue
+
+                                    for html5_source in html5_sources:
+                                        # print org_name, classfy_name, middle_classfy_name, teacher_name, display_name, chapter_name, sequential_name, enrollment_start, enrollment_end, start, end, short_description, html5_source
+
+                                        if html5_source == '':
+                                            continue
+
+                                        temp_dict = {
+                                            'chapter_name': chapter_name,
+                                            'chapter_id': chapter_id,
+                                            'chapter_start': chapter_start,
+                                            'sequential_name': sequential_name,
+                                            'sequential_id': sequential_id,
+                                            'sequential_start': sequential_start,
+                                            'vertical_name': vertical_name,
+                                            'vertical_id': vertical_id,
+                                            'html5_source': html5_source
+                                        }
+
+                                        temp_list.append(temp_dict)
+
+                                        # print '----------------------------------------------------------- s'
+                                        # print chapter_name, chapter_start, sequential_name, sequential_start, vertical_name, html5_source
+                                        # print '----------------------------------------------------------- e'
+
+            video_tree = {}
+
+            _chapter_name1 = None
+            _chapter_name2 = None
+            _sequential_name1 = None
+            _sequential_name2 = None
+            _vertical_name1 = None
+            _vertical_name2 = None
+            _html5_source1 = None
+            _html5_source2 = None
+            chapter_list = []
+            print 'video_tree check -------------------------------------------------------------->'
+
+            # 주제
+            for temp1 in temp_list:
+
+                if True:
+                    _chapter_name1 = temp1['chapter_name']
+                    _chapter_id = temp1['chapter_id']
+                    _chapter_start = temp1['chapter_start']
+
+                    if _chapter_start and _chapter_start > datetime.utcnow():
+                        continue
+
+                    if not _chapter_name2:
+                        _chapter_name2 = temp1['chapter_name']
+                    elif _chapter_name1 and _chapter_name2 and _chapter_name1 == _chapter_name2:
+                        continue
+                    else:
+                        _chapter_name2 = temp1['chapter_name']
+
+                    # print _chapter_name2
+
+                    _sequential_name1 = None
+                    _sequential_name2 = None
+                    _sequential_start = None
+
+                    sequential_list = list()
+                    for temp2 in temp_list:
+                        if _chapter_name1 == temp2['chapter_name']:
+
+                            _sequential_name1 = temp2['sequential_name']
+                            _sequential_id = temp2['sequential_id']
+                            _sequential_start = temp2['sequential_start']
+
+                            if _sequential_start and _sequential_start > datetime.utcnow():
+                                continue
+
+                            if not _sequential_name2:
+                                _sequential_name2 = temp2['sequential_name']
+                            elif _sequential_name1 and _sequential_name2 and _sequential_name1 == _sequential_name2:
+                                continue
+                            else:
+                                _sequential_name2 = temp2['sequential_name']
+
+                            # print '\t', _sequential_name1
+
+                            _html5_source1 = None
+                            _html5_source2 = None
+
+                            vertical_list = list()
+                            for temp3 in temp_list:
+                                if _chapter_name1 == temp3['chapter_name'] and _sequential_name1 == temp3[
+                                    'sequential_name']:
+
+                                    _html5_source1 = temp3['html5_source']
+
+                                    if not _html5_source2:
+                                        _html5_source2 = temp3['html5_source']
+                                    elif _html5_source1 and _html5_source2 and _html5_source1 == _html5_source2:
+                                        continue
+                                    else:
+                                        _html5_source2 = temp3['html5_source']
+
+                                    _vertical_name1 = temp3['vertical_name']
+                                    _vertical_id = temp3['vertical_id']
+
+                                    jump_url = 'http://{domain}/courses/{course_id}/jump_to/block-v1:{course}+type@vertical+block@{vertical_id}'.format(
+                                        domain=request.META.get('HTTP_HOST'),
+                                        course_id=course_id,
+                                        course=course_id.replace('course-v1:', ''),
+                                        vertical_id=_vertical_id
+                                    )
+
+                                    # print '\t\t', _vertical_name1, _html5_source2, jump_url
+
+                                    vertical_list.append({
+                                        'vertical_id': _vertical_id,
+                                        'vertical_name': _vertical_name1,
+                                        'video_url': _html5_source2,
+                                        'jump_url': jump_url
+                                    })
+
+                            sequential_list.append({
+                                'sequential_id': _sequential_id,
+                                'sequential_name': _sequential_name1,
+                                'vertical_list': vertical_list
+                            })
+
+                    chapter_list.append({
+                        'chapter_id': _chapter_id,
+                        'chapter_name': _chapter_name1,
+                        'sequential_list': sequential_list
+                    })
+
+            # 강좌의 영상목록 생성 --- e
+
             settings_context = {
+                'course': course,
+                'chapter_list': chapter_list,
                 'context_course': course_module,
                 'user_edit': edit_check,
                 'course_locator': course_key,
@@ -1819,8 +2070,9 @@ def settings_handler(request, course_key_string):
                 'enable_extended_course_details': enable_extended_course_details,
                 'difficult_degree_list': difficult_degree_list,
                 'teacher_name': teacher_name,
+                'preview_video': preview_video,
                 'user_edit': edit_check,
-                'classfy':classfy
+                'classfy': classfy
             }
 
             if is_prerequisite_courses_enabled():
@@ -2030,7 +2282,7 @@ def _refresh_course_tabs(request, course_module):
 
     with connections['default'].cursor() as cur:
         query = """
-                SELECT classfy, middle_classfy, classfy_plus, course_period
+                SELECT classfy, middle_classfy, classfy_plus, course_period, preview_video
                   FROM course_overview_addinfo
                  WHERE course_id = '{course_id}';
             """.format(course_id=course_id)
@@ -2190,6 +2442,7 @@ def advanced_settings_handler(request, course_key_string):
         json: update the Course's settings. The payload is a json rep of the
             metadata dicts.
     """
+    print course_key_string
     course_key = CourseKey.from_string(course_key_string)
     with modulestore().bulk_operations(course_key):
         course_module = get_course_and_check_access(course_key, request.user)
@@ -2207,7 +2460,18 @@ def advanced_settings_handler(request, course_key_string):
                                  WHERE course_id = '{course_id}';
                             """.format(course_id=course_key_string)
                 cur.execute(query)
+
                 audit_yn = cur.fetchone()[0] if cur.rowcount else 'N'
+
+            with connections['default'].cursor() as cur:
+                query = """
+                                SELECT ifnull(preview_video, '')
+                                  FROM course_overview_addinfo
+                                 WHERE course_id = '{course_id}';
+                            """.format(course_id=course_key_string)
+                cur.execute(query)
+
+                preview_video = cur.fetchone()[0]
 
             need_lock_dict = {
                 'hidden': True,
@@ -2250,11 +2514,13 @@ def advanced_settings_handler(request, course_key_string):
                     )
                     audit_yn = 'Y'
                     teacher_name = ''
+
                     if 'audit_yn' in params:
                         audit_yn = params['audit_yn']['value']
                         audit_yn = 'N' if not audit_yn or audit_yn not in ['Y', 'y'] else 'Y'
                     if 'teacher_name' in params:
                         teacher_name = params['teacher_name']['value']
+
                     try:
                         with connections['default'].cursor() as cur:
                             if 'audit_yn' in params:
