@@ -2,72 +2,74 @@
 <%inherit file="main.html" />
 <%namespace name='static' file='static_content.html'/>
 <%!
-    from django.utils.translation import ugettext as _
-    from django.urls import reverse
-    from microsite_configuration import microsite
-    from openedx.core.djangolib.markup import HTML, Text
+from django.utils.translation import ugettext as _
+from django.urls import reverse
+from microsite_configuration import microsite
+from openedx.core.djangolib.markup import HTML, Text
 %>
 <link rel="stylesheet" type="text/css" href="/static/css/pop.css">
 
 <div id="layerPopupArea" class="layerPopupArea">
     % for pop in popup_list:
-        % if pop['popup_type'] == 'H' and pop['site_id'] is None:
-            <%include file="${popup_base}" args="pop=pop"/>
-        % elif pop['popup_type'] == 'I' and pop['site_id'] is None:
-            <%include file="${popup_image_base}" args="pop=pop"/>
-        % endif
+    % if pop['popup_type'] == 'H' and pop['site_id'] is None:
+    <%include file="${popup_base}" args="pop=pop"/>
+    % elif pop['popup_type'] == 'I' and pop['site_id'] is None:
+    <%include file="${popup_image_base}" args="pop=pop"/>
+    % endif
     % endfor
 </div>
 
+<script type="text/javascript" src="/static/new_index/js/spin.js"></script>
 <script language="Javascript">
 
-$( document ).ready(function() {
-    // 실제로 강좌 목록 위에 영역 선택 부분이 있으므로 해당 높이를 추가
-    // 20210114 기본 강좌는 집콕강좌로 변경
-    let secCourseTop = $(".sec-course").offset().top + $(".course-top").height();
-    let windowHeight = $(window).height();
-    let currScrollTop = $(window).scrollTop();
-    let isScrolled = false;
-    let isEmpty = true;
+    $(document).ready(function () {
+        // 실제로 강좌 목록 위에 영역 선택 부분이 있으므로 해당 높이를 추가
+        // 20210114 기본 강좌는 집콕강좌로 변경
+        let secCourseTop = $(".sec-course").offset().top + $(".course-top").height();
+        let windowHeight = $(window).height();
+        let currScrollTop = $(window).scrollTop();
+        let isScrolled = false;
+        let isEmpty = true;
 
-    console.debug('secCourseTop: ' + secCourseTop);
-    console.debug('windowHeight: ' + windowHeight);
-    console.debug('currScrollTop: ' + currScrollTop);
-    console.debug('initialize action: ' + windowHeight + currScrollTop > secCourseTop);
+        console.debug('secCourseTop: ' + secCourseTop);
+        console.debug('windowHeight: ' + windowHeight);
+        console.debug('currScrollTop: ' + currScrollTop);
+        console.debug('initialize action: ' + windowHeight + currScrollTop > secCourseTop);
 
-    if (windowHeight + currScrollTop > secCourseTop){
-        setMainCourses();
-    }
-
-    // 스크롤을 할경우 강좌 목록을 가져오도록 변경
-    $(window).scroll(function(){
-        currScrollTop = $(window).scrollTop();
-
-        if (windowHeight + currScrollTop < secCourseTop)
-            return;
-
-        // 스크롤 한적이 있거나 목록이 있다면 실행하지 않음
-        if (isScrolled)
-            return;
-        else
-            isScrolled = true;
-
-        if (isEmpty){
+        if (windowHeight + currScrollTop > secCourseTop) {
             setMainCourses();
         }
-    });
 
-    /***
-     * index 화면의 강좌목록을 로드
-     * 로드된 강좌별 크기를 확인하여 표시되는 기본 영역을 지정
-    ***/
-    function setMainCourses(){
-        isScrolled = true;
-        $.post(
+        // 스크롤을 할경우 강좌 목록을 가져오도록 변경
+        $(window).scroll(function () {
+            currScrollTop = $(window).scrollTop();
+
+            if (windowHeight + currScrollTop < secCourseTop)
+                return;
+
+            // 스크롤 한적이 있거나 목록이 있다면 실행하지 않음
+            if (isScrolled)
+                return;
+            else
+                isScrolled = true;
+
+            if (isEmpty) {
+                setMainCourses();
+            }
+        });
+
+        /***
+         * index 화면의 강좌목록을 로드
+         * 로드된 강좌별 크기를 확인하여 표시되는 기본 영역을 지정
+         ***/
+
+        function setMainCourses() {
+            isScrolled = true;
+            $.post(
                 "/get_index_courses",
                 {csrfmiddlewaretoken: '${ csrf_token }'},
-                function(data){
-                   if(data){
+                function (data) {
+                    if (data) {
                         $(".sec-course .owl-carousel").remove();
                         $(".loading").hide();
                         $("#sections").append(data);
@@ -76,19 +78,20 @@ $( document ).ready(function() {
                             margin: 20,
                             nav: true,
                             dots: false,
-                            responsive:{
-                                0:{
+                            loop: true,
+                            responsive: {
+                                0: {
                                     items: 1
                                 },
-                                443:{
+                                443: {
                                     items: 2
                                 },
 
-                                768:{
+                                768: {
                                     items: 3
                                 },
 
-                                992:{
+                                992: {
                                     items: 4
                                 }
                             }
@@ -97,224 +100,134 @@ $( document ).ready(function() {
                         isEmpty = false;
 
                         // data append 이후 item 갯수를 확인하여 아이템이 존재하는 영역을 표시
-                        if($("#section_home .item").size() > 0)
+                        if ($("#section_home .item").size() > 0)
                             change_course('home');
-                        else if($("#section_pop .item").size() > 0)
+                        else if ($("#section_pop .item").size() > 0)
                             change_course('pop');
-                        else if($("#section_new .item").size() > 0)
+                        else if ($("#section_new .item").size() > 0)
                             change_course('new');
-                        else if($("#section_today .item").size() > 0)
+                        else if ($("#section_today .item").size() > 0)
                             change_course('today');
-                   }
-            },
-            "html");
-    }
-
-
-    let popup_id = $(".popup-area").attr("id");
-
-    $("#"+popup_id).attr("tabindex", 0).focus();
-
-    $("#"+popup_id).css('outline','none');
-
-    var spin_lock = false;
-    $( window ).scroll(function() {
-        if($(window).scrollTop() > 1050 && spin_lock == false) {
-            var spin_common_rule = {
-                duration: 3000
-            }
-            $('#cu-a0').spincrement(spin_common_rule);
-            $('#cu-a1').spincrement(spin_common_rule);
-            $('#cu-a2').spincrement(spin_common_rule);
-            $('#cu-b0').spincrement(spin_common_rule);
-            $('#cu-b1').spincrement(spin_common_rule);
-            $('#cu-c0').spincrement(spin_common_rule);
-            spin_lock = true;
-        }
-    });
-
-    $( ".slide_viewer" ).hover(function() {
-        $('#arrow_box_left').css("background-color", "#333");
-        $('#arrow_box_right').css("background-color", "#333");
-    },
-    function(){
-        $('#arrow_box_left').css("background-color", "");
-        $('#arrow_box_right').css("background-color", "");
-    });
-
-    $('.kr01-arrow').keydown(function(e){
-        console.log(e.keyCode);
-        $.browser.chrome = /chrom(e|ium)/.test(navigator.userAgent.toLowerCase());
-
-        if((e.keyCode === 13 || e.keyCode === 32) && $.browser.chrome){
-            $('#middle_list_link').click();
-        }
-    });
-
-    $('#middle_list_link').click(function(e){
-        e.preventDefault();
-        if($('#middle_list').is(':visible') == false) {
-            $('#middle_list').css({'display': 'inline-block'});
-            $('.kr01-arrow').addClass('active');
-            $('.kr01-arrow').text('▲');
-            $('#arrow_open').text(gettext('Contract'));
-        } else {
-            $('#middle_list').hide();
-            $('.kr01-arrow').removeClass('active');
-            $('.kr01-arrow').text('▼');
-            $('#arrow_open').text(gettext('Expand'));
-        }
-    });
-});
-
-function popClose(id){
-    $("#" + id).hide();
-}
-
-
-function setCookie( name, value, expiredays ) {
-    var todayDate = new Date();
-    if(expiredays == '0'){
-        expiredays = '999';
-    }
-    todayDate.setDate( todayDate.getDate() + Number(expiredays) );
-    document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
-}
-
-
-function closeWin(check, id, hidden_day) {
-    /*
-    if ($("#" + check).is(":checked")){
-        setCookie( id , "done" , hidden_day);
-    }
-     */
-
-    setCookie( id , "done" , hidden_day);
-
-    $("#" + id).css("display" , "none");
-}
-
-cookiedata = document.cookie;
-
-$("#layerPopupArea .pop_content").each(function() {
-    var content_id = $(this).attr("id");
-    $("#"+content_id).html($("#"+content_id).text());
-});
-
-var leng = '${max_pop}';
-leng = Number(leng);
-for (var i = 1; i<=leng; i++) {
-    if (cookiedata.indexOf(i +"=done") < 0) {
-        %if LANG == 'en':
-            $("#" + i).hide();
-        %else:
-            $("#" + i).show();
-        %endif
-    } else {
-        $("#" + i).hide();
-    }
-}
-
-
-function setCookie1( name, value, expiredays ) {
-    console.log('1')
-    var todayDate = new Date();
-    console.log('2')
-    todayDate.setDate( todayDate.getDate() + parseInt(expiredays) );
-    console.log('3')
-    document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
-}
-
-cookiedata = document.cookie;
-</script>
-
-
-<style>
-    .home > header .outer-wrapper {
-        width: 100%;height:100%;box-sizing:border-box;
-	    padding:100px 0 0 0;
-    }
-    .course-search{
-        width: 300px;
-        float: right;
-        margin-right: 30px;
-    }
-</style>
-
-
-%if request.user.id and not request.user.is_active:
-<script>
-    setTimeout(function () {
-        alert('${_("Since we sent an email to activate your account, please log back in to your site via your account activation email.. Click OK button to log out automatically.")}');
-        document.location.href = "/logout";
-    }, 500);
-</script>
-%endif
-
-
-<script type="text/javascript">
-    $(document).ready(function(){
-        var sliderOptions = {
-            mode: 'vertical',
-            slideSelector: '.slider article.slide',
-            minSlides: 1,
-            maxSlides: 1,
-            auto: ($('#board_slider').children().length < 2) ? false : true,
-            autoHover: true,
-            infiniteLoop: true,
-            controls: true,
-            touchEnabled : (navigator.maxTouchPoints > 0),
-            prevSelector: 'div.bxslider-prev',
-            prevText: '<span class="hidden_head">${_("Previous")}</span>',
-            nextSelector: 'div.bxslider-next',
-            nextText: '<span class="hidden_head">${_("Next")}</span>',
-            onSliderLoad: function(currentIndex) {
-                $('.bx-clone').find('a').prop('tabindex', '-1');
-            },
-            onSlideBefore: function($slideElement, oldIndex, newIndex) {
-                var comm_link = $slideElement.find("a").attr("href");
-                var comm_category = $slideElement.find("span.comm-category").text();
-                var comm_link_gbn = comm_link.split('/');
-                var comm_more = '#';
-                if(comm_link_gbn[2] != 'F') {
-                    comm_more = '/comm_list/' + comm_link_gbn[2];
-                }
-                else {
-                    comm_more = '/comm_tabs/kmooc_f/';
-                }
-                $(".kr01-slider-extend").children('a').attr('href', comm_more);
-                $("#comm_more").attr('title', comm_category);
-            },
-            onSlideAfter: function(){
-                $("#board_slider").children("article").each(function(){
-                    if ($(this).attr("aria-hidden") == "false") {
-                        $(this).find("a").prop("tabindex", "0");
-                    } else {
-                        $(this).find("a").prop("tabindex", "-1");
                     }
-                });
-            }
-        };
-        var board_slider = $('#board_slider').bxSlider(sliderOptions);
+                },
+                "html");
+        }
 
-        // 접근성 슬라이더 수정
-        $('#board_slider article').focusin(function () {
-            $('#board_slider article').removeClass('focus');
-            $(this).parents('article').addClass('focus');
-            board_slider.stopAuto();
-            if($('#board_slider article:first-child').hasClass('focus')){
-                board_slider.css('transform', 'translate3d(0, 0px, 0px)');
+
+        let popup_id = $(".popup-area").attr("id");
+
+        $("#" + popup_id).attr("tabindex", 0).focus();
+
+        $("#" + popup_id).css('outline', 'none');
+
+        var spin_lock = false;
+        $(window).scroll(function () {
+            if ($(window).scrollTop() > 1050 && spin_lock == false) {
+                var spin_common_rule = {
+                    duration: 3000
+                }
+                $('#cu-a0').spincrement(spin_common_rule);
+                $('#cu-a1').spincrement(spin_common_rule);
+                $('#cu-a2').spincrement(spin_common_rule);
+                $('#cu-b0').spincrement(spin_common_rule);
+                $('#cu-b1').spincrement(spin_common_rule);
+                $('#cu-c0').spincrement(spin_common_rule);
+                spin_lock = true;
+            }
+        });
+
+        $(".slide_viewer").hover(function () {
+                $('#arrow_box_left').css("background-color", "#333");
+                $('#arrow_box_right').css("background-color", "#333");
+            },
+            function () {
+                $('#arrow_box_left').css("background-color", "");
+                $('#arrow_box_right').css("background-color", "");
+            });
+
+        $('.kr01-arrow').keydown(function (e) {
+            console.log(e.keyCode);
+            $.browser.chrome = /chrom(e|ium)/.test(navigator.userAgent.toLowerCase());
+
+            if ((e.keyCode === 13 || e.keyCode === 32) && $.browser.chrome) {
+                $('#middle_list_link').click();
+            }
+        });
+
+        $('#middle_list_link').click(function (e) {
+            e.preventDefault();
+            if ($('#middle_list').is(':visible') == false) {
+                $('#middle_list').css({'display': 'inline-block'});
+                $('.kr01-arrow').addClass('active');
+                $('.kr01-arrow').text('▲');
+                $('#arrow_open').text(gettext('Contract'));
+            } else {
+                $('#middle_list').hide();
+                $('.kr01-arrow').removeClass('active');
+                $('.kr01-arrow').text('▼');
+                $('#arrow_open').text(gettext('Expand'));
             }
         });
     });
-</script>
+
+    function popClose(id) {
+        $("#" + id).hide();
+    }
 
 
-<script type="text/javascript" src="/static/new_index/js/spin.js"></script>
+    function setCookie(name, value, expiredays) {
+        var todayDate = new Date();
+        if (expiredays == '0') {
+            expiredays = '999';
+        }
+        todayDate.setDate(todayDate.getDate() + Number(expiredays));
+        document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todayDate.toGMTString() + ";"
+    }
 
-<script>
 
-    function change_course(type){
+    function closeWin(check, id, hidden_day) {
+        /*
+        if ($("#" + check).is(":checked")){
+            setCookie( id , "done" , hidden_day);
+        }
+         */
+
+        setCookie(id, "done", hidden_day);
+
+        $("#" + id).css("display", "none");
+    }
+
+    cookiedata = document.cookie;
+
+    $("#layerPopupArea .pop_content").each(function () {
+        var content_id = $(this).attr("id");
+        $("#" + content_id).html($("#" + content_id).text());
+    });
+
+    var leng = '${max_pop}';
+    leng = Number(leng);
+    for (var i = 1; i <= leng; i++) {
+        if (cookiedata.indexOf(i + "=done") < 0) {
+            $("#" + i).hide();
+        } else {
+            $("#" + i).hide();
+        }
+    }
+
+
+    function setCookie1(name, value, expiredays) {
+        console.log('1')
+        var todayDate = new Date();
+        console.log('2')
+        todayDate.setDate(todayDate.getDate() + parseInt(expiredays));
+        console.log('3')
+        document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todayDate.toGMTString() + ";"
+    }
+
+    cookiedata = document.cookie;
+
+    function change_course(type) {
+        $('#section_home.owl-carousel').trigger('stop.owl.autoplay');
 
         // 강좌 탭
         $(".tab-group>li>a").removeClass("active");
@@ -322,11 +235,15 @@ cookiedata = document.cookie;
         // 강좌 목록
         $("#sections>div").hide();
 
-
         switch (type) {
             case "home":
                 $("#section_home").show();
                 $("#hack_home").addClass("active");
+
+                setTimeout(function () {
+                    $('#section_home.owl-carousel').trigger('play.owl.autoplay', [10000]);
+                }, 500);
+
                 break;
             case "pop":
                 $("#section_pop").show();
@@ -372,41 +289,74 @@ cookiedata = document.cookie;
      */
 </script>
 
+%if request.user.id and not request.user.is_active:
+<script>
+    setTimeout(function () {
+        alert('${_("Since we sent an email to activate your account, please log back in to your site via your account activation email.. Click OK button to log out automatically.")}');
+        document.location.href = "/logout";
+    }, 500);
+</script>
+%endif
+
 
 <style>
+
+    .home > header .outer-wrapper {
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        padding: 100px 0 0 0;
+    }
+
+    .course-search {
+        width: 300px;
+        float: right;
+        margin-right: 30px;
+    }
+
     .more {
         color: #222 !important;
-        text-decoration:none !important
+        text-decoration: none !important
     }
+
     .quick-link > li > a {
         color: #222 !important;
     }
+
     .classify-item {
         color: #222 !important;
     }
+
     .link {
         color: #222 !important;
     }
+
     .instructor {
         color: #222 !important;
     }
+
     .course-item {
-        text-decoration:none !important
+        text-decoration: none !important
     }
+
     .el-xbox > a {
-        text-decoration:none !important
+        text-decoration: none !important
     }
+
     .el-xbox {
         padding-top: 12px;
         padding-bottom: 12px;
         transition: 0.3s;
     }
+
     .course-title {
         font-family: 'Noto Sans KR' !important;
     }
+
     .sub-title {
         font-family: 'Noto Sans KR' !important;
     }
+
     .csp {
         cursor: pointer;
     }
@@ -635,27 +585,29 @@ cookiedata = document.cookie;
 
 
 % if show_homepage_promo_video:
-    <section id="video-modal" class="modal home-page-video-modal video-modal">
-        <div class="inner-wrapper">
-            <iframe title="YouTube Video" width="640" height="360" src="//www.youtube.com/embed/${homepage_promo_video_youtube_id}?showinfo=0" frameborder="0" allowfullscreen></iframe>
-        </div>
-    </section>
+<section id="video-modal" class="modal home-page-video-modal video-modal">
+    <div class="inner-wrapper">
+        <iframe title="YouTube Video" width="640" height="360" src="//www.youtube.com/embed/${homepage_promo_video_youtube_id}?showinfo=0" frameborder="0" allowfullscreen></iframe>
+    </div>
+</section>
 % endif
 
 
 <%block name="js_extra">
-   <script type="text/javascript">
-      $(window).load(function() {
-         if(getParameterByName('next')) {
-              $('#login').trigger("click");
-         }
-      })
-   </script>
+<script type="text/javascript">
+    $(window).load(function () {
+        if (getParameterByName('next')) {
+            $('#login').trigger("click");
+        }
+    })
+</script>
 </%block>
 
 
 % if show_signup_immediately is not UNDEFINED:
 <script type="text/javascript">
-    $(window).load(function() {$('#signup_action').trigger("click");});
+    $(window).load(function () {
+        $('#signup_action').trigger("click");
+    });
 </script>
 % endif
