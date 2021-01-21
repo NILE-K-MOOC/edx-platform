@@ -216,7 +216,7 @@
 
     $(document).ready(function ($) {
 
-        let register_check = '';
+        var register_check = '';
 
         if($(".register")[0]){
             register_check = true;
