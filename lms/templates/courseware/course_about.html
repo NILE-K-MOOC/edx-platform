@@ -850,7 +850,7 @@ $("#audit_mode").click(function(event) {
                                 <a class="register" id="audit_mode" style=" border: 1px solid #3ebf3c; width: 90%; background-image: linear-gradient(to bottom,#29941cc9 0%,#39bd2f82 50%,#2bb1359e 50%,#071b03a6 100%);">${_("Audit Enrollment")}</a>
                             </div>
 
-                            <div class="box2 1" style="width: 20%;">
+                            <div class="box2" style="width: 20%;">
                                 <a href='video' class="" style="width: 100%; border: 1px solid #000663; border-bottom: 1px solid #00003a;
                                     border-radius: 5px;  color: #000; display: inline-block; font-size: inherit;font-weight: bold;
                                     background-color: #0075b4;background-image: -webkit-linear-gradient(top, #0075b4 0%,#004393 50%,#002a84 50%,#002f86 100%);
@@ -914,7 +914,7 @@ $("#audit_mode").click(function(event) {
                                     display: block;     font: normal 1.2rem/1.6rem 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif; float: left;letter-spacing: 1px; padding: 10px 0; text-align: center; ">${_("Course View")}</a>
                             </div>
 
-                            <a href='#preview-video-modal' class="media" rel="course_preview" style="width: 20%; border: 1px solid #000663; border-bottom: 1px solid #00003a;
+                            <a href='#preview-video-modal' class="" rel="course_preview" style="width: 20%; border: 1px solid #000663; border-bottom: 1px solid #00003a;
                                 border-radius: 5px;  color: #000; display: inline-block; font-size: inherit;font-weight: bold;
                                 background-color: #0075b4;background-image: -webkit-linear-gradient(top, #0075b4 0%,#004393 50%,#002a84 50%,#002f86 100%);
                                 background-image: linear-gradient(to bottom,#f9f9f9 0%,#d2d2d2 50%,#c5c5c5 50%,#909090 100%); padding: 7px 18px; text-align: center;
@@ -1336,10 +1336,6 @@ $("#audit_mode").click(function(event) {
         </div>
     </div>
 </section>
-
-<input type="hidden" id="is_shib_course" value="${is_shib_course}">
-<input type="hidden" id="can_enroll" value="${can_enroll}">
-<input type="hidden" id="audit_flag" value="${audit_flag}">
 
 %if active_reg_button or is_shib_course:
 

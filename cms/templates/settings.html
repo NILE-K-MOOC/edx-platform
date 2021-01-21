@@ -1160,15 +1160,15 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
             </li>
             % endif
 
-            <li class="field image" id="field-course-preview-video">
+              <li class="field image" id="field-video-thumbnail-image">
               <label for="preview_video">${_("Course preview")}</label>
               <div class="wrapper-input">
                 <div class="input">
-                  ## Translators: This is the placeholder text for a field that requests the URL for a course image
+                  ## Translators: This is the placeholder text for a field that requests the URL for a course video thumbnail image
                   <input type="text" dir="ltr" class="long new-course-preview-video-url" id="preview_video" value="${preview_video}" placeholder="${_("Course preview")} URL" autocomplete="off" />
                   <span class="tip tip-stacked">K-MOOC Studio에서 업로드한 동영상 URL을 입력해주세요(유튜브 URL은 사용이 불가합니다).</span>
                 </div>
-                <button type="button" class="action" id="preview_video_add" style="float: right; width: 20%; margin-top: 5px; padding: 10px 20px; transition: all 0.15s; text-align: center; border-radius: 5px; border: 1px solid #0075b4; background-color: #fff; color: #0075b4; font-size: 1.2rem; line-height: 1.776rem;">${_("Upload Course Card Image")}</button>
+                <button type="button" class="action" id="preview_video_add" style="float: right; width: 20%; margin-top: 5px; padding: 10px 20px; transition: all 0.15s; text-align: center; border-radius: 5px; border: 1px solid #0075b4; background-color: #fff; color: #0075b4; font-size: 1.2rem; line-height: 1.776rem;">${_("Specify course preview")}</button>
               </div>
             </li>
 

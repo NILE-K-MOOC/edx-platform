@@ -23069,6 +23069,10 @@ msgid "Course Card Image"
 msgstr "강좌 카드 이미지"
 
 #: cms/templates/settings.html
+msgid "Specify course preview"
+msgstr "강좌 미리보기 지정"
+
+#: cms/templates/settings.html
 msgid ""
 "You can manage this image along with all of your other {a_link_start}files "
 "and uploads{a_link_end}"

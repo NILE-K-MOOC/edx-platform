@@ -218,10 +218,6 @@
 
         $('.preview_video_id').on('timeupdate', function (event) {
 
-            let is_shib_course = $("#is_shib_course").val()
-            let can_enroll = $("#can_enroll").val()
-            let audit_flag = $("#audit_flag").val()
-
             if ($(this)[0].currentTime == '0') {
                 $(this)[0].play();
             }
