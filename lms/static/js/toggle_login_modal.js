@@ -222,7 +222,7 @@
                 $(this)[0].play();
             }
 
-            let honor = $(".register")[0]
+            let honor_check = $(".register")[0]
             let title = ''
 
             if ($(this)[0].duration > 300) {
@@ -231,7 +231,7 @@
                     $("#modal_clone").hide()
                     $('#lean_overlay').fadeOut(200);
 
-                    if(honor){
+                    if(honor_check){
                         title += "강좌를 등록하시겠습니까?"
                     }else{
                         title += "강좌를 청강하시겠습니까?"
@@ -244,7 +244,7 @@
                         dangerMode: false,
                     }).then(function (value) {
                         if(value) {
-                            if (honor) {
+                            if (honor_check) {
                                 $(".register").click();
                             } else if (value) {
                                 $("#audit_mode").click();
@@ -257,7 +257,7 @@
                     $("#modal_clone").hide()
                     $('#lean_overlay').fadeOut(200);
 
-                    if(honor){
+                    if(honor_check){
                         title += "강좌를 등록하시겠습니까?"
                     }else{
                         title += "강좌를 청강하시겠습니까?"
@@ -270,7 +270,7 @@
                         dangerMode: false,
                     }).then(function (value) {
                         if(value) {
-                            if (honor) {
+                            if (honor_check) {
                                 $(".register").click();
                             } else if (value) {
                                 $("#audit_mode").click();
