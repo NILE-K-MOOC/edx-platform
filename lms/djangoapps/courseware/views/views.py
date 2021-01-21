@@ -11,6 +11,7 @@ import sys
 import json
 import crum
 import pytz
+import traceback
 from collections import OrderedDict, namedtuple
 from datetime import datetime, date,timedelta
 from django.conf import settings
@@ -2705,7 +2706,8 @@ def video_check(request):
         check = urllib.urlopen(video_url)
         check.getcode()
     except Exception as e:
-        print e
+        print video_url
+        print traceback.format_exc()
         is_error = 'true'
 
     data = dict()

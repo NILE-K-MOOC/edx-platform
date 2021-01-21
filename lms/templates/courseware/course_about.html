@@ -1337,6 +1337,10 @@ $("#audit_mode").click(function(event) {
     </div>
 </section>
 
+<input type="hidden" id="is_shib_course" value="${is_shib_course}">
+<input type="hidden" id="can_enroll" value="${can_enroll}">
+<input type="hidden" id="audit_flag" value="${audit_flag}">
+
 %if active_reg_button or is_shib_course:
 
 <div style="display: none;">

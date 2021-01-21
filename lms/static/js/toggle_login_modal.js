@@ -24,7 +24,6 @@
                 var $overlay = $("<div id='lean_overlay'></div>");
                 $('body').append($overlay);
             }
-
             options = $.extend(defaults, options);
 
             return this.each(function () {
@@ -38,7 +37,7 @@
                         url: "/courses/video_check",
                         type: "POST",
                         data: {
-                            video_url: $('iframe', modal_id).data('src')
+                            video_url: $('video', modal_id).data('src')
                         },
                         success: function (data) {
                             if (data.is_error == 'true') {
@@ -76,7 +75,7 @@
                                 $('#lean_overlay').css({display: 'block', opacity: 0});
                                 $('#lean_overlay').fadeTo(200, o.overlay);
 
-                                $('iframe', modal_id).attr('src', $('iframe', modal_id).data('src'));
+                                $('video', modal_id).attr('src', $('video', modal_id).data('src'));
                                 if ($(modal_id).hasClass('email-modal')) {
                                     $(modal_id).css({
                                         width: 80 + '%',
@@ -139,6 +138,7 @@
                 var o = options;
 
                 $(this).click(function (e) {
+
                     $('.modal, .js-modal').hide();
 
                     var modal_id = $(this).attr('href');
@@ -196,6 +196,7 @@
 
                     $(modal_id).show().fadeTo(200, 1);
                     $(modal_id).find('.notice').hide().html('');
+
                     window.scrollTo(0, 0);
                     e.preventDefault();
                 });
@@ -215,19 +216,88 @@
 
     $(document).ready(function ($) {
 
+        $('.preview_video_id').on('timeupdate', function (event) {
+
+            let is_shib_course = $("#is_shib_course").val()
+            let can_enroll = $("#can_enroll").val()
+            let audit_flag = $("#audit_flag").val()
+
+            if ($(this)[0].currentTime == '0') {
+                $(this)[0].play();
+            }
+
+            let honor = $(".register")[0]
+            let title = ''
+
+            if ($(this)[0].duration > 300) {
+                if ($(this)[0].currentTime > '300') {
+                    $(this)[0].pause();
+                    $("#modal_clone").hide()
+                    $('#lean_overlay').fadeOut(200);
+
+                    if(honor){
+                        title += "강좌를 등록하시겠습니까?"
+                    }else{
+                        title += "강좌를 청강하시겠습니까?"
+                    }
+
+                    swal({
+                        title: title,
+                        icon: "info",
+                        buttons: true,
+                        dangerMode: false,
+                    }).then(function (value) {
+                        if(value) {
+                            if (honor) {
+                                $(".register").click();
+                            } else if (value) {
+                                $("#audit_mode").click();
+                            }
+                        }
+                    })
+                }
+            } else {
+                $('.preview_video_id').on('ended', function () {
+                    $("#modal_clone").hide()
+                    $('#lean_overlay').fadeOut(200);
+
+                    if(honor){
+                        title += "강좌를 등록하시겠습니까?"
+                    }else{
+                        title += "강좌를 청강하시겠습니까?"
+                    }
+
+                    swal({
+                        title: title,
+                        icon: "info",
+                        buttons: true,
+                        dangerMode: false,
+                    }).then(function (value) {
+                        if(value) {
+                            if (honor) {
+                                $(".register").click();
+                            } else if (value) {
+                                $("#audit_mode").click();
+                            }
+                        }
+                    })
+                })
+            }
+        });
+
         $('a[rel*=course_preview]').each(function () {
 
             var $link = $(this),
                 closeButton = $link.data('modalCloseButtonSelector') || '.close-modal',
                 embed;
 
-            embed = $($link.attr('href')).find('iframe');
+            embed = $($link.attr('href')).find('video');
 
             $link.course_preview({top: 120, overlay: 1, closeButton: closeButton, position: 'absolute'});
 
             if (embed.length > 0 && embed.attr('src')) {
                 var sep = (embed.attr('src').indexOf('?') > 0) ? '&' : '?';
-                embed.data('src', embed.attr('src') + sep + 'autoplay=1&rel=0');
+                embed.data('src', embed.attr('src') + sep);
                 embed.attr('src', '');
             }
         });
@@ -242,7 +312,7 @@
 
             if (embed.length > 0 && embed.attr('src')) {
                 var sep = (embed.attr('src').indexOf('?') > 0) ? '&' : '?';
-                embed.data('src', embed.attr('src') + sep + 'autoplay=1&rel=0');
+                embed.data('src', embed.attr('src') + sep);
                 embed.attr('src', '');
             }
         });

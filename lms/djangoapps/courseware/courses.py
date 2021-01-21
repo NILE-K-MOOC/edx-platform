@@ -6,6 +6,7 @@ courseware.
 import logging, time
 from collections import defaultdict
 from datetime import datetime
+import traceback
 
 import branding
 import pytz
@@ -525,15 +526,21 @@ def get_course_about_section(request, course, section_key):
 
                     try:
                         video_url = CourseOverviewAddinfo.objects.get(course_id=course.id).preview_video
+
+                        if not video_url:
+                            video_url = url1
                     except:
                         if url1:
                             video_url = url1
                         else:
                             video_url = ''
+                    print video_url
+                    print url1
 
-                    html = '<iframe title="Preview Video" width="560" height="315" src="'+video_url+'" frameborder="0" allowfullscreen=""></iframe>'
-                except:
-                    html = '<iframe title="Preview Video" width="560" height="315" src="http://vod.kmoocs.kr/vod/2021/01/08/15a3551c-168d-4daa-99ce-d0290800a603.mp4" frameborder="0" allowfullscreen=""></iframe>'
+                    html = '<video class="preview_video_id" title="Preview Video" width="560" height="315" src="'+video_url+'#t=0:01:01, 0:02:02" controls></video>'
+                except Exception as e:
+                    print traceback.print_exc(e)
+                    html = ''
 
             return html
 
