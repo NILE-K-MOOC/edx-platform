@@ -222,13 +222,13 @@
             register_check = true;
         }
 
-        $('.preview_video_id').on('timeupdate', function (event) {
+        $('.preview_video_id').on('timeupdate', function () {
 
             if ($(this)[0].currentTime == '0') {
                 $(this)[0].play();
             }
 
-            let title = '';
+            var title = '';
 
             if ($(this)[0].duration > 300) {
                 if ($(this)[0].currentTime > '300') {
@@ -251,7 +251,7 @@
                         if(value) {
                             if (register_check) {
                                 $(".register").click();
-                            } else if (value) {
+                            } else {
                                 $("#audit_mode").click();
                             }
                         }
