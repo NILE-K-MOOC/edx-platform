@@ -216,10 +216,10 @@
 
     $(document).ready(function ($) {
 
-        let honor_check = '';
+        let register_check = '';
 
         if($(".register")[0]){
-            honor_check = true;
+            register_check = true;
         }
 
         $('.preview_video_id').on('timeupdate', function (event) {
@@ -236,7 +236,7 @@
                     $("#modal_clone").hide()
                     $('#lean_overlay').fadeOut(200);
 
-                    if(honor_check){
+                    if(register_check){
                         title += "강좌를 등록하시겠습니까?";
                     }else{
                         title += "강좌를 청강하시겠습니까?";
@@ -249,7 +249,7 @@
                         dangerMode: false,
                     }).then(function (value) {
                         if(value) {
-                            if (honor_check) {
+                            if (register_check) {
                                 $(".register").click();
                             } else if (value) {
                                 $("#audit_mode").click();
@@ -262,7 +262,7 @@
                     $("#modal_clone").hide();
                     $('#lean_overlay').fadeOut(200);
 
-                    if(honor_check){
+                    if(register_check){
                         title += "강좌를 등록하시겠습니까?";
                     }else{
                         title += "강좌를 청강하시겠습니까?";
@@ -275,7 +275,7 @@
                         dangerMode: false,
                     }).then(function (value) {
                         if(value) {
-                            if (honor_check) {
+                            if (register_check) {
                                 $(".register").click();
                             } else if (value) {
                                 $("#audit_mode").click();
