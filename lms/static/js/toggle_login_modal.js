@@ -216,13 +216,11 @@
 
     $(document).ready(function ($) {
 
-        let honor_check = ''
+        let honor_check = '';
 
         if($(".register")[0]){
-            console.log('1234')
-            honor_check = true
+            honor_check = true;
         }
-        console.log(honor_check)
 
         $('.preview_video_id').on('timeupdate', function (event) {
 
@@ -230,7 +228,7 @@
                 $(this)[0].play();
             }
 
-            let title = ''
+            let title = '';
 
             if ($(this)[0].duration > 300) {
                 if ($(this)[0].currentTime > '300') {
@@ -239,9 +237,9 @@
                     $('#lean_overlay').fadeOut(200);
 
                     if(honor_check){
-                        title += "강좌를 등록하시겠습니까?"
+                        title += "강좌를 등록하시겠습니까?";
                     }else{
-                        title += "강좌를 청강하시겠습니까?"
+                        title += "강좌를 청강하시겠습니까?";
                     }
 
                     swal({
@@ -261,13 +259,13 @@
                 }
             } else {
                 $('.preview_video_id').on('ended', function () {
-                    $("#modal_clone").hide()
+                    $("#modal_clone").hide();
                     $('#lean_overlay').fadeOut(200);
 
                     if(honor_check){
-                        title += "강좌를 등록하시겠습니까?"
+                        title += "강좌를 등록하시겠습니까?";
                     }else{
-                        title += "강좌를 청강하시겠습니까?"
+                        title += "강좌를 청강하시겠습니까?";
                     }
 
                     swal({
