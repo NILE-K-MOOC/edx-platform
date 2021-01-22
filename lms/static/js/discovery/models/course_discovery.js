@@ -29,7 +29,32 @@
             parse: function (response) {
                 var courses = response.results || [];
                 var facets = response.facets || {};
+
+                Date.prototype.addHours = function (h) {
+                    this.setTime(this.getTime() + (h * 60 * 60 * 1000));
+                    return this;
+                }
+
+                for (var i = 0; i < courses.length; i++) {
+                    console.log(courses[i]);
+                    let enrollment_start = courses[i].data.enrollment_start;
+                    let enrollment_end = courses[i].data.enrollment_end;
+                    let start = courses[i].data.start;
+                    let end = courses[i].data.end;
+
+                    let kst_enrollment_start = new Date(enrollment_start).addHours(9);
+                    let kst_enrollment_end = new Date(enrollment_end).addHours(9);
+                    let kst_start = new Date(start).addHours(9);
+                    let kst_end = new Date(end).addHours(9);
+
+                    courses[i].data.enrollment_start = kst_enrollment_start;
+                    courses[i].data.enrollment_end = kst_enrollment_end;
+                    courses[i].data.start = kst_start;
+                    courses[i].data.end = kst_end;
+                }
+
                 this.courseCards.add(_.pluck(courses, 'data'));
+
 
                 this.set({
                     totalCount: response.total,
@@ -97,7 +122,7 @@
                     } else {
                         _(obj.terms).each(function (count, term) {
 
-                            if(key == 'fourth_industry_yn' && (term == 'Y' || term == 'y'))
+                            if (key == 'fourth_industry_yn' && (term == 'Y' || term == 'y'))
                                 term = 'fourth_industry_y';
                             else if (key == 'job_edu_yn' && (term == 'Y' || term == 'y'))
                                 term = 'job_edu_y';

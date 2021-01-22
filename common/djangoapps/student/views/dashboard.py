@@ -1300,8 +1300,8 @@ def dashboard_course_addinfo(course_overview):
         info_dict['classfy'] = addinfo_data[3]
         info_dict['middle_classfy'] = addinfo_data[4]
 
-        c_start = course_overview.start + datetime.timedelta(hours=9)
-        c_end = course_overview.end + datetime.timedelta(hours=9) if course_overview.end else ''
+        c_start = course_overview.start
+        c_end = course_overview.end if course_overview.end else ''
 
         c_start_fmt = c_start.strftime('`%y.%m.%d.')
 
