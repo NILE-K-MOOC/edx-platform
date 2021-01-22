@@ -208,7 +208,7 @@ from openedx.core.djangolib.markup import HTML, Text
     leng = Number(leng);
     for (var i = 1; i <= leng; i++) {
         if (cookiedata.indexOf(i + "=done") < 0) {
-            $("#" + i).hide();
+            $("#" + i).show();
         } else {
             $("#" + i).hide();
         }
