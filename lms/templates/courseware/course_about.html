@@ -888,16 +888,20 @@ $("#audit_mode").click(function(event) {
                                     else:
                                         href_class = "register"
                                 %>
+
+                            <!-- 기본 수강신청 버튼 -->
+                            <!--
+                            -->
+                            <div class="box1" style="float: left; width: 65%;" id="enroll_0">
+                                <button href="${reg_href}" class="type-btn ${href_class}"  style="width: 90%; height: 46px; color: white;">${_("Enrollment")}</button>
+                            </div>
+
+                            <!-- 학점 인정 수강신청 버튼 -->
                             <!--
                             <div class="box1" style="float: left; width: 65%;" id="enroll_0">
                                 <button id="enroll_1" style="width: 90%; height: 46px; color: white;" >${_("Enrollment")}</button>
                             </div>
                             -->
-
-                            <div class="box1" style="float: left; width: 65%;" id="enroll_0">
-                                <button href="${reg_href}" class="type-btn ${href_class}"  style="width: 90%; height: 46px; color: white;">${_("Enrollment")}</button>
-                            </div>
-
 
                             <div class="box2" style="float: right; width: 35%;">
                                 <a href='video' class="" id="poppppp" style="width: 100%; border: 1px solid #000b0d; border-bottom: 1px solid #00003a;
@@ -981,48 +985,56 @@ $("#audit_mode").click(function(event) {
   });
 
   $("#active_recognition").click(function () {
-    let check_agree = $('input:radio[id=paAg]').is(':checked');
+      let check_agree = $('input:radio[id=paAg]').is(':checked');
 
-    if ($('#recog_org').val() == "") {
-      swal('', '학교를 선택해 주세요.', 'warning');
-    }
-    if ($('#recog_mail').val().length < 1) {
-      swal('', '메일을 입력해 주세요.', 'warning');
-    }
-    if ($('#recog_num').val().length < 1) {
-      swal('', '학점을 입력해 주세요.', 'warning');
-    }
-    if ($('#recog_mail').val().indexOf('@') == -1) {
-      swal('', '올바른 이메일 형식을 입력해 주세요.', 'warning');
-    }
+      if ($('#recog_org').val() == "") {
+          swal('', '학교를 선택해 주세요.', 'warning');
+          return;
+      }
 
-    if (check_agree == true && $('#recog_num').val().length > 1 && $('#recog_mail').val().length > 1 && $('#recog_org').val() != "") {
-      param = 1;
-    } else if (check_agree == false) {
-      swal('', '정보 활용에 동의해주세요.', 'warning');
-    }
-    if (param == 1) {
-      $.ajax({
-        url: '/recognition',
-        type: "POST",
-        data: {
-          csrfmiddlewaretoken: $.cookie('csrftoken'),
-          org: $('#recog_org').val(),
-          student_no: $('#recog_num').val(),
-          email: $('#recog_mail').val(),
-          course_id:'${course.id}',
-          user:'${user.id}'
-        }
-      }).done(function (data) {
-        if (data.return =='success'){
-            $("#real_enroll").trigger("click");
-            $('#recog_divv_0').hide();
-        }
-        else{
-          swal('', '다시 시도해주세요', 'warning');
-        }
-      });
-    }
+      if ($('#recog_mail').val().length < 1) {
+          swal('', '메일을 입력해 주세요.', 'warning');
+          return;
+      }
+
+      if ($('#recog_num').val().length < 1) {
+          swal('', '학점을 입력해 주세요.', 'warning');
+          return;
+      }
+
+      if ($('#recog_mail').val().indexOf('@') == -1) {
+          swal('', '올바른 이메일 형식을 입력해 주세요.', 'warning');
+          return;
+      }
+
+      if (check_agree == true && $('#recog_num').val().length > 1 && $('#recog_mail').val().length > 1 && $('#recog_org').val() != "") {
+          param = 1;
+      } else if (check_agree == false) {
+          swal('', '정보 활용에 동의해주세요.', 'warning');
+      }
+      if (param == 1) {
+          $(this).prop("disabled", true);
+
+          $.ajax({
+              url: '/recognition',
+              type: "POST",
+              data: {
+                  csrfmiddlewaretoken: $.cookie('csrftoken'),
+                  org: $('#recog_org').val(),
+                  student_no: $('#recog_num').val(),
+                  email: $('#recog_mail').val(),
+                  course_id: '${course.id}',
+                  user: '${user.id}'
+              }
+          }).done(function (data) {
+              if (data.return == 'success') {
+                  $("#real_enroll").trigger("click");
+                  $('#recog_divv_0').hide();
+              } else {
+                  swal('', '다시 시도해주세요', 'warning');
+              }
+          });
+      }
   });
 
 </script>

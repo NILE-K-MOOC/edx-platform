@@ -1380,8 +1380,33 @@ def index_submenu():
     return m_dict
 
 
+import crum
+from courseware.context_processor import user_timezone_locale_prefs
+from pytz import timezone
+
+
 def index_courses(user, filter_=None):
     courses = get_courses(user, filter_=filter_)
+
+    # time_zone 으로 강좌 정보 적용
+    try:
+        user_timezone = user_timezone_locale_prefs(crum.get_current_request())['user_timezone']
+        user_tz = timezone(user_timezone)
+    except:
+        user_tz = timezone('Asia/Seoul')
+
+    for course in courses:
+        if course.enrollment_start:
+            course.enrollment_start = course.enrollment_start.astimezone(user_tz)
+
+        if course.enrollment_end:
+            course.enrollment_end = course.enrollment_end.astimezone(user_tz)
+
+        if course.start:
+            course.start = course.start.astimezone(user_tz)
+
+        if course.end:
+            course.end = course.end.astimezone(user_tz)
 
     # 랜덤 출력을위해 shuffle 사용
     shuffle(courses)
