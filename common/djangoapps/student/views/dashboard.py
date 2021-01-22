@@ -760,6 +760,29 @@ def student_dashboard(request):
     course_type4 = []
 
     # 수정필요. https://github.com/kmoocdev2/edx-platform/commit/8da64778a4c8e758c5a9b012624c39846f100084#diff-55b798ee23a7fde8d1103408afcd0f16
+    # timezone update
+    import crum
+    from courseware.context_processor import user_timezone_locale_prefs
+    from pytz import timezone
+
+    try:
+        user_timezone = user_timezone_locale_prefs(crum.get_current_request())['user_timezone']
+        user_tz = timezone(user_timezone)
+    except:
+        user_tz = timezone('Asia/Seoul')
+
+    for c in course_enrollments:
+        if c.course.enrollment_start:
+            c.course.enrollment_start = c.course.enrollment_start.astimezone(user_tz)
+
+        if c.course.enrollment_end:
+            c.course.enrollment_end = c.course.enrollment_end.astimezone(user_tz)
+
+        if c.course.start:
+            c.course.start = c.course.start.astimezone(user_tz)
+
+        if c.course.end:
+            c.course.end = c.course.end.astimezone(user_tz)
 
     for c in course_enrollments:
         # 이수증 생성 여부: c.course.has_any_active_web_certificate

@@ -1396,10 +1396,17 @@ def index_courses(user, filter_=None):
         user_tz = timezone('Asia/Seoul')
 
     for course in courses:
-        course.enrollment_start = course.enrollment_start.astimezone(user_tz)
-        course.enrollment_end = course.enrollment_end.astimezone(user_tz)
-        course.start = course.start.astimezone(user_tz)
-        course.end = course.end.astimezone(user_tz)
+        if course.enrollment_start:
+            course.enrollment_start = course.enrollment_start.astimezone(user_tz)
+
+        if course.enrollment_end:
+            course.enrollment_end = course.enrollment_end.astimezone(user_tz)
+
+        if course.start:
+            course.start = course.start.astimezone(user_tz)
+
+        if course.end:
+            course.end = course.end.astimezone(user_tz)
 
     # 랜덤 출력을위해 shuffle 사용
     shuffle(courses)
