@@ -224,65 +224,75 @@
 
         $('.preview_video_id').on('timeupdate', function () {
 
-            if ($(this)[0].currentTime == '0') {
-                $(this)[0].play();
-            }
+            var src_check = $(this).attr('src')
 
-            var title = '';
+            if(src_check){
+                if ($(this)[0].currentTime == '0') {
+                    $(this)[0].play();
+                }
 
-            if ($(this)[0].duration > 300) {
-                if ($(this)[0].currentTime > '300') {
-                    $(this)[0].pause();
-                    $("#modal_clone").hide()
-                    $('#lean_overlay').fadeOut(200);
+                var title = '';
+                var modal_check = $(".swal-modal")[0]
 
-                    if(register_check){
-                        title += "강좌를 등록하시겠습니까?";
-                    }else{
-                        title += "강좌를 청강하시겠습니까?";
+                if ($(this)[0].duration > 300) {
+                    if ($(this)[0].currentTime > '300') {
+                        $(this)[0].pause();
+
+                        $("#modal_clone").hide()
+                        $('#lean_overlay').fadeOut(200);
+
+                        if(register_check){
+                            title += "강좌를 등록하시겠습니까?";
+                        }else{
+                            title += "강좌를 청강하시겠습니까?";
+                        }
+
+                        if(modal_check == undefined) {
+                            swal({
+                                title: title,
+                                icon: "info",
+                                buttons: true,
+                                dangerMode: false,
+                            }).then(function (value) {
+                                if (value) {
+                                    if (register_check) {
+                                        $(".register").click();
+                                    } else {
+                                        $("#audit_mode").click();
+                                    }
+                                }
+                            })
+                        }
                     }
+                } else {
+                    $('.preview_video_id').on('ended', function () {
+                        $("#modal_clone").hide();
+                        $('#lean_overlay').fadeOut(200);
 
-                    swal({
-                        title: title,
-                        icon: "info",
-                        buttons: true,
-                        dangerMode: false,
-                    }).then(function (value) {
-                        if(value) {
-                            if (register_check) {
-                                $(".register").click();
-                            } else {
-                                $("#audit_mode").click();
-                            }
+                        if (register_check) {
+                            title += "강좌를 등록하시겠습니까?";
+                        } else {
+                            title += "강좌를 청강하시겠습니까?";
+                        }
+
+                        if(modal_check == undefined) {
+                            swal({
+                                title: title,
+                                icon: "info",
+                                buttons: true,
+                                dangerMode: false,
+                            }).then(function (value) {
+                                if (value) {
+                                    if (register_check) {
+                                        $(".register").click();
+                                    } else if (value) {
+                                        $("#audit_mode").click();
+                                    }
+                                }
+                            })
                         }
                     })
                 }
-            } else {
-                $('.preview_video_id').on('ended', function () {
-                    $("#modal_clone").hide();
-                    $('#lean_overlay').fadeOut(200);
-
-                    if(register_check){
-                        title += "강좌를 등록하시겠습니까?";
-                    }else{
-                        title += "강좌를 청강하시겠습니까?";
-                    }
-
-                    swal({
-                        title: title,
-                        icon: "info",
-                        buttons: true,
-                        dangerMode: false,
-                    }).then(function (value) {
-                        if(value) {
-                            if (register_check) {
-                                $(".register").click();
-                            } else if (value) {
-                                $("#audit_mode").click();
-                            }
-                        }
-                    })
-                })
             }
         });
 
