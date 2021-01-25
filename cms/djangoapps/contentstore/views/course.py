@@ -824,7 +824,7 @@ def _process_courses_list(courses_iter, in_process_course_actions, split_archive
                     FROM
                         course_overviews_courseoverview AS course
                             LEFT OUTER JOIN
-                        code_detail AS code ON course.org = code.detail_code
+                        code_detail AS code ON course.org = code.detail_code and code.group_code = '003'
                     WHERE
                         course.id = '{course_id}';           
                 """.format(course_id=course.id)
@@ -839,6 +839,9 @@ def _process_courses_list(courses_iter, in_process_course_actions, split_archive
 
         except Exception as e:
             print e
+
+        if not org_kname:
+            org_kname = course.org
 
         return {
             'display_name': course.display_name,
