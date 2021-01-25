@@ -14,6 +14,12 @@ define([
         //return gettext(dateUTC(date).toString('yyyy/MM/dd'));
     }
 
+    function formatDateNowFull(date) {
+        return new Date(date).toString('yyyyMMddHHmmss');
+        //return gettext(dateUTC(date).toString('yyyy/MM/dd'));
+    }
+
+
     function formatDateFull(date) {
         return dateUTC(date).toString('yyyyMMddHHmmss');
         //return gettext(dateUTC(date).toString('yyyy/MM/dd'));
@@ -68,15 +74,21 @@ define([
             //var sDate = formatDate(new Date(data.start));
             //var eDate = formatDate(new Date(data.end));
 
-            var nDate = formatDateFull(new Date());
+            // 강좌 시작일의 값이 기본적으로 KST 로 조회되면서 비교 조건 수정
+            var nDate = formatDateNowFull(new Date());
             var sDate = formatDateFull(new Date(data.start));
             var eDate = formatDateFull(new Date(data.end));
 
             data.start = formatDate(new Date(data.start));
             data.enrollment_start = formatDate(new Date(data.enrollment_start));
             data.end = formatDate(new Date(data.end));
-
             data.teacher_name = formatTeacherName(data.teacher_name);
+
+            console.log('------------------------------------------ s');
+            console.log('nDate: ' + nDate);
+            console.log('sDate: ' + sDate);
+            console.log('eDate: ' + eDate);
+            console.log('------------------------------------------ s');
 
             if (eDate != null && nDate > eDate) {
                 data.course_end = 'Y';
@@ -86,11 +98,11 @@ define([
 
             if (sDate == null || eDate == null) {
                 data.status = 'none';
-            } else if (nDate > sDate) {
+            } else if (nDate < sDate) {
                 data.status = 'ready';
             } else if (nDate < eDate) {
                 data.status = 'ing';
-            } else if (eDate < nDate){
+            } else if (eDate > nDate){
                 data.status = 'end';
             }else{
                 data.status = 'none';
