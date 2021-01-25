@@ -121,7 +121,6 @@ from bson import ObjectId
 from datetime import datetime
 from pytz import utc
 
-
 log = logging.getLogger(__name__)
 
 __all__ = ['course_info_handler', 'course_handler', 'course_listing', 'level_Verifi',
@@ -816,6 +815,7 @@ def _process_courses_list(courses_iter, in_process_course_actions, split_archive
         """
         Return a dict of the data which the view requires for each course
         """
+
         try:
             with connections['default'].cursor() as cur:
                 query = """
@@ -838,10 +838,10 @@ def _process_courses_list(courses_iter, in_process_course_actions, split_archive
                     org_kname = course.display_org_with_default
 
         except Exception as e:
-            print e
-
-        if not org_kname:
             org_kname = course.org
+            log.error('format_course_for_view check error: %s' % e.message)
+
+        log.info('format_course_for_view org_kname : %s' % org_kname)
 
         return {
             'display_name': course.display_name,
@@ -1066,6 +1066,7 @@ def _create_or_rerun_course(request):
             "ErrMsg": _("Unable to create course '{name}'.\n\n{err}").format(name=display_name, err=text_type(error))}
         )
 
+
 def create_new_course(user, org, number, run, fields):
     """
     Create a new course run.
@@ -1248,7 +1249,7 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
 
     args = [unicode(source_course_key), unicode(destination_course_key), user.id, json_fields]
 
-    print 'args:-->',args
+    print 'args:-->', args
 
     if async:
         rerun_status = rerun_course_task.delay(*args)
@@ -1823,7 +1824,7 @@ def settings_handler(request, course_key_string):
                 'difficult_degree_list': difficult_degree_list,
                 'teacher_name': teacher_name,
                 'user_edit': edit_check,
-                'classfy':classfy
+                'classfy': classfy
             }
 
             if is_prerequisite_courses_enabled():
