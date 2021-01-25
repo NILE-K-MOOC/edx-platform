@@ -218,15 +218,13 @@
 
         var register_check = '';
 
-        if($(".register")[0]){
+        if($("#audit_mode")[0]){
             register_check = true;
         }
 
         $('.preview_video_id').on('timeupdate', function () {
 
             var src_check = $(this).attr('src')
-
-            requestAnimationFrame
 
             if(src_check){
                 if ($(this)[0].currentTime == '0') {
@@ -245,9 +243,9 @@
                         $('#lean_overlay').fadeOut(200);
 
                         if(register_check){
-                            title += "강좌를 등록하시겠습니까?";
-                        }else{
                             title += "강좌를 청강하시겠습니까?";
+                        }else{
+                            title += "강좌를 등록하시겠습니까?";
                         }
 
                         if(modal_check == undefined) {
@@ -272,10 +270,10 @@
                         $("#modal_clone").hide();
                         $('#lean_overlay').fadeOut(200);
 
-                        if (register_check) {
-                            title += "강좌를 등록하시겠습니까?";
-                        } else {
+                        if(register_check){
                             title += "강좌를 청강하시겠습니까?";
+                        }else{
+                            title += "강좌를 등록하시겠습니까?";
                         }
 
                         if(modal_check == undefined) {
