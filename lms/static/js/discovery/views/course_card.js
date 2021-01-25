@@ -84,12 +84,6 @@ define([
             data.end = formatDate(new Date(data.end));
             data.teacher_name = formatTeacherName(data.teacher_name);
 
-            console.log('------------------------------------------ s');
-            console.log('nDate: ' + nDate);
-            console.log('sDate: ' + sDate);
-            console.log('eDate: ' + eDate);
-            console.log('------------------------------------------ s');
-
             if (eDate != null && nDate > eDate) {
                 data.course_end = 'Y';
             } else {
@@ -102,7 +96,7 @@ define([
                 data.status = 'ready';
             } else if (nDate < eDate) {
                 data.status = 'ing';
-            } else if (eDate > nDate){
+            } else if (nDate > eDate){
                 data.status = 'end';
             }else{
                 data.status = 'none';
