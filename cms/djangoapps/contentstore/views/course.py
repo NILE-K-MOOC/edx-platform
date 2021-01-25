@@ -824,7 +824,7 @@ def _process_courses_list(courses_iter, in_process_course_actions, split_archive
                     FROM
                         course_overviews_courseoverview AS course
                             LEFT OUTER JOIN
-                        code_detail AS code ON course.display_org_with_default = code.detail_code
+                        code_detail AS code ON course.org = code.detail_code
                     WHERE
                         course.id = '{course_id}';           
                 """.format(course_id=course.id)
