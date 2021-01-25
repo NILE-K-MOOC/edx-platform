@@ -527,15 +527,13 @@ def get_course_about_section(request, course, section_key):
                     try:
                         video_url = CourseOverviewAddinfo.objects.get(course_id=course.id).preview_video
 
-                        if not video_url:
+                        if not video_url and video_url == '':
                             video_url = url1
                     except:
                         if url1:
                             video_url = url1
                         else:
                             video_url = ''
-                    print video_url
-                    print url1
 
                     html = '<video class="preview_video_id" title="Preview Video" width="560" height="315" src="'+video_url+'#t=0:01:01, 0:02:02" controls></video>'
                 except Exception as e:
