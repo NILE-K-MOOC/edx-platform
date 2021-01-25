@@ -257,9 +257,9 @@
                             }).then(function (value) {
                                 if (value) {
                                     if (register_check) {
-                                        $(".register").click();
-                                    } else {
                                         $("#audit_mode").click();
+                                    } else {
+                                        $(".register").click();
                                     }
                                 }
                             })
@@ -285,9 +285,9 @@
                             }).then(function (value) {
                                 if (value) {
                                     if (register_check) {
-                                        $(".register").click();
-                                    } else if (value) {
                                         $("#audit_mode").click();
+                                    } else if (value) {
+                                        $(".register").click();
                                     }
                                 }
                             })
