@@ -226,12 +226,16 @@
 
             var src_check = $(this).attr('src')
 
+            requestAnimationFrame
+
             if(src_check){
                 if ($(this)[0].currentTime == '0') {
                     $(this)[0].play();
                 }
 
                 var title = '';
+
+                var modal_check = $(".swal-overlay--show-modal")[0]
 
                 if ($(this)[0].duration > 300) {
                     if ($(this)[0].currentTime > '300') {
@@ -246,20 +250,22 @@
                             title += "강좌를 청강하시겠습니까?";
                         }
 
-                        swal({
-                            title: title,
-                            icon: "info",
-                            buttons: true,
-                            dangerMode: false,
-                        }).then(function (value) {
-                            if (value) {
-                                if (register_check) {
-                                    $(".register").click();
-                                } else {
-                                    $("#audit_mode").click();
+                        if(modal_check == undefined) {
+                            swal({
+                                title: title,
+                                icon: "info",
+                                buttons: true,
+                                dangerMode: false,
+                            }).then(function (value) {
+                                if (value) {
+                                    if (register_check) {
+                                        $(".register").click();
+                                    } else {
+                                        $("#audit_mode").click();
+                                    }
                                 }
-                            }
-                        })
+                            })
+                        }
                     }
                 } else {
                     $('.preview_video_id').on('ended', function () {
@@ -272,20 +278,22 @@
                             title += "강좌를 청강하시겠습니까?";
                         }
 
-                        swal({
-                            title: title,
-                            icon: "info",
-                            buttons: true,
-                            dangerMode: false,
-                        }).then(function (value) {
-                            if (value) {
-                                if (register_check) {
-                                    $(".register").click();
-                                } else if (value) {
-                                    $("#audit_mode").click();
+                        if(modal_check == undefined) {
+                            swal({
+                                title: title,
+                                icon: "info",
+                                buttons: true,
+                                dangerMode: false,
+                            }).then(function (value) {
+                                if (value) {
+                                    if (register_check) {
+                                        $(".register").click();
+                                    } else if (value) {
+                                        $("#audit_mode").click();
+                                    }
                                 }
-                            }
-                        })
+                            })
+                        }
                     })
                 }
             }
