@@ -86,7 +86,7 @@ define([
 
             if (sDate == null || eDate == null) {
                 data.status = 'none';
-            } else if (nDate < sDate) {
+            } else if (nDate > sDate) {
                 data.status = 'ready';
             } else if (nDate < eDate) {
                 data.status = 'ing';
