@@ -59,7 +59,7 @@ from courseware.courses import (
 )
 from courseware.masquerade import setup_masquerade
 from courseware.model_data import FieldDataCache
-from courseware.models import BaseStudentModuleHistory, StudentModule, CodeDetail, Multisite, MultisiteMember
+from courseware.models import BaseStudentModuleHistory, StudentModule, CodeDetail, Multisite, MultisiteMember, CourseOverviewAddinfo
 from kotech_community.models import TbAttach
 from courseware.url_helpers import get_redirect_url
 from courseware.user_state_client import DjangoXBlockUserStateClient
@@ -1296,6 +1296,22 @@ def course_about(request, course_id):
         except CodeDetail.DoesNotExist:
             org_name = course_details.org
 
+        with connections['default'].cursor() as cur:
+            query = '''
+                SELECT 
+                    org_phone
+                FROM
+                    tb_org
+                WHERE
+                    org_id = '{org}'
+            '''.format(org=course_details.org)
+
+            cur.execute(query)
+            org_phone = cur.fetchone()[0]
+
+        if not org_phone:
+            org_phone = '-'
+
         if course_details.enrollment_start:
             enroll_start = course_details.enrollment_start.strptime(str(course_details.enrollment_start)[0:10],
                                                                     "%Y-%m-%d").date()
@@ -1742,6 +1758,7 @@ def course_about(request, course_id):
             'classfy_name': classfy_name,
             'middle_classfy_name': middle_classfy_name,
             'org_name': org_name,
+            'org_phone': org_phone,
             'enroll_sdate': enroll_sdate,
             'enroll_edate': enroll_edate,
             # --- REVIEW CONTEXT --- #

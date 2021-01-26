@@ -27227,6 +27227,9 @@ msgstr "운영기관"
 msgid "Institution"
 msgstr "운영기관"
 
+msgid "Phone"
+msgstr "전화번호"
+
 msgid "Course Week"
 msgstr "주차"
 
