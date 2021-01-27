@@ -13155,7 +13155,7 @@ msgstr "학습하기"
 #: lms/templates/preview_menu.html
 #: cms/templates/settings.html
 msgid "Course preview"
-msgstr "강좌 미리 보기"
+msgstr "미리보기"
 
 #: lms/templates/preview_menu.html
 msgid "View this course as:"
@@ -23070,7 +23070,7 @@ msgstr "강좌 카드 이미지"
 
 #: cms/templates/settings.html
 msgid "Specify course preview"
-msgstr "강좌 미리보기 지정"
+msgstr "미리보기 영상 선택"
 
 #: cms/templates/settings.html
 msgid ""
