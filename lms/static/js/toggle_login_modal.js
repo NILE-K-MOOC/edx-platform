@@ -252,7 +252,18 @@
                             swal({
                                 title: title,
                                 icon: "info",
-                                buttons: true,
+                                buttons: {
+                                    cancle: {
+                                        text: gettext('Cancel'),
+                                        value: false,
+                                        className: 'swal-button swal-button--cancel'
+                                    },
+                                    confirm: {
+                                        text: '신청',
+                                        value: true,
+                                        className: 'swal-button swal-button--confirm'
+                                    }
+                                },
                                 dangerMode: false,
                             }).then(function (value) {
                                 if (value) {
@@ -280,7 +291,18 @@
                             swal({
                                 title: title,
                                 icon: "info",
-                                buttons: true,
+                                buttons: {
+                                    cancle: {
+                                        text: gettext('Cancel'),
+                                        value: false,
+                                        className: 'swal-button swal-button--cancel'
+                                    },
+                                    confirm: {
+                                        text: '신청',
+                                        value: true,
+                                        className: 'swal-button swal-button--confirm'
+                                    }
+                                },
                                 dangerMode: false,
                             }).then(function (value) {
                                 if (value) {

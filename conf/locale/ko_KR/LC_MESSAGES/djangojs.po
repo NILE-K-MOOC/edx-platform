@@ -194,6 +194,10 @@ msgstr "삭제중"
 msgid "Cancel"
 msgstr "취소"
 
+#: /lms/static/js/toggle_login_modal.js
+msgid "Apply"
+msgstr "신청"
+
 #: cms/static/js/features/import/factories/import.js
 #: common/static/bundles/Import.js
 msgid "There was an error during the upload process."
