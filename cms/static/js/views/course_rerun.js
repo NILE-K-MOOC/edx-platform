@@ -15,6 +15,7 @@ define(['domReady', 'jquery', 'underscore', 'js/views/utils/create_course_utils'
             classfy_plus: '.classfy_plus',
             middle_classfy: '.middle_classfy',
             teacher_name: '.teacher_name',
+            preview_video: '.preview_video',
         }, {
             shown: 'is-shown',
             showing: 'is-showing',
@@ -37,6 +38,7 @@ define(['domReady', 'jquery', 'underscore', 'js/views/utils/create_course_utils'
             var run = $newCourseForm.find('.rerun-course-run').val();
             var classfy = $newCourseForm.find('.rerun-course-classfy').val()
             var classfy_plus = $newCourseForm.find('.rerun-course-classfy_plus').val()
+            var preview_video = $newCourseForm.find('.rerun-course-preview_video').val()
             var middle_classfy = $newCourseForm.find('.rerun-course-middle_classfy').val()
             var teacher_name = $newCourseForm.find('.rerun-course-teacher_name').val()
             var course_period = $newCourseForm.find('.rerun-course-course_period').val()
@@ -51,7 +53,8 @@ define(['domReady', 'jquery', 'underscore', 'js/views/utils/create_course_utils'
                 classfy_plus: classfy_plus,
                 middle_classfy: middle_classfy,
                 teacher_name: teacher_name,
-                course_period: course_period
+                course_period: course_period,
+                preview_video: preview_video ,
             };
 
             analytics.track('Reran a Course', course_info);

@@ -815,7 +815,7 @@ $("#audit_mode").click(function(event) {
                             <br/>
                             <span hidden>${course.display_org_with_default | h}</span>
                         </div>
-                        <div class="main-cta">
+                        <div class="main-cta" style= "display: flex; justify-content: space-between;">
                             %if user.is_authenticated and registered:
                             %if show_courseware_link:
                                 <a href="${course_target}">
@@ -846,11 +846,11 @@ $("#audit_mode").click(function(event) {
                             % elif not is_shib_course and not can_enroll and audit_flag == 'N':
                                 <span class="register disabled">${_("Enrollment is Closed")}</span>
                             % elif not is_shib_course and not can_enroll and audit_flag == 'Y':
-                            <div class="box1" style="float: left; width: 65%;">
+                            <div class="box1" style="width: 55%;">
                                 <a class="register" id="audit_mode" style=" border: 1px solid #3ebf3c; width: 90%; background-image: linear-gradient(to bottom,#29941cc9 0%,#39bd2f82 50%,#2bb1359e 50%,#071b03a6 100%);">${_("Audit Enrollment")}</a>
                             </div>
 
-                            <div class="box2" style="float: right; width: 35%;">
+                            <div class="box2" style="width: 20%;">
                                 <a href='video' class="" style="width: 100%; border: 1px solid #000663; border-bottom: 1px solid #00003a;
                                     border-radius: 5px;  color: #000; display: inline-block; font-size: inherit;font-weight: bold;
                                     background-color: #0075b4;background-image: -webkit-linear-gradient(top, #0075b4 0%,#004393 50%,#002a84 50%,#002f86 100%);
@@ -858,6 +858,13 @@ $("#audit_mode").click(function(event) {
                                     text-decoration: none; box-sizing: border-box;border-radius: 3px;
                                     display: block; font: normal 1.2rem/1.6rem 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif; float: left;letter-spacing: 1px; padding: 10px 0; text-align: center; ">${_("Course View")}</a>
                             </div>
+
+                            <a href='#preview-video-modal' class="" rel="course_preview" style="width: 20%; border: 1px solid #000663; border-bottom: 1px solid #00003a;
+                                    border-radius: 5px;  color: #000; display: inline-block; font-size: inherit;font-weight: bold;
+                                    background-color: #0075b4;background-image: -webkit-linear-gradient(top, #0075b4 0%,#004393 50%,#002a84 50%,#002f86 100%);
+                                    background-image: linear-gradient(to bottom,#f9f9f9 0%,#d2d2d2 50%,#c5c5c5 50%,#909090 100%); padding: 7px 18px; text-align: center;
+                                    text-decoration: none; box-sizing: border-box;border-radius: 3px;
+                                    display: block; font: normal 1.2rem/1.6rem 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif; float: left;letter-spacing: 1px; padding: 10px 0; text-align: center; ">${_("Course preview")}</a>
 
                             %elif can_add_course_to_cart:
                                 <%
@@ -911,6 +918,26 @@ $("#audit_mode").click(function(event) {
                                     text-decoration: none; box-sizing: border-box;border-radius: 3px;
                                     display: block;     font: normal 1.2rem/1.6rem 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif; float: left;letter-spacing: 1px; padding: 10px 0; text-align: center; ">${_("Course View")}</a>
                             </div>
+
+                            <a href='#preview-video-modal' class="" rel="course_preview" style="width: 20%; border: 1px solid #000663; border-bottom: 1px solid #00003a;
+                                border-radius: 5px;  color: #000; display: inline-block; font-size: inherit;font-weight: bold;
+                                background-color: #0075b4;background-image: -webkit-linear-gradient(top, #0075b4 0%,#004393 50%,#002a84 50%,#002f86 100%);
+                                background-image: linear-gradient(to bottom,#f9f9f9 0%,#d2d2d2 50%,#c5c5c5 50%,#909090 100%); padding: 7px 18px; text-align: center;
+                                text-decoration: none; box-sizing: border-box;border-radius: 3px;
+                                display: block; font: normal 1.2rem/1.6rem 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif; float: left;letter-spacing: 1px; padding: 10px 0; text-align: center; ">${_("Course preview")}
+                            </a>
+
+                            <!--<div class="box3 hero" style="width: 20%;" rel="leanModal">
+                            </div>
+
+                            <a href="#video-modal" class="media" rel="leanModal">
+                                <div class="hero">
+                                    <img src="/static/studio/images/pencils.jpg" alt="누구나 할 수 있는 AI 머신 러닝 동영상">
+                                    <div class="play-intro"></div>
+                                </div>
+                            </a>
+                            -->
+
                             <div class="box1" style="float: left; width: 100%;" hidden id="recog_divv_0">
                                 <div class="acbs-wrap"  id="recog_divv_1">
                                     <div class="type">
@@ -1353,6 +1380,7 @@ $("#audit_mode").click(function(event) {
 </div>
 %endif
 <%include file="../video_modal.html" />
+<%include file="../preview_video_modal.html" />
 <%static:require_module_async module_name="js/dateutil_factory" class_name="DateUtilFactory">
     DateUtilFactory.transform(iterationKey=".localized_datetime");
 </%static:require_module_async>

@@ -13153,6 +13153,11 @@ msgid "Course View"
 msgstr "학습하기"
 
 #: lms/templates/preview_menu.html
+#: cms/templates/settings.html
+msgid "Course preview"
+msgstr "강좌 미리 보기"
+
+#: lms/templates/preview_menu.html
 msgid "View this course as:"
 msgstr "강좌 보기 권한:"
 
@@ -23064,6 +23069,10 @@ msgid "Course Card Image"
 msgstr "강좌 카드 이미지"
 
 #: cms/templates/settings.html
+msgid "Specify course preview"
+msgstr "강좌 미리보기 지정"
+
+#: cms/templates/settings.html
 msgid ""
 "You can manage this image along with all of your other {a_link_start}files "
 "and uploads{a_link_end}"
@@ -26397,6 +26406,9 @@ msgstr "강좌잠금 여부"
 
 msgid "audit_yn"
 msgstr "청강허용 여부"
+
+msgid "preview_video"
+msgstr "미리보기 영상"
 
 msgid "Maximum score"
 msgstr "최고 점"

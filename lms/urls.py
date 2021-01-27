@@ -682,6 +682,12 @@ urlpatterns += [
     ),
 
     url(
+        r'^courses/video_check',
+        courseware_views.video_check,
+        name='video_check',
+    ),
+
+    url(
         r'^courses/{}/video'.format(
             settings.COURSE_ID_PATTERN,
         ),

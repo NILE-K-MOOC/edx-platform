@@ -11,6 +11,7 @@ import sys
 import json
 import crum
 import pytz
+import traceback
 from collections import OrderedDict, namedtuple
 from datetime import datetime, date, timedelta
 from django.conf import settings
@@ -1427,6 +1428,7 @@ def course_about(request, course_id):
             course_language = coai[0][2]
         except BaseException:
             course_language = '-'
+
         cur.close()
 
         cur = con.cursor()
@@ -2607,6 +2609,26 @@ def video(request, course_id):
     }
 
     return render_to_response('courseware/video.html', context)
+
+
+def video_check(request):
+
+    video_url = request.POST.get('video_url')
+    is_error = 'false'
+
+    try:
+        check = urllib.urlopen(video_url)
+        check.getcode()
+    except Exception as e:
+        print video_url
+        print traceback.format_exc()
+        is_error = 'true'
+
+    data = dict()
+
+    data['is_error'] = is_error
+
+    return JsonResponse(data)
 
 
 @transaction.non_atomic_requests

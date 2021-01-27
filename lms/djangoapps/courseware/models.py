@@ -496,6 +496,7 @@ class CourseOverviewAddinfo(models.Model):
     ai_sec_yn = models.CharField(max_length=1, blank=True, null=True)
     basic_science_sec_yn = models.CharField(max_length=1, blank=True, null=True)
     classfy_plus = models.CharField(max_length=30, blank=True, null=True)
+    preview_video = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = False

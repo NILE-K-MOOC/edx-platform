@@ -1111,7 +1111,7 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
               <div class="current current-course-image">
                 % if context_course.video_thumbnail_image:
                 <span class="wrapper-course-image">
-                      <img class="course-image" id="video-thumbnail-image" src="${video_thumbnail_image_url}" alt="${_('Video Thumbnail Image')}"/>
+                      <img class="cㄴourse-image" id="video-thumbnail-image" src="${video_thumbnail_image_url}" alt="${_('Video Thumbnail Image')}"/>
                     </span>
 
                 <span class="msg msg-help">
@@ -1159,6 +1159,86 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
               </div>
             </li>
             % endif
+
+              <li class="field image" id="field-video-thumbnail-image">
+              <label for="preview_video">${_("Course preview")}</label>
+              <div class="wrapper-input">
+                <div class="input">
+                  ## Translators: This is the placeholder text for a field that requests the URL for a course video thumbnail image
+                  <input type="text" dir="ltr" class="long new-course-preview-video-url" id="preview_video" value="${preview_video}" placeholder="${_("Course preview")} URL" autocomplete="off" />
+                  <span class="tip tip-stacked">K-MOOC Studio에서 업로드한 동영상 URL을 입력해주세요(유튜브 URL은 사용이 불가합니다).</span>
+                </div>
+                <button type="button" class="action" id="preview_video_add" style="float: right; width: 20%; margin-top: 5px; padding: 10px 20px; transition: all 0.15s; text-align: center; border-radius: 5px; border: 1px solid #0075b4; background-color: #fff; color: #0075b4; font-size: 1.2rem; line-height: 1.776rem;">${_("Specify course preview")}</button>
+              </div>
+            </li>
+
+              <div id="previewCourseEditLayer" style="display: none;">
+                    <div class="wrapper wrapper-modal-window wrapper-modal-window-assetupload" aria-labelledby="modal-window-title" role="dialog">
+                        <div class="modal-window-overlay"></div>
+                        <div class="modal-window confirm modal-med modal-type-generic overview-modal" tabindex="-1">
+                            <div class="overview-layer-popup">
+                                <div class="modal-header">
+                                    <h2 id="modal-window-title" class="title modal-window-title">강좌 미리보기</h2>
+                                    <ul class="editor-modes action-list action-modes">
+                                    </ul>
+                                </div>
+                                <div class="modal-content">
+
+                                   <ol class="block-tree accordion" id="course-outline-block-tree" aria-labelledby="expand-collapse-outline-all-button">
+                                   % if chapter_list:
+                                    % for chapter in chapter_list:
+                                    <li class="outline-item section ">
+
+                                        <!-- sequential -->
+                                        <ol class="outline-item accordion-panel" id="${chapter['chapter_id']}">
+                                            % for sequential in chapter['sequential_list']:
+                                            <li class="subsection accordion current field-group course-grading-assignment-list-item" style="border-bottom: 1px solid black;">
+                                                <p class="subsection-text accordion-trigger" aria-expanded="false" aria-controls="${sequential['sequential_id']}">
+                                                    <p class="subsection-title">${sequential['sequential_name']}</p>
+                                                </p> <!-- /subsection-text -->
+
+                                                <!-- vertical -->
+                                                <ol class="outline-item accordion-panel" id="${sequential['sequential_id']}">
+                                                    % for vertical in sequential['vertical_list']:
+                                                    <li class="vertical outline-item focusable">
+                                                        <a class="outline-item focusable">
+                                                            <div class="vertical-details">
+                                                                <div class="vertical-title">
+                                                                    ${vertical['vertical_name']}
+                                                                    <input type="input" id="video-url" value="" class="is-hidden">
+                                                                    <button type="button" style="float: right" class="btn btn-sm float-right video_regist" data-video-url="${vertical['video_url']}">등록</button>
+                                                                </div>
+                                                                <br />
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                    % endfor
+                                                </ol>
+                                            </li>
+                                            % endfor
+                                        </ol>
+                                    </li>
+                                    % endfor
+                                    % else:
+                                       <div>해당 강좌에 영상이 존재하지 않습니다.</div>
+                                    % endif
+                                </ol>
+                                </div>
+                                <div class="modal-actions">
+                                    <h3 class="sr">액션</h3>
+                                    <ul>
+                                        <li class="action-item">
+                                            <a href="#" class="button action-primary" id="course_preview_video_save">적용</a>
+                                        </li>
+                                        <li class="action-item">
+                                            <a href="#" class="button" id="preview_video_cancel">취소</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
           </ol>
         </div>
 

@@ -336,6 +336,7 @@ class CourseOverview(TimeStampedModel):
                 course_overview.classfy = addinfo.classfy
                 course_overview.classfy_plus = addinfo.classfy_plus
                 course_overview.middle_classfy = addinfo.middle_classfy
+                course_overview.preview_video = addinfo.preview_video
                 course_overview.course_period = addinfo.course_period
                 course_overview.level = addinfo.course_level
                 course_overview.passing_grade = course_overview.lowest_passing_grade
@@ -378,6 +379,8 @@ class CourseOverview(TimeStampedModel):
                 course_overview.job_edu_yn = ''
                 course_overview.linguistics = ''
                 course_overview.classfy_name = ''
+                course_overview.classfy_plus = ''
+                course_overview.preview_video = ''
                 course_overview.middle_classfy_name = ''
                 course_overview.org_name = ''
                 course_overview.language_name = ''

@@ -1529,6 +1529,63 @@ def modi_teacher_name(request):
         return HttpResponse('success', 'application/json')
 
 
+@csrf_exempt
+def modi_preview_video(request):
+    if request.method == 'POST':
+        if request.POST['method'] == 'addinfo':
+
+            addinfo_user_id = request.POST.get('addinfo_user_id')
+            addinfo_course_id = request.POST.get('addinfo_course_id')
+            teacher_name = request.POST.get('teacher_name')
+            video_url = request.POST.get('video_url')
+
+            print video_url
+
+            with connections['default'].cursor() as cur:
+                query = """
+                            SELECT count(*)
+                              FROM course_overview_addinfo
+                             WHERE course_id = '{0}';
+                        """.format(addinfo_course_id)
+                cur.execute(query)
+                count = cur.fetchall()
+                ctn = count[0][0]
+
+            if ctn == 1:
+                with connections['default'].cursor() as cur:
+                    query = """
+                            UPDATE course_overview_addinfo
+                               SET delete_yn = 'N', modify_id = '{0}', modify_date = now(), preview_video = '{1}'
+                             WHERE course_id = '{2}';
+                            """.format(addinfo_user_id, video_url, addinfo_course_id)
+                    cur.execute(query)
+
+            elif ctn == 0:
+                with connections['default'].cursor() as cur:
+                    query = """
+                                        INSERT INTO course_overview_addinfo(course_id,
+                                                    create_type,
+                                                    create_year,
+                                                    course_no,
+                                                    teacher_name,
+                                                    delete_yn,
+                                                    regist_id,
+                                                    regist_date,
+                                                    modify_id,
+                                                    preview_video,
+                                                    modify_date
+                                                   )
+                                              VALUES('{0}','001',YEAR(now()),'1','{1}','N','{2}',now(),'{3}', '{4}',now());
+                                """.format(addinfo_course_id, teacher_name, addinfo_user_id, addinfo_user_id, video_url)
+                    cur.execute(query)
+
+            data = json.dumps('success')
+
+            return HttpResponse(data, 'application/json')
+
+        return HttpResponse('success', 'application/json')
+
+
 def course_detail_view(request):
     c_list = course_detail_data('view')
 

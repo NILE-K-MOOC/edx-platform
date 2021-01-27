@@ -75,8 +75,6 @@ from openedx.features.enterprise_support.utils import get_enterprise_learner_gen
         overflow: auto;
         box-shadow: 0 0.125rem 0.125rem 0 #eef1f2;
     }
-
-    }
 </style>
 <script type="text/javascript" src="/static/bundles/Enrollment.js"></script>
 <script type="text/javascript">
@@ -106,11 +104,10 @@ from openedx.features.enterprise_support.utils import get_enterprise_learner_gen
                                     <span class="expand-collapse-outline-all-extra-padding" id="expand-collapse-outline-all-span">모두 펼치기</span>
                                 </button>
 
-
                                 <!-- chapter -->
                                 <ol class="block-tree accordion is_hidden" id="course-outline-block-tree" aria-labelledby="expand-collapse-outline-all-button">
                                     % for chapter in chapter_list:
-                                    <li class="outline-item section">
+                                    <li class="outline-item section ">
                                         <button class="section-name accordion-trigger" aria-expanded="false" aria-controls="${chapter['chapter_id']}">
                                             <span class="fa fa-chevron-right ${'fa-rotate-90' if loop.index == 0 else ''}" aria-hidden="true"></span>
                                             <h3 class="section-title">${chapter['chapter_name']}</h3>

@@ -6,6 +6,7 @@ courseware.
 import logging, time
 from collections import defaultdict
 from datetime import datetime
+import traceback
 
 import branding
 import pytz
@@ -21,6 +22,7 @@ from courseware.date_summary import (
 )
 from courseware.model_data import FieldDataCache
 from courseware.module_render import get_module
+from courseware.models import CourseOverviewAddinfo
 from django.conf import settings
 from django.urls import reverse
 from django.http import Http404, QueryDict
@@ -45,6 +47,8 @@ from xmodule.x_module import STUDENT_VIEW
 from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 from util.json_request import JsonResponse
 from django.db import connections
+from pymongo import MongoClient
+from bson import ObjectId
 
 log = logging.getLogger(__name__)
 
@@ -317,7 +321,8 @@ def get_course_about_section(request, course, section_key):
         'end_date',
         'prerequisites',
         'about_sidebar_html',
-        'ocw_links'
+        'ocw_links',
+        'preview_video'
     }
 
     if section_key in html_sections:
@@ -326,6 +331,7 @@ def get_course_about_section(request, course, section_key):
 
             # Use an empty cache
             field_data_cache = FieldDataCache([], course.id, request.user)
+
             about_module = get_module(
                 request.user,
                 request,
@@ -343,6 +349,7 @@ def get_course_about_section(request, course, section_key):
                 try:
                     html = about_module.render(STUDENT_VIEW).content
                     html = html.replace('<label for="toggle"></label>', '<a href="javascript:click_syllabus_label();"><label for="toggle"></label></a>')
+
                 except Exception:  # pylint: disable=broad-except
                     html = render_to_string('courseware/error-message.html', None)
                     log.exception(
@@ -372,6 +379,167 @@ def get_course_about_section(request, course, section_key):
                             html += '시간'
                 else:
                     html = ''
+
+            if section_key == "preview_video":
+
+                try:
+
+                    course_id = str(course.id)
+
+                    course_key = CourseKey.from_string(course_id)
+
+                    course = get_course_with_access(request.user, 'load', course_key)
+
+                    # 강좌의 영상목록 생성 --- s
+
+                    client = MongoClient(settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host'),
+                                         settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port'))
+                    db = client.edxapp
+
+                    o = course_id.split('+')[0].replace('course-v1:', '')
+                    c = course_id.split('+')[1]
+                    r = course_id.split('+')[2]
+
+                    active_versions = db.modulestore.active_versions.find({"org": o, "course": c, "run": r})
+
+                    temp_list = []
+
+                    cnt = 0
+                    url1 = ''
+                    url2 = ''
+
+                    for active_version in active_versions:
+                        pb = active_version.get('versions').get('published-branch')
+                        wiki_slug = active_version.get('search_targets').get('wiki_slug')
+
+                        if wiki_slug and pb:
+                            print 'published-branch is [%s]' % pb
+
+                            structure = db.modulestore.structures.find_one({'_id': ObjectId(pb)},
+                                                                           {"blocks": {
+                                                                               "$elemMatch": {"block_type": "course"}}})
+                            block = structure.get('blocks')[0]
+
+                            course_fields = block.get('fields')
+                            chapters = course_fields.get('children')
+
+                            for chapter_type, chapter_id in chapters:
+                                # print block_type, block_id
+                                chapter = db.modulestore.structures.find_one({'_id': ObjectId(pb)}, {"blocks": {
+                                    "$elemMatch": {"block_id": chapter_id,
+                                                   "fields.visible_to_staff_only": {"$ne": True}}}})
+
+                                if not 'blocks' in chapter:
+                                    continue
+
+                                chapter_fields = chapter['blocks'][0].get('fields')
+
+                                if not chapter_fields:
+                                    continue
+
+                                chapter_name = chapter_fields.get('display_name')
+                                chapter_start = chapter_fields.get('start')
+                                sequentials = chapter_fields.get('children')
+
+                                for sequential_type, sequential_id in sequentials:
+                                    sequential = db.modulestore.structures.find_one({'_id': ObjectId(pb)}, {"blocks": {
+                                        "$elemMatch": {"block_id": sequential_id,
+                                                       "fields.visible_to_staff_only": {"$ne": True}}}})
+
+                                    if not 'blocks' in sequential:
+                                        continue
+
+                                    sequential_fields = sequential['blocks'][0].get('fields')
+
+                                    if not sequential_fields:
+                                        continue
+
+                                    sequential_name = sequential_fields.get('display_name')
+                                    sequential_start = sequential_fields.get('start')
+                                    verticals = sequential_fields.get('children')
+
+                                    for vertical_type, vertical_id in verticals:
+                                        vertical = db.modulestore.structures.find_one({'_id': ObjectId(pb)},
+                                                                                      {"blocks": {
+                                                                                          "$elemMatch": {
+                                                                                              "block_id": vertical_id,
+                                                                                              "fields.visible_to_staff_only": {
+                                                                                                  "$ne": True}}}})
+
+                                        if not 'blocks' in vertical:
+                                            continue
+
+                                        vertical_fields = vertical['blocks'][0].get('fields')
+
+                                        if not vertical_fields:
+                                            continue
+
+                                        xblocks = vertical_fields.get('children')
+
+                                        for xblock_type, xblock_id in xblocks:
+
+                                            if xblock_type != 'video':
+                                                continue
+
+                                            xblock = db.modulestore.structures.find_one({'_id': ObjectId(pb)}, {
+                                                "blocks": {"$elemMatch": {"block_id": xblock_id}}})
+                                            xblock_fields = xblock['blocks'][0].get('fields')
+
+                                            if not xblock_fields:
+                                                continue
+
+                                            vertical_name = xblock_fields.get('display_name')
+
+                                            html5_sources = xblock_fields.get('html5_sources')
+
+                                            if not html5_sources:
+                                                continue
+
+                                            for html5_source in html5_sources:
+                                                # print org_name, classfy_name, middle_classfy_name, teacher_name, display_name, chapter_name, sequential_name, enrollment_start, enrollment_end, start, end, short_description, html5_source
+
+                                                if html5_source == '':
+                                                    continue
+
+                                                temp_dict = {
+                                                    'chapter_name': chapter_name,
+                                                    'chapter_id': chapter_id,
+                                                    'chapter_start': chapter_start,
+                                                    'sequential_name': sequential_name,
+                                                    'sequential_id': sequential_id,
+                                                    'sequential_start': sequential_start,
+                                                    'vertical_name': vertical_name,
+                                                    'vertical_id': vertical_id,
+                                                    'html5_source': html5_source
+                                                }
+
+                                                temp_list.append(temp_dict)
+
+                                                if cnt == 0:
+                                                    url1 = html5_source
+
+                                                cnt += 1
+
+                                                #print '----------------------------------------------------------- s'
+                                                #print chapter_name, chapter_start, sequential_name, sequential_start, vertical_name, html5_source
+                                                #print '----------------------------------------------------------- e'
+
+                    try:
+                        video_url = CourseOverviewAddinfo.objects.get(course_id=course.id).preview_video
+
+                        if not video_url and video_url == '':
+                            video_url = url1
+                    except:
+                        if url1:
+                            video_url = url1
+                        else:
+                            video_url = ''
+
+                    html = '<video class="preview_video_id" title="Preview Video" width="560" height="315" src="'+video_url+'#t=0:01:01, 0:02:02" controls></video>'
+                except Exception as e:
+                    print traceback.print_exc(e)
+                    html = ''
+
             return html
 
         except ItemNotFoundError:

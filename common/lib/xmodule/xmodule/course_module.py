@@ -993,6 +993,14 @@ class CourseFields(object):
         scope=Scope.settings
     )
 
+    preview_video = String(
+        help=_("Select Section name"),
+        default="",
+        display_name=_("preview_video"),
+        scope=Scope.settings,
+        hidden=True
+    )
+
     course_period = String(
         help=_("Select Period of Studing"),
         default="all",

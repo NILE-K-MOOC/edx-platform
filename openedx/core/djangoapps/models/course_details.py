@@ -262,6 +262,11 @@ class CourseDetails(object):
         else:
             descriptor.course_level = None
 
+        if 'preview_video' in jsondict:
+            descriptor.preview_video = jsondict['preview_video']
+        else:
+            descriptor.preview_video = None
+
         if 'course_image_name' in jsondict and jsondict['course_image_name'] != descriptor.course_image:
             descriptor.course_image = jsondict['course_image_name']
             dirty = True

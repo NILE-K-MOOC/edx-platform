@@ -20,6 +20,9 @@ urlpatterns = [
     # 강좌 설정 > 교수자명
     url(r'^modi_teacher_name', views.modi_teacher_name, name='modi_teacher_name'),
 
+    # 강좌 설정 > 강좌 미리보기
+    url(r'^modi_preview_video', views.modi_preview_video, name='modi_preview_video'),
+
     # 강좌 설정 > 강좌자막언어
     url(r'^modi_course_language', views.modi_course_language, name='modi_course_language'),
 
