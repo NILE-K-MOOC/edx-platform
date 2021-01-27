@@ -13237,7 +13237,7 @@ msgstr ""
 #: lms/templates/provider_login.html
 #, python-format
 msgid "Return To %s"
-msgstr " %s 로 돌아가기"
+msgstr " %s 로 돌아 가기"
 
 #: lms/templates/register-form.html lms/templates/register-shib.html
 #: themes/stanford-style/lms/templates/register-form.html
