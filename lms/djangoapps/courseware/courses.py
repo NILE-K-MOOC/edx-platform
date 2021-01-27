@@ -527,7 +527,7 @@ def get_course_about_section(request, course, section_key):
                     try:
                         video_url = CourseOverviewAddinfo.objects.get(course_id=course.id).preview_video
 
-                        if not video_url and video_url == '':
+                        if not video_url or video_url == '' or video_url == None:
                             video_url = url1
                     except:
                         if url1:
