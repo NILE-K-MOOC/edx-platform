@@ -1297,18 +1297,23 @@ def course_about(request, course_id):
         except CodeDetail.DoesNotExist:
             org_name = course_details.org
 
-        with connections['default'].cursor() as cur:
-            query = '''
-                SELECT 
-                    ifnull(org_phone, '')
-                FROM
-                    tb_org
-                WHERE
-                    org_id = '{org}'
-            '''.format(org=course_details.org)
 
-            cur.execute(query)
-            org_phone = cur.fetchone()[0]
+        try:
+            with connections['default'].cursor() as cur:
+                query = '''
+                    SELECT 
+                        ifnull(org_phone, '')
+                    FROM
+                        tb_org
+                    WHERE
+                        org_id = '{org}'
+                '''.format(org=course_details.org)
+
+                cur.execute(query)
+                org_phone = cur.fetchone()[0]
+        except Exception as e:
+            logging.debug(e.message)
+            org_phone = '-'
 
         if not org_phone:
             org_phone = '-'
