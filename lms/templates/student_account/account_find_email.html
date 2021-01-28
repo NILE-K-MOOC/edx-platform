@@ -8,7 +8,17 @@
 <script>
     'use strict'
     $(document).ready(function () {
-        opener.document.location.href = '/login?code=${ code }';
-        self.close();
+        try {
+            console.debug('case1 [${ code }]');
+            opener.document.location.href = '/login?code=${ code }';
+            self.close();
+        } catch (error) {
+            console.debug('case2 [encodeURIComponent(${ code })]');
+            opener.document.location.href = '/login?code=encodeURIComponent(${ code })';
+        } finally {
+            setTimeout(function () {
+                self.close();
+            }, 1000);
+        }
     });
 </script>
