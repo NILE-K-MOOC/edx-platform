@@ -1300,7 +1300,7 @@ def course_about(request, course_id):
         with connections['default'].cursor() as cur:
             query = '''
                 SELECT 
-                    org_phone
+                    ifnull(org_phone, '')
                 FROM
                     tb_org
                 WHERE
