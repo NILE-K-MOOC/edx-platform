@@ -1530,7 +1530,7 @@ def _rerun_course(request, org, number, run, fields):
                              '{preview_video}');
             """.format(course_id=destination_course_key, user_id=user_id, middle_classfy=middle_classfy,
                        classfy=classfy, course_number=number, org=org, classfy_plus=classfy_plus,
-                       course_period=course_period,preview_video=preview_video)
+                       course_period=course_period, preview_video=preview_video)
 
             print 'rerun_course insert -------------- ', query
             cur.execute(query)
@@ -1636,7 +1636,6 @@ def course_info_update_handler(request, course_key_string, provided_id=None):
 @require_http_methods(("GET", "PUT", "POST"))
 @expect_json
 def settings_handler(request, course_key_string):
-
     """
     Course settings for dates and about pages
     GET
@@ -2515,6 +2514,19 @@ def advanced_settings_handler(request, course_key_string):
                     )
                     audit_yn = 'Y'
                     teacher_name = ''
+
+                    from xblock.core import XBlock
+
+                    if 'user_edit' in params:
+                        is_use = params['user_edit']['value']
+
+                        # 에디터 이용하기 선택시 기본 overview html 으로 셋팅되도록 함
+                        if is_use == 'N':
+                            about_descriptor = XBlock.load_class('about')
+                            overview_template = about_descriptor.get_template('overview.yaml')
+
+                            if overview_template:
+                                updated_data.update(overview_template=overview_template['data'])
 
                     if 'audit_yn' in params:
                         audit_yn = params['audit_yn']['value']
