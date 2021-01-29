@@ -47,7 +47,12 @@ def dictfetchall(cursor):
 
 
 def cb_course_list(request):
-    context = {}
+    context = {
+        'user_id': request.user.id,
+        'username': request.user.username
+
+    }
+
     return render_to_response('community/cb_course_list.html', context)
 
 
