@@ -36,11 +36,11 @@
                     </p>
 
                     <p class="course-kor-title-override">
-                        <span class="certificate-label"><b><%- gettext('Course Kor Title Override') %>: </b></span>
+                        <span class="certificate-label"><b><%- gettext('Course KOR Title Override') %>: </b></span>
                         <span class="certificate-value"><%- course_kor_title %></span>
                     </p>
                     <p class="course-eng-title-override">
-                        <span class="certificate-label"><b><%- gettext('Course Eng Title Override') %>: </b></span>
+                        <span class="certificate-label"><b><%- gettext('Course ENG Title Override') %>: </b></span>
                         <span class="certificate-value"><%- course_eng_title %></span>
                     </p>
                  </div>
