@@ -448,6 +448,8 @@
         "Course Status": "\uac15\uc88c \uc0c1\ud0dc",
         "Course Title Override": "\uac15\uc88c \uc81c\ubaa9 \ubc14\uafb8\uae30",
         "Course title": "\uac15\uc88c\uba85",
+        "Course KOR Title": "\uAC15\uC88C \uD55C\uAE00\uBA85",
+        "Course ENG Title": "\uAC15\uC88C \uC601\uBB38\uBA85",
         "Course Type": "\uac15\uc88c\uad6c\ubd84",
         "Course": "\uac15\uc88c",
         "Course-Wide Discussion Topics": "\uc77c\ubc18 \uc8fc\uc81c",

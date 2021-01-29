@@ -1,3 +1,14 @@
+<%
+    if(course_title != '' || course_title){
+        if(String(course_title).indexOf("(") != -1){
+            course_eng_title = course_title.match(/\(.*\)/gi)[0].replace("(","").replace(")","");
+            course_kor_title = course_title.split("(")[0];
+        }else{
+            course_kor_title = course_title
+        }
+    }
+%>
+
 <div class="collection-details wrapper-certificate">
     <header class="collection-header">
         <h3 class="sr title">
@@ -23,12 +34,15 @@
                             <span class="certificate-label"><%- gettext('Course Title') %>: </span>
                             <span class="certificate-value"><%- course.get('name') %></span>
                     </p>
-                    <% if (course_title) { %>
-                        <p class="course-title-override">
-                            <span class="certificate-label"><b><%- gettext('Course Title Override') %>: </b></span>
-                            <span class="certificate-value"><%- course_title %></span>
-                        </p>
-                    <% } %>
+
+                    <p class="course-kor-title-override">
+                        <span class="certificate-label"><b><%- gettext('Course Kor Title Override') %>: </b></span>
+                        <span class="certificate-value"><%- course_kor_title %></span>
+                    </p>
+                    <p class="course-eng-title-override">
+                        <span class="certificate-label"><b><%- gettext('Course Eng Title Override') %>: </b></span>
+                        <span class="certificate-value"><%- course_eng_title %></span>
+                    </p>
                  </div>
 
                 <div class='course-number-section pull-left'>
