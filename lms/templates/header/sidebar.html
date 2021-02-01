@@ -1,8 +1,10 @@
 <div class="quick-menu" id='sidebar'>
-    <!--<a href="#" class="link"><img src="../../static/images/icon_quick_001.png" class="icon" style="width:32px; height: 32px;" onclick="top_">위로</a>-->
-    <a href="#" class="btn-top"><span class="circle"></span><span class="txt">TOP</span></a>
-    <!--<a href="#" class="link"><img src="_%20K-MOOC_files/icon_quick_002.png" class="icon">공식 블로그</a>-->
-    <!--<div>아이콘 제작자 <a href="https://www.flaticon.com/kr/authors/pixelmeetup" title="Pixelmeetup">Pixelmeetup</a> from <a href="https://www.flaticon.com/kr/" title="Flaticon">www.flaticon.com</a></div>-->
+    <div id="item_group">
+        <!--<a href="#" class="link"><img src="../../static/images/icon_quick_001.png" class="icon" style="width:32px; height: 32px;" onclick="top_">위로</a>-->
+        <a href="#" class="btn-top"><span class="circle"></span><span class="txt">TOP</span></a>
+        <!--<a href="#" class="link"><img src="_%20K-MOOC_files/icon_quick_002.png" class="icon">공식 블로그</a>-->
+        <!--<div>아이콘 제작자 <a href="https://www.flaticon.com/kr/authors/pixelmeetup" title="Pixelmeetup">Pixelmeetup</a> from <a href="https://www.flaticon.com/kr/" title="Flaticon">www.flaticon.com</a></div>-->
+    </div>
 </div>
 <style>
     .gnb {
@@ -130,17 +132,60 @@
         letter-spacing: .5px;
         color: #fff;
     }
+
+    .fold{
+        display: inline-block;
+        width: 100%;
+        height: 20px;
+        background: url(../../static/images/icon_arrow_down_g.png) no-repeat center;
+        border-bottom: 1px solid #eee;
+    }
+
+    .unfold{
+        display: inline-block;
+        width: 100%;
+        height: 20px;
+        background: url(../../static/images/icon_arrow_up_g.png) no-repeat center;
+        border-bottom: 1px solid #eee;
+    }
+
 </style>
 <script>
     let currentPosition, header, title = 0;
+
+    $(document).on('click', '#close_button',function () {
+
+        $(this).toggleClass('fold')
+        $(this).toggleClass('unfold')
+
+        console.log($(this).attr('class'))
+
+        if($(this).attr('class') == 'unfold'){
+            $("#item_group").slideDown(1000)
+        }else if($(this).attr('class') == 'fold'){
+            $("#item_group").slideUp(1000)
+        }
+    })
 
     $(function () {
         // 사이드바의 내용을 조회하여 생성
         $.ajax({
             url: '/sidebar',
         }).done(function (data) {
+
             for (let i = 0; i < data.data.length; i++) {
-                let box = '<a href="' + data.data[i][1] + '" class="link" target="' + data.data[i][3] + '"><img src="' + data.data[i][2] + '" style="width:32px; height: 32px;" class="icon" alt="">' + data.data[i][0] + '</a>'
+
+                let box = '';
+                let close_button = '';
+
+                if(i == data.data.length - 1){
+                    close_button = '<a class="unfold" id="close_button" href="#" onclick="return false;"></a>';
+                    box = '<a href="' + data.data[i][1] + '" class="link" target="' + data.data[i][3] + '"><img src="' + data.data[i][2] + '" style="width:32px; height: 32px;" class="icon" alt="">' + data.data[i][0] + '</a>'
+
+                    $('#sidebar').prepend(close_button);
+                }else{
+                    box = '<a href="' + data.data[i][1] + '" class="link" target="' + data.data[i][3] + '"><img src="' + data.data[i][2] + '" style="width:32px; height: 32px;" class="icon" alt="">' + data.data[i][0] + '</a>'
+                }
 
                 header = $(".new-container").outerHeight();
                 title = $(".agency-title").outerHeight() || $(".group-title").outerHeight();
@@ -152,7 +197,7 @@
                     title = 0;
 
                 $(".quick-menu").css("top", (header + title) + "px");
-                $('#sidebar').prepend(box);
+                $('#item_group').prepend(box);
             } // endfor
 
             $('.quick-menu').show();
