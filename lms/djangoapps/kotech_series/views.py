@@ -1052,7 +1052,7 @@ def series_view(request, id):
                                         ON a.id = c.course_id,
                                      (SELECT @rn := 0, @org := '', @course := '') b
                                WHERE a.start < a.end
-                            ORDER BY a.org, a.display_number_with_default, a.start DESC)
+                            ORDER BY a.org, a.display_number_with_default, a.display_name DESC, a.start DESC)
                            t1
                      WHERE rn = 1) AS v2
                       ON     v1.org = v2.org
