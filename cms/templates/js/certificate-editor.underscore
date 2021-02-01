@@ -5,6 +5,16 @@
           <%- gettext(error.message) %>
         </div>
     <% } %>
+    <%
+        if(course_title != '' || course_title){
+            if(String(course_title).indexOf("(") != -1){
+                course_eng_title = course_title.match(/\(.*\)/gi)[0].replace("(","").replace(")","");
+                course_kor_title = course_title.split("(")[0];
+            }else{
+                course_kor_title = course_title
+            }
+        }
+    %>
     </div>
     <div class="wrapper-form">
         <fieldset class="collection-fields certificate-fields">
@@ -27,8 +37,14 @@
                 <span class="actual-title"><%- course.get('name') %></span>
             </div>
             <div class="input-wrap field text add-certificate-course-title">
-                <label for="certificate-course-title-<%- uniqueId %>"><%- gettext("Course Title Override") %></label>
-                <input id="certificate-course-title-<%- uniqueId %>" class="certificate-course-title-input input-text" name="certificate-course-title" type="text" placeholder="<%- gettext("Course title") %>" value="<%- course_title %>" aria-describedby="certificate-course-title-<%-uniqueId %>-tip" />
+                <div style="width: 40%; display: inline-block; ">
+                    <label for="certificate-course-kor-title-<%- uniqueId %>"><%- gettext("Course KOR Title Override") %></label>
+                    <input id="certificate-course-kor-title-<%- uniqueId %>" class="certificate-course-kor-title-input input-text" name="certificate-course-kor-title" type="text" placeholder="<%- gettext("Course KOR Title") %>" value="<%- course_kor_title %>" aria-describedby="certificate-course-title-<%-uniqueId %>-tip" />
+                </div>
+                <div style="width: 40%; display: inline-block; margin-left: 50px;">
+                    <label for="certificate-course-eng-title-<%- uniqueId %>"><%- gettext("Course ENG Title Override") %></label>
+                    <input id="certificate-course-eng-title-<%- uniqueId %>" class="certificate-course-eng-title-input input-text" name="certificate-course-eng-title" type="text" placeholder="<%- gettext("Course ENG Title") %>" value="<%- course_eng_title %>" aria-describedby="certificate-course-title-<%-uniqueId %>-tip" />
+                </div>
                 <span id="certificate-course-title-<%- uniqueId %>-tip" class="tip tip-stacked"><%- gettext("Specify an alternative to the official course title to display on certificates. Leave blank to use the official course title.") %></span>
             </div>
         </fieldset>

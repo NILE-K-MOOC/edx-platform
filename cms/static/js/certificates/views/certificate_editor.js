@@ -22,7 +22,8 @@ function($, _, Backbone, gettext,
         events: {
             'change .collection-name-input': 'setName',
             'change .certificate-description-input': 'setDescription',
-            'change .certificate-course-title-input': 'setCourseTitle',
+            'change .certificate-course-kor-title-input': 'setCourseTitle',
+            'change .certificate-course-eng-title-input': 'setCourseTitle',
             'focus .input-text': 'onFocus',
             'blur .input-text': 'onBlur',
             submit: 'setAndClose',
@@ -96,12 +97,15 @@ function($, _, Backbone, gettext,
 
         getTemplateOptions: function() {
             // Retrieves the current attributes/options for the model
+            console.log(this)
             return {
                 id: this.model.get('id'),
                 uniqueId: _.uniqueId(),
                 name: this.model.get('name'),
                 description: this.model.get('description'),
                 course_title: this.model.get('course_title'),
+                course_kor_title: this.model.get('course_kor_title'),
+                course_eng_title: this.model.get('course_eng_title'),
                 org_logo_path: this.model.get('org_logo_path'),
                 is_active: this.model.get('is_active'),
                 isNew: this.model.isNew()
@@ -134,10 +138,35 @@ function($, _, Backbone, gettext,
 
         setCourseTitle: function(event) {
             // Updates the indicated model field (still requires persistence on server)
+            var kor_title = this.$('.certificate-course-kor-title-input').val();
+            var eng_title = this.$('.certificate-course-eng-title-input').val();
+
+            var title = '';
+
+            if(kor_title != '' && eng_title == ''){
+                title = kor_title;
+            }else if(kor_title == '' && eng_title != ''){
+                title = "(" + eng_title + ")";
+            }else{
+                title = kor_title + "(" + eng_title + ")";
+            }
+
             if (event && event.preventDefault) { event.preventDefault(); }
             this.model.set(
                 'course_title',
-                this.$('.certificate-course-title-input').val(),
+                title,
+                {silent: true}
+            );
+
+            this.model.set(
+                'course_kor_title',
+                kor_title,
+                {silent: true}
+            );
+
+            this.model.set(
+                'course_eng_title',
+                eng_title,
                 {silent: true}
             );
         },
