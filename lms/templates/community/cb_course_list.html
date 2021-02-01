@@ -28,6 +28,22 @@
 
     // template 변수를 사용하므로 외부로 분리하면 오류가 발생하니 주의하십시오!
     function cb_course(){
+
+        // 학점은행 수강 및 이수정보를 api 로 조회하여 표시하기 위해 수정필요
+        // https://cb.kmooc.kr/api/v1/external/certificates?uid=427100&user_id=sarvina_mh
+        // https://cb.kmooc.kr/api/v1/external/certificates?uid={user_id}&user_id={username}
+
+        let url = 'https://cb.kmooc.kr/api/v1/external/certificates';
+        let user_id = '${user_id}';
+        let username = '${username}';
+
+        $.post(url, {
+            'uid': user_id,
+            'user_id': username
+        }, function(data){
+            console.log(data);
+        }, "json");
+
         var status = 'cb';
         if ( status == 'cb' ) {
             // $('#courses_target').css('border', 'solid 1px red');    // draw debug line
