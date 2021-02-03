@@ -840,7 +840,7 @@ def _process_courses_list(courses_iter, in_process_course_actions, split_archive
             org_kname = course.display_org_with_default
             log.error('format_course_for_view check error: %s' % e.message)
 
-        log.info('format_course_for_view org_kname : %s' % org_kname)
+        # log.info('format_course_for_view org_kname : %s' % org_kname)
 
         return {
             'display_name': course.display_name,

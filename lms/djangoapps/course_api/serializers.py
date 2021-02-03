@@ -108,6 +108,7 @@ class CourseSerializer(serializers.Serializer):  # pylint: disable=abstract-meth
     video_time = serializers.CharField()
     week = serializers.CharField()
     learning_time = serializers.CharField()
+    preview_video = serializers.CharField()
 
     # 'course_id' is a deprecated field, please use 'id' instead.
     course_id = serializers.CharField(source='id', read_only=True)
