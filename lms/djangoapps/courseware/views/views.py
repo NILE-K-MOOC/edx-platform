@@ -583,10 +583,13 @@ class CourseTabView(EdxFragmentView):
                 logo_img_id = multisite.logo_img
 
                 try:
+                    encStr = urllib.unquote(encStr)
                     raw_data = decrypt(key, key, encStr)
                 except Exception as e:
                     raw_data = None
+                    log.info('encStr Exception ----------------------------------------- s')
                     log.info(traceback.format_exc(e))
+                    log.info('encStr Exception ----------------------------------------- e')
 
                 if raw_data:
                     user_id = None
@@ -1018,6 +1021,7 @@ def course_about(request, course_id):
             multisite = Multisite.objects.get(site_code=org)
             key = multisite.encryption_key
             logo_img_id = multisite.logo_img
+            encStr = urllib.unquote(encStr)
 
             try:
                 raw_data = decrypt(key, key, encStr)
@@ -1296,7 +1300,6 @@ def course_about(request, course_id):
             org_name = org_model.detail_name if request.LANGUAGE_CODE == 'ko-kr' else org_model.detail_ename
         except CodeDetail.DoesNotExist:
             org_name = course_details.org
-
 
         try:
             with connections['default'].cursor() as cur:
@@ -2617,7 +2620,6 @@ def video(request, course_id):
 
 
 def video_check(request):
-
     video_url = request.POST.get('video_url')
     is_error = 'false'
 
