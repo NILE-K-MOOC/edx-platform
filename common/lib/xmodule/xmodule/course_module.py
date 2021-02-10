@@ -1049,7 +1049,7 @@ class CourseFields(object):
         display_name=_("home_course_step"),
         help=_("home_course_step hidden value"),
         scope=Scope.settings,
-        default=1,
+        default=None,
         hidden=True
     )
 

@@ -205,35 +205,38 @@
                     i = 0;
                     switch (model.get('facet')) {
                         case 'classfy':
-                            model.set('odby1', 1);
+                            model.set('odby1', 10);
                             break;
                         case 'middle_classfy':
-                            model.set('odby1', 2);
+                            model.set('odby1', 20);
                             break;
                         case 'fourth_industry_yn':
-                            model.set('odby1', 3);
+                            model.set('odby1', 30);
                             break;
                         case 'linguistics':
-                            model.set('odby1', 4);
+                            model.set('odby1', 40);
                             break;
                         case 'course_period':
-                            model.set('odby1', 5);
+                            model.set('odby1', 50);
                             break;
                         case 'language':
-                            model.set('odby1', 6);
+                            model.set('odby1', 60);
                             break;
                         case 'course_level':
-                            model.set('odby1', 7);
+                            model.set('odby1', 70);
                             break;
                         case 'home_course_yn':
-                            model.set('odby1', 8);
+                            model.set('odby1', 80);
                             break;
                         case 'home_course_step':
-                            model.set('odby1', 9);
+                            model.set('odby1', 90);
+                            break;
+                        case 'ribbon_yn':
+                            model.set('odby1', 91);
                             break;
 
                         default:
-                            model.set('odby1', 10);
+                            model.set('odby1', 99);
                     }
 
                     switch (model.get('term')) {
@@ -397,6 +400,10 @@
                 };
 
                 this.collection.sort();
+
+                console.log('check collection - s');
+                console.log(this.collection);
+                console.log('check collection - e');
 
                 var grouped = this.collection.groupBy('facet');
                 var htmlSnippet = HtmlUtils.joinHtml.apply(
