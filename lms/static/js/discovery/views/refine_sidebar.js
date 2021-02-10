@@ -509,6 +509,13 @@
                             break;
                         case 'home_course_step':
                             k = 'home_course_step';
+                            v = v;
+                            if( v == '1')
+                                t = 'home_course_step_1';
+                            else if( v == '2')
+                                t = 'home_course_step_2';
+                            else if( v == '3')
+                                t = 'home_course_step_3';
                             break;
                     }
 
