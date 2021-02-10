@@ -147,7 +147,18 @@
                     }
                     else if (data.facet == 'home_course_step') {
                         // 집콕강좌 옵션 추가
-                        data.name = this.termName('home_course_step', data.term);
+                        console.log('data.term:' + data.term);
+
+                        if (data.term == '1') {
+                            data.name = this.termName('home_course_step', gettext("home_course_step_1"));
+                        } else if (data.term == '2') {
+                            data.name = this.termName('home_course_step', gettext("home_course_step_2"));
+                        } else if (data.term == '3') {
+                            data.name = this.termName('home_course_step', gettext("home_course_step_3"));
+
+                        }
+
+
 
                     }
                     else if (data.facet == 'fourth_industry_yn' || data.facet == 'job_edu_yn' || data.facet == 'ai_sec_yn' || data.facet == 'basic_science_sec_yn' || data.facet == 'linguistics_yn') {
@@ -214,9 +225,15 @@
                         case 'course_level':
                             model.set('odby1', 7);
                             break;
+                        case 'home_course_yn':
+                            model.set('odby1', 8);
+                            break;
+                        case 'home_course_step':
+                            model.set('odby1', 9);
+                            break;
 
                         default:
-                            model.set('odby1', 8);
+                            model.set('odby1', 10);
                     }
 
                     switch (model.get('term')) {
