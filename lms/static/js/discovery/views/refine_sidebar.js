@@ -386,6 +386,14 @@
                         case 'zh':
                             model.set('odby2', 3);
                             break;
+                        // home_course_step
+                        case '1':
+                            model.set('odby2', 1);
+                        case '2':
+                            model.set('odby2', 2);
+                        case '3':
+                            model.set('odby2', 3);
+
                         default:
                             model.set('odby2', 99);
                     }
