@@ -91,6 +91,7 @@ class CourseSerializer(serializers.Serializer):  # pylint: disable=abstract-meth
     audit_yn = serializers.CharField()
     fourth_industry_yn = serializers.CharField()
     home_course_yn = serializers.CharField()
+    home_course_step = serializers.CharField()
     ribbon_yn = serializers.CharField()
     job_edu_yn = serializers.CharField()
     linguistics = serializers.CharField()

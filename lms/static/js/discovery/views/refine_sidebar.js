@@ -145,6 +145,11 @@
                         }
 
                     }
+                    else if (data.facet == 'home_course_step') {
+                        // 집콕강좌 옵션 추가
+                        data.name = this.termName('home_course_step', data.term);
+
+                    }
                     else if (data.facet == 'fourth_industry_yn' || data.facet == 'job_edu_yn' || data.facet == 'ai_sec_yn' || data.facet == 'basic_science_sec_yn' || data.facet == 'linguistics_yn') {
 
                         if (data.facet == 'fourth_industry_yn' && data.term.toUpperCase() == 'Y') {
@@ -484,6 +489,9 @@
                             k = 'home_course_yn';
                             v = 'Y';
                             t = 'home_course_y';
+                            break;
+                        case 'home_course_step':
+                            k = 'home_course_step';
                             break;
                     }
 

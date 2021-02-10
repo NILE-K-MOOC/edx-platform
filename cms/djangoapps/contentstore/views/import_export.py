@@ -250,6 +250,9 @@ def _write_chunk(request, courselike_key):
                         if 'home_course_yn' in xml.attrib:
                             addinfo.home_course_yn = xml.attrib['home_course_yn']
 
+                        if 'home_course_step' in xml.attrib:
+                            addinfo.home_course_step = xml.attrib['home_course_step']
+
                         if 'ribbon_yn' in xml.attrib:
                             addinfo.ribbon_yn = xml.attrib['ribbon_yn']
 

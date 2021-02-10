@@ -977,6 +977,7 @@ def _create_or_rerun_course(request):
             'linguistics': linguistics,
             'fourth_industry_yn': 'N',
             'home_course_yn': 'N',
+            'home_course_step': None,
             'ribbon_yn': 'N',
             'job_edu_yn': 'N',
             'ai_sec_yn': 'N',
@@ -1301,6 +1302,7 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
                     ,linguistics
                     ,job_edu_yn
                     ,home_course_yn
+                    ,home_course_step
                     ,ribbon_yn
                     ,ribbon_year
                     ,middle_classfy_sub
@@ -1332,6 +1334,7 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
                     ,linguistics
                     ,job_edu_yn
                     ,home_course_yn
+                    ,home_course_step
                     ,ribbon_yn
                     ,ribbon_year
                     ,middle_classfy_sub

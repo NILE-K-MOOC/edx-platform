@@ -772,6 +772,7 @@ class CourseOverview(TimeStampedModel):
             audit_yn=Coalesce(F('courseoverviewaddinfo__audit_yn'), V('N')),
             fourth_industry_yn=Coalesce(F('courseoverviewaddinfo__fourth_industry_yn'), V('N')),
             home_course_yn=Coalesce(F('courseoverviewaddinfo__home_course_yn'), V('N')),
+            home_course_step=Coalesce(F('courseoverviewaddinfo__home_course_step'), V('1')),
             ribbon_yn=Coalesce(F('courseoverviewaddinfo__ribbon_yn'), V('N')),
             ribbon_year=Coalesce(F('courseoverviewaddinfo__ribbon_year'), V('')),
             job_edu_yn=Coalesce(F('courseoverviewaddinfo__job_edu_yn'), V('N')),

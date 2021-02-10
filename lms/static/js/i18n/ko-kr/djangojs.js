@@ -2096,6 +2096,7 @@
         "fourth_industry_yn": "4차 산업혁명 여부",
         "job_edu_yn": "직업교육 여부",
         "home_course_yn": "집콕 이벤트",
+        "home_course_step": "집콕강좌 차시",
         "ribbon_yn": "블루 리본",
         "ribbon_y": "블루 리본 강좌",
         "ribbon_n": "리본 없음",
