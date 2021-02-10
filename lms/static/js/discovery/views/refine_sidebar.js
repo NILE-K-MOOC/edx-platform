@@ -505,15 +505,13 @@
                             break;
                         case 'home_course_step':
                             k = 'home_course_step';
+                            v = v;
 
                             if (v == '1') {
-                                v = 'home_course_step_1';
                                 t = 'home_course_step_1';
                             } else if (v == '2') {
-                                v = 'home_course_step_2';
                                 t = 'home_course_step_2';
                             } else if (v == '3') {
-                                v = 'home_course_step_3';
                                 t = 'home_course_step_3';
                             }
                             break;
@@ -566,6 +564,8 @@
                     select_index[1]
                 );
 
+                console.debug('select_val: ' + select_val);
+
                 $(".facet-list option[value=" + select_val + "]").attr("selected", "selected")
             },
 
@@ -584,6 +584,8 @@
                     select_index[0],
                     select_index[1]
                 );
+
+                console.debug('select_val1: ' + select_val);
 
                 $(".facet-list option[value='" + select_val + "']").attr("selected", "selected")
             },
@@ -607,6 +609,8 @@
                 t = gettext(t);
                 // console.log(t);
                 // console.log('selectOption2 check ---- e')
+
+                console.debug('select_val2: ' + select_val);
 
                 this.trigger(
                     'selectOption', f, v, t
