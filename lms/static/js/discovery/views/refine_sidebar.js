@@ -13,7 +13,7 @@
             events: {
                 // 'click li button': 'selectOption',
                 // 'change .facet-list': 'selectOption1',
-                'click #course-org-select-move' : 'selectOption1',
+                'click #course-org-select-move': 'selectOption1',
                 'click li button': 'selectOption2',
                 'click .show-less': 'collapse',
                 'click .show-more': 'expand'
@@ -29,11 +29,9 @@
             facetName: function (key) {
                 if (key == 'middle_classfy') {
                     return gettext("Sub classified by");
-                }
-                else if (key == 'course_period') {
+                } else if (key == 'course_period') {
                     return gettext("Period of Studing");
-                }
-                else {
+                } else {
                     return this.meanings[key] && this.meanings[key].name || key;
                 }
             },
@@ -91,8 +89,7 @@
                                 data.name = this.termName(data.facet, gettext("Long(over 13 weeks)"));
                                 break;
                         }
-                    }
-                    else if (data.facet == 'middle_classfy') {
+                    } else if (data.facet == 'middle_classfy') {
 
                         var middle_text = {
                             "lang": "Linguistics & Literature",
@@ -137,15 +134,13 @@
                         } else {
                             data.name = this.termName(data.facet, data.term);
                         }
-                    }
-                    else if (data.facet == 'home_course_yn') {
+                    } else if (data.facet == 'home_course_yn') {
                         // 집콕강좌 옵션 추가
                         if (data.term.toUpperCase() == 'Y') {
                             data.name = this.termName('home_course_yn', gettext("home_course_y"));
                         }
 
-                    }
-                    else if (data.facet == 'home_course_step') {
+                    } else if (data.facet == 'home_course_step') {
                         // 집콕강좌 옵션 추가
                         console.log('data.term:' + data.term);
 
@@ -159,9 +154,7 @@
                         }
 
 
-
-                    }
-                    else if (data.facet == 'fourth_industry_yn' || data.facet == 'job_edu_yn' || data.facet == 'ai_sec_yn' || data.facet == 'basic_science_sec_yn' || data.facet == 'linguistics_yn') {
+                    } else if (data.facet == 'fourth_industry_yn' || data.facet == 'job_edu_yn' || data.facet == 'ai_sec_yn' || data.facet == 'basic_science_sec_yn' || data.facet == 'linguistics_yn') {
 
                         if (data.facet == 'fourth_industry_yn' && data.term.toUpperCase() == 'Y') {
                             data.name = this.termName('fourth_industry_yn', gettext("fourth_industry_y"));
@@ -401,10 +394,6 @@
 
                 this.collection.sort();
 
-                console.log('check collection - s');
-                console.log(this.collection);
-                console.log('check collection - e');
-
                 var grouped = this.collection.groupBy('facet');
                 var htmlSnippet = HtmlUtils.joinHtml.apply(
                     this, _.map(grouped, function (options, facetKey) {
@@ -418,14 +407,14 @@
                                 $.ajax({
                                     url: '/search_org',
                                     async: false,
-                                }).done(function(data){
+                                }).done(function (data) {
                                     org_names = data.org_dict;
                                 });
                                 var options2 = [];
                                 _.map(options, function (option) {
                                     option.attributes.name = gettext(option.attributes.term);
-                                    for(var i=0; i<org_names.length; i++) {
-                                        if(org_names[i].hasOwnProperty(option.attributes.term)){
+                                    for (var i = 0; i < org_names.length; i++) {
+                                        if (org_names[i].hasOwnProperty(option.attributes.term)) {
                                             option.attributes.name = org_names[i][option.attributes.term];
                                         }
                                     }
@@ -517,11 +506,11 @@
                         case 'home_course_step':
                             k = 'home_course_step';
                             v = v;
-                            if( v == '1')
+                            if (v == '1')
                                 t = 'home_course_step_1';
-                            else if( v == '2')
+                            else if (v == '2')
                                 t = 'home_course_step_2';
-                            else if( v == '3')
+                            else if (v == '3')
                                 t = 'home_course_step_3';
                             break;
                     }
