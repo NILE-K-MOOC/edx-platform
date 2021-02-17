@@ -1024,6 +1024,19 @@ def _create_or_rerun_course(request):
             try:
                 destination_course_key = rerun_course(request.user, source_course_key, org, course, run, fields)
 
+                print "--rerun_course"
+                log.info(u'----rerun_course')
+                return JsonResponse({
+                    'url': reverse_url('course_handler'),
+                    'destination_course_key': unicode(destination_course_key)
+                })
+
+                # return rerun_course(request.user, source_course_key, org, course, run, fields)
+
+            except Exception as e:
+                log.info(u'----rerun_course error %s' % e)
+            finally:
+
                 # 재개강 강좌의 mongo 내용 변경 및 published-branch 업데이트.
                 module_store = modulestore()
                 descriptor = module_store.get_course(destination_course_key)
@@ -1036,17 +1049,6 @@ def _create_or_rerun_course(request):
                 user_id = request.user.id
                 module_store.update_item(descriptor, user_id)
 
-                print "--rerun_course"
-                log.info(u'----rerun_course')
-                return JsonResponse({
-                    'url': reverse_url('course_handler'),
-                    'destination_course_key': unicode(destination_course_key)
-                })
-
-                # return rerun_course(request.user, source_course_key, org, course, run, fields)
-
-            except Exception as e:
-                print e
         else:
 
             fields.update({'audit_yn': u'Y', 'user_edit': u'N'})
