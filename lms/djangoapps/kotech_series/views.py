@@ -457,7 +457,7 @@ def series_print(request, id):
             from series a
             join series_course b
             on a.series_seq = b.series_seq
-            where a.series_seq = '{id}';
+            where a.series_seq = '{id}' and b.delete_yn = 'N';;
             '''.format(id=id)
         cur.execute(query)
         pack = cur.fetchall()
@@ -630,7 +630,7 @@ def series_print(request, id):
                         series_course a, certificates_generatedcertificate b
                     WHERE
                         a.series_seq = {id} AND b.user_id = {user_id}
-                            AND CONCAT('course-v1:', a.org, '+', a.display_number_with_default) = SUBSTRING_INDEX(b.course_id, '+', 2)
+                            AND CONCAT('course-v1:', a.org, '+', a.display_number_with_default) = SUBSTRING_INDEX(b.course_id, '+', 2) AND a.delete_yn = 'N'
                     GROUP BY org , display_number_with_default) t1,
                     course_overviews_courseoverview t2,
                     course_overview_addinfo t3
