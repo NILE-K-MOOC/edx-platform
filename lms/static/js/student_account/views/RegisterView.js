@@ -811,61 +811,54 @@
                     var phone = $.trim($(".kakao_phone_text").val()).replace(/\s+/g, '')
                     var name = $.trim($(".kakao_name_text").val()).replace(/\s+/g, '')
 
-                    console.log("seon woo debug =======> s");
-                    console.log(year);
-                    console.log(gender);
-                    console.log(phone);
-                    console.log(name);
-                    console.log("seon woo debug ======> e");
-                    //
-                    // if(name == ""){
-                    //     alert("이름을 입력해주세요.");
-                    //     $(".kakao_name_text").focus();
-                    //     return;
-                    // } else if(year == ""){
-                    //     alert("생년월일을 입력해주세요.");
-                    //     $(".kakao_year_text").focus();
-                    //     return;
-                    // } else if(gender == ""){
-                    //     alert("성별을 입력해주세요.");
-                    //     $(".kakao_gender_text").focus();
-                    //     return;
-                    // } else if(phone == ""){
-                    //     alert("핸드폰번호을 입력해주세요.");
-                    //     $(".kakao_phone_text").focus();
-                    //     return;
-                    // }
-                    //
-                    // // 숫자인지 체크
-                    // if(isNaN(year) == true){
-                    //     alert("올바른 생년월일을 입력해주세요.")
-                    //     return;
-                    // }else if(isNaN(gender) == true){
-                    //     alert("올바른 성별을 입력해주세요.")
-                    //     return;
-                    // }else if(isNaN(phone) == true){
-                    //     alert("올바른 핸드폰 번호를 입력해주세요.")
-                    //     return;
-                    // }
-                    //
-                    // if(year.length != 8){
-                    //     alert("올바른 생년월일을 입력해주세요.")
-                    //     return;
-                    // }else if(phone.length != 11){
-                    //     alert("올바른 핸드폰 번호를 입력해주세요.")
-                    //     return;
-                    // }
-                    //
-                    // var message = [];
-                    //
-                    // $("input:checkbox[name='kakao_agree']:not(:checked)").each(function () {
-                    //     message.push($(this).parent().find("label").text())
-                    // })
-                    //
-                    // if(message[0]){
-                    //     alert(message[0] + "에 동의해 주십시오.")
-                    //     return;
-                    // }
+                    if(name == ""){
+                        alert("이름을 입력해주세요.");
+                        $(".kakao_name_text").focus();
+                        return;
+                    } else if(year == ""){
+                        alert("생년월일을 입력해주세요.");
+                        $(".kakao_year_text").focus();
+                        return;
+                    } else if(gender == ""){
+                        alert("성별을 입력해주세요.");
+                        $(".kakao_gender_text").focus();
+                        return;
+                    } else if(phone == ""){
+                        alert("핸드폰번호을 입력해주세요.");
+                        $(".kakao_phone_text").focus();
+                        return;
+                    }
+
+                    // 숫자인지 체크
+                    if(isNaN(year) == true){
+                        alert("올바른 생년월일을 입력해주세요.")
+                        return;
+                    }else if(isNaN(gender) == true){
+                        alert("올바른 성별을 입력해주세요.")
+                        return;
+                    }else if(isNaN(phone) == true){
+                        alert("올바른 핸드폰 번호를 입력해주세요.")
+                        return;
+                    }
+
+                    if(year.length != 8){
+                        alert("올바른 생년월일을 입력해주세요.")
+                        return;
+                    }else if(phone.length != 11){
+                        alert("올바른 핸드폰 번호를 입력해주세요.")
+                        return;
+                    }
+
+                    var message = [];
+
+                    $("input:checkbox[name='kakao_agree']:not(:checked)").each(function () {
+                        message.push($(this).parent().find("label").text())
+                    })
+
+                    if(message[0]){
+                        alert(message[0] + "에 동의해 주십시오.")
+                        return;
+                    }
 
                     $("#kakao_form").hide();
                     $("#kakao_confirm").show();
