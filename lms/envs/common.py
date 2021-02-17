@@ -3745,6 +3745,10 @@ FERNET_KEYS = [
     'DUMMY KEY CHANGE BEFORE GOING TO PRODUCTION',
 ]
 
+LinkID = "NILE_KC"
+SecretKey = "fiKbZwcqxYjEMq6QrAqcx4/BowE6EPkrdXznLJIZcO8="
+IPRestrictOnOff = True
+
 ############### Settings for user-state-client ##################
 # Maximum number of rows to fetch in XBlockUserStateClient calls. Adjust for performance
 USER_STATE_BATCH_SIZE = 5000

@@ -143,13 +143,87 @@
                     } %>
                     <% if ( placeholder ) { %> placeholder="<%- placeholder %>"<% } %>
                     value="<%- defaultValue %>"
-                    style="width: 60%; float: left; margin: 0;"
+                    style="width: 38%; float: left; margin: 0;"
                 />
 
-                <button type="button" class="action action-primary identity" style="width: 35%; margin: 0 0 0 5%; padding:0; height: 32px;">
+                <button type="button" class="action action-primary identity" style="width: 21%; margin: 0 0 0 2%; padding:0; height: 32px;">
                     <%- gettext("Authentication") %>
                 </button>
+
+                <button type="button" class="action action-primary " id="kakao_identity" style="width: 36%; margin: 0 0 0 2%; padding:0; height: 32px; box-shadow: none; background: #f1d900">
+                    <%- gettext("KaKao Authentication") %>
+                </button>
+
+
+            <div id="kakao_form" style="float: left; width: 100%;" hidden>
+                <div class="acbs-wrap"  id="">
+                    <div class="acbs-group" >
+                        <div class="form-group">
+                            <span class="label-control"><%- gettext('Full Name') %></span>
+                            <input type="text" class="form-control kakao_name_text" placeholder="<%- gettext('Jane Doe') %>"
+                                   id="register_kakao_name" >
+                        </div>
+                        <div class="form-group">
+                            <span class="label-control"><%- gettext('Year of Birth') %>/<%- gettext('Gender') %></span>
+                            <input type="text" class="form-control kakao_year_text" placeholder="19951009" id="register_kakao_year" style="width:27% !important" maxlength="8"> -
+                            <input type="text" class="form-control kakao_gender_text" placeholder="1" id="register_kakao_gender" style="width:8% !important" maxlength="1">
+                            <span style="display:inline-flex">
+                                <i class="i_tag"></i>
+                                <i class="i_tag"></i>
+                                <i class="i_tag"></i>
+                                <i class="i_tag"></i>
+                                <i class="i_tag"></i>
+                                <i class="i_tag"></i>
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <span class="label-control"><%- gettext('Phone') %></span>
+                            <input class="form-control kakao_phone_text" type="text" class="form-control" placeholder="'-'없이 숫자만 입력" maxlength="11" id="register_kakao_phone">
+                        </div>
+                        <div class="pa-group">
+                            <p class="pa-text">간편인증서비스 이용에 대한 동의</p>
+
+                            <table style="width:100%">
+                            <button id="all_agree" type="button" style="float: right; margin-bottom: 20px; float: right; margin-bottom: 20px; background: white; box-shadow: none; border: 1px solid gray;">전체동의</div>
+
+                            <tr>
+                                <td style=""><input type="checkbox" name="kakao_agree"> <label style="font-size:12px; display:inline-block; float: left;">개인정보 이용 동의(필수)</label></td>
+                                <td style=""><input type="checkbox" name="kakao_agree"> <label style="font-size:12px; display:inline-block; float: left;">고유식별번호처리 동의(필수)</label></td>
+                            </tr>
+
+                            <tr>
+                                <td style=""><input type="checkbox" name="kakao_agree">
+                                <label style="font-size:12px; display:inline-block; float: left;">서비스이용 약관 동의(필수)</label></td>
+                                <td style=""><input type="checkbox" name="kakao_agree">
+                                <label style="font-size:12px; display:inline-block; float: left;">제3자 정보제공 동의(필수)</label></td>
+                            </tr>
+
+                            </table>
+                        </div>
+                        <button style="width:39%; background:gray" type="button" class="acbs-btn kakao_close"><%- gettext('Close') %></button>
+                        <button style="width:60%" type="button" class="acbs-btn" id="kakao_form_submit"><%- gettext('Confirm') %></button>
+                    </div>
+                </div>
             </div>
+
+            <div id="kakao_confirm" style="float: left; width: 100%;" hidden>
+                <div class="acbs-wrap"  id="">
+                    <div class="acbs-group" >
+                        <div class="pa-group">
+                            <p class="pa-text">간편인증서비스 이용에 대한 동의</p>
+
+                            <p class="">카카오톡 인증을 진행해 주세요.</p>
+                            <p class="">입력하신 휴대폰으로 인증 요청 메시지를 보냈습니다.</p>
+                            <p class="">카카오톡 앱에서 인증을 진행해주세요.</p>
+
+                        </div>
+                        <button style="width:39%; background:gray" type="button" class="acbs-btn kakao_close"><%- gettext('Close') %></button>
+                        <button style="width:60%" type="button" class="acbs-btn" id="kakao_confirm_submit"><%- gettext('Confirm') %></button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
         <% } else{ %>
 
             <input id="<%- form %>-<%- name %>"
