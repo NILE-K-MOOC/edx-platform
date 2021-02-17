@@ -383,6 +383,22 @@ def rerun_course(source_course_key_string, destination_course_key_string, user_i
         with store.default_store('split'):
             store.clone_course(source_course_key, destination_course_key, user_id, fields=fields)
 
+        # rerun course update
+        try:
+            module_store = modulestore()
+            descriptor = module_store.get_course(destination_course_key)
+            from xmodule.fields import Date
+            date = Date()
+            descriptor.enrollment_start = date.from_json(fields['enrollment_start'])
+            descriptor.enrollment_end = date.from_json(fields['enrollment_end'])
+            descriptor.start = date.from_json(fields['start'])
+            descriptor.end = date.from_json(fields['end'])
+            module_store.update_item(descriptor, user_id)
+        except Exception as e:
+            LOGGER.info('rerun_course update_item error ------------------------- s')
+            LOGGER.info(e.message)
+            LOGGER.info('rerun_course update_item error ------------------------- e')
+
         # -----jhy(2020.08.06) / rerun-course /course start date mongo update
         # try:
         #     new_course_id = str(destination_course_key)
