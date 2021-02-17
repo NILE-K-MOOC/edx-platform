@@ -140,6 +140,9 @@ def roadmap_view(request, id):
 
         edge['regist_date'] = json_serial(edge['regist_date'])
 
+        if edge['modify_date']:
+            edge['modify_date'] = json_serial(edge['modify_date'])
+
     for node in node_list:
         node['link'] = dict()
 
@@ -157,6 +160,9 @@ def roadmap_view(request, id):
             node['link'] = link_list_data
 
         node['regist_date'] = json_serial(node['regist_date'])
+
+        if node['modify_date']:
+            node['modify_date'] = json_serial(node['modify_date'])
 
     node = json.dumps(node_list)
     edge = json.dumps(edge_list)
