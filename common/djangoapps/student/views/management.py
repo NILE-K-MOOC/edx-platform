@@ -393,6 +393,7 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
                 course_overviews = CourseOverview.objects.get(id=multi_course_id)
 
                 course_overviews.home_course_yn = 'N'
+                course_overviews.home_course_step = ''
                 course_overviews.audit_yn = item[1]
                 course_overviews.ribbon_yn = item[2]
                 course_overviews.teacher_name = item[3]
