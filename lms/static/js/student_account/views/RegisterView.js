@@ -968,6 +968,11 @@
                     $("#kakao_gender").val('');
                     $("#kakao_phone").val('');
 
+                    $(".kakao_year_text").val('');
+                    $(".kakao_gender_text").val('');
+                    $(".kakao_phone_text").val('');
+                    $(".kakao_name_text").val('');
+
                 },
 
                 agree_text:function(event){
@@ -977,12 +982,6 @@
                     if(event.currentTarget.id == 'privacy_text_button'){
                         $(".black_bg").show();
                         $("#privacy_text_area").show();
-                    }else if(event.currentTarget.id == 'identification_text_button'){
-                        $(".black_bg").show();
-                        $("#identification_text_area").show();
-                    }else if(event.currentTarget.id == 'service_text_button'){
-                        $(".black_bg").show();
-                        $("#service_text_area").show();
                     }else if(event.currentTarget.id == 'third_party_text_button'){
                         $(".black_bg").show();
                         $("#third_party_area").show();
