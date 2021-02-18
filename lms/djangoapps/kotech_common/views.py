@@ -176,13 +176,12 @@ def kakao_auth_certification(request):
 
             request.session['kakao_name'] = request.GET.get('name')
             request.session['kakao_gender'] = request.GET.get('gender')
-            request.session['kakao_year'] = request.GET.get('year')
+            request.session['is_kakao'] = 'Y'
             request.session['kakao_phone'] = request.GET.get('phone')
 
             print 'kakao_debug -----------------> s'
             print request.session['kakao_name']
             print request.session['kakao_gender']
-            print request.session['kakao_year']
             print request.session['kakao_phone']
             print 'kakao_debug -----------------> e'
 
