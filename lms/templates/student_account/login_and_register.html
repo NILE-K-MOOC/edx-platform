@@ -482,6 +482,10 @@
     .swal-text{
         text-align: center;
     }
+
+    .agree_text::after{
+        width: 0px !important;
+    }
 </style>
 
 <script>
@@ -531,3 +535,12 @@ function multisite_btn(){
     <input type="hidden" name="m" value="checkplusSerivce">
     <input type="hidden" name="EncodeData" value="${enc_data}">
 </form>
+
+<div class="black_bg" style="display: none; position: fixed; content: '';
+        width: 100%;
+        height: 100%;
+        background-color:rgba(0, 0,0, 0.5);
+        top:0;
+        left: 0;
+        z-index: 1000; overflow: hidden;"
+></div>

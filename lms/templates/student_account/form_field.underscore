@@ -187,21 +187,81 @@
                             <button id="all_agree" type="button" style="float: right; margin-bottom: 20px; float: right; margin-bottom: 20px; background: white; box-shadow: none; border: 1px solid gray;">전체동의</div>
 
                             <tr>
-                                <td style=""><input type="checkbox" name="kakao_agree"> <label style="font-size:12px; display:inline-block; float: left;">개인정보 이용 동의(필수)</label></td>
-                                <td style=""><input type="checkbox" name="kakao_agree"> <label style="font-size:12px; display:inline-block; float: left;">고유식별번호처리 동의(필수)</label></td>
+                                <td style=""><input type="checkbox" name="kakao_agree"> <label style="font-size:12px; display:inline-block; float: left;" class="agree_text" id="privacy_text_button">개인정보 이용 동의(필수)</label></td>
+                                <td style=""><input type="checkbox" name="kakao_agree"> <label style="font-size:12px; display:inline-block; float: left;" class="agree_text" id="identification_text_button">고유식별번호처리 동의(필수)</label></td>
                             </tr>
 
                             <tr>
                                 <td style=""><input type="checkbox" name="kakao_agree">
-                                <label style="font-size:12px; display:inline-block; float: left;">서비스이용 약관 동의(필수)</label></td>
+                                <label style="font-size:12px; display:inline-block; float: left;" id="service_text_button" class="agree_text">서비스이용 약관 동의(필수)</label></td>
                                 <td style=""><input type="checkbox" name="kakao_agree">
-                                <label style="font-size:12px; display:inline-block; float: left;">제3자 정보제공 동의(필수)</label></td>
+                                <label style="font-size:12px; display:inline-block; float: left;" id="third_party_text_button" class="agree_text">제3자 정보제공 동의(필수)</label></td>
                             </tr>
 
                             </table>
                         </div>
                         <button style="width:39%; background:gray" type="button" class="acbs-btn kakao_close"><%- gettext('Close') %></button>
                         <button style="width:60%" type="button" class="acbs-btn" id="kakao_form_submit"><%- gettext('Confirm') %></button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="privacy_text_area" style="float: left;" hidden>
+                <div class="acbs-wrap"  id="" style="left: 109px; width: 56%; top: 100px; z-index: 9999">
+                    <div class="acbs-group" style="padding: 1rem 0px 1rem 1rem; ">
+                        <div class="pa-group" style="overflow: scroll; height: 250px;">
+                            <!-- 여기에 넣기 -->
+                            <p class="pa-text">간편인증서비스 이용에 대한 동의1</p>
+                            <p class="">카카오톡 인증을 진행해 주세요.</p>
+                            <p class="">입력하신 휴대폰으로 인증 요청 메시지를 보냈습니다.</p>
+                            <p class="">카카오톡 앱에서 인증을 진행해주세요.</p>
+                        </div>
+                        <button style="width:95%; background:gray" type="button" class="acbs-btn kakao_pop_close"><%- gettext('Close') %></button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="identification_text_area" style="float: left;" hidden>
+                <div class="acbs-wrap"  id="" style="left: 109px; width: 56%; top: 100px; z-index: 9999">
+                    <div class="acbs-group" style="padding: 1rem 0px 1rem 1rem;">
+                        <div class="pa-group" style="overflow: scroll; height: 250px;">
+                            <!-- 여기에 넣기 -->
+                            <p class="pa-text">간편인증서비스 이용에 대한 동의11</p>
+                            <p class="">카카오톡 인증을 진행해 주세요.</p>
+                            <p class="">입력하신 휴대폰으로 인증 요청 메시지를 보냈습니다.</p>
+                            <p class="">카카오톡 앱에서 인증을 진행해주세요.</p>
+                        </div>
+                        <button style="width:95%; background:gray" type="button" class="acbs-btn kakao_pop_close"><%- gettext('Close') %></button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="service_text_area" style="float: left;" hidden>
+                <div class="acbs-wrap"  id="" style="left: 109px; width: 56%; top: 100px; z-index: 9999">
+                    <div class="acbs-group" style="padding: 1rem 0px 1rem 1rem;">
+                        <div class="pa-group" style="overflow: scroll; height: 250px;">
+                            <!-- 여기에 넣기 -->
+                            <p class="pa-text">간편인증서비스 이용에 대한 동의111</p>
+                            <p class="">카카오톡 인증을 진행해 주세요.</p>
+                            <p class="">입력하신 휴대폰으로 인증 요청 메시지를 보냈습니다.</p>
+                            <p class="">카카오톡 앱에서 인증을 진행해주세요.</p>
+                        </div>
+                        <button style="width:95%; background:gray" type="button" class="acbs-btn kakao_pop_close"><%- gettext('Close') %></button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="third_party_area" style="float: left;" hidden>
+                <div class="acbs-wrap"  id="" style="left: 109px; width: 56%; top: 100px; z-index: 9999">
+                    <div class="acbs-group" style="padding: 1rem 0px 1rem 1rem;">
+                        <div class="pa-group" style="overflow: scroll; height: 250px;">
+                            <!-- 여기에 넣기 -->
+                            <p class="pa-text">간편인증서비스 이용에 대한 동의1111</p>
+                            <p class="">카카오톡 인증을 진행해 주세요.</p>
+                            <p class="">입력하신 휴대폰으로 인증 요청 메시지를 보냈습니다.</p>
+                            <p class="">카카오톡 앱에서 인증을 진행해주세요.</p>
+                        </div>
+                        <button style="width:95%; background:gray" type="button" class="acbs-btn kakao_pop_close"><%- gettext('Close') %></button>
                     </div>
                 </div>
             </div>
@@ -217,7 +277,7 @@
                             <p class="">카카오톡 앱에서 인증을 진행해주세요.</p>
 
                         </div>
-                        <button style="width:39%; background:gray" type="button" class="acbs-btn kakao_close"><%- gettext('Close') %></button>
+                        <button style="width:95%; background:gray" type="button" class="acbs-btn kakao_close"><%- gettext('Close') %></button>
                         <button style="width:60%" type="button" class="acbs-btn" id="kakao_confirm_submit"><%- gettext('Confirm') %></button>
                     </div>
                 </div>

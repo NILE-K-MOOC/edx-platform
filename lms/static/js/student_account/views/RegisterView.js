@@ -34,7 +34,8 @@
                     'click #kakao_form_submit': 'kakao_form_submit',
                     'click #kakao_confirm_submit': 'kakao_confirm_submit',
                     'click .kakao_close': 'kakao_close',
-
+                    'click .agree_text': 'agree_text',
+                    'click .kakao_pop_close': 'kakao_pop_close',
                 },
                 liveValidationFields: [
                     'name',
@@ -831,32 +832,32 @@
 
                     // 숫자인지 체크
                     if(isNaN(year) == true){
-                        alert("올바른 생년월일을 입력해주세요.")
+                        alert("올바른 생년월일을 입력해주세요.");
                         return;
                     }else if(isNaN(gender) == true){
-                        alert("올바른 성별을 입력해주세요.")
+                        alert("올바른 성별을 입력해주세요.");
                         return;
                     }else if(isNaN(phone) == true){
-                        alert("올바른 핸드폰 번호를 입력해주세요.")
+                        alert("올바른 핸드폰 번호를 입력해주세요.");
                         return;
                     }
 
                     if(year.length != 8){
-                        alert("올바른 생년월일을 입력해주세요.")
+                        alert("올바른 생년월일을 입력해주세요.");
                         return;
                     }else if(phone.length != 11){
-                        alert("올바른 핸드폰 번호를 입력해주세요.")
+                        alert("올바른 핸드폰 번호를 입력해주세요.");
                         return;
                     }
 
                     var message = [];
 
                     $("input:checkbox[name='kakao_agree']:not(:checked)").each(function () {
-                        message.push($(this).parent().find("label").text())
+                        message.push($(this).parent().find("label").text());
                     })
 
                     if(message[0]){
-                        alert(message[0] + "에 동의해 주십시오.")
+                        alert(message[0] + "에 동의해 주십시오.");
                         return;
                     }
 
@@ -874,11 +875,11 @@
                         },
                     }).done(function (data) {
                         if (data.success) {
-                            $("#kakao_receiptId").val(data.receiptId)
-                            $("#kakao_name").val(name)
-                            $("#kakao_year").val(year)
-                            $("#kakao_gender").val(gender)
-                            $("#kakao_phone").val(phone)
+                            $("#kakao_receiptId").val(data.receiptId);
+                            $("#kakao_name").val(name);
+                            $("#kakao_year").val(year);
+                            $("#kakao_gender").val(gender);
+                            $("#kakao_phone").val(phone);
                         } else {
                             swal("인증실패", "사용자 정보가 올바르지 않습니다.\n 확인 후 재시도 해주세요. \n 카카오톡 지갑에 가입하지 않으셨다면 \n 가입 후 이용 바랍니다.", "info");
                             $("#kakao_confirm").hide();
@@ -969,6 +970,25 @@
 
                 },
 
+                agree_text:function(event){
+
+                    console.log(event.currentTarget.id)
+
+                    if(event.currentTarget.id == 'privacy_text_button'){
+                        $(".black_bg").show();
+                        $("#privacy_text_area").show();
+                    }else if(event.currentTarget.id == 'identification_text_button'){
+                        $(".black_bg").show();
+                        $("#identification_text_area").show();
+                    }else if(event.currentTarget.id == 'service_text_button'){
+                        $(".black_bg").show();
+                        $("#service_text_area").show();
+                    }else if(event.currentTarget.id == 'third_party_text_button'){
+                        $(".black_bg").show();
+                        $("#third_party_area").show();
+                    }
+                },
+
                 all_agree: function () {
 
                     if ($("input:checkbox[name='kakao_agree']:checked").length > 0) {
@@ -977,6 +997,14 @@
                         $("input:checkbox[name='kakao_agree']").prop("checked", true);
                     }
 
+                },
+                
+                kakao_pop_close: function (event) {
+
+                    var current_id = event.target.parentElement.parentElement.parentElement.id;
+
+                    $("#"+current_id).hide();
+                    $(".black_bg").hide();
                 }
             });
         });
