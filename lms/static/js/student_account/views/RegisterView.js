@@ -922,16 +922,14 @@
                                         if ($("#kakao_gender").val()) {
 
                                             if (gender == 1 || gender == 3) {
-                                                $("#register-gender").val('m');
+                                                $("#register-gender").val('m').prop("selected",true);
                                             } else if (gender == 2 || gender == 4) {
                                                 $("#register-gender").val('f');
                                             }
 
-                                            $("#register-gender option").attr('disabled', true);
                                         }
                                         if ($("#kakao_year").val()) {
                                             $("#register-year_of_birth").val(year);
-                                            $("#register-year_of_birth option").attr('disabled', true);
                                         }
 
                                         $("#kakao_confirm").hide();
