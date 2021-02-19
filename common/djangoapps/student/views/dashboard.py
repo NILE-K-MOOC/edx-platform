@@ -854,6 +854,16 @@ def student_dashboard(request):
             sub_email = request.session['sub_email'] if 'sub_email' in request.session else ''
             ci = request.session['CI'] if 'CI' in request.session else ''
 
+            name = request.session['kakao_name'] if 'kakao_name' in request.session else ''
+            phone = request.session['kakao_phone'] if 'kakao_phone' in request.session else ''
+            gender = request.session['kakao_gender'] if 'kakao_gender' in request.session else ''
+            is_kakao = request.session['is_kakao'] if 'is_kakao' in request.session else 'N'
+
+            if gender == 1 or gender == 3:
+                gender = 'm'
+            elif gender == 2 or gender == 4:
+                gender = 'f'
+
             if private_info_use_yn == 'Y':
                 private_info_use_yn = 1
             else:
@@ -869,15 +879,19 @@ def student_dashboard(request):
                 with connections['default'].cursor() as cur:
                     query = """
                         INSERT
-                          INTO tb_auth_user_addinfo(user_id, private_info_use_yn, event_join_yn, org_id, sub_email, ci, regist_date)
-                        VALUES ('{user_id}', '{private_info_use_yn}', '{event_join_yn}', trim('{org_id}'), trim('{sub_email}'), trim('{ci}'), now());
+                          INTO tb_auth_user_addinfo(user_id, private_info_use_yn, event_join_yn, org_id, sub_email, ci, regist_date, name, gender, phone, is_kakao)
+                        VALUES ('{user_id}', '{private_info_use_yn}', '{event_join_yn}', trim('{org_id}'), trim('{sub_email}'), trim('{ci}'), now(), '{name}', '{gender}', '{phone}', '{is_kakao}');
                     """.format(
                         user_id=user.id,
                         private_info_use_yn=private_info_use_yn,
                         event_join_yn=event_join_yn,
                         org_id=org_value,
                         sub_email=sub_email,
-                        ci=ci
+                        ci=ci,
+                        name=name,
+                        gender=gender,
+                        phone=phone,
+                        is_kakao=is_kakao
                     )
 
                     print 'insert tb_auth_user_addinfo query check ---------------------- s'
@@ -899,6 +913,18 @@ def student_dashboard(request):
 
                 if 'CI' in request.session:
                     del request.session['CI']
+
+                if 'kakao_name' in request.session:
+                    del request.session['kakao_name']
+
+                if 'kakao_phone' in request.session:
+                    del request.session['kakao_phone']
+
+                if 'kakao_gender' in request.session:
+                    del request.session['kakao_gender']
+
+                if 'is_kakao' in request.session:
+                    del request.session['is_kakao']
 
             except Exception as e:
                 print 'registration_flag_history error.'

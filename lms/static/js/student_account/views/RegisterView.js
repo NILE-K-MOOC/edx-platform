@@ -29,6 +29,13 @@
                     'focus input[required], textarea[required], select[required]': 'handleRequiredInputFocus',
                     'click .check-browser-version': 'checkBrowserVersion',
                     'click .identity': 'identity',
+                    'click #kakao_identity': 'kakao_identity',
+                    'click #all_agree': 'all_agree',
+                    'click #kakao_form_submit': 'kakao_form_submit',
+                    'click #kakao_confirm_submit': 'kakao_confirm_submit',
+                    'click .kakao_close': 'kakao_close',
+                    'click .agree_text': 'agree_text',
+                    'click .kakao_pop_close': 'kakao_pop_close',
                 },
                 liveValidationFields: [
                     'name',
@@ -610,7 +617,7 @@
 
                                 var errorHtml = '<span id="register-sub-email-validation-error" aria-live="assertive">' +
                                     '<span id="register-email-validation-error-msg" class="tip error" >이메일과 보조 이메일은 같을 수 없습니다.</span>' +
-                                '</span>';
+                                    '</span>';
 
                                 $("#register-subemail").after(errorHtml);
 
@@ -786,6 +793,215 @@
                     window.open('', 'popupNICE', 'width=450, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
                     document.form2.target = "popupNICE";
                     document.form2.submit();
+                },
+
+                kakao_identity: function () {
+
+                    if ($("#kakao_form").css('display') == 'none') {
+                        $("#kakao_form").show();
+                    } else {
+                        $("#kakao_form").hide();
+                    }
+
+                },
+
+                kakao_form_submit: function () {
+
+                    var year = $.trim($(".kakao_year_text").val()).replace(/\s+/g, '')
+                    var gender = $.trim($(".kakao_gender_text").val()).replace(/\s+/g, '')
+                    var phone = $.trim($(".kakao_phone_text").val()).replace(/\s+/g, '')
+                    var name = $.trim($(".kakao_name_text").val()).replace(/\s+/g, '')
+
+                    if(name == ""){
+                        alert("이름을 입력해주세요.");
+                        $(".kakao_name_text").focus();
+                        return;
+                    } else if(year == ""){
+                        alert("생년월일을 입력해주세요.");
+                        $(".kakao_year_text").focus();
+                        return;
+                    } else if(gender == ""){
+                        alert("성별을 입력해주세요.");
+                        $(".kakao_gender_text").focus();
+                        return;
+                    } else if(phone == ""){
+                        alert("핸드폰번호을 입력해주세요.");
+                        $(".kakao_phone_text").focus();
+                        return;
+                    }
+
+                    // 숫자인지 체크
+                    if(isNaN(year) == true){
+                        alert("올바른 생년월일을 입력해주세요.");
+                        return;
+                    }else if(isNaN(gender) == true){
+                        alert("올바른 성별을 입력해주세요.");
+                        return;
+                    }else if(isNaN(phone) == true){
+                        alert("올바른 핸드폰 번호를 입력해주세요.");
+                        return;
+                    }
+
+                    if(year.length != 8){
+                        alert("올바른 생년월일을 입력해주세요.");
+                        return;
+                    }else if(phone.length != 11){
+                        alert("올바른 핸드폰 번호를 입력해주세요.");
+                        return;
+                    }
+
+                    var message = [];
+
+                    $("input:checkbox[name='kakao_agree']:not(:checked)").each(function () {
+                        message.push($(this).parent().find("label").text());
+                    })
+
+                    if(message[0]){
+                        alert(message[0] + "에 동의해 주십시오.");
+                        return;
+                    }
+
+                    $("#kakao_form").hide();
+                    $("#kakao_confirm").show();
+
+                    $.ajax({
+                        'type': "GET",
+                        'url': "/api/kakao/form",
+                        'data': {
+                            'name': name,
+                            'year': year,
+                            'gender': gender,
+                            'phone': phone
+                        },
+                    }).done(function (data) {
+                        if (data.success) {
+                            $("#kakao_receiptId").val(data.receiptId);
+                            $("#kakao_name").val(name);
+                            $("#kakao_year").val(year);
+                            $("#kakao_gender").val(gender);
+                            $("#kakao_phone").val(phone);
+                        } else {
+                            swal("인증실패", "사용자 정보가 올바르지 않습니다.\n 확인 후 재시도 해주세요. \n 카카오톡 지갑에 가입하지 않으셨다면 \n 가입 후 이용 바랍니다.", "info");
+                            $("#kakao_confirm").hide();
+                        }
+                    });
+                },
+
+                kakao_confirm_submit: function () {
+
+                    $.ajax({
+                        'type': "GET",
+                        'url': "/api/kakao/confirm",
+                        'data': {
+                            'receiptId': $("#kakao_receiptId").val()
+                        }
+                    }).done(function (data) {
+                        if (data) {
+                            if (data.state == 1) {
+
+                                var name = $("#kakao_name").val();
+                                var gender = $("#kakao_gender").val();
+                                var year = $("#kakao_year").val().substring(0, 4);
+
+                                $.ajax({
+                                    'type': "GET",
+                                    'url': "/api/kakao/cert",
+                                    'data': {
+                                        'receiptId': $("#kakao_receiptId").val(),
+                                        'name': name,
+                                        'gender': gender,
+                                        'year': year,
+                                        'phone': $("#kakao_phone").val()
+                                    }
+                                }).done(function (data) {
+
+                                    if (data.success) {
+                                        if ($("#kakao_name").val()) {
+                                            $("#register-name").val(name).prop("readonly", true);
+                                        }
+                                        if ($("#kakao_gender").val()) {
+
+                                            if (gender == 1 || gender == 3) {
+                                                $("#register-gender").val('m').prop("selected",true);
+                                            } else if (gender == 2 || gender == 4) {
+                                                $("#register-gender").val('f');
+                                            }
+
+                                        }
+                                        if ($("#kakao_year").val()) {
+                                            $("#register-year_of_birth").val(year);
+                                        }
+
+                                        $("#kakao_confirm").hide();
+
+                                        $(".identity").text(gettext("Authentication complete")).prop("disabled", true);
+                                        $("#kakao_identity").text(gettext("Authentication complete")).prop("disabled", true);
+                                    }else{
+                                        swal("인증오류", "앱에서 인증을 완료해주세요 \n 앱에서 알림이 오지 않았다면 \n 인증창 종료 후 다시 진행해 주시기 바랍니다.", "info");
+                                    }
+
+                                })
+
+                            } else if (data.state == 2) {
+                                swal("시간만료", "요청시간내에 인증처리가 되지 않았습니다. \n 다시 진행해 주시기 바랍니다.", "info");
+                                return;
+                            } else {
+                                swal("인증오류", "앱에서 인증을 완료해주세요 \n 앱에서 알림이 오지 않았다면 \n 인증창 종료 후 다시 진행해 주시기 바랍니다.", "info");
+                                return;
+                            }
+                        }
+                    });
+                },
+
+                kakao_close: function () {
+
+                    if ($("#kakao_form").css('display') == 'block') {
+                        $("#kakao_form").hide();
+                    } else {
+                        $("#kakao_confirm").hide();
+                    }
+
+                    $("#kakao_name").val('');
+                    $("#kakao_year").val('');
+                    $("#kakao_gender").val('');
+                    $("#kakao_phone").val('');
+
+                    $(".kakao_year_text").val('');
+                    $(".kakao_gender_text").val('');
+                    $(".kakao_phone_text").val('');
+                    $(".kakao_name_text").val('');
+
+                },
+
+                agree_text:function(event){
+
+                    console.log(event.currentTarget.id)
+
+                    if(event.currentTarget.id == 'privacy_text_button'){
+                        $(".black_bg").show();
+                        $("#privacy_text_area").show();
+                    }else if(event.currentTarget.id == 'third_party_text_button'){
+                        $(".black_bg").show();
+                        $("#third_party_area").show();
+                    }
+                },
+
+                all_agree: function () {
+
+                    if ($("input:checkbox[name='kakao_agree']:checked").length > 0) {
+                        $("input:checkbox[name='kakao_agree']").prop("checked", false);
+                    } else {
+                        $("input:checkbox[name='kakao_agree']").prop("checked", true);
+                    }
+
+                },
+                
+                kakao_pop_close: function (event) {
+
+                    var current_id = event.target.parentElement.parentElement.parentElement.id;
+
+                    $("#"+current_id).hide();
+                    $(".black_bg").hide();
                 }
             });
         });

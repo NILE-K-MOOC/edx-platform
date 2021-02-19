@@ -344,6 +344,11 @@ urlpatterns = [
     url(r'^dashboard/', include('learner_dashboard.urls')),
     url(r'^api/experiments/', include('experiments.urls', namespace='api_experiments')),
 
+    # kakao auth API
+    url(r'^api/kakao/form', kotech_common_views.kakao_auth_form, name='kakao_auth_form'),
+    url(r'^api/kakao/confirm', kotech_common_views.kakao_auth_confirm, name='kakao_auth_confirm'),
+    url(r'^api/kakao/cert', kotech_common_views.kakao_auth_certification, name='kakao_auth_certification'),
+
 ]
 
 # TODO: This needs to move to a separate urls.py once the student_account and
