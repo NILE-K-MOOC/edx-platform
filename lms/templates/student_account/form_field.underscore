@@ -187,8 +187,8 @@
                             <button id="all_agree" type="button" style="float: right; margin-bottom: 20px; float: right; margin-bottom: 20px; background: white; box-shadow: none; border: 1px solid gray;">전체동의</div>
 
                             <tr>
-                                <td style=""><input type="checkbox" name="kakao_agree"> <label style="font-size:12px; display:inline-block; float: left;" class="agree_text" id="privacy_text_button">개인정보 이용 동의(필수)</label></td>
-                                <td style=""><input type="checkbox" name="kakao_agree"><label style="font-size:12px; display:inline-block; float: left;" id="third_party_text_button" class="agree_text">제3자 정보제공 동의(필수)</label></td>
+                                <td style=""><input type="checkbox" name="kakao_agree"> <label style="font-size:11px; display:inline-block; float: left;" class="agree_text" id="privacy_text_button">개인정보 이용 동의(필수)</label></td>
+                                <td style=""><input type="checkbox" name="kakao_agree"><label style="font-size:11px; display:inline-block; float: left;" id="third_party_text_button" class="agree_text">제3자 정보제공 동의(필수)</label></td>
                             </tr>
 
                             </table>
