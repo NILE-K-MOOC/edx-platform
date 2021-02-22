@@ -101,8 +101,8 @@ def agree(request):
 @csrf_exempt
 def org_check(request):
     if request.is_ajax():
-        org_check = request.POST['org_check']
-        request.session['org_value'] = request.POST['org_value']
+        org_check = request.POST.get('org_check')
+        request.session['org_value'] = request.POST.get('org_value')
         return JsonResponse({"a": "b"})
 
 
