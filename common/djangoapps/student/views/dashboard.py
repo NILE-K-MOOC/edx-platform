@@ -68,6 +68,11 @@ from django.db import connections
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.http import JsonResponse
+import string
+import random
+import hashlib
+import base64
+from django.contrib.auth.hashers import pbkdf2
 
 try:
     import cStringIO as StringIO
@@ -873,6 +878,8 @@ def student_dashboard(request):
                 event_join_yn = 1
             else:
                 event_join_yn = 0
+
+            phone = hashing_phone(phone)
 
             try:
 
@@ -1785,3 +1792,14 @@ def effort_make_available(effort=None):
         return e_dict
 
     return effort
+
+
+def hashing_phone(phone):
+
+    string_pool = string.ascii_letters + string.digits + string.punctuation
+    salt = "".join([random.choice(string_pool) for i in range(12)])
+
+    hash = pbkdf2(phone, salt, 36000, digest=hashlib.sha256)
+    hashed_pw = base64.b64encode(hash).decode('ascii').strip()
+
+    return 'pbkdf2_sha256$36000$' + salt + '$' + hashed_pw
