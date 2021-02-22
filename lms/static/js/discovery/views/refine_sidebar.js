@@ -13,7 +13,7 @@
             events: {
                 // 'click li button': 'selectOption',
                 // 'change .facet-list': 'selectOption1',
-                'click #course-org-select-move' : 'selectOption1',
+                'click #course-org-select-move': 'selectOption1',
                 'click li button': 'selectOption2',
                 'click .show-less': 'collapse',
                 'click .show-more': 'expand'
@@ -29,11 +29,9 @@
             facetName: function (key) {
                 if (key == 'middle_classfy') {
                     return gettext("Sub classified by");
-                }
-                else if (key == 'course_period') {
+                } else if (key == 'course_period') {
                     return gettext("Period of Studing");
-                }
-                else {
+                } else {
                     return this.meanings[key] && this.meanings[key].name || key;
                 }
             },
@@ -91,8 +89,7 @@
                                 data.name = this.termName(data.facet, gettext("Long(over 13 weeks)"));
                                 break;
                         }
-                    }
-                    else if (data.facet == 'middle_classfy') {
+                    } else if (data.facet == 'middle_classfy') {
 
                         var middle_text = {
                             "lang": "Linguistics & Literature",
@@ -137,15 +134,27 @@
                         } else {
                             data.name = this.termName(data.facet, data.term);
                         }
-                    }
-                    else if (data.facet == 'home_course_yn') {
+                    } else if (data.facet == 'home_course_yn') {
                         // 집콕강좌 옵션 추가
                         if (data.term.toUpperCase() == 'Y') {
                             data.name = this.termName('home_course_yn', gettext("home_course_y"));
                         }
 
-                    }
-                    else if (data.facet == 'fourth_industry_yn' || data.facet == 'job_edu_yn' || data.facet == 'ai_sec_yn' || data.facet == 'basic_science_sec_yn' || data.facet == 'linguistics_yn') {
+                    } else if (data.facet == 'home_course_step') {
+                        // 집콕강좌 옵션 추가
+                        console.log('data.term:' + data.term);
+
+                        if (data.term == '1') {
+                            data.name = this.termName('home_course_step', gettext("home_course_step_1"));
+                        } else if (data.term == '2') {
+                            data.name = this.termName('home_course_step', gettext("home_course_step_2"));
+                        } else if (data.term == '3') {
+                            data.name = this.termName('home_course_step', gettext("home_course_step_3"));
+
+                        }
+
+
+                    } else if (data.facet == 'fourth_industry_yn' || data.facet == 'job_edu_yn' || data.facet == 'ai_sec_yn' || data.facet == 'basic_science_sec_yn' || data.facet == 'linguistics_yn') {
 
                         if (data.facet == 'fourth_industry_yn' && data.term.toUpperCase() == 'Y') {
                             data.name = this.termName('fourth_industry_yn', gettext("fourth_industry_y"));
@@ -189,29 +198,38 @@
                     i = 0;
                     switch (model.get('facet')) {
                         case 'classfy':
-                            model.set('odby1', 1);
+                            model.set('odby1', 10);
                             break;
                         case 'middle_classfy':
-                            model.set('odby1', 2);
+                            model.set('odby1', 20);
                             break;
                         case 'fourth_industry_yn':
-                            model.set('odby1', 3);
+                            model.set('odby1', 30);
                             break;
                         case 'linguistics':
-                            model.set('odby1', 4);
+                            model.set('odby1', 40);
                             break;
                         case 'course_period':
-                            model.set('odby1', 5);
+                            model.set('odby1', 50);
                             break;
                         case 'language':
-                            model.set('odby1', 6);
+                            model.set('odby1', 60);
                             break;
                         case 'course_level':
-                            model.set('odby1', 7);
+                            model.set('odby1', 70);
+                            break;
+                        case 'home_course_yn':
+                            model.set('odby1', 80);
+                            break;
+                        case 'home_course_step':
+                            model.set('odby1', 90);
+                            break;
+                        case 'ribbon_yn':
+                            model.set('odby1', 91);
                             break;
 
                         default:
-                            model.set('odby1', 8);
+                            model.set('odby1', 99);
                     }
 
                     switch (model.get('term')) {
@@ -368,6 +386,14 @@
                         case 'zh':
                             model.set('odby2', 3);
                             break;
+                        // home_course_step
+                        case '1':
+                            model.set('odby2', 1);
+                        case '2':
+                            model.set('odby2', 2);
+                        case '3':
+                            model.set('odby2', 3);
+
                         default:
                             model.set('odby2', 99);
                     }
@@ -389,14 +415,14 @@
                                 $.ajax({
                                     url: '/search_org',
                                     async: false,
-                                }).done(function(data){
+                                }).done(function (data) {
                                     org_names = data.org_dict;
                                 });
                                 var options2 = [];
                                 _.map(options, function (option) {
                                     option.attributes.name = gettext(option.attributes.term);
-                                    for(var i=0; i<org_names.length; i++) {
-                                        if(org_names[i].hasOwnProperty(option.attributes.term)){
+                                    for (var i = 0; i < org_names.length; i++) {
+                                        if (org_names[i].hasOwnProperty(option.attributes.term)) {
                                             option.attributes.name = org_names[i][option.attributes.term];
                                         }
                                     }
@@ -485,6 +511,18 @@
                             v = 'Y';
                             t = 'home_course_y';
                             break;
+                        case 'home_course_step':
+                            k = 'home_course_step';
+                            v = v;
+
+                            if (v == '1') {
+                                t = 'home_course_step_1';
+                            } else if (v == '2') {
+                                t = 'home_course_step_2';
+                            } else if (v == '3') {
+                                t = 'home_course_step_3';
+                            }
+                            break;
                     }
 
                     if ($("button[data-facet='" + k + "'][data-value='" + v + "']").size() > 0) {
@@ -534,6 +572,8 @@
                     select_index[1]
                 );
 
+                console.debug('select_val: ' + select_val);
+
                 $(".facet-list option[value=" + select_val + "]").attr("selected", "selected")
             },
 
@@ -552,6 +592,8 @@
                     select_index[0],
                     select_index[1]
                 );
+
+                console.debug('select_val1: ' + select_val);
 
                 $(".facet-list option[value='" + select_val + "']").attr("selected", "selected")
             },
@@ -575,6 +617,8 @@
                 t = gettext(t);
                 // console.log(t);
                 // console.log('selectOption2 check ---- e')
+
+                console.debug('select_val2: ' + select_val);
 
                 this.trigger(
                     'selectOption', f, v, t

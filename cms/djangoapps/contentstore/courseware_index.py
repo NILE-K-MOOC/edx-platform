@@ -587,6 +587,7 @@ class CourseAboutSearchIndexer(object):
         AboutInfo("fourth_industry_yn", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("job_edu_yn", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("home_course_yn", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
+        AboutInfo("home_course_step", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("ribbon_yn", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("ai_sec_yn", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("basic_science_sec_yn", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
