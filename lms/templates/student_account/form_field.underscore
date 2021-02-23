@@ -150,7 +150,7 @@
                     <%- gettext("Authentication") %>
                 </button>
 
-                <button type="button" class="action action-primary " id="kakao_identity" style="width: 38%; margin: 0 0 0 2%; padding:0; height: 32px; box-shadow: none; background: #f1d900; color:black; font-weight: 500; font-size: 15px">
+                <button type="button" class="action action-primary " id="kakao_identity" style="width: 37%; margin: 0 0 0 2%; padding:0; height: 32px; box-shadow: none; background: #f1d900; color:black; font-weight: 500; font-size: 15px">
                     <%- gettext("KaKao Authentication") %>
                 </button>
 
