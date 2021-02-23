@@ -59,6 +59,7 @@ from django.db import connections
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 from django.utils.translation import ugettext_lazy as _
+import traceback
 
 log = logging.getLogger(__name__)
 _ = translation.ugettext
@@ -203,22 +204,23 @@ def _update_certificate_context(context, course, user_certificate, platform_name
 
     try:
         addinfo_json = json.loads(multisite_member_addinfo[0])
-    except:
-        addinfo_json = dict()
 
-    context['instNm'] = addinfo_json.get('instNm', '미입력')
-    context['neisId'] = addinfo_json.get('neisId', '미입력')
-    context['mbrNm'] = addinfo_json.get('mbrNm', '미입력')
-    mbrbirth = addinfo_json.get('mbrbirth')
+        context['instNm'] = addinfo_json.get('instNm', '미입력')
+        context['neisId'] = addinfo_json.get('neisId', '미입력')
+        context['mbrNm'] = addinfo_json.get('mbrNm', '미입력')
+        mbrbirth = addinfo_json.get('mbrbirth')
 
-    context['instqq'] = addinfo_json.get('instqq', '미입력')
-    context['sosok'] = addinfo_json.get('sosok', '미입력')
+        context['instqq'] = addinfo_json.get('instqq', '미입력')
+        context['sosok'] = addinfo_json.get('sosok', '미입력')
 
-    if mbrbirth:
-        mbrbirth_format = datetime.strptime(mbrbirth, '%Y%m%d').date().strftime('%Y년 %m월 %d일')
-        context['mbrbirth'] = mbrbirth_format
-    else:
-        context['mbrbirth'] = '미입력'
+        if mbrbirth:
+            mbrbirth_format = datetime.strptime(mbrbirth, '%Y%m%d').date().strftime('%Y년 %m월 %d일')
+            context['mbrbirth'] = mbrbirth_format
+        else:
+            context['mbrbirth'] = '미입력'
+
+    except Exception as e:
+        print traceback.print_exc(e)
 
     try:
         context['enroll_num'] = multisite_cert_info[1]
