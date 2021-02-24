@@ -104,6 +104,7 @@ from branding.api import get_footer
                 <div class="new-ff-copyright">
                     Copyright ⓒ 2020 National Institute for Lifelong Education. All Rights Reserved.
                 </div>
+                <div id="api_test" style="float: right; width: 50px; height: 50px; content:' ' "></div>
             </div>
 
             <script type="text/javascript" src="http://www.eprivacy.or.kr/seal/mark.js"></script>
@@ -148,6 +149,36 @@ $('#fam-move').on('click', function() {
     if ($("#fam-select").val() != '') {
         window.open(select_val, "_blank");
     }
+});
+
+
+$('#api_test').on('click', function() {
+
+    var url = 'https://cb.kmooc.kr/api/v1/external/certificates';
+    var username = 'sarvina_mh';
+    var uid = 427100;
+
+    $.post(url, {
+        'uid': uid,
+        'user_id': username
+    }, function (data) {
+        console.log(data);
+
+    }, "json").done(function (data) {
+        console.log(data);
+
+    });
+
+    $.ajax({
+        url: "https://cb.kmooc.kr/api/v1/external/certificates",
+        type: "POST",
+        data:{
+            user_id:'sarvina_mh',
+            uid:427100,
+        }
+    }).done(function (data) {
+        console.log(data)
+    })
 });
 </script>
 
