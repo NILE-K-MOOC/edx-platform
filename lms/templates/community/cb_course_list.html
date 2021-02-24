@@ -5,7 +5,6 @@
 <%block name="header_extras"></%block>
 
 
-
 <section class="container">
     <div class="package-title">
         학점은행 이수증 출력
@@ -13,10 +12,10 @@
     <div id="courses_target">
     </div>
     <div id="null-txt" class="sec-course" style="display: none;">
-      <div class="no-content">
-        <p>수강중인 강좌가 존재하지 않습니다.</p>
-        <a href="/courses" class="go">강좌 탐색</a>
-      </div>
+        <div class="no-content">
+            <p>수강중인 강좌가 존재하지 않습니다.</p>
+            <a href="/courses" class="go">강좌 탐색</a>
+        </div>
     </div>
 </section>
 
@@ -27,7 +26,7 @@
     });
 
     // template 변수를 사용하므로 외부로 분리하면 오류가 발생하니 주의하십시오!
-    function cb_course(){
+    function cb_course() {
 
         // 학점은행 수강 및 이수정보를 api 로 조회하여 표시하기 위해 수정필요
         // https://cb.kmooc.kr/api/v1/external/certificates?uid=427100&user_id=sarvina_mh
@@ -41,110 +40,232 @@
         $.post(url, {
             'uid': user_id,
             'user_id': username
-        }, function(data){
+        }, function (data) {
             console.log(data);
-        }, "json");
+
+        }, "json").done(function () {
+
+        });
         */
 
-        var status = 'cb';
-        if ( status == 'cb' ) {
-            // $('#courses_target').css('border', 'solid 1px red');    // draw debug line
-            $('#null-txt').hide();
+        /*
+        $.ajax({
+                url: "https://cb.kmooc.kr/api/v1/external/certificates",
+                type: "POST",
+                data:{
+                    user_id:'sarvina_mh',
+                    uid:427100,
+                }
 
-            $.post( "/api/cb_course", {
-
+            }).done(function (data) {
+                console.log(data)
             })
-            .done(function( data ) {
-                for (var i=0; i<data.result.length; i++) {
-                    var d = data.result[i];
-                    var attendance = d.attendance;
-                    var display_name = d.display_name;
-                    var start = d.start;
-                    var end = d.end;
-                    var professor_name = d.professor_name;
-                    var credit = d.credit;
-                    var score = d.score;
-                    var course_id = d.course_id;
-                    var org = d.org;
-                    var weeks = d.weeks;
-                    var major_category = d.major_category;
-                    var course_image = d.course_image;
 
-                    var box =   ''+
-                        '<div class="course-container" lang="ko" style="border: 1px solid #e7e7e7; margin-bottom: 40px;">'+
-                        '  <article class="course" id="course-card-0">'+
-                        '    <section class="details">'+
-                        '      <div class="kr01_dashArea">'+
-                        '        <h2 class="hd hd-2 sr">강좌 세부사항</h2>'+
-                        '        <div class="kr01_dashImg" aria-hidden="true">'+
-                        '          <a href="#" class="cover" tabindex="0">'+
-                        '            <img src="' + course_image + '" class="course-image" onerror="this.src=\'/static/images/blank.png\'">'+
-                        '          </a>'+
-                        '        </div>'+
-                        '        <div class="kr01_dashTarea">'+
-                        '          <div class="kr01_dashTitle">'+
-                        '            <span class="kr01_dashT01">' + display_name+
-                        '            </span>'+
-                        '            <span class="kr01_dashT02">'+
-                        '              <div class="kr01-dash-unenroll-div">'+
-                        '              </div>'+
-                        '            </span>'+
-                        '          </div>'+
-                        '          <div class="kr01_dashTsub">'+
-                        '            <span class="kr01_dashTs01">'+
-                        '              <div>' + professor_name + ' | ' + org + '</div>'+
-                        '              <div>'+
+        // api 활용 부분
+        $.ajax({
+            url: "https://cb.kmooc.kr/api/v1/external/certificates?uid=427100&user_id=sarvina_mh",
+            type: "POST",
+        }).done(function (data) {
+            console.log(data)
+            if (status == 'cb') {
+                // $('#courses_target').css('border', 'solid 1px red');    // draw debug line
+                $('#null-txt').hide();
+
+                for (var i = 0; i < data.result.length; i++) {
+                    var d = data.result[i];
+                    var display_name = d.title;
+                    var start = d.term.start_at.date;
+                    var end = d.term.end_at.date;
+                    var professor_name = d.professor[0];
+                    var credit = d.credit;
+                    // 물어보기
+                    var course_id = d.course_id;
+                    // 물어보기
+                    var org = d.organization.title;
+                    var weeks = d.duration;
+                    var major_category = d.major.title;
+
+                    // size huge, large, middle, small
+                    var course_image = d.thumbnail.small;
+
+                    var box = '' +
+                        '<div class="course-container" lang="ko" style="border: 1px solid #e7e7e7; margin-bottom: 40px;">' +
+                        '  <article class="course" id="course-card-0">' +
+                        '    <section class="details">' +
+                        '      <div class="kr01_dashArea">' +
+                        '        <h2 class="hd hd-2 sr">강좌 세부사항</h2>' +
+                        '        <div class="kr01_dashImg" aria-hidden="true">' +
+                        '          <a href="#" class="cover" tabindex="0">' +
+                        '            <img src="' + course_image + '" class="course-image" onerror="this.src=\'/static/images/blank.png\'">' +
+                        '          </a>' +
+                        '        </div>' +
+                        '        <div class="kr01_dashTarea">' +
+                        '          <div class="kr01_dashTitle">' +
+                        '            <span class="kr01_dashT01">' + display_name +
+                        '            </span>' +
+                        '            <span class="kr01_dashT02">' +
+                        '              <div class="kr01-dash-unenroll-div">' +
+                        '              </div>' +
+                        '            </span>' +
+                        '          </div>' +
+                        '          <div class="kr01_dashTsub">' +
+                        '            <span class="kr01_dashTs01">' +
+                        '              <div>' + professor_name + ' | ' + org + '</div>' +
+                        '              <div>' +
                         '                ' + major_category +
-                        '              </div>'+
-                        '            </span>'+
-                        '            <span class="kr01_dashTs01">'+
-                        '              <div>주차</div>'+
-                        '              <div>' + weeks + '주</div>'+
-                        '            </span>'+
-                        '            <span class="kr01_dashTs01">'+
-                        '              <div>학점</div>'+
-                        '              <div>' + credit + '학점</div>'+
-                        '            </span>'+
-                        '            <span class="kr01_dashTs01" style="margin-right: 0px;">'+
-                        '              <div>강좌 운영 기간</div>'+
-                        '              <div>`' + start + ' ~ `' + end + '</div>'+
-                        '            </span>'+
-                        '            <span class="kr01_dashBtnArea">'+
-                        '              <div class="kr01_dashBtn">'+
-                        '                <a href="/cb_print/'+course_id+'" class="enter-course">'+
-                        '                  이수증보기'+
-                        '                  <span class="sr">'+
+                        '              </div>' +
+                        '            </span>' +
+                        '            <span class="kr01_dashTs01">' +
+                        '              <div>주차</div>' +
+                        '              <div>' + weeks + '주</div>' +
+                        '            </span>' +
+                        '            <span class="kr01_dashTs01">' +
+                        '              <div>학점</div>' +
+                        '              <div>' + credit + '학점</div>' +
+                        '            </span>' +
+                        '            <span class="kr01_dashTs01" style="margin-right: 0px;">' +
+                        '              <div>강좌 운영 기간</div>' +
+                        '              <div>`' + start + ' ~ `' + end + '</div>' +
+                        '            </span>' +
+                        '            <span class="kr01_dashBtnArea">' +
+                        '              <div class="kr01_dashBtn">' +
+                        '                <a href="/cb_print/' + course_id + '" class="enter-course">' +
+                        '                  이수증보기' +
+                        '                  <span class="sr">' +
                         '                    &nbsp;' + display_name +
-                        '                  </span>'+
-                        '                </a>'+
-                        '              </div>'+
-                        '              <div class="kr01_dashBtn">'+
-                        '              </div>'+
-                        '            </span>'+
-                        '          </div>'+
-                        '          <div class="course-info">'+
-                        '            <span class="info-date-block-container">'+
-                        '              <span class="info-date-block localized-datetime" data-language="ko-kr" data-timezone="None" data-datetime="" data-format="shortDate" data-string="">'+
-                        '              </span>'+
-                        '            </span>'+
-                        '          </div>'+
-                        '          <div class="wrapper-course-actions">'+
-                        '            <div class="course-actions">'+
-                        '              <div>'+
-                        '              </div>'+
-                        '            </div>'+
-                        '          </div>'+
-                        '        </div>'+
-                        '      </div>'+
-                        '    </section>'+
-                        '  </article>'+
+                        '                  </span>' +
+                        '                </a>' +
+                        '              </div>' +
+                        '              <div class="kr01_dashBtn">' +
+                        '              </div>' +
+                        '            </span>' +
+                        '          </div>' +
+                        '          <div class="course-info">' +
+                        '            <span class="info-date-block-container">' +
+                        '              <span class="info-date-block localized-datetime" data-language="ko-kr" data-timezone="None" data-datetime="" data-format="shortDate" data-string="">' +
+                        '              </span>' +
+                        '            </span>' +
+                        '          </div>' +
+                        '          <div class="wrapper-course-actions">' +
+                        '            <div class="course-actions">' +
+                        '              <div>' +
+                        '              </div>' +
+                        '            </div>' +
+                        '          </div>' +
+                        '        </div>' +
+                        '      </div>' +
+                        '    </section>' +
+                        '  </article>' +
                         '</div>'
                     $('#courses_target').append(box);
                 }
                 if (data.result.length == 0) {
                     $('#null-txt').show();
                 }
-            });
+            } else {
+                $('.empty-dashboard-message').show();
+            }
+        })
+        */
+
+        // 기존의 ajax
+        var status = 'cb';
+        if (status == 'cb') {
+            // $('#courses_target').css('border', 'solid 1px red');    // draw debug line
+            $('#null-txt').hide();
+
+            $.post("/api/cb_course", {})
+                .done(function (data) {
+                    for (var i = 0; i < data.result.length; i++) {
+                        var d = data.result[i];
+                        var attendance = d.attendance;
+                        var display_name = d.display_name;
+                        var start = d.start;
+                        var end = d.end;
+                        var professor_name = d.professor_name;
+                        var credit = d.credit;
+                        var score = d.score;
+                        var course_id = d.course_id;
+                        var org = d.org;
+                        var weeks = d.weeks;
+                        var major_category = d.major_category;
+                        var course_image = d.course_image;
+
+                        var box = '' +
+                            '<div class="course-container" lang="ko" style="border: 1px solid #e7e7e7; margin-bottom: 40px;">' +
+                            '  <article class="course" id="course-card-0">' +
+                            '    <section class="details">' +
+                            '      <div class="kr01_dashArea">' +
+                            '        <h2 class="hd hd-2 sr">강좌 세부사항</h2>' +
+                            '        <div class="kr01_dashImg" aria-hidden="true">' +
+                            '          <a href="#" class="cover" tabindex="0">' +
+                            '            <img src="' + course_image + '" class="course-image" onerror="this.src=\'/static/images/blank.png\'">' +
+                            '          </a>' +
+                            '        </div>' +
+                            '        <div class="kr01_dashTarea">' +
+                            '          <div class="kr01_dashTitle">' +
+                            '            <span class="kr01_dashT01">' + display_name +
+                            '            </span>' +
+                            '            <span class="kr01_dashT02">' +
+                            '              <div class="kr01-dash-unenroll-div">' +
+                            '              </div>' +
+                            '            </span>' +
+                            '          </div>' +
+                            '          <div class="kr01_dashTsub">' +
+                            '            <span class="kr01_dashTs01">' +
+                            '              <div>' + professor_name + ' | ' + org + '</div>' +
+                            '              <div>' +
+                            '                ' + major_category +
+                            '              </div>' +
+                            '            </span>' +
+                            '            <span class="kr01_dashTs01">' +
+                            '              <div>주차</div>' +
+                            '              <div>' + weeks + '주</div>' +
+                            '            </span>' +
+                            '            <span class="kr01_dashTs01">' +
+                            '              <div>학점</div>' +
+                            '              <div>' + credit + '학점</div>' +
+                            '            </span>' +
+                            '            <span class="kr01_dashTs01" style="margin-right: 0px;">' +
+                            '              <div>강좌 운영 기간</div>' +
+                            '              <div>`' + start + ' ~ `' + end + '</div>' +
+                            '            </span>' +
+                            '            <span class="kr01_dashBtnArea">' +
+                            '              <div class="kr01_dashBtn">' +
+                            '                <a href="/cb_print/' + course_id + '" class="enter-course">' +
+                            '                  이수증보기' +
+                            '                  <span class="sr">' +
+                            '                    &nbsp;' + display_name +
+                            '                  </span>' +
+                            '                </a>' +
+                            '              </div>' +
+                            '              <div class="kr01_dashBtn">' +
+                            '              </div>' +
+                            '            </span>' +
+                            '          </div>' +
+                            '          <div class="course-info">' +
+                            '            <span class="info-date-block-container">' +
+                            '              <span class="info-date-block localized-datetime" data-language="ko-kr" data-timezone="None" data-datetime="" data-format="shortDate" data-string="">' +
+                            '              </span>' +
+                            '            </span>' +
+                            '          </div>' +
+                            '          <div class="wrapper-course-actions">' +
+                            '            <div class="course-actions">' +
+                            '              <div>' +
+                            '              </div>' +
+                            '            </div>' +
+                            '          </div>' +
+                            '        </div>' +
+                            '      </div>' +
+                            '    </section>' +
+                            '  </article>' +
+                            '</div>'
+                        $('#courses_target').append(box);
+                    }
+                    if (data.result.length == 0) {
+                        $('#null-txt').show();
+                    }
+                });
         } else {
             $('.empty-dashboard-message').show();
         }
