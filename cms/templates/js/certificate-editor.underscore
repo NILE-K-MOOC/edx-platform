@@ -39,11 +39,11 @@
             <div class="input-wrap field text add-certificate-course-title">
                 <div style="width: 40%; display: inline-block; ">
                     <label for="certificate-course-kor-title-<%- uniqueId %>"><%- gettext("Course KOR Title Override") %></label>
-                    <input id="certificate-course-kor-title-<%- uniqueId %>" class="certificate-course-kor-title-input input-text" name="certificate-course-kor-title" type="text" placeholder="<%- gettext("Course KOR Title") %>" value="<%- course_kor_title %>" aria-describedby="certificate-course-title-<%-uniqueId %>-tip" />
+                    <input id="certificate-course-kor-title-<%- uniqueId %>" class="certificate-course-kor-title-input input-text" name="certificate-course-kor-title" type="text" placeholder="<%- gettext("Course KOR Title") %>" value="<%- course_kor_title %>" aria-describedby="certificate-course-title-<%-uniqueId %>-tip" maxlength="25" />
                 </div>
                 <div style="width: 40%; display: inline-block; margin-left: 50px;">
                     <label for="certificate-course-eng-title-<%- uniqueId %>"><%- gettext("Course ENG Title Override") %></label>
-                    <input id="certificate-course-eng-title-<%- uniqueId %>" class="certificate-course-eng-title-input input-text" name="certificate-course-eng-title" type="text" placeholder="<%- gettext("Course ENG Title") %>" value="<%- course_eng_title %>" aria-describedby="certificate-course-title-<%-uniqueId %>-tip" />
+                    <input id="certificate-course-eng-title-<%- uniqueId %>" class="certificate-course-eng-title-input input-text" name="certificate-course-eng-title" type="text" placeholder="<%- gettext("Course ENG Title") %>" value="<%- course_eng_title %>" aria-describedby="certificate-course-title-<%-uniqueId %>-tip" maxlength="45" />
                 </div>
                 <span id="certificate-course-title-<%- uniqueId %>-tip" class="tip tip-stacked"><%- gettext("Specify an alternative to the official course title to display on certificates. Leave blank to use the official course title.") %></span>
             </div>
