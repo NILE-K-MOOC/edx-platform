@@ -90,6 +90,11 @@ class TbAuthUserAddinfo(models.Model):
     code = models.CharField(blank=True, null=True, max_length=20)
     regist_date = models.DateTimeField(blank=True, null=True)
     modify_date = models.DateTimeField(blank=True, null=True)
+    phone = models.CharField(max_length=128, blank=True, null=True)
+    gender = models.CharField(max_length=255, blank=True, null=True)
+    name = models.CharField(max_length=255, blank=True, null=True)
+    is_kakao = models.CharField(max_length=1, blank=True, null=True)
+
 
     class Meta:
         managed = False

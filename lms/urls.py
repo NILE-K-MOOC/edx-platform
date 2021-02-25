@@ -184,6 +184,8 @@ urlpatterns = [
     url(r'^account_nice_check$', student_account_views.account_nice_check, name="account_nice_check"),
     url(r'^nice_enc_data$', Utils.as_view(), name="nice_enc_data"),
     url(r'^find_email_by_ci$', student_account_views.find_email_by_ci, name="find_email_by_ci"),
+    url(r'^find_email_by_kakao$', student_account_views.find_email_by_kakao, name="find_email_by_kakao"),
+
 
 
     # Remove Account

@@ -12,6 +12,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.hashers import check_password, make_password
 from django.urls import reverse
 from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import redirect
@@ -74,6 +75,9 @@ from openedx.core.djangoapps.user_api.preferences.api import update_user_prefere
 from django.contrib.auth.models import User
 from kotech_common.utils import Utils
 from student.models import TbAuthUserAddinfo
+import string
+import random
+import traceback
 
 AUDIT_LOG = logging.getLogger("audit")
 log = logging.getLogger(__name__)
@@ -601,6 +605,61 @@ def find_email_by_ci(request):
     nice_dict = utils.nice_des_data(enc_data)
 
     return render_to_response('student_account/account_find_email.html', {'code': nice_dict['CI']})
+
+
+def find_email_by_kakao(request):
+
+    source = string.ascii_letters
+    source = source + string.digits
+
+    count = 20
+
+    temp_string = random.sample(source, count)
+    random_string = "".join(temp_string)
+
+    name = ''
+    phone = ''
+
+    try:
+
+        phone = request.session['kakao_phone']
+        name = request.session['kakao_name']
+
+        add_info_list = TbAuthUserAddinfo.objects.filter(name__contains=name).values('user_id', 'phone')
+    except Exception as e:
+        print traceback.print_exc(e)
+
+    user_id_list = list()
+
+    for add_info in add_info_list:
+
+        if check_password(phone, add_info['phone']):
+            user_id_list.append(add_info['user_id'])
+
+    if len(user_id_list) != 0:
+
+        for user_id in user_id_list:
+
+            add_info_update = TbAuthUserAddinfo.objects.get(pk=user_id)
+            add_info_update.code = random_string
+            add_info_update.save()
+
+        if 'kakao_name' in request.session:
+            del request.session['kakao_name']
+
+        if 'kakao_phone' in request.session:
+            del request.session['kakao_phone']
+
+        if 'kakao_gender' in request.session:
+            del request.session['kakao_gender']
+
+        if 'is_kakao' in request.session:
+            del request.session['is_kakao']
+
+        return JsonResponse({"success": True, "code": random_string})
+
+    else:
+        return JsonResponse({"success": False})
 
 
 @require_http_methods(['POST'])
