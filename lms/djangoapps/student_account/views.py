@@ -1370,13 +1370,15 @@ def account_settings_context(request):
             nice_check = 'no'
 
     kakao_check = False
+    user_name = ''
+    kakao_name = ''
 
     try:
         addinfo_data = TbAuthUserAddinfo.objects.get(user_id=request.user.id)
 
         if addinfo_data.is_kakao == 'Y':
             kakao_check = True
-            user_name = addinfo_data.name
+            kakao_name = addinfo_data.name
 
     except Exception as e:
         print traceback.print_exc(e)
@@ -1386,7 +1388,12 @@ def account_settings_context(request):
         user_name = nice_dict['UTF8_NAME']
         user_name = urllib.unquote(user_name).decode('utf8')
     else:
-        print 'not nice_info'
+        user_name = ''
+
+    if kakao_name:
+        user_name = kakao_name
+    else:
+        user_name = ''
 
     user = request.user
 
