@@ -6,7 +6,6 @@ from django.views.decorators.csrf import csrf_exempt
 from lms.envs import common as settings
 from kakaocert import KakaocertService, KakaocertException, RequestVerifyAuth
 import traceback
-import hashlib
 import datetime
 
 log = logging.getLogger(__name__)
@@ -231,9 +230,9 @@ def kakao_auth_account_update(request):
         if 'kakao_year' in request.session:
             del request.session['kakao_year']
 
-        if gender == 1 or gender == 3:
+        if gender == '1' or gender == '3':
             gender = 'm'
-        elif gender == 2 or gender == 4:
+        elif gender == '2' or gender == '4':
             gender = 'f'
 
         with connections['default'].cursor() as cur:
