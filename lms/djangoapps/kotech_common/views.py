@@ -185,13 +185,19 @@ def kakao_auth_certification(request):
             print request.session['kakao_phone']
             print 'kakao_debug -----------------> e'
 
+            print 'kakao_auth_certification success'
+
             return JsonResponse({'success': True})
         else:
+
+            print 'kakao_auth_certification fail'
             return JsonResponse({'success': False})
 
     except KakaocertException as KE:
 
         print KE.code
         print KE.message
+
+        print 'kakao_auth_certification fail'
 
         return JsonResponse({'success': False})
