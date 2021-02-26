@@ -609,6 +609,8 @@ def find_email_by_ci(request):
 
 def find_email_by_kakao(request):
 
+    print 'find_email_by_kakao'
+
     source = string.ascii_letters
     source = source + string.digits
 
