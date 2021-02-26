@@ -242,15 +242,12 @@
                         $("#modal_clone").hide()
                         $('#lean_overlay').fadeOut(200);
 
-                        if(register_check){
-                            title += "강좌를 청강하시겠습니까?";
-                        }else{
-                            title += "강좌를 등록하시겠습니까?";
-                        }
+                        title += "미리보기가 종료되었습니다.\n 더 많은 내용이 궁금하시다면 강좌를 등록해주세요";
 
                         if(modal_check == undefined) {
                             swal({
-                                title: title,
+                                title: "",
+                                text: title,
                                 icon: "info",
                                 buttons: {
                                     cancle: {
@@ -281,15 +278,12 @@
                         $("#modal_clone").hide();
                         $('#lean_overlay').fadeOut(200);
 
-                        if(register_check){
-                            title += "강좌를 청강하시겠습니까?";
-                        }else{
-                            title += "강좌를 등록하시겠습니까?";
-                        }
+                        title += "미리보기가 종료되었습니다.\n 더 많은 내용이 궁금하시다면 강좌를 등록해주세요";
 
                         if(modal_check == undefined) {
                             swal({
-                                title: title,
+                                title: "",
+                                text: title,
                                 icon: "info",
                                 buttons: {
                                     cancle: {

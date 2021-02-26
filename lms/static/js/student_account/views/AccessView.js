@@ -514,9 +514,7 @@
                                             'type': "GET",
                                             'url': "/find_email_by_kakao"
                                         }).done(function (data) {
-                                            if(data.success){
-                                                location.href = '/login?code='+ data.code + '';
-                                            }
+                                            location.href = '/login?code='+ data.code + '';
                                         })
 
                                     }else{

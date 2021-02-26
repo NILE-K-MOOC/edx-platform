@@ -72,7 +72,7 @@ import string
 import random
 import hashlib
 import base64
-from django.contrib.auth.hashers import pbkdf2
+from django.contrib.auth.hashers import make_password, check_password
 
 try:
     import cStringIO as StringIO
@@ -864,9 +864,9 @@ def student_dashboard(request):
             gender = request.session['kakao_gender'] if 'kakao_gender' in request.session else ''
             is_kakao = request.session['is_kakao'] if 'is_kakao' in request.session else 'N'
 
-            if gender == 1 or gender == 3:
+            if gender == '1' or gender == '3':
                 gender = 'm'
-            elif gender == 2 or gender == 4:
+            elif gender == '2' or gender == '4':
                 gender = 'f'
 
             if private_info_use_yn == 'Y':
@@ -879,7 +879,7 @@ def student_dashboard(request):
             else:
                 event_join_yn = 0
 
-            phone = hashing_phone(phone)
+            phone = make_password(phone)
 
             try:
 
@@ -1792,14 +1792,3 @@ def effort_make_available(effort=None):
         return e_dict
 
     return effort
-
-
-def hashing_phone(phone):
-
-    string_pool = string.ascii_letters + string.digits + string.punctuation
-    salt = "".join([random.choice(string_pool) for i in range(12)])
-
-    hash = pbkdf2(phone, salt, 36000, digest=hashlib.sha256)
-    hashed_pw = base64.b64encode(hash).decode('ascii').strip()
-
-    return 'pbkdf2_sha256$36000$' + salt + '$' + hashed_pw

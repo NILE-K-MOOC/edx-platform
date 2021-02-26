@@ -1658,7 +1658,8 @@ proctoring_js = (
 # In the future, we will likely refactor this to use
 # RequireJS and an optimizer.
 base_vendor_js = [
-    'common/js/vendor/jquery-2.2.4.min.js',
+    'common/js/vendor/jquery.js',
+    # 'common/js/vendor/jquery-2.2.4.min.js',
     'common/js/vendor/jquery-migrate.js',
     'js/vendor/jquery.cookie.js',
     'js/vendor/url.min.js',

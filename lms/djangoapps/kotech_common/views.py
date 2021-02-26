@@ -6,7 +6,9 @@ from django.views.decorators.csrf import csrf_exempt
 from lms.envs import common as settings
 from kakaocert import KakaocertService, KakaocertException, RequestVerifyAuth
 import traceback
+import datetime
 import hashlib
+from django.contrib.auth.hashers import make_password, check_password
 
 log = logging.getLogger(__name__)
 
@@ -178,6 +180,7 @@ def kakao_auth_certification(request):
             request.session['kakao_gender'] = request.GET.get('gender')
             request.session['is_kakao'] = 'Y'
             request.session['kakao_phone'] = request.GET.get('phone')
+            request.session['kakao_year'] = request.GET.get('year')
 
             print 'kakao_debug -----------------> s'
             print request.session['kakao_name']
@@ -199,5 +202,97 @@ def kakao_auth_certification(request):
         print KE.message
 
         print 'kakao_auth_certification fail'
+
+        return JsonResponse({'success': False})
+
+
+def kakao_auth_account_update(request):
+
+    print 'kakao_auth_update'
+
+    try:
+        name = request.session['kakao_name'] if 'kakao_name' in request.session else ''
+        phone = request.session['kakao_phone'] if 'kakao_phone' in request.session else ''
+        gender = request.session['kakao_gender'] if 'kakao_gender' in request.session else ''
+        is_kakao = request.session['is_kakao'] if 'is_kakao' in request.session else 'N'
+        year = request.session['kakao_year'] if 'kakao_year' in request.session else ''
+
+        if 'kakao_name' in request.session:
+            del request.session['kakao_name']
+
+        if 'kakao_phone' in request.session:
+            del request.session['kakao_phone']
+
+        if 'kakao_gender' in request.session:
+            del request.session['kakao_gender']
+
+        if 'is_kakao' in request.session:
+            del request.session['is_kakao']
+
+        if 'kakao_year' in request.session:
+            del request.session['kakao_year']
+
+        if gender == '1' or gender == '3':
+            gender = 'm'
+        elif gender == '2' or gender == '4':
+            gender = 'f'
+
+        phone = make_password(phone)
+
+        print phone
+
+        with connections['default'].cursor() as cur:
+            query = """
+                UPDATE tb_auth_user_addinfo 
+                SET 
+                    phone = '{phone}',
+                    gender = '{gender}',
+                    name = '{name}',
+                    is_kakao = '{is_kakao}',
+                    modify_date = '{modify_date}'
+                WHERE
+                    user_id = '{user_id}'
+            """.format(
+                phone=phone,
+                gender=gender,
+                name=name,
+                is_kakao=is_kakao,
+                modify_date=datetime.datetime.now(),
+                user_id=request.user.id
+            )
+
+            print 'update tb_auth_user_addinfo query check ---------------------- s'
+            print query
+            print 'update tb_auth_user_addinfo query check ---------------------- e'
+
+            cur.execute(query)
+
+        with connections['default'].cursor() as cur:
+            query = """
+                UPDATE auth_userprofile 
+                SET 
+                    gender = '{gender}',
+                    name = '{name}',
+                    year_of_birth = '{year}'
+                WHERE
+                    user_id = '{user_id}'
+            """.format(
+                gender=gender,
+                name=name,
+                year=year,
+                modify_date=datetime.datetime.now(),
+                user_id=request.user.id
+            )
+
+            print 'update tb_auth_user_addinfo query check ---------------------- s'
+            print query
+            print 'update tb_auth_user_addinfo query check ---------------------- e'
+
+            cur.execute(query)
+
+        return JsonResponse({'success': True})
+
+    except Exception as e:
+        print traceback.print_exc(e)
 
         return JsonResponse({'success': False})

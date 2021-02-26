@@ -143,19 +143,16 @@
                     } %>
                     <% if ( placeholder ) { %> placeholder="<%- placeholder %>"<% } %>
                     value="<%- defaultValue %>"
-                    style="width: 53%; float: left; margin: 0;"
+                    style="width: 38%; float: left; margin: 0;"
                 />
 
-                <button type="button" class="action action-primary identity" style="width: 45%; margin: 0 0 0 2%; padding:0; height: 32px;">
+                <button type="button" class="action action-primary identity" style="width: 21%; margin: 0 0 0 2%; padding:0; height: 32px;">
                     <%- gettext("Authentication") %>
                 </button>
 
-                <!--
                 <button type="button" class="action action-primary " id="kakao_identity" style="width: 36%; margin: 0 0 0 2%; padding:0; height: 32px; box-shadow: none; background: #f1d900">
                     <%- gettext("KaKao Authentication") %>
                 </button>
-                -->
-
 
             <div id="kakao_form" style="float: left; width: 100%;" hidden>
                 <div class="acbs-wrap"  id="">
