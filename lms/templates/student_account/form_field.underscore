@@ -143,18 +143,16 @@
                     } %>
                     <% if ( placeholder ) { %> placeholder="<%- placeholder %>"<% } %>
                     value="<%- defaultValue %>"
-                    style="width: 53%; float: left; margin: 0;"
+                    style="width: 38%; float: left; margin: 0;"
                 />
 
-                <button type="button" class="action action-primary identity" style="width: 45%; margin: 0 0 0 2%; padding:0; height: 32px;">
+                <button type="button" class="action action-primary identity" style="width: 20%; margin: 0 0 0 2%; padding:0; height: 32px;">
                     <%- gettext("Authentication") %>
                 </button>
 
-                <!--
-                <button type="button" class="action action-primary " id="kakao_identity" style="width: 36%; margin: 0 0 0 2%; padding:0; height: 32px; box-shadow: none; background: #f1d900">
+                <button type="button" class="action action-primary " id="kakao_identity" style="width: 37%; margin: 0 0 0 2%; padding:0; height: 32px; box-shadow: none; background: #f1d900; color:black; font-weight: 500; font-size: 15px">
                     <%- gettext("KaKao Authentication") %>
                 </button>
-                -->
 
 
             <div id="kakao_form" style="float: left; width: 100%;" hidden>
@@ -189,8 +187,8 @@
                             <button id="all_agree" type="button" style="float: right; margin-bottom: 20px; float: right; margin-bottom: 20px; background: white; box-shadow: none; border: 1px solid gray;">전체동의</div>
 
                             <tr>
-                                <td style=""><input type="checkbox" name="kakao_agree"> <label style="font-size:12px; display:inline-block; float: left;" class="agree_text" id="privacy_text_button">개인정보 이용 동의(필수)</label></td>
-                                <td style=""><input type="checkbox" name="kakao_agree"><label style="font-size:12px; display:inline-block; float: left;" id="third_party_text_button" class="agree_text">제3자 정보제공 동의(필수)</label></td>
+                                <td style=""><input type="checkbox" name="kakao_agree_regist"> <label style="font-size:12px; display:inline-block; float: left;" class="agree_text" id="privacy_text_button">개인정보 이용 동의(필수)</label></td>
+                                <td style=""><input type="checkbox" name="kakao_agree_regist"><label style="font-size:12px; display:inline-block; float: left;" id="third_party_text_button" class="agree_text">제3자 정보제공 동의(필수)</label></td>
                             </tr>
 
                             </table>
