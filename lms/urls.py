@@ -347,9 +347,11 @@ urlpatterns = [
     url(r'^api/experiments/', include('experiments.urls', namespace='api_experiments')),
 
     # kakao auth API
+
     url(r'^api/kakao/form', kotech_common_views.kakao_auth_form, name='kakao_auth_form'),
     url(r'^api/kakao/confirm', kotech_common_views.kakao_auth_confirm, name='kakao_auth_confirm'),
     url(r'^api/kakao/cert', kotech_common_views.kakao_auth_certification, name='kakao_auth_certification'),
+    url(r'^api/kakao/account_update', kotech_common_views.kakao_auth_account_update, name='kakao_auth_account_update'),
 
 ]
 

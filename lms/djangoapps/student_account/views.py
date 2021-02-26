@@ -1348,10 +1348,50 @@ def account_settings_context(request):
             user_birthday = None
             nice_check = 'no'
 
+
+    with connections['default'].cursor() as cur:
+        try:
+            query = """
+                    SELECT b.name, b.gender, b.year_of_birth, a.plain_data
+                      FROM auth_user_nicecheck AS a
+                           LEFT JOIN auth_userprofile AS b ON a.user_id = b.user_id
+                           JOIN auth_user AS c ON b.user_id = c.id
+                     WHERE c.email = '{0}'
+                """.format(edx_user_email)
+            cur.execute(query)
+            table = cur.fetchone()
+            user_gender = table[1]
+            user_birthday = table[2]
+            nice_info = table[3]
+            nice_check = 'yes'
+        except BaseException:
+            user_gender = None
+            user_birthday = None
+            nice_check = 'no'
+
+    kakao_check = False
+    user_name = ''
+    kakao_name = ''
+
+    try:
+        addinfo_data = TbAuthUserAddinfo.objects.get(user_id=request.user.id)
+
+        if addinfo_data.is_kakao == 'Y':
+            kakao_check = True
+            kakao_name = addinfo_data.name
+
+    except Exception as e:
+        print traceback.print_exc(e)
+
     if nice_info != None:
         nice_dict = ast.literal_eval(nice_info)
         user_name = nice_dict['UTF8_NAME']
         user_name = urllib.unquote(user_name).decode('utf8')
+    else:
+        user_name = ''
+
+    if kakao_name:
+        user_name = kakao_name
     else:
         user_name = ''
 
@@ -1378,6 +1418,7 @@ def account_settings_context(request):
         'user_name': user_name,  # context -> nice data
         'nice_check': nice_check,  # context -> nice data
         'enc_data': enc_data,  # context -> nice data
+        'kakao_check': kakao_check,
         'auth': {},
         'duplicate_provider': None,
         'nav_hidden': True,
