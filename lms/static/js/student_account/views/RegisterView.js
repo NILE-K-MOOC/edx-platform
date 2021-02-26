@@ -29,13 +29,13 @@
                     'focus input[required], textarea[required], select[required]': 'handleRequiredInputFocus',
                     'click .check-browser-version': 'checkBrowserVersion',
                     'click .identity': 'identity',
-                    'click #kakao_identity': 'kakao_identity',
-                    'click #all_agree': 'all_agree',
-                    'click #kakao_form_submit': 'kakao_form_submit',
-                    'click #kakao_confirm_submit': 'kakao_confirm_submit',
-                    'click .kakao_close': 'kakao_close',
-                    'click .agree_text': 'agree_text',
-                    'click .kakao_pop_close': 'kakao_pop_close',
+                    'click #kakao_identity_regist': 'kakao_identity_regist',
+                    'click #all_agree_regist': 'all_agree_regist',
+                    'click #kakao_form_submit_regist': 'kakao_form_submit_regist',
+                    'click #kakao_confirm_submit_regist': 'kakao_confirm_submit_regist',
+                    'click .kakao_close_regist': 'kakao_close_regist',
+                    'click .agree_text_regist': 'agree_text_regist',
+                    'click .kakao_pop_close_regist': 'kakao_pop_close_regist',
                 },
                 liveValidationFields: [
                     'name',
@@ -795,7 +795,7 @@
                     document.form2.submit();
                 },
 
-                kakao_identity: function () {
+                kakao_identity_regist: function () {
 
                     if ($("#kakao_form").css('display') == 'none') {
                         $("#kakao_form").show();
@@ -805,7 +805,7 @@
 
                 },
 
-                kakao_form_submit: function () {
+                kakao_form_submit_regist: function () {
 
                     var year = $.trim($(".kakao_year_text").val()).replace(/\s+/g, '')
                     var gender = $.trim($(".kakao_gender_text").val()).replace(/\s+/g, '')
@@ -887,7 +887,7 @@
                     });
                 },
 
-                kakao_confirm_submit: function () {
+                kakao_confirm_submit_regist: function () {
 
                     $.ajax({
                         'type': "GET",
@@ -902,6 +902,7 @@
                                 var name = $("#kakao_name").val();
                                 var gender = $("#kakao_gender").val();
                                 var year = $("#kakao_year").val();
+                                var year_val = $("#kakao_year").val().substring(0,4);
 
                                 $.ajax({
                                     'type': "GET",
@@ -929,13 +930,13 @@
 
                                         }
                                         if ($("#kakao_year").val()) {
-                                            $("#register-year_of_birth").val(year);
+                                            $("#register-year_of_birth").val(year_val).prop("selected",true);
                                         }
 
                                         $("#kakao_confirm").hide();
 
                                         $(".identity").text(gettext("Authentication complete")).prop("disabled", true);
-                                        $("#kakao_identity").text(gettext("Authentication complete")).prop("disabled", true);
+                                        $("#kakao_identity_regist").text(gettext("Authentication complete")).prop("disabled", true);
                                     }else{
                                         swal("인증오류", "앱에서 인증을 완료해주세요 \n 앱에서 알림이 오지 않았다면 \n 인증창 종료 후 다시 진행해 주시기 바랍니다.", "info");
                                     }
@@ -953,7 +954,7 @@
                     });
                 },
 
-                kakao_close: function () {
+                kakao_close_regist: function () {
 
                     if ($("#kakao_form").css('display') == 'block') {
                         $("#kakao_form").hide();
@@ -973,7 +974,7 @@
 
                 },
 
-                agree_text:function(event){
+                agree_text_regist:function(event){
 
                     console.log(event.currentTarget.id)
 
@@ -986,7 +987,7 @@
                     }
                 },
 
-                all_agree: function () {
+                all_agree_regist: function () {
                     if ($("input:checkbox[name='kakao_agree_regist']:checked").length > 0) {
                         $("input:checkbox[name='kakao_agree_regist']").prop("checked", false);
                     } else {
@@ -995,7 +996,7 @@
 
                 },
                 
-                kakao_pop_close: function (event) {
+                kakao_pop_close_regist: function (event) {
 
                     var current_id = event.target.parentElement.parentElement.parentElement.id;
 
