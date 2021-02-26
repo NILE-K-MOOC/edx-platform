@@ -397,12 +397,24 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
                  """.format(user_id)
     cur.execute(query)
     plain_data = cur.fetchall()
+
+    query = """
+                SELECT is_kakao, name, date_of_birth
+                  FROM tb_auth_user_addinfo
+                 WHERE user_id = '{0}';
+             """.format(user_id)
+    cur.execute(query)
+    addinfo_data = cur.fetchone()
     cur.close()
-    import ast
-    if (len(plain_data) == 0):
-        context['user_name'] = ''
-        context['birth_date'] = ''
-    else:
+
+    print 'seonwoo debug s'
+    print addinfo_data
+    print addinfo_data[0]
+    print addinfo_data[1]
+    print addinfo_data[2]
+    print 'seonwoo debug e'
+
+    if len(plain_data) != 0:
         """
         nice_dict = ast.literal_eval(plain_data[0][0])
         user_name = nice_dict['UTF8_NAME']
@@ -425,6 +437,15 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
         context['user_name'] = user_name
         context['birth_date'] = user_birth
 
+    elif addinfo_data[0] == 'Y':
+
+         context['user_name'] = addinfo_data[1]
+         context['birth_date'] = addinfo_data[2][0:4] + '.' + addinfo_data[2][4:6] + '.' + addinfo_data[2][6:8]
+
+    else:
+        context['user_name'] = ''
+        context['birth_date'] = ''
+
     cur = con.cursor()
     query = """
                 SELECT detail_name, detail_Ename
@@ -441,6 +462,10 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     else:
         context['org_name_k'] = org_name[0][0]
         context['org_name_e'] = org_name[0][1]
+
+    print 'debug -------------> s'
+    print context['birth_date']
+    print 'debug -------------> e'
 
     # ----이수증 query--
     cur = con.cursor()
@@ -569,6 +594,14 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     nice_check_flag = cur.fetchall()
 
     query = """
+            SELECT is_kakao, name, date_of_birth
+              FROM tb_auth_user_addinfo
+             WHERE user_id = '{0}';
+            """.format(user_id)
+    cur.execute(query)
+    kakao_check_flag = cur.fetchone()
+
+    query = """
                 SELECT count(*)
                 FROM survey_check
                 where course_id = '{0}' and regist_id = {1};
@@ -578,6 +611,12 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     cur.close()
 
     context['nice_check_flag'] = nice_check_flag[0][0]
+
+    if kakao_check_flag[0]:
+        context['kakao_check_flag'] = kakao_check_flag[0]
+    else:
+        context['kakao_check_flag'] = 'N'
+
     context['survey_check'] = survey_check[0][0]
     context['user_id'] = user_id
 

@@ -1389,10 +1389,7 @@ def account_settings_context(request):
         nice_dict = ast.literal_eval(nice_info)
         user_name = nice_dict['UTF8_NAME']
         user_name = urllib.unquote(user_name).decode('utf8')
-    else:
-        user_name = ''
-
-    if kakao_name:
+    elif kakao_name:
         user_name = kakao_name
     else:
         user_name = ''
