@@ -202,7 +202,7 @@ console.log('account_settings_view.js render -------');
 
                             var name = $("#kakao_name").val();
                             var gender = $("#kakao_gender").val();
-                            var year = $("#kakao_year").val().substring(0, 4);
+                            var year = $("#kakao_year").val();
 
                             console.log(year)
 

@@ -239,8 +239,6 @@ def kakao_auth_account_update(request):
 
         phone = make_password(phone)
 
-        print phone
-
         with connections['default'].cursor() as cur:
             query = """
                 UPDATE tb_auth_user_addinfo 
@@ -249,6 +247,7 @@ def kakao_auth_account_update(request):
                     gender = '{gender}',
                     name = '{name}',
                     is_kakao = '{is_kakao}',
+                    date_of_birth = '{date_of_birth}',
                     modify_date = '{modify_date}'
                 WHERE
                     user_id = '{user_id}'
@@ -258,7 +257,8 @@ def kakao_auth_account_update(request):
                 name=name,
                 is_kakao=is_kakao,
                 modify_date=datetime.datetime.now(),
-                user_id=request.user.id
+                user_id=request.user.id,
+                date_of_birth=year
             )
 
             print 'update tb_auth_user_addinfo query check ---------------------- s'
@@ -279,7 +279,7 @@ def kakao_auth_account_update(request):
             """.format(
                 gender=gender,
                 name=name,
-                year=year,
+                year=year[0:4],
                 modify_date=datetime.datetime.now(),
                 user_id=request.user.id
             )

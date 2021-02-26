@@ -901,7 +901,7 @@
 
                                 var name = $("#kakao_name").val();
                                 var gender = $("#kakao_gender").val();
-                                var year = $("#kakao_year").val().substring(0, 4);
+                                var year = $("#kakao_year").val();
 
                                 $.ajax({
                                     'type': "GET",
@@ -987,11 +987,10 @@
                 },
 
                 all_agree: function () {
-
-                    if ($("input:checkbox[name='kakao_agree']:checked").length > 0) {
-                        $("input:checkbox[name='kakao_agree']").prop("checked", false);
+                    if ($("input:checkbox[name='kakao_agree_regist']:checked").length > 0) {
+                        $("input:checkbox[name='kakao_agree_regist']").prop("checked", false);
                     } else {
-                        $("input:checkbox[name='kakao_agree']").prop("checked", true);
+                        $("input:checkbox[name='kakao_agree_regist']").prop("checked", true);
                     }
 
                 },

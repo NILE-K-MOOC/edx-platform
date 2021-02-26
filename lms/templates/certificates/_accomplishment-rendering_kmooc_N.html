@@ -244,7 +244,8 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
                 <h1 class="k_h1">이 수 증</h1>
 
                 <h5 class="ce-t-gray">성명</h5>
-                % if nice_check_flag == 0:
+
+                % if nice_check_flag == 0 and kakao_check_flag == 'N':
                 <h4 class="ce-txt-second">${accomplishment_copy_name}</h4>
                 %else:
                 <h4 class="ce-txt-second"><p class="k_name_text">${user_name}(${birth_date}) <span class="certifi_index">( <img class="check_img" src="${static_url}/static/images/correct-icon.png"> 본인인증됨)</span></p></h4>

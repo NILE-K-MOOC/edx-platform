@@ -863,6 +863,7 @@ def student_dashboard(request):
             phone = request.session['kakao_phone'] if 'kakao_phone' in request.session else ''
             gender = request.session['kakao_gender'] if 'kakao_gender' in request.session else ''
             is_kakao = request.session['is_kakao'] if 'is_kakao' in request.session else 'N'
+            date_of_birth = request.session['kakao_year'] if 'is_kakao' in request.session else ''
 
             if gender == '1' or gender == '3':
                 gender = 'm'
@@ -887,7 +888,7 @@ def student_dashboard(request):
                     query = """
                         INSERT
                           INTO tb_auth_user_addinfo(user_id, private_info_use_yn, event_join_yn, org_id, sub_email, ci, regist_date, name, gender, phone, is_kakao)
-                        VALUES ('{user_id}', '{private_info_use_yn}', '{event_join_yn}', trim('{org_id}'), trim('{sub_email}'), trim('{ci}'), now(), '{name}', '{gender}', '{phone}', '{is_kakao}');
+                        VALUES ('{user_id}', '{private_info_use_yn}', '{event_join_yn}', trim('{org_id}'), trim('{sub_email}'), trim('{ci}'), now(), '{name}', '{gender}', '{phone}', '{is_kakao}','{date_of_birth}');
                     """.format(
                         user_id=user.id,
                         private_info_use_yn=private_info_use_yn,
@@ -898,7 +899,8 @@ def student_dashboard(request):
                         name=name,
                         gender=gender,
                         phone=phone,
-                        is_kakao=is_kakao
+                        is_kakao=is_kakao,
+                        date_of_birth=date_of_birth
                     )
 
                     print 'insert tb_auth_user_addinfo query check ---------------------- s'
