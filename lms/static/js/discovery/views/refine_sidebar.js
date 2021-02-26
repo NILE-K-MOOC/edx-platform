@@ -618,7 +618,7 @@
                 // console.log(t);
                 // console.log('selectOption2 check ---- e')
 
-                console.debug('select_val2: ' + select_val);
+                // console.debug('select_val2: ' + select_val);
 
                 this.trigger(
                     'selectOption', f, v, t

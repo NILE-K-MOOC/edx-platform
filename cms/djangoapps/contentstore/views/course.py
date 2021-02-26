@@ -1022,8 +1022,8 @@ def _create_or_rerun_course(request):
         if source_course_key:
             source_course_key = CourseKey.from_string(source_course_key)
             try:
-
                 destination_course_key = rerun_course(request.user, source_course_key, org, course, run, fields)
+
                 print "--rerun_course"
                 log.info(u'----rerun_course')
                 return JsonResponse({
