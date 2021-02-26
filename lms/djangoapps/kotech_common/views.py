@@ -8,6 +8,7 @@ from kakaocert import KakaocertService, KakaocertException, RequestVerifyAuth
 import traceback
 import datetime
 import hashlib
+from django.contrib.auth.hashers import make_password, check_password
 
 log = logging.getLogger(__name__)
 
@@ -235,6 +236,10 @@ def kakao_auth_account_update(request):
             gender = 'm'
         elif gender == '2' or gender == '4':
             gender = 'f'
+
+        phone = make_password(phone)
+
+        print phone
 
         with connections['default'].cursor() as cur:
             query = """
