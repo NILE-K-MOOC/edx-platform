@@ -7,6 +7,7 @@ from lms.envs import common as settings
 from kakaocert import KakaocertService, KakaocertException, RequestVerifyAuth
 import traceback
 import datetime
+import hashlib
 
 log = logging.getLogger(__name__)
 
