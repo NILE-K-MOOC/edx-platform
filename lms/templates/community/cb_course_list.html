@@ -22,7 +22,7 @@
     $(document).ready(function () {
         cb_course();
 
-        if('${cb_course_cert}'){
+        if ('${cb_course_cert}') {
             alert('K-MOOC에서 이수증을 제공하지 않는 강좌입니다.\n 관리자에게 문의 하세요');
         }
 
@@ -60,111 +60,115 @@
             type: "POST",
         }).done(function (data) {
             console.log(data)
-            if (status == 'cb') {
-                // $('#courses_target').css('border', 'solid 1px red');    // draw debug line
-                $('#null-txt').hide();
+            if (data.result != 'fail') {
+                if (status == 'cb') {
+                    // $('#courses_target').css('border', 'solid 1px red');    // draw debug line
+                    $('#null-txt').hide();
 
-                for (var i = 0; i < data.result.length; i++) {
-                    var d = data.result[i];
-                    var display_name = d.title;
-                    var start = date_format(d.term.start_at.date);
-                    var end = date_format(d.term.end_at.date);
-                    var professor_name = d.professors;
-                    var credit = d.credit;
-                    var course_id = d.canvas_sis_course_id;
-                    var org = d.organization.title;
-                    var weeks = d.duration;
-                    var major_category = d.major.title;
-                    var complete = d.complete;
+                    for (var i = 0; i < data.result.length; i++) {
+                        var d = data.result[i];
+                        var display_name = d.title;
+                        var start = date_format(d.term.start_at.date);
+                        var end = date_format(d.term.end_at.date);
+                        var professor_name = d.professors;
+                        var credit = d.credit;
+                        var course_id = d.canvas_sis_course_id;
+                        var org = d.organization.title;
+                        var weeks = d.duration;
+                        var major_category = d.major.title;
+                        var complete = d.complete;
 
-                    // size huge, large, middle, small
-                    var course_image = d.thumbnail.middle;
+                        // size huge, large, middle, small
+                        var course_image = d.thumbnail.middle;
 
-                    var cert_btn = '';
+                        var cert_btn = '';
 
-                    if(complete) {
-                        cert_btn =
-                            '                <a href="/cb_print/' + course_id + '" class="enter-course">' +
-                            '                  이수증보기' +
-                            '                  <span class="sr">' +
-                            '                    &nbsp;' + display_name +
-                            '                  </span>' +
-                            '                </a>';
-                    }else{
-                        cert_btn = '';
+                        if (complete) {
+                            cert_btn =
+                                '                <a href="/cb_print/' + course_id + '" class="enter-course">' +
+                                '                  이수증보기' +
+                                '                  <span class="sr">' +
+                                '                    &nbsp;' + display_name +
+                                '                  </span>' +
+                                '                </a>';
+                        } else {
+                            cert_btn = '';
+                        }
+
+                        var box = '' +
+                            '<div class="course-container" lang="ko" style="border: 1px solid #e7e7e7; margin-bottom: 40px;">' +
+                            '  <article class="course" id="course-card-0">' +
+                            '    <section class="details">' +
+                            '      <div class="kr01_dashArea">' +
+                            '        <h2 class="hd hd-2 sr">강좌 세부사항</h2>' +
+                            '        <div class="kr01_dashImg" aria-hidden="true">' +
+                            '          <a href="#" class="cover" tabindex="0">' +
+                            '            <img src="' + course_image + '" class="course-image" onerror="this.src=\'/static/images/blank.png\'">' +
+                            '          </a>' +
+                            '        </div>' +
+                            '        <div class="kr01_dashTarea">' +
+                            '          <div class="kr01_dashTitle">' +
+                            '            <span class="kr01_dashT01">' + display_name +
+                            '            </span>' +
+                            '            <span class="kr01_dashT02">' +
+                            '              <div class="kr01-dash-unenroll-div">' +
+                            '              </div>' +
+                            '            </span>' +
+                            '          </div>' +
+                            '          <div class="kr01_dashTsub">' +
+                            '            <span class="kr01_dashTs01">' +
+                            '              <div>' + professor_name + ' | ' + org + '</div>' +
+                            '              <div>' +
+                            '                ' + major_category +
+                            '              </div>' +
+                            '            </span>' +
+                            '            <span class="kr01_dashTs01">' +
+                            '              <div>주차</div>' +
+                            '              <div>' + weeks + '주</div>' +
+                            '            </span>' +
+                            '            <span class="kr01_dashTs01">' +
+                            '              <div>학점</div>' +
+                            '              <div>' + credit + '학점</div>' +
+                            '            </span>' +
+                            '            <span class="kr01_dashTs01" style="margin-right: 0px;">' +
+                            '              <div>강좌 운영 기간</div>' +
+                            '              <div>`' + start + ' ~ `' + end + '</div>' +
+                            '            </span>' +
+                            '            <span class="kr01_dashBtnArea">' +
+                            '              <div class="kr01_dashBtn">' +
+                            cert_btn +
+                            '              </div>' +
+                            '              <div class="kr01_dashBtn">' +
+                            '              </div>' +
+                            '            </span>' +
+                            '          </div>' +
+                            '          <div class="course-info">' +
+                            '            <span class="info-date-block-container">' +
+                            '              <span class="info-date-block localized-datetime" data-language="ko-kr" data-timezone="None" data-datetime="" data-format="shortDate" data-string="">' +
+                            '              </span>' +
+                            '            </span>' +
+                            '          </div>' +
+                            '          <div class="wrapper-course-actions">' +
+                            '            <div class="course-actions">' +
+                            '              <div>' +
+                            '              </div>' +
+                            '            </div>' +
+                            '          </div>' +
+                            '        </div>' +
+                            '      </div>' +
+                            '    </section>' +
+                            '  </article>' +
+                            '</div>'
+                        $('#courses_target').append(box);
                     }
-
-                    var box = '' +
-                        '<div class="course-container" lang="ko" style="border: 1px solid #e7e7e7; margin-bottom: 40px;">' +
-                        '  <article class="course" id="course-card-0">' +
-                        '    <section class="details">' +
-                        '      <div class="kr01_dashArea">' +
-                        '        <h2 class="hd hd-2 sr">강좌 세부사항</h2>' +
-                        '        <div class="kr01_dashImg" aria-hidden="true">' +
-                        '          <a href="#" class="cover" tabindex="0">' +
-                        '            <img src="' + course_image + '" class="course-image" onerror="this.src=\'/static/images/blank.png\'">' +
-                        '          </a>' +
-                        '        </div>' +
-                        '        <div class="kr01_dashTarea">' +
-                        '          <div class="kr01_dashTitle">' +
-                        '            <span class="kr01_dashT01">' + display_name +
-                        '            </span>' +
-                        '            <span class="kr01_dashT02">' +
-                        '              <div class="kr01-dash-unenroll-div">' +
-                        '              </div>' +
-                        '            </span>' +
-                        '          </div>' +
-                        '          <div class="kr01_dashTsub">' +
-                        '            <span class="kr01_dashTs01">' +
-                        '              <div>' + professor_name + ' | ' + org + '</div>' +
-                        '              <div>' +
-                        '                ' + major_category +
-                        '              </div>' +
-                        '            </span>' +
-                        '            <span class="kr01_dashTs01">' +
-                        '              <div>주차</div>' +
-                        '              <div>' + weeks + '주</div>' +
-                        '            </span>' +
-                        '            <span class="kr01_dashTs01">' +
-                        '              <div>학점</div>' +
-                        '              <div>' + credit + '학점</div>' +
-                        '            </span>' +
-                        '            <span class="kr01_dashTs01" style="margin-right: 0px;">' +
-                        '              <div>강좌 운영 기간</div>' +
-                        '              <div>`' + start + ' ~ `' + end + '</div>' +
-                        '            </span>' +
-                        '            <span class="kr01_dashBtnArea">' +
-                        '              <div class="kr01_dashBtn">' +
-                                        cert_btn +
-                        '              </div>' +
-                        '              <div class="kr01_dashBtn">' +
-                        '              </div>' +
-                        '            </span>' +
-                        '          </div>' +
-                        '          <div class="course-info">' +
-                        '            <span class="info-date-block-container">' +
-                        '              <span class="info-date-block localized-datetime" data-language="ko-kr" data-timezone="None" data-datetime="" data-format="shortDate" data-string="">' +
-                        '              </span>' +
-                        '            </span>' +
-                        '          </div>' +
-                        '          <div class="wrapper-course-actions">' +
-                        '            <div class="course-actions">' +
-                        '              <div>' +
-                        '              </div>' +
-                        '            </div>' +
-                        '          </div>' +
-                        '        </div>' +
-                        '      </div>' +
-                        '    </section>' +
-                        '  </article>' +
-                        '</div>'
-                    $('#courses_target').append(box);
+                    if (data.result.length == 0) {
+                        $('#null-txt').show();
+                    }
+                } else {
+                    $('.empty-dashboard-message').show();
                 }
-                if (data.result.length == 0) {
-                    $('#null-txt').show();
-                }
-            } else {
-                $('.empty-dashboard-message').show();
+            }else {
+                $('#null-txt').show();
             }
         })
 
@@ -274,12 +278,12 @@
          */
     }
 
-    function date_format(date){
+    function date_format(date) {
         var data = String(date).split("-")
 
         var year = data[0];
         var month = data[1];
-        var day = data[2].substring(0,2);
+        var day = data[2].substring(0, 2);
 
         var return_date = year + "." + month + "." + day
 

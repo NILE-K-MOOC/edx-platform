@@ -233,11 +233,11 @@ def cb_course(request):
     print "user_id = ", user_id
     print "--------------------------"
 
-    r = requests.post('https://cb.kmooc.kr/api/v1/external/certificates', data={'user_id': username, 'uid': user_id})
-
-    print 'debug ------------------> s'
-    print r.json()
-    print 'debug ------------------> e'
+    try:
+        r = requests.post('https://cb.kmooc.kr/api/v1/external/certificates', data={'user_id': username, 'uid': user_id})
+        return JsonResponse({'result': r.json()})
+    except:
+        return JsonResponse({'result': 'fail'})
 
     # with connections['default'].cursor() as cur:
     #     query = '''
@@ -266,7 +266,7 @@ def cb_course(request):
     # print "rows = ", rows
     # print "--------------------------"
 
-    return JsonResponse({'result': r.json()})
+
 
 
 def common_course_status(startDt, endDt):
