@@ -164,25 +164,24 @@ from django.template.defaultfilters import escapejs
                         }
                     </style>
 
-
                     % if not preview_mode:
                     <button class="action action-print btn-inverse btn-small" id="action-print-view">
                         <span class="icon fa fa-print" aria-hidden="true"></span>
                         ${_("Print Certificate")}
                     </button>
-                    % if nice_check_flag == 0:
-                    <button class="action action-print btn-inverse btn-small Test_btn" id="action-check-view">
-                        본인인증하기
-                    </button>
-                    %endif
+                        % if nice_check_flag == 0 and kakao_check_flag == 'N':
+                        <button class="action action-print btn-inverse btn-small Test_btn" id="action-check-view">
+                            본인인증하기
+                        </button>
+                        %endif
 
-                    %if badge:
-                    <button class="action action-share-mozillaopenbadges btn btn-overlay btn-small">
-                        <img class="icon icon-mozillaopenbadges" src="/static/certificates/images/ico-mozillaopenbadges.png" alt="Mozilla Open Badges Backpack">
-                        ${_("Add to Mozilla Backpack")}
-                    </button>
-                    %endif
-                    %endif
+                            %if badge:
+                            <button class="action action-share-mozillaopenbadges btn btn-overlay btn-small">
+                                <img class="icon icon-mozillaopenbadges" src="/static/certificates/images/ico-mozillaopenbadges.png" alt="Mozilla Open Badges Backpack">
+                                ${_("Add to Mozilla Backpack")}
+                            </button>
+                            %endif
+                        %endif
                     % endif
                     <form name="frmPopup" method="POST">
                         <input type="hidden" name="language_flag">
@@ -195,6 +194,7 @@ from django.template.defaultfilters import escapejs
                         <input type="hidden" name="certificate_id_number">
                         <input type="hidden" name="created_date">
                         <input type="hidden" name="nice_check_flag">
+                        <input type="hidden" name="kakao_check_flag">
                         <input type="hidden" name="accomplishment_copy_name">
                         <input type="hidden" name="user_name">
                         <input type="hidden" name="birth_date">

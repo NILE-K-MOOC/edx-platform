@@ -304,6 +304,7 @@ def certificate_print(request):
     grade = request.POST.get('grade')
     certificate_date_issued2 = request.POST.get('certificate_date_issued2')
     certificate_date_issued = request.POST.get('certificate_date_issued')
+    kakao_check_flag = request.POST.get('kakao_check_flag')
 
     print "multisite -> ", multisite
 
@@ -463,7 +464,7 @@ def certificate_print(request):
     # 본인인증 여부에 따라 성명 표시의 내용이 달라짐
     # 인증 X : 0, 인증 O : 1
 
-    if nice_check_flag == '0':
+    if nice_check_flag == '0' and kakao_check_flag == 'N':
         if (language_flag == 'K'):
             print_index = print_index.replace('${nice_check_flag}',
                                               '<h4 class="ce-txt-second"><p class="e_name_text">${accomplishment_copy_name}</p></h4>')

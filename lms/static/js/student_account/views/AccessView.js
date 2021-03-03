@@ -494,7 +494,7 @@
 
                                 var name = $("#kakao_name").val();
                                 var gender = $("#kakao_gender").val();
-                                var year = $("#kakao_year").val().substring(0, 4);
+                                var year = $("#kakao_year").val();
 
                                 $.ajax({
                                     'type': "GET",

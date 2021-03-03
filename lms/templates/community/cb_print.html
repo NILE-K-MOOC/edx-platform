@@ -163,7 +163,7 @@ function changeEventHandler(event) {
                 <h4 class="ce-txt-second" style="margin-bottom: 0px;">
                 <span>${user_name}</span>
                 <span>(${user_birth})</span>
-                % if user_nice == 'Y':
+                % if user_nice == 'Y' or user_kakao == 'Y':
                     (<i class="ce-v"><img src="http://kmooc.kr/static/images/cert/v-icon.png" alt="chick"></i>본인인증회원)
                 % endif
                 </h4>
@@ -179,10 +179,6 @@ function changeEventHandler(event) {
                         <li>학점 : ${credit} 학점</li>
                         <li>교수자 : ${professor_name} 교수</li>
                         <li>기관 : ${org}</li>
-                        <!--
-                        <li>성적 : ${score} 점</li>
-                        <li>출석 : ${attendance} %</li>
-                        -->
                     </ul>
                 </blockquote>
                 <h4 class="ce-center-txt2" style="margin-bottom: 0px; margin-top: 60px;">위 과정을 성실히 이수하여</h4>
