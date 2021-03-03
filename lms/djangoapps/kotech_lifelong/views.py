@@ -32,6 +32,9 @@ from django.db import connections
 from django.views.decorators.csrf import csrf_exempt
 from pymongo import MongoClient
 from bson import ObjectId
+from third_party_auth.decorators import xframe_allow_whitelisted
+import requests
+from django.contrib import messages
 
 
 log = logging.getLogger(__name__)
@@ -45,12 +48,18 @@ def dictfetchall(cursor):
             for row in cursor.fetchall()
     ]
 
-
 def cb_course_list(request):
+
+    cb_course_cert = ''
+
+    if 'cb_course_cert' in request.session:
+        cb_course_cert = request.session['cb_course_cert']
+        del request.session['cb_course_cert']
+
     context = {
         'user_id': request.user.id,
-        'username': request.user.username
-
+        'username': request.user.username,
+        'cb_course_cert': cb_course_cert
     }
 
     return render_to_response('community/cb_course_list.html', context)
@@ -104,6 +113,25 @@ def cb_print(request, course_id):
         print "user data parsing error detail : ", err
         return redirect('/dashboard')
 
+    if user_nice == 'N':
+        with connections['default'].cursor() as cur:
+            query = '''
+                SELECT 
+                    user_id, name, is_kakao, date_of_birth
+                FROM
+                    tb_auth_user_addinfo
+                WHERE
+                    user_id = '{user_id}';
+            '''.format(user_id=user_id)
+            cur.execute(query)
+            user_kakao_data = cur.fetchone()
+
+        is_kakao = user_kakao_data[2]
+
+        if is_kakao == 'Y':
+            user_name = user_kakao_data[1]
+            user_birth = user_kakao_data[3]
+
     # 개발 디버깅 로그
     print "--------------------------------------------"
     print "user_name -> ", user_name
@@ -145,32 +173,30 @@ def cb_print(request, course_id):
     # 5. 강좌 전체 정보
     with connections['default'].cursor() as cur:
         query = '''
-            select  y.display_name, 
-                    y.professor_name,
-                    y.org,
-                    y.weeks,
-                    y.credit,
-                    DATE_FORMAT(y.start, '%Y-%m-%d') as start,
-                    DATE_FORMAT(y.end, '%Y-%m-%d') as end,
-                    x.attendance,
-                    x.score,
-                    x.grade,
-                    DATE_FORMAT(x.regist_date, '%Y.%m.%d.') as regist_date,
-                    y.org_image
-            from cb_course_enroll x
-            join cb_course y
-            on x.course_id = y.course_id
-            where x.course_id = '{course_id}'
-            and x.delete_yn = 'N'
-            and y.delete_yn = 'N'
-            and x.user_id = '{user_id}';
-        '''.format(user_id=user_id, course_id=course_id)
+            SELECT 
+                display_name,
+                professor_name,
+                org,
+                weeks,
+                credit,
+                DATE_FORMAT(start, '%Y-%m-%d') AS start,
+                DATE_FORMAT(end, '%Y-%m-%d') AS end,
+                org_image
+            FROM
+                cb_course
+            WHERE
+                course_id = '{course_id}';
+        '''.format(course_id=course_id)
         cur.execute(query)
         course_data = cur.fetchall()
 
+    print query
+
     if len(course_data) == 0:
+
+        request.session['cb_course_cert'] = 'Y'
         print "course_data is 0"
-        return redirect('/dashboard')
+        return redirect('/cb_course_list')
     else:
         course_data = course_data[0]
 
@@ -178,6 +204,7 @@ def cb_print(request, course_id):
     context['user_name'] = user_name
     context['user_birth'] = str(user_birth) + '.'
     context['user_nice'] = user_nice
+    context['user_kakao'] = is_kakao
     context['kst'] = kst
     context['display_name'] = course_data[0]
     context['professor_name'] = course_data[1]
@@ -186,50 +213,60 @@ def cb_print(request, course_id):
     context['credit'] = course_data[4]
     context['start'] = course_data[5]
     context['end'] = course_data[6]
-    context['attendance'] = course_data[7]
-    context['score'] = course_data[8]
-    context['grade'] = course_data[9]
-    context['regist_date'] = course_data[10]
-    context['org_image'] = course_data[11]
+    context['org_image'] = course_data[7]
+
+    date_format = str(datetime.datetime.now()).split(" ")[0]
+    now_date = date_format.replace("-", ".")
+
+    context['regist_date'] = now_date
+
     return render_to_response('community/cb_print.html', context)
 
 
 def cb_course(request):
 
     user_id = request.user.id
+    username = request.user.username
 
     print "--------------------------"
     print "user_id = ", user_id
+    print "user_id = ", user_id
     print "--------------------------"
 
-    with connections['default'].cursor() as cur:
-        query = '''
-            select  x.course_id, 
-                    y.display_name, 
-                    y.course_image,
-                    y.professor_name, 
-                    y.org,
-                    y.major_category,
-                    y.weeks,
-                    y.credit,
-                    Date_format(y.start, '%y.%m.%d. ') as start,
-                    Date_format(y.end, '%y.%m.%d. ') as end,
-                    x.attendance,
-                    x.score
-            from cb_course_enroll x
-            join cb_course y
-            on x.course_id = y.course_id
-            where user_id = '{user_id}'
-            and x.delete_yn = 'N';
-        '''.format(user_id=user_id)
-        cur.execute(query)
-        rows = dictfetchall(cur)
+    try:
+        r = requests.post('https://cb.kmooc.kr/api/v1/external/certificates', data={'user_id': username, 'uid': user_id})
+        return JsonResponse({'result': r.json()})
+    except:
+        return JsonResponse({'result': 'fail'})
 
-    print "--------------------------"
-    print "rows = ", rows
-    print "--------------------------"
+    # with connections['default'].cursor() as cur:
+    #     query = '''
+    #         select  x.course_id,
+    #                 y.display_name,
+    #                 y.course_image,
+    #                 y.professor_name,
+    #                 y.org,
+    #                 y.major_category,
+    #                 y.weeks,
+    #                 y.credit,
+    #                 Date_format(y.start, '%y.%m.%d. ') as start,
+    #                 Date_format(y.end, '%y.%m.%d. ') as end,
+    #                 x.attendance,
+    #                 x.score
+    #         from cb_course_enroll x
+    #         join cb_course y
+    #         on x.course_id = y.course_id
+    #         where user_id = '{user_id}'
+    #         and x.delete_yn = 'N';
+    #     '''.format(user_id=user_id)
+    #     cur.execute(query)
+    #     rows = dictfetchall(cur)
+    #
+    # print "--------------------------"
+    # print "rows = ", rows
+    # print "--------------------------"
 
-    return JsonResponse({'result': rows})
+
 
 
 def common_course_status(startDt, endDt):

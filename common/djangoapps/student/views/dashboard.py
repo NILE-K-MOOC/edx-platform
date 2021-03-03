@@ -887,7 +887,7 @@ def student_dashboard(request):
                 with connections['default'].cursor() as cur:
                     query = """
                         INSERT
-                          INTO tb_auth_user_addinfo(user_id, private_info_use_yn, event_join_yn, org_id, sub_email, ci, regist_date, name, gender, phone, is_kakao)
+                          INTO tb_auth_user_addinfo(user_id, private_info_use_yn, event_join_yn, org_id, sub_email, ci, regist_date, name, gender, phone, is_kakao, date_of_birth)
                         VALUES ('{user_id}', '{private_info_use_yn}', '{event_join_yn}', trim('{org_id}'), trim('{sub_email}'), trim('{ci}'), now(), '{name}', '{gender}', '{phone}', '{is_kakao}','{date_of_birth}');
                     """.format(
                         user_id=user.id,
