@@ -4,7 +4,6 @@
 <%inherit file="../main.html" />
 <%block name="header_extras"></%block>
 
-
 <section class="container">
     <div class="package-title">
         학점은행 이수증 출력
@@ -19,10 +18,14 @@
     </div>
 </section>
 
-
 <script type="text/javascript">
     $(document).ready(function () {
         cb_course();
+
+        if('${cb_course_cert}'){
+            alert('K-MOOC에서 이수증을 제공하지 않는 강좌입니다.\n 관리자에게 문의 하세요');
+        }
+
     });
 
     // template 변수를 사용하므로 외부로 분리하면 오류가 발생하니 주의하십시오!
@@ -37,18 +40,6 @@
         let username = '${username}';
 
         /*
-        $.post(url, {
-            'uid': user_id,
-            'user_id': username
-        }, function (data) {
-            console.log(data);
-
-        }, "json").done(function () {
-
-        });
-        */
-
-        /*
         $.ajax({
                 url: "https://cb.kmooc.kr/api/v1/external/certificates",
                 type: "POST",
@@ -60,10 +51,12 @@
             }).done(function (data) {
                 console.log(data)
             })
+            */
 
         // api 활용 부분
+        let status = 'cb';
         $.ajax({
-            url: "https://cb.kmooc.kr/api/v1/external/certificates?uid=427100&user_id=sarvina_mh",
+            url: "/api/cb_course",
             type: "POST",
         }).done(function (data) {
             console.log(data)
@@ -74,19 +67,32 @@
                 for (var i = 0; i < data.result.length; i++) {
                     var d = data.result[i];
                     var display_name = d.title;
-                    var start = d.term.start_at.date;
-                    var end = d.term.end_at.date;
-                    var professor_name = d.professor[0];
+                    var start = date_format(d.term.start_at.date);
+                    var end = date_format(d.term.end_at.date);
+                    var professor_name = d.professors;
                     var credit = d.credit;
-                    // 물어보기
-                    var course_id = d.course_id;
-                    // 물어보기
+                    var course_id = d.canvas_sis_course_id;
                     var org = d.organization.title;
                     var weeks = d.duration;
                     var major_category = d.major.title;
+                    var complete = d.complete;
 
                     // size huge, large, middle, small
-                    var course_image = d.thumbnail.small;
+                    var course_image = d.thumbnail.middle;
+
+                    var cert_btn = '';
+
+                    if(complete) {
+                        cert_btn =
+                            '                <a href="/cb_print/' + course_id + '" class="enter-course">' +
+                            '                  이수증보기' +
+                            '                  <span class="sr">' +
+                            '                    &nbsp;' + display_name +
+                            '                  </span>' +
+                            '                </a>';
+                    }else{
+                        cert_btn = '';
+                    }
 
                     var box = '' +
                         '<div class="course-container" lang="ko" style="border: 1px solid #e7e7e7; margin-bottom: 40px;">' +
@@ -129,12 +135,7 @@
                         '            </span>' +
                         '            <span class="kr01_dashBtnArea">' +
                         '              <div class="kr01_dashBtn">' +
-                        '                <a href="/cb_print/' + course_id + '" class="enter-course">' +
-                        '                  이수증보기' +
-                        '                  <span class="sr">' +
-                        '                    &nbsp;' + display_name +
-                        '                  </span>' +
-                        '                </a>' +
+                                        cert_btn +
                         '              </div>' +
                         '              <div class="kr01_dashBtn">' +
                         '              </div>' +
@@ -166,9 +167,9 @@
                 $('.empty-dashboard-message').show();
             }
         })
-        */
 
         // 기존의 ajax
+        /*
         var status = 'cb';
         if (status == 'cb') {
             // $('#courses_target').css('border', 'solid 1px red');    // draw debug line
@@ -176,6 +177,7 @@
 
             $.post("/api/cb_course", {})
                 .done(function (data) {
+                    console.log(data)
                     for (var i = 0; i < data.result.length; i++) {
                         var d = data.result[i];
                         var attendance = d.attendance;
@@ -191,7 +193,7 @@
                         var major_category = d.major_category;
                         var course_image = d.course_image;
 
-                        var box = '' +
+                        var box = ''
                             '<div class="course-container" lang="ko" style="border: 1px solid #e7e7e7; margin-bottom: 40px;">' +
                             '  <article class="course" id="course-card-0">' +
                             '    <section class="details">' +
@@ -269,5 +271,18 @@
         } else {
             $('.empty-dashboard-message').show();
         }
+         */
+    }
+
+    function date_format(date){
+        var data = String(date).split("-")
+
+        var year = data[0];
+        var month = data[1];
+        var day = data[2].substring(0,2);
+
+        var return_date = year + "." + month + "." + day
+
+        return return_date
     }
 </script>
