@@ -87,10 +87,10 @@ console.log('account_settings_view.js render -------');
 
             kakao_identity: function () {
 
-                $("#register_kakao_name").val('')
-                $("#register_kakao_year").val('')
-                $("#register_kakao_gender").val('')
-                $("#register_kakao_phone").val('')
+                $("#register_kakao_name").val('');
+                $("#register_kakao_year").val('');
+                $("#register_kakao_gender").val('');
+                $("#register_kakao_phone").val('');
 
                 if ($("#kakao_form").css('display') == 'none') {
                     $("#kakao_form").show();

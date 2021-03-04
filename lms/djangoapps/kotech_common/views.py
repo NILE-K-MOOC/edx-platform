@@ -9,6 +9,7 @@ import traceback
 import datetime
 import hashlib
 from django.contrib.auth.hashers import make_password, check_password
+from edxmako.shortcuts import render_to_response
 
 log = logging.getLogger(__name__)
 
@@ -146,6 +147,8 @@ def kakao_auth_confirm(request):
 
         # 본인인증 요청시 반환받은 접수아이디
         receiptId = request.GET.get('receiptId')
+
+        print receiptId
 
         response = kakaocertService.getVerifyAuthState(clientCode, receiptId)
 

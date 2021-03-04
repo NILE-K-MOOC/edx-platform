@@ -363,6 +363,15 @@ function multisite(obj){
 <input type="hidden" id="kakao_receiptId" value=""/>
 <!-- nice check test-->
 
+<div class="black_bg" style="display: none; position: fixed; content: '';
+        width: 100%;
+        height: 100%;
+        background-color:rgba(0, 0,0, 0.5);
+        top:0;
+        left: 0;
+        z-index: 1000; overflow: hidden;"
+></div>
+
 <%block name="js_extra">
 <%static:require_module module_name="js/student_account/views/account_settings_factory" class_name="AccountSettingsFactory">
 console.log('***lms/templates/student_account/account_settings.html-->processing start***');
@@ -418,3 +427,4 @@ console.log('***lms/templates/student_account/account_settings.html-->processing
 <%static:webpack entry="StudentAccountDeletionInitializer">
 </%static:webpack>
 </%block>
+

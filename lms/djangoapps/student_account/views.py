@@ -975,9 +975,10 @@ def account_settings(request):
     #     }
     #     return render_to_response('student_account/account_settings_confirm.html', context)
     # else:
+
     lms_base = settings.ENV_TOKENS.get('LMS_BASE')
-    if lms_base != 'www.kmooc.kr':
-        return render_to_response('student_account/account_settings.html', account_settings_context(request))
+    # if lms_base != 'www.kmooc.kr':
+    #     return render_to_response('student_account/account_settings.html', account_settings_context(request))
 
     if 'passwdcheck' in request.session and request.session['passwdcheck'] == 'Y':
         # encode data
@@ -997,8 +998,11 @@ def account_settings(request):
         nice_reqseq = 'REQ0000000001'  # 요청 번호, 이는 성공/실패후에 같은 값으로 되돌려주게 되므로
 
         # 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.
-        # if lms_base != 'www.kmooc.kr':
-        #     lms_base = '0.0.0.0:18000'
+        if lms_base != 'www.kmooc.kr':
+            lms_base = '0.0.0.0:18000'
+        elif lms_base != '0.0.0.0:18000':
+            lms_base = 'dev.kr'
+            
         # www.kmooc.kr
         nice_returnurl = "http://{lms_base}/account_nice_check".format(lms_base=lms_base)  # 성공시 이동될 URL
         nice_errorurl = "http://{lms_base}/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
@@ -1071,6 +1075,28 @@ def account_nice_check_and_save(request):
 def account_nice_check(request):
     request.session['passwdcheck'] = 'Y'
     return render_to_response('student_account/account_check.html')
+
+
+@login_required
+def kakao_account_check(request):
+
+    if 'kakao_name' in request.session:
+        del request.session['kakao_name']
+
+    if 'kakao_phone' in request.session:
+        del request.session['kakao_phone']
+
+    if 'kakao_gender' in request.session:
+        del request.session['kakao_gender']
+
+    if 'is_kakao' in request.session:
+        del request.session['is_kakao']
+
+    if 'kakao_year' in request.session:
+        del request.session['kakao_year']
+
+    request.session['passwdcheck'] = 'Y'
+    return render_to_response('student_account/account_settings.html', account_settings_context(request))
 
 
 @login_required
