@@ -192,6 +192,9 @@ def nicecheckplus(request):
         val = plain_data[pos2 + 1: pos2 + val_size + 1]
         result_dict[key] = val
         plain_data = plain_data[pos2 + val_size + 1:]
+
+    ci = result_dict['CI']
+
     result_dict = str(result_dict)
     result_dict = result_dict.replace("'", '"')
 
@@ -207,6 +210,19 @@ def nicecheckplus(request):
                          '{1}',
                          '{2}')
         """.format(str(user_id), nice_di, result_dict)
+        cur.execute(query)
+
+    with connections['default'].cursor() as cur:
+        query = """
+            UPDATE tb_auth_user_addinfo
+            SET
+                ci = '{0}'
+            WHERE
+                user_id = '{1}'
+        """.format(ci, str(user_id))
+
+        print query
+
         cur.execute(query)
 
     with connections['default'].cursor() as cur:
@@ -299,8 +315,12 @@ def parent_agree(request):
 
     # 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.
     lms_base = settings.ENV_TOKENS.get('LMS_BASE')
-    nice_returnurl = "https://{lms_base}/parent_agree_done".format(lms_base=lms_base)  # 성공시 이동될 URL
-    nice_errorurl = "https://{lms_base}/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
+
+    if lms_base != 'www.kmooc.kr':
+        lms_base = '0.0.0.0:18000'
+
+    nice_returnurl = "{scheme}://{lms_base}/parent_agree_done".format(scheme=request.scheme, lms_base=lms_base)  # 성공시 이동될 URL
+    nice_errorurl = "{scheme}://{lms_base}/nicecheckplus_error".format(scheme=request.scheme, lms_base=lms_base)  # 실패시 이동될 URL
     nice_returnMsg = ''
 
     plaindata = '7:REQ_SEQ{0}:{1}8:SITECODE{2}:{3}9:AUTH_TYPE{4}:{5}7:RTN_URL{6}:{7}7:ERR_URL{8}:{9}11:POPUP_GUBUN{10}:{11}9:CUSTOMIZE{12}:{13}6:GENDER{14}:{15}' \
@@ -584,6 +604,9 @@ def login_and_registration_form(request, initial_mode="login"):
     utils = Utils()
 
     lms_base = settings.ENV_TOKENS.get('LMS_BASE')
+
+    if lms_base != 'www.kmooc.kr':
+        lms_base = '0.0.0.0:18000'
 
     nice_returnurl = "{scheme}://{lms_base}/account_nice_check_and_save".format(scheme=request.scheme, lms_base=lms_base)  # 성공시 이동될 URL
     nice_errorurl = "{scheme}://{lms_base}/nicecheckplus_error".format(scheme=request.scheme, lms_base=lms_base)  # 실패시 이동될 URL
@@ -977,8 +1000,8 @@ def account_settings(request):
     # else:
 
     lms_base = settings.ENV_TOKENS.get('LMS_BASE')
-    # if lms_base != 'www.kmooc.kr':
-    #     return render_to_response('student_account/account_settings.html', account_settings_context(request))
+    if lms_base != 'www.kmooc.kr':
+        return render_to_response('student_account/account_settings.html', account_settings_context(request))
 
     if 'passwdcheck' in request.session and request.session['passwdcheck'] == 'Y':
         # encode data
@@ -1002,7 +1025,7 @@ def account_settings(request):
             lms_base = '0.0.0.0:18000'
         elif lms_base != '0.0.0.0:18000':
             lms_base = 'dev.kr'
-            
+
         # www.kmooc.kr
         nice_returnurl = "http://{lms_base}/account_nice_check".format(lms_base=lms_base)  # 성공시 이동될 URL
         nice_errorurl = "http://{lms_base}/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
@@ -1029,6 +1052,8 @@ def account_settings(request):
 @require_http_methods(['GET'])
 def account_nice_check_and_save(request):
     action_type = request.GET.get('action_type')
+
+    print 'account_nice_check_and_save'
 
     # 기본 context 선언
     context = {
@@ -1065,6 +1090,12 @@ def account_nice_check_and_save(request):
 
     if 'CI' in nice_dict:
         request.session['CI'] = nice_dict['CI']
+
+    if 'enc_data' in request.session:
+        del request.session['enc_data']
+
+    if enc_data:
+        request.session['enc_data'] = enc_data
 
     return render_to_response('student_account/account_check_and_save.html', context)
 
@@ -1307,8 +1338,14 @@ def account_settings_context(request):
     nice_reqseq = 'REQ0000000001'  # 요청 번호, 이는 성공/실패후에 같은 값으로 되돌려주게 되므로
 
     lms_base = settings.ENV_TOKENS.get('LMS_BASE')
-    nice_returnurl = "https://{lms_base}/nicecheckplus".format(lms_base=lms_base)  # 성공시 이동될 URL
-    nice_errorurl = "https://{lms_base}/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
+
+    print 'debug check def account_settings_context'
+
+    if lms_base != 'www.kmooc.kr':
+        lms_base = '0.0.0.0:18000'
+
+    nice_returnurl = "{scheme}://{lms_base}/nicecheckplus".format(scheme=request.scheme, lms_base=lms_base)  # 성공시 이동될 URL
+    nice_errorurl = "{scheme}://{lms_base}/nicecheckplus_error".format(scheme=request.scheme, lms_base=lms_base)  # 실패시 이동될 URL
     nice_returnMsg = ''
 
     plaindata = '7:REQ_SEQ{0}:{1}8:SITECODE{2}:{3}9:AUTH_TYPE{4}:{5}7:RTN_URL{6}:{7}7:ERR_URL{8}:{9}11:POPUP_GUBUN{10}:{11}9:CUSTOMIZE{12}:{13}6:GENDER{14}:{15}' \
