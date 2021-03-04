@@ -197,6 +197,7 @@ def certificate_print(request):
                 margin-top: 0px!important;
                 font-size: 20px!important;
                 word-break: break-all;
+                max-width: 500px;
             }
             .ce-center-txt1{
                 text-align: center!important;
