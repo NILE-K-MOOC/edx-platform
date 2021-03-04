@@ -11,7 +11,8 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
 %>
 <style>
     .ce-txt-second{
-        max-width: 540px;
+        max-width: 500px;
+        word-break:break-all;
     }
     body {
         width: 100%!important;
@@ -254,7 +255,7 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
                 <div class="helloworld"></div>
 
                 <h5 class="ce-t-gray">강좌명</h5>
-                <h4 class="ce-txt-second" style="word-break:break-all;">${accomplishment_course_title[0]}</h4>
+                <h4 class="ce-txt-second" style="">${accomplishment_course_title[0]}</h4>
                 <blockquote>
                     <ul>
                         <li>강 좌 번 호 : ${course_id}</li>

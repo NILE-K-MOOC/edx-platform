@@ -14,6 +14,7 @@ if settings.FEATURES.get('ENABLE_COMBINED_LOGIN_REGISTRATION'):
         url(r'^settings_confirm$', views.account_settings_confirm, name='account_settings_confirm'),
         url(r'^remove_account_delsession$', views.remove_account_delsession, name='remove_account_delsession'),
         url(r'^settings_confirm_check$', views.account_settings_confirm_check, name='account_settings_confirm_check'),
+        url(r'^kakao_account_check$', views.kakao_account_check, name='kakao_account_check'),
         url(r'^account_settings2_confirm_check$', views.account_settings2_confirm_check,
             name='account_settings2_confirm_check'),
     ]

@@ -68,6 +68,7 @@ from django.db import connections
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.http import JsonResponse
+from kotech_common.utils import Utils
 import string
 import random
 import hashlib
@@ -858,6 +859,7 @@ def student_dashboard(request):
             org_value = request.session['org_value'] if 'org_value' in request.session else ''
             sub_email = request.session['sub_email'] if 'sub_email' in request.session else ''
             ci = request.session['CI'] if 'CI' in request.session else ''
+            enc_data = request.session['enc_data'] if 'enc_data' in request.session else ''
 
             name = request.session['kakao_name'] if 'kakao_name' in request.session else ''
             phone = request.session['kakao_phone'] if 'kakao_phone' in request.session else ''
@@ -881,6 +883,18 @@ def student_dashboard(request):
                 event_join_yn = 0
 
             phone = make_password(phone)
+
+            nice_check = False
+
+            if enc_data:
+                utils = Utils()
+                nice_dict = utils.nice_des_data(enc_data)
+                nice_di = nice_dict['DI']
+                nice_check = True
+            else:
+                nice_di = ''
+                nice_dict = ''
+                nice_check = False
 
             try:
 
@@ -907,6 +921,23 @@ def student_dashboard(request):
                     print query
                     print 'insert tb_auth_user_addinfo query check ---------------------- e'
                     cur.execute(query)
+
+                    if nice_check:
+                        result_dict = str(nice_dict)
+                        result_dict = result_dict.replace("'", '"')
+                        with connections['default'].cursor() as cur:
+                            query = """
+                                INSERT INTO edxapp.auth_user_nicecheck
+                                            (user_id,
+                                             nice_check,
+                                             di,
+                                             plain_data)
+                                VALUES      ('{0}',
+                                             'Y',
+                                             '{1}',
+                                             '{2}')
+                            """.format(str(user.id), nice_di, result_dict)
+                            cur.execute(query)
 
                 if 'private_info_use_yn' in request.session:
                     del request.session['private_info_use_yn']
