@@ -434,6 +434,9 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
         if addinfo_data[0] == 'Y':
             context['user_name'] = addinfo_data[1]
             context['birth_date'] = addinfo_data[2][0:4] + '.' + addinfo_data[2][4:6] + '.' + addinfo_data[2][6:8]
+        else:
+            context['user_name'] = ''
+            context['birth_date'] = ''
 
     else:
         context['user_name'] = ''
@@ -455,10 +458,6 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     else:
         context['org_name_k'] = org_name[0][0]
         context['org_name_e'] = org_name[0][1]
-
-    print 'debug -------------> s'
-    print context['birth_date']
-    print 'debug -------------> e'
 
     # ----이수증 query--
     cur = con.cursor()
