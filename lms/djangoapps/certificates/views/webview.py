@@ -407,13 +407,6 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
     addinfo_data = cur.fetchone()
     cur.close()
 
-    print 'seonwoo debug s'
-    print addinfo_data
-    print addinfo_data[0]
-    print addinfo_data[1]
-    print addinfo_data[2]
-    print 'seonwoo debug e'
-
     if len(plain_data) != 0:
         """
         nice_dict = ast.literal_eval(plain_data[0][0])
@@ -437,10 +430,10 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
         context['user_name'] = user_name
         context['birth_date'] = user_birth
 
-    elif addinfo_data[0] == 'Y':
-
-         context['user_name'] = addinfo_data[1]
-         context['birth_date'] = addinfo_data[2][0:4] + '.' + addinfo_data[2][4:6] + '.' + addinfo_data[2][6:8]
+    elif addinfo_data:
+        if addinfo_data[0] == 'Y':
+            context['user_name'] = addinfo_data[1]
+            context['birth_date'] = addinfo_data[2][0:4] + '.' + addinfo_data[2][4:6] + '.' + addinfo_data[2][6:8]
 
     else:
         context['user_name'] = ''
@@ -612,8 +605,12 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
 
     context['nice_check_flag'] = nice_check_flag[0][0]
 
-    if kakao_check_flag[0]:
-        context['kakao_check_flag'] = kakao_check_flag[0]
+    if kakao_check_flag:
+
+        if kakao_check_flag[0]:
+            context['kakao_check_flag'] = kakao_check_flag[0]
+        else:
+            context['kakao_check_flag'] = 'N'
     else:
         context['kakao_check_flag'] = 'N'
 
