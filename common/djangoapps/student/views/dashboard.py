@@ -882,7 +882,10 @@ def student_dashboard(request):
             else:
                 event_join_yn = 0
 
-            phone = make_password(phone)
+            if phone:
+                phone = make_password(phone)
+            else:
+                phone = None
 
             nice_check = False
 
