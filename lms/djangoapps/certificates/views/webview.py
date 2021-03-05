@@ -459,10 +459,6 @@ def _update_context_with_basic_info(context, course_id, platform_name, configura
         context['org_name_k'] = org_name[0][0]
         context['org_name_e'] = org_name[0][1]
 
-    print 'debug -------------> s'
-    print context['birth_date']
-    print 'debug -------------> e'
-
     # ----이수증 query--
     cur = con.cursor()
     query = """
