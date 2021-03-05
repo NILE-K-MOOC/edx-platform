@@ -2588,6 +2588,17 @@ def validate_new_email(user, new_email):
         raise ValueError(_('An account with this e-mail already exists.'))
 
 
+def validate_sub_new_email(user, new_email):
+
+    try:
+        validate_email(new_email)
+    except ValidationError:
+        raise ValueError(_('Valid e-mail address required.'))
+
+    if new_email == user.email:
+        raise ValueError(_('Old email is the same as the new email.'))
+
+
 def do_email_change_request(user, new_email, activation_key=None):
     """
     Given a new email for a user, does some basic verification of the new address and sends an activation message

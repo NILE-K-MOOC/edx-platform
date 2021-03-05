@@ -316,8 +316,8 @@ def parent_agree(request):
     # 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.
     lms_base = settings.ENV_TOKENS.get('LMS_BASE')
 
-    if lms_base != 'www.kmooc.kr':
-        lms_base = '0.0.0.0:18000'
+    # if lms_base != 'www.kmooc.kr':
+    #     lms_base = '0.0.0.0:18000'
 
     nice_returnurl = "{scheme}://{lms_base}/parent_agree_done".format(scheme=request.scheme, lms_base=lms_base)  # 성공시 이동될 URL
     nice_errorurl = "{scheme}://{lms_base}/nicecheckplus_error".format(scheme=request.scheme, lms_base=lms_base)  # 실패시 이동될 URL
@@ -605,8 +605,8 @@ def login_and_registration_form(request, initial_mode="login"):
 
     lms_base = settings.ENV_TOKENS.get('LMS_BASE')
 
-    if lms_base != 'www.kmooc.kr':
-        lms_base = '0.0.0.0:18000'
+    # if lms_base != 'www.kmooc.kr':
+    #     lms_base = '0.0.0.0:18000'
 
     nice_returnurl = "{scheme}://{lms_base}/account_nice_check_and_save".format(scheme=request.scheme, lms_base=lms_base)  # 성공시 이동될 URL
     nice_errorurl = "{scheme}://{lms_base}/nicecheckplus_error".format(scheme=request.scheme, lms_base=lms_base)  # 실패시 이동될 URL
@@ -1021,10 +1021,10 @@ def account_settings(request):
         nice_reqseq = 'REQ0000000001'  # 요청 번호, 이는 성공/실패후에 같은 값으로 되돌려주게 되므로
 
         # 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.
-        if lms_base != 'www.kmooc.kr':
-            lms_base = '0.0.0.0:18000'
-        elif lms_base != '0.0.0.0:18000':
-            lms_base = 'dev.kr'
+        # if lms_base != 'www.kmooc.kr':
+        #     lms_base = '0.0.0.0:18000'
+        # elif lms_base != '0.0.0.0:18000':
+        #     lms_base = 'dev.kr'
 
         # www.kmooc.kr
         nice_returnurl = "http://{lms_base}/account_nice_check".format(lms_base=lms_base)  # 성공시 이동될 URL
@@ -1206,8 +1206,8 @@ def remove_account_view(request):
     nice_reqseq = 'REQ0000000001'  # 요청 번호, 이는 성공/실패후에 같은 값으로 되돌려주게 되므로
 
     # 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.
-    if lms_base != 'www.kmooc.kr':
-        lms_base = '0.0.0.0:18000'
+    # if lms_base != 'www.kmooc.kr':
+    #     lms_base = '0.0.0.0:18000'
     # www.kmooc.kr
     nice_returnurl = "http://{lms_base}/account_nice_check".format(lms_base=lms_base)  # 성공시 이동될 URL
     nice_errorurl = "http://{lms_base}/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
@@ -1341,8 +1341,8 @@ def account_settings_context(request):
 
     print 'debug check def account_settings_context'
 
-    if lms_base != 'www.kmooc.kr':
-        lms_base = '0.0.0.0:18000'
+    # if lms_base != 'www.kmooc.kr':
+    #     lms_base = '0.0.0.0:18000'
 
     nice_returnurl = "{scheme}://{lms_base}/nicecheckplus".format(scheme=request.scheme, lms_base=lms_base)  # 성공시 이동될 URL
     nice_errorurl = "{scheme}://{lms_base}/nicecheckplus_error".format(scheme=request.scheme, lms_base=lms_base)  # 실패시 이동될 URL
