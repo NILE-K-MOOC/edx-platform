@@ -187,8 +187,6 @@ def update_account_settings(requesting_user, update, username=None):
         except BaseException:
             user_addinfo = TbAuthUserAddinfo(
                 user_id=requesting_user.id,
-                private_info_use_yn=False,
-                event_join_yn=False,
                 sub_email=new_sub_email,
                 org_id=update[u'organization'],
                 org_set_date=datetime.datetime.now(),
@@ -239,7 +237,7 @@ def update_account_settings(requesting_user, update, username=None):
 
     if changing_sub_email:
         try:
-            student_views.validate_new_email(existing_user, new_sub_email)
+            student_views.validate_sub_new_email(existing_user, new_sub_email)
         except ValueError as err:
             field_errors["sub_email"] = {
                 "developer_message": u"Error thrown from validate_new_email: '{}'".format(text_type(err)),
