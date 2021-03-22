@@ -621,7 +621,7 @@ msgstr "비활성화된 계정"
 
 #: common/djangoapps/student/models.py
 msgid "Male"
-msgstr "남성"
+msgstr "남자"
 
 #: common/djangoapps/student/models.py
 msgid "Female"
