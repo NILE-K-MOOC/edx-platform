@@ -86,6 +86,7 @@ if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
 
 urlpatterns = [
     url(r'^$', branding_views.index, name='root'),
+    url(r'^banner$', branding_views.banner, name='banner'),
     url(r'^get_index_courses$', student_views.get_index_courses, name='get_index_courses'),
 
     # Common

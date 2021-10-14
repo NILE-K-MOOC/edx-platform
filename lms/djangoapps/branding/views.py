@@ -172,6 +172,12 @@ def multisite_error(request):
 
     return render_to_response("multisite_error.html", context)
 
+
+@csrf_exempt
+def banner(request):
+    return render_to_response("banner.html")
+
+
 @csrf_exempt
 def multisite_index(request, org):
     # 중앙교육연수원의 추가 정보 입력을 위한 변수

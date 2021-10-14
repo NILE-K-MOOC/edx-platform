@@ -371,8 +371,7 @@ from openedx.core.djangolib.markup import HTML, Text
     <div class="sec-visual" style="margin: 5px 0;">
         <div class="container-fluid">
             <div class="visual-row">
-                <a href="detail.html" target="_blank"><img src="${STATIC_URL}images/banner1.png" alt="위대한수업 바로가기"
-                        style="width: 100%"></a>
+                <a href="/banner" target="_blank"><img src="${STATIC_URL}images/banner1.png" alt="위대한수업 바로가기" style="width: 100%"></a>
             </div>
         </div>
     </div>
@@ -411,11 +410,6 @@ from openedx.core.djangolib.markup import HTML, Text
                         <li>
                             <a target="_blank" href="https://cb.kmooc.kr/search">${_("Academic Credit Bank System")}</a>
                         </li>
-                        <!--
-                        <li>
-                            <a href="#" data-facet="home_course_yn" data-term="Y"><span style="color: antiquewhite;">${_("Home Courses")}</span></a>
-                        </li>
-                        -->
                     </ul>
                     <a href="/courses" class="more" title="강좌찾기 더 보기">more</a>
                 </div>
