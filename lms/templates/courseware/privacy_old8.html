@@ -1,0 +1,419 @@
+<%!
+  import json
+  from django.utils.translation import ugettext as _
+  from microsite_configuration import microsite
+%>
+## <%page expression_filter="h"/>
+## <%! from django.utils.translation import ugettext as _ %>
+<%inherit file="../main.html" />
+
+<%block name="pagetitle">${_("Privacy")}</%block>
+<style>
+  .underline-text {
+    font-size: 1.08rem; font-weight: bold; text-decoration-line: underline;
+  }
+  .underline-text1 {
+    font-size: 1.08rem; padding-left: 10px; font-weight: bold; text-decoration-line: underline;
+  }
+  .underline-text2 {
+    font-size: 1.08rem; padding-left: 20px; font-weight: bold; text-decoration-line: underline;
+  }
+</style>
+<main id="main" aria-label="Content" tabindex="-1">
+
+    <section class="container rule">
+        <!-- [s]  -->
+        <h2>국가평생교육진흥원 K-MOOC 홈페이지 개인정보처리방침</h2>
+        <section class="rule-box">
+            <p>K-MOOC 홈페이지(이하 “K-MOOC”이라 함)는 교육부 출연기관인 국가평생교육진흥원(이하 “진흥원”이라 함)에서 운영하고 있는 시스템으로 모든 개인정보는 관련 법령에 근거하여 수집ㆍ보유 및 처리되고 있습니다.<br><br>
+「개인정보 보호법」은 이러한 개인정보의 취급에 대한 일반적인 규범을 제시하고 있으며, 진흥원은 이러한 법령의 규정에 따라 수집·보유 및 처리하는 개인정보를 공공업무의 적절한 수행과 이용자의 권익을 보호하기 위해 적법하고 적정하게 취급할 것입니다.<br><br>
+또한, 진흥원은 관련 법령에서 규정한 바에 따라 보유하고 있는 개인정보에 대한 열람, 정정·삭제, 처리정지 요구 등 개인정보를 처리 시 이용자의 권익을 존중하며, 이용자는 이러한 법령상 권익의 침해 등에 대하여 행정심판법에서 정하는 바에 따라 행정심판을 청구할 수 있습니다.<br><br>
+진흥원은 「개인정보 보호법」 제30조에 따라 정보주체의 개인정보 보호 및 권익을 보호하고 개인정보와 관련한 이용자의 고충을 원활하게 처리할 수 있도록 다음과 같은 개인정보 처리방침을 수립·공개하고 있습니다. <br><br>
+
+            </p>
+##             <p>개인정보처리방침을 개정하는 경우 당 홈페이지 공지사항(또는 개별공지)을 통하여 공지할 것입니다.</p>
+
+            <div class="table-box">
+                <table>
+                <caption>
+                        개인정보처리방침 항목
+                    </caption>
+                    <colgroup>
+                        <col width="50%"/>
+                        <col width="50%"/>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <a href="#no1">제1조(개인정보의 처리 목적)</a><br/>
+                                <a href="#no2">제2조(개인정보의 처리 및 보유 기간)</a><br/>
+                                <a href="#no3">제3조(개인정보의 제3자 제공)</a><br/>
+                                <a href="#no4">제4조(개인정보처리의 위탁)</a><br/>
+                                <a href="#no5">제5조(정보주체와 법정대리인의 권리∙의무 및 행사방법)</a><br/>
+                                <a href="#no6">제6조(처리하는 개인정보 항목)</a><br/>
+                            </td>
+                            <td>
+                                <a href="#no7">제7조(개인정보 파기)</a><br/>
+                                <a href="#no8">제8조(개인정보의 안전성 확보 조치)</a><br/>
+                                <a href="#no9">제9조(개인정보 보호책임자)</a><br/>
+                                <a href="#no10">제10조(개인정보를 자동으로 수집하는 장치의 설치․운영 및 그 거부에 관한 사항)</a><br/>
+                                <a href="#no11">제11조(개인정보 열람청구)</a><br/>
+                                <a href="#no12">제12조(권익침해 구제방법)</a><br/>
+                                <a href="#no13">제13조(개인정보 처리방침의 변경)</a><br/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 id="no1">제1조 (개인정보의 처리 목적)</h3>
+            <ol>
+                <li>1. 진흥원은 다음의 목적을 위하여 개인정보를 처리합니다. 처리하고 있는 개인정보는 다음의 목적 이외의 용도로는 이용되지 않으며, 이용 목적이 변경되는 경우에는 「개인정보 보호법」 제18조에 따라 별도의 동의를 받는 등 필요한 조치를 이행할 예정입니다.
+                    <ol>
+                        <li>
+                            <span class="underline-text">① 서비스 제공 및 개선</span><br>
+                            <span class="underline-text">기본 서비스 제공을 위한 학습결과 산출 및 관련 정보 제공, 서비스 개선 방향 도출을 위한 통계 산출 및 진흥원 연구 수행과 홍보·설문 실시를 위한 연락 등을 목적으로 개인정보를 처리합니다.</span>
+                        </li>
+                        <li>
+                            <span class="underline-text">② 홈페이지 회원 관리</span><br>
+                            <span class="underline-text">회원제 서비스 제공에 따른 본인 식별 · 인증, 서비스 부정이용 방지, 만 14세 미만 아동의 개인정보 처리 시 법정대리인의 동의여부 확인, 분쟁 조정을 위한 기록보존, 각종 고지ㆍ통지 등을 목적으로 개인정보를 처리합니다.</span>
+                        </li>
+                        <li>
+                            <span class="underline-text">③ 민원사무 처리</span><br>
+                            <span class="underline-text">민원인의 신원 확인, 민원사항 확인, 사실조사를 위한 연락ㆍ통지, 처리결과 통보 등의 목적으로 개인정보를 처리합니다.</span>
+                        </li>
+                    </ol>
+                </li>
+                <li>2. 진흥원은 「개인정보 보호법」 제32조에 따라 등록ㆍ공개하는 개인정보파일의 처리목적은 다음과 같습니다.</li>
+            </ol>
+            <div class="table-box">
+                <table>
+                    <caption>개인정보 파일의 처리</caption>
+                    <colgroup>
+                        <col width="15%"/>
+                        <col width="15%"/>
+                        <col width="12%"/>
+                        <col width="*"/>
+                        <col width="15%"/>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th scope="col" class="gray" style="padding: 5px;">개인정보파일</th>
+                            <th scope="col" class="gray" style="padding: 5px;">보유근거</th>
+                            <th scope="col" class="gray" style="padding: 5px;">처리목적</th>
+                            <th scope="col" class="gray" style="padding: 5px;">개인정보파일에 기록되는 개인정보의 항목</th>
+                            <th scope="col" class="gray" style="padding: 5px;">보유기간</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan="2" class="ac td-middle"><br>K-MOOC<br>회원명부</td>
+                            <td class="td-middle">정보주체 동의</td>
+                            <td class="ac td-middle"><span class="underline-text">회원관리,<br>서비스 제공<br>및 개선</span></td>
+                            <td class="td-middle">
+                                - 필수 : 아이디, 비밀번호, 성명, 생년월일, 성별, 전자우편주소<br/>
+                                - 선택 : 휴대폰번호, 최종학력, 국가, 거주지, 가입목적
+                            </td>
+                            <td class="ac td-middle"><span class="underline-text">회원탈퇴 시까지<br/>(2년마다 재동의)</span></td>
+                        </tr>
+                        <tr>
+                            <td class="td-middle">민원처리에 관한 법률 <br/>시행령 제6조,<br/>동법 시행규칙 제3조</td>
+                            <td class="ac td-middle"><span class="underline-text">민원 사무 처리</span></td>
+                            <td class="td-middle">
+                                - 필수 : 전자우편주소
+                            </td>
+                            <td class="ac td-middle"><span class="underline-text">민원처리 종료 후 <br/>3년</span></td>
+                        </tr>
+                        <tr>
+                            <td class="ac td-middle">K-MOOC<br>회원학습이력정보</td>
+                            <td class="td-middle">정보주체 동의</td>
+                            <td class="ac td-middle"><span class="underline-text">학습이력관리<br/>및 이수증<br/>고지의 필요성</span></td>
+                            <td class="td-middle">
+                                - 필수 : 아이디, 학습이력, 접속 IP주소
+                            </td>
+                            <td class="ac td-middle"><span class="underline-text">준영구</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p>※ 진흥원은 법령에 따른 개인정보 보유·이용기간 또는 정보주체로부터 개인정보를 수집 시에 동의 받은 개인정보 보유·이용기간 내에서 개인정보를 처리·보유합니다.</p>
+
+
+            <h3 id="no2">제2조 (개인정보의 처리 및 보유기간)</h3>
+            <p>1. 진흥원은 법령에 따른 개인정보 보유·이용기간 또는 정보주체로부터 개인정보를 수집 시에 동의 받은 개인정보 보유·이용기간 내에서 개인정보를 처리·보유합니다.</p>
+            <p style="margin-bottom: 5px;">2. 각각의 개인정보 처리 및 보유 기간은 다음과 같습니다.</p>
+            <ol style="padding-left: 1.2em;">
+                <li><span class="underline-text">① K-MOOC 회원가입정보 : K-MOOC 홈페이지 탈퇴 또는 휴면계정 전환 후 1개월까지 보유합니다. 다만, 다음의 사유에 해당하는 경우에는 해당 사유 종료 시까지 보유합니다.</span>
+                <ol>
+                    <li> <span class="underline-text">1) 관계 법령 위반에 따른 수사ㆍ조사 등이 진행 중인 경우에는 해당 수사ㆍ조사 종료 시까지</span></li>
+                    <li> <span class="underline-text">2) 홈페이지 이용에 따른 채권ㆍ채무관계 잔존 시에는 해당 채권ㆍ채무관계 정산 시까지</span></li>
+                </ol>
+                </li>
+                <li><span class="underline-text">② 민원사무 처리 : 민원처리 종료 후 3년</span> </li>
+            </ol>
+
+
+            <h3 id="no3">제3조 (개인정보의 제3자 제공)</h3>
+            <p>진흥원은 기본적으로 개인정보를 제3자에게 제공하고 있지 않습니다. 다만, 정보주체의 개인정보를 제1조(개인정보의 처리 목적)에서 명시한 범위 내에서만 처리하며, 정보주체의 동의, 법률의 특별한 규정 등 「개인정보 보호법」 제17조에 해당하는 경우에만 개인정보를 제3자에게 제공합니다.</p>
+
+            <h3 id="no4">제4조 (개인정보처리의 위탁)</h3>
+            <ol>
+                <li>1. 진흥원은 다음과 같이 개인정보 처리업무를 위탁하고 있습니다.<br/>
+                    <a href="https://admin.kmooc.kr/common/file_download?id=2511" target="_blank">
+                        <input type="button" value="개인정보 처리업무 위탁 현황 보기" title="개인정보 처리업무 위탁 현황 보기">
+                    </a>
+                </li>
+                <li>2. 진흥원은 위탁계약 체결 시 「개인정보 보호법」제25조에 따라 위탁업무 수행목적 외 개인정보 처리금지, 기술적ㆍ관리적 보호조치, 재위탁 제한, 수탁자에 대한 관리ㆍ감독, 손해배상 등 책임에 관한 사항을 계약서 등 문서에 명시하고, 수탁자가 개인정보를 안전하게 처리하는지를 감독하고 있습니다.</li>
+                <li>3. 위탁업무의 내용이나 수탁자가 변경될 경우에는 지체없이 본 개인정보 처리방침을 통하여 공개하도록 하겠습니다.</li>
+            </ol>
+
+            <h3 id="no5">제5조 (정보주체와 법정대리인의 권리ㆍ의무 및 행사방법)</h3>
+            <ol>
+                <li>1. 정보주체와 법정대리인은 진흥원에 대해 언제든지 다음 각 호의 개인정보 보호 관련 권리를 행사할 수 있습니다.
+                    <ol class="dash">
+                        <li>① 개인정보 열람 요구</li>
+                        <li>② 오류 등이 있을 경우 정정 요구</li>
+                        <li>③ 삭제요구</li>
+                        <li>④ 처리정지 요구</li>
+                    </ol>
+                </li>
+                <li>2. 제1항에 따른 권리 행사는 진흥원에 대해 「개인정보보호법 시행규칙」 별지 제8호서식의 개인정보 열람, 정정·삭제, 처리정지 요구서를 작성하여 당 홈페이지 내 ‘커뮤니티’-‘Q&A’-‘이메일로 문의하기’ 메뉴 또는 제11조 접수ㆍ처리부서 연락처로 송부하여 행사 하실 수 있으며, 진흥원은 이에 대해 지체 없이 조치하겠습니다.</li>
+                <li>3. 개인정보 열람, 정정, 삭제, 처리정지 요구는 개인정보보호종합지원포털(www.privacy.go.kr)을 통해서 아래와 같은 방법으로 신청하실 수도 있습니다.
+                    <ol class="dash">
+                        <li>① 개인정보보호종합지원 포털(www.privacy.go.kr)에 접속</li>
+                        <li>② 개인정보민원 → 개인정보열람 등 요구안내 → [개인정보 열람 등 청구] 클릭</li>
+                        <li>③ 공공 i-PIN인증으로 본인 확인 </li>
+                        <li>④ [개인정보파일 목록검색]을 통한 대상기관 선택</li>
+                        <li>⑤ 신청유형 선택(개인정보 열람, 개인정보 정정ㆍ삭제, 개인정보 처리정지 요구 중 하나를 선택)</li>
+                        <li>⑥ 요구서 작성 후 민원청구</li>
+                    </ol>
+                </li>
+                <li>4. 정보주체가 개인정보의 오류 등에 대한 정정 또는 삭제를 요구한 경우에 진흥원은 정정 또는 삭제를 완료할 때까지 당해 개인정보를 이용하거나 제공하지 않습니다.</li>
+                <li>5. 제1항에 따른 권리 행사는 정보주체의 법정대리인이나 위임을 받은 자 등 대리인을 통하여 하실 수 있습니다. 이 경우 「개인정보 보호법 시행규칙」 별지 제11호 서식에 따른 위임장을 제출하셔야 합니다.</li>
+                <li>6. 정보주체는 「개인정보 보호법」 등 관계법령을 위반하여 진흥원이 처리하고 있는 정보주체 본인이나 타인의 개인정보 및 사생활을 침해하여서는 아니 됩니다.</li>
+            </ol>
+
+
+            <h3 id="no6">제6조 (처리하는 개인정보 항목)</h3>
+            진흥원은 다음의 개인정보 항목을 처리하고 있습니다.
+            <ol>
+                <li>1. K-MOOC 홈페이지 회원명부
+                    <ol>
+                        <li>① 회원관리, 홈페이지 회원 관리
+                            <ul class="dash">
+                                <li>필수항목 : 아이디, 비밀번호, 성명, 생년월일, 성별, 전자우편주소</li>
+                                <li>선택항목 : 휴대폰번호, 최종학력, 국가, 거주지, 가입목적<br/>(만 14세미만일 경우: 법정대리인 동의(휴대폰번호 인증))</li>
+                            </ul>
+                        </li>
+                        <li>② 민원사무 처리
+                            <ul class="dash">
+                                <li>필수항목 : 전자우편주소</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </li>
+                <li>2. K-MOOC 학습이력정보
+                    <ul class="dash">
+                        <li>필수항목 : 아이디, 학습이력, 접속 IP주소</li>
+                    </ul>
+                </li>
+            </ol>
+
+
+            <h3 id="no7">제7조 (개인정보 파기)</h3>
+            <ol>
+            <li>1. 진흥원은 개인정보 보유기간의 경과, 처리목적 달성 등 개인정보가 불필요하게 되었을 때에는 지체 없이 해당 개인정보를 파기합니다.</li>
+            <li>2. 정보주체로부터 동의 받은 개인정보 보유기간이 경과하거나 처리목적이 달성되었음에도 불구하고 다른 법령에 따라 개인정보를 계속 보존하여야 하는 경우에는, 해당 개인정보(또는 개인정보파일)를 별도의 데이터베이스(DB)로 옮기거나 보관 장소를 달리하여 보존합니다.</li>
+            <li>3. 개인정보 파기의 절차 및 방법은 다음과 같습니다.
+                <ol>
+                    <li>① 파기절차
+                        <ol>
+                            <li>진흥원은 파기하여야 하는 개인정보(또는 개인정보파일)에 대해 개인정보 파기계획을 수립하여 파기합니다. 진흥원은 파기 사유가 발생한 개인정보(또는 개인정보파일)를 선정하고, 진흥원은 개인정보 보호책임자의 승인을 받아 개인정보(또는 개인정보파일)를 파기합니다.</li>
+                        </ol>
+                    </li>
+                    <li>② 파기방법
+                        <ol>
+                            <li>진흥원은 전자적 파일 형태로 기록ㆍ저장된 개인정보는 기록을 재생할 수 없도록 로우레밸 포맷(Low Level Format) 등의 방법을 이용하여 파기하며, 종이 문서에 기록ㆍ저장된 개인정보는 분쇄기로 분쇄하거나 소각하여 파기합니다.</li>
+                        </ol>
+                    </li>
+                </ol>
+            </li>
+            </ol>
+
+            <h3 id="no8">제8조 (개인정보의 안전성 확보 조치)</h3>
+            진흥원은 개인정보의 안전성 확보를 위해 다음과 같은 조치를 취하고 있습니다.
+            <ol>
+                <li>1. 관리적 조치 : 내부관리계획 수립ㆍ시행, 정기적 직원 교육 등</li>
+                <li>2. 기술적 조치 : 개인정보처리시스템 등의 접근권한 관리, 접근통제시스템 설치, 고유식별정보 등의 암호화, 보안프로그램 설치</li>
+                <li>3. 물리적 조치 : 전산실, 자료보관실 등의 접근통제
+                </li>
+            </ol>
+
+            <h3 id="no9">제9조 (개인정보 보호책임자)</h3>
+            <ol>
+                <li>1. 진흥원은 개인정보 처리에 관한 업무를 총괄해서 책임지고, 개인정보 처리와 관련한 정보주체의 불만처리 및 피해구제 등을 위하여 아래와 같이 개인정보 보호책임자를 지정하고 있습니다.</li>
+                 <div class="table-box">
+                <table>
+                    <caption>개인정보 파일의 처리</caption>
+                    <colgroup>
+                        <col width="*"/>
+                        <col width="24%"/>
+                        <col width="24%"/>
+                        <col width="24%"/>
+                    </colgroup>
+                    <tr>
+                        <th scope="col" class="gray" style="padding: 5px;">구분</th>
+                        <th scope="col" class="gray" style="padding: 5px;">부서명/직책</th>
+                        <th scope="col" class="gray" style="padding: 5px;">성명</th>
+                        <th scope="col" class="gray" style="padding: 5px;">연락처</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 5px;" class="ac td-middle">개인정보보호책임관</td>
+                        <td style="padding: 5px;" class="ac td-middle">기획경영혁신본부 본부장</td>
+                        <td style="padding: 5px;" class="ac td-middle">변종임</td>
+                        <td style="padding: 5px;" class="ac td-middle" rowspan="5">info_kmooc@nile.or.kr</td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding: 5px;" class="ac td-middle">부서별 개인정보보호책임자</td>
+                        <td style="padding: 5px;" class="ac td-middle">미래전략사업본부 본부장</td>
+                        <td style="padding: 5px;" class="ac td-middle">권재현</td>
+
+                    </tr>
+
+                    <tr>
+                        <td style="padding: 5px;" class="ac td-middle">개인정보보호책임관</td>
+                        <td style="padding: 5px;" class="ac td-middle">K-MOOC운영센터 센터장</td>
+                        <td style="padding: 5px;" class="ac td-middle">조재동</td>
+
+                    </tr>
+
+                </table>
+            </div>
+                <li>2. 정보주체는 진흥원의 서비스(또는 사업)를 이용하면서 발생한 모든 개인정보 보호 관련 문의, 불만처리, 피해구제 등에 관한 사항을 개인정보보호책임관 및 담당자에게 문의하실 수 있습니다. 진흥원은 정보주체의 문의에 대해 지체 없이 답변 및 처리하겠습니다.
+                </li>
+            </ol>
+
+
+
+
+            <h3 id="no10">제10조 (개인정보를 자동으로 수집하는 장치의 설치ㆍ운영 및 그 거부에 관한 사항)</h3>
+            <ol>
+                <li>1. 쿠키의 사용 목적
+                <ol>
+                    <li>① 진흥원은 개인 맞춤 서비스를 제공하기 위해서 이용자에 대한 정보를 저장하고 수시로 불러오는 '쿠키(cookie)'를 사용합니다. 쿠키는 웹사이트 서버가 이용자의 브라우저에게 전송하는 소량의 정보로서 이용자 컴퓨터의 하드디스크에 저장됩니다.</li>
+                    <li>② 진흥원은 쿠키의 사용을 통해서만 가능한 특정된 맞춤형 서비스를 제공할 수 있습니다. </li>
+                    <li>③ 진흥원은 홈페이지 회원을 식별하고 홈페이지 회원의 로그인 상태를 유지하기 위해 쿠키를 사용할 수 있습니다.</li>
+                </ol>
+                </li>
+                <li>2. 쿠키의 설치ㆍ운용 및 거부
+                    <ol>
+                        <li>① 이용자는 쿠키 설치에 대한 선택권을 가지고 있습니다. 따라서 이용자는 웹브라우저에서 옵션을 조정함으로써 모든 쿠키를 허용/거부하거나, 쿠키가 저장될 때마다 확인을 거치도록 할 수 있습니다.></li>
+                        <li>※ 쿠키 설치 허용 여부를 지정하는 방법(Internet Explorer의 경우)은 다음과 같습니다.
+                        <ol>
+                            <li>1) 웹브라우저의 [도구] 메뉴에서 [인터넷 옵션]을 선택합니다. </li>
+                            <li>2) [개인정보 탭]을 클릭합니다.</li>
+                            <li>3) [개인정보취급 수준]을 설정하시면 됩니다. </li>
+                        </ol>
+                        </li>
+                    </ol>
+                    <ol>
+                        <li>② 쿠키의 저장을 거부할 경우에는 개인 맞춤서비스 등 진흥원이 제공하는 일부 서비스는 이용이 어려울 수 있습니다.</li>
+                    </ol>
+                </li>
+            </ol>
+
+            <h3 id="no11">제11조 (개인정보 열람청구)</h3>
+            <ol>
+                <li>1. 정보주체는 「개인정보 보호법」 제35조에 따른 개인정보의 열람 청구를 아래의 부서에 할 수 있습니다. 진흥원은 정보주체의 개인정보 열람청구가 신속하게 처리되도록 노력하겠습니다.
+                <ol>
+                    <li>▶ 개인정보 열람청구 접수ㆍ처리부서
+                        <ul class="none">
+                            <li>부서명 : K-MOOC운영센터</li>
+                            <li>담당자 : 박준용</li>
+                            <li>연락처 : 전화번호) 1811-3118 (평일 9:00~18:00 운영 (점심시간 12:00~13:00 제외)), 이메일) info_kmooc@nile.or.kr</li>
+                        </ul>
+                    </li>
+                </ol>
+                </li>
+                <li>2. 정보주체께서는 제1항의 열람청구 접수ㆍ처리부서 이외에, 행정안전부의 ‘개인정보보호 종합포털’(www.privacy.go.kr)을 통하여서도 개인정보 열람청구를 하실 수 있습니다.
+                    <ol>
+                        <li>▶ 행정안전부 개인정보보호 종합포털 → 민원마당 → 개인정보 열람 등 요구(공공아이핀 또는 휴대폰을 통한 실명인증 필요)</li>
+                    </ol>
+                </li>
+
+            </ol>
+
+            <h3 id="no12">제12조 (권익침해 구제방법)</h3>
+            <ol>
+                <li>1. 정보주체는 아래의 기관에 대해 개인정보 침해에 대한 피해구제, 상담 등을 문의하실 수 있습니다.</li>
+                <li>&lt;아래의 기관은 진흥원과는 별개의 기관으로서, 당 홈페이지의 자체적인 개인정보 불만처리, 피해구제 결과에 만족하지 못하시거나 보다 자세한 도움이 필요하시면 문의하여 주시기 바랍니다.&gt;
+                    <ol class="dash">
+                        <li>▶ 개인정보 침해신고센터 (한국인터넷진흥원 운영)
+                            <ul class="dash">
+                                <li>소관업무 : 개인정보 침해사실 신고, 상담 신청</li>
+                                <li>홈페이지 : privacy.kisa.or.kr</li>
+                                <li>전화 : (국번없이) 118</li>
+                                <li>주소 : 전라남도 나주시 진흥길 9 한국인터넷진흥원</li>
+                            </ul>
+                        </li>
+                    </ol>
+
+                    <ol class="dash">
+                        <li>▶ 개인정보 분쟁조정위원회 (한국인터넷진흥원 운영)
+                            <ul class="dash">
+                                <li>소관업무 : 개인정보 분쟁조정신청, 집단분쟁조정 (민사적 해결)</li>
+                                <li>홈페이지 : www.kopico.go.kr</li>
+                                <li>전화 : 1833-6972</li>
+                                <li>주소 : 서울특별시 종로구 세종대로 209 정부서울청사 4층 </li>
+                             </ul>
+                        </li>
+                    </ol>
+
+                    <ol class="none">
+                        <li>▶ 대검찰청 사이버범죄수사단 : (국번없이) 1301, cid@spo.go.kr (www.spo.go.kr)</li>
+                    </ol>
+
+                    <ol class="none">
+                        <li>▶ 경찰청 사이버안전국 : (국번없이) 182 (cyberbureau.police.go.kr)</li>
+                    </ol>
+                </li>
+                <li>2. 정보주체의 권리행사 요구 거절 시 불복을 위한 이의제기 절차는 다음과 같습니다.
+                <ol>
+                    <li>① 담당부서는 정보주체의 열람 등 요구에 대해 연기 또는 거절 시, 요구 받은 날로부터 10일 이내에 정당한 사유 및 이의제기 방법 등을 정보주체에게 서면으로 통지 </li>
+                    <li>② 담당부서에서 정보주체의 이의제기 신청을 접수(서면, 팩스, 이메일 등)하여 담당부서 개인정보보호 담당자가 내용 확인 </li>
+                    <li>③ 개인정보보호 분야별책임자가 처리결과에 대한 최종 검토 </li>
+                    <li>④ 담당부서에서 정보주체에게 처리결과 통보</li>
+                    <li>⑤ 정보주체의 요구에 대하여 진흥원장이 행한 처분 또는 부작위로 인하여 권리 또는 이익의 침해를 받은 정보주체는 행정심판법이 정하는 바에 따라 행정심판을 청구할 수 있습니다. </li>
+                    <li>※ 행정심판에 대해 자세한 사항은 온라인행정심판(http://www.simpan.go.kr) 홈페이지를 참고하시기 바랍니다.</li>
+                </ol>
+                </li>
+            </ol>
+
+            <h3 id="no13">제13조 (개인정보 처리방침의 변경)</h3>
+            <ol>
+                <li>1. 본 방침은 2021년 2월 23일부터 시행됩니다. </li>
+                <li>2. 이전의 개인정보 처리방침은 아래에서 확인하실 수 있습니다
+                    <ul class="dash">
+                        <li><a href="/Privacy-Policy_old1">2015. 10. 14. ~ 2016. 06. 20. 적용 (클릭)</a></li>
+                        <li><a href="/Privacy-Policy_old2">2016. 06. 21. ~ 2016. 11. 27. 적용 (클릭)</a></li>
+                        <li><a href="/Privacy-Policy_old3">2016. 11. 28. ~ 2017. 11. 19. 적용 (클릭)</a></li>
+                        <li><a href="/Privacy-Policy_old4">2017. 11. 20. ~ 2018. 05. 20. 적용 (클릭)</a></li>
+                        <li><a href="/Privacy-Policy_old5">2018. 05. 21. ~ 2019. 04. 14. 적용 (클릭)</a></li>
+                        <li><a href="/Privacy-Policy_old7">2019. 04. 15. ~ 2021. 02. 23. 적용 (클릭)</a></li>
+                    </ul>
+                </li>
+            </ol>
+
+        </section>
+
+        <!-- [e]  -->
+    </section>
+
+</main>
