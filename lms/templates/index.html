@@ -197,12 +197,12 @@ from openedx.core.djangolib.markup import HTML, Text
     }
 
     cookiedata = document.cookie;
-    /*
+    
     $("#layerPopupArea .pop_content").each(function () {
         var content_id = $(this).attr("id");
         $("#" + content_id).html($("#" + content_id).text());
     });
-    */
+    
     var leng = '${max_pop}';
     leng = Number(leng);
     for (var i = 1; i <= leng; i++) {
