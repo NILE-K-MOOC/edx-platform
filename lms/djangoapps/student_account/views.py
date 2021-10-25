@@ -611,7 +611,12 @@ def login_and_registration_form(request, initial_mode="login"):
     nice_returnurl = "{scheme}://{lms_base}/account_nice_check_and_save".format(scheme=request.scheme, lms_base=lms_base)  # 성공시 이동될 URL
     nice_errorurl = "{scheme}://{lms_base}/nicecheckplus_error".format(scheme=request.scheme, lms_base=lms_base)  # 실패시 이동될 URL
 
-    enc_data = utils.nice_enc_data(nice_returnurl=nice_returnurl, nice_errorurl=nice_errorurl)
+    try:
+        enc_data = utils.nice_enc_data(nice_returnurl=nice_returnurl, nice_errorurl=nice_errorurl)
+    except Exception as e:
+        enc_data = None
+        print e.message
+
     context.update(enc_data=enc_data, correct=None)
     #########################################################
 
