@@ -142,3 +142,9 @@ dist
 # Visual Studio Code
 .vscode
 /kotech_utility/venv
+
+# migrations file
+common/djangoapps/student/migrations/
+lms/djangoapps/courseware/migrations/
+openedx/core/djangoapps/api_admin/migrations/
+openedx/core/djangoapps/credit/migrations/
