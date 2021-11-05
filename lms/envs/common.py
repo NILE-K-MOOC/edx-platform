@@ -329,6 +329,8 @@ COURSE_DISCOVERY_FILTERS = [
     'middle_classfy',
     'linguistics_yn',
     'linguistics',
+    'liberal_arts_yn',
+    'liberal_arts',
     'course_period',
     'fourth_industry_yn',
     'job_edu_yn',

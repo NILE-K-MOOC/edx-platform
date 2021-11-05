@@ -965,6 +965,16 @@ def _create_or_rerun_course(request):
         teacher_name = request.json.get('teacher_name')
         classfy_plus = request.json.get('classfy_plus')
         linguistics = request.json.get('linguistics')
+        if not linguistics:
+            linguistics = 'N'
+
+        liberal_arts_yn = request.json.get('liberal_arts_yn')
+        if not liberal_arts_yn:
+            liberal_arts_yn = 'liberal_arts_n'
+
+        liberal_arts = request.json.get('liberal_arts')
+        if not liberal_arts:
+            liberal_arts = ''
 
         fields.update({
             'classfy': classfy,
@@ -975,6 +985,8 @@ def _create_or_rerun_course(request):
             'teacher_name': teacher_name,
             'classfy_plus': classfy_plus,
             'linguistics': linguistics,
+            'liberal_arts_yn': liberal_arts_yn,
+            'liberal_arts': liberal_arts,
             'fourth_industry_yn': 'N',
             'home_course_yn': 'N',
             'home_course_step': None,
@@ -985,6 +997,8 @@ def _create_or_rerun_course(request):
             'course_level': None,
             'preview_video': None
         })
+
+        print 'fields:', fields
 
         # 기관코드를 이용하여 기관 한글명, 기관 영문명을 가져온다.
 
@@ -1084,7 +1098,7 @@ def create_new_course(user, org, number, run, fields):
     new_course = create_new_course_in_store(store_for_new_course, user, org, number, run, fields)
     add_organization_course(org_data, new_course.id)
     try:
-        print 'new_course.id ====> ', new_course.id
+        print 'new_course.id1 ====> ', new_course.id
         # 이수증 생성을 위한 course_mode 등록
 
         with connections['default'].cursor() as cur:
@@ -1121,6 +1135,9 @@ def create_new_course(user, org, number, run, fields):
 
         linguistics = fields['linguistics']
 
+        liberal_arts_yn = fields['liberal_arts_yn']
+        liberal_arts = fields['liberal_arts']
+
         with connections['default'].cursor() as cur:
             query = """
                 INSERT INTO course_overview_addinfo(course_id,
@@ -1132,7 +1149,9 @@ def create_new_course(user, org, number, run, fields):
                                                     middle_classfy,
                                                     classfy,
                                                     classfy_plus,
-                                                    linguistics
+                                                    linguistics,
+                                                    liberal_arts_yn,
+                                                    liberal_arts
                                                     )
                      VALUES ('{course_id}',
                              date_format(now(), '%Y'),
@@ -1146,11 +1165,13 @@ def create_new_course(user, org, number, run, fields):
                              '{middle_classfy}',
                              '{classfy}',
                              '{classfy_plus}',
-                             '{linguistics}'
+                             '{linguistics}',
+                             '{liberal_arts_yn}',
+                             '{liberal_arts}'
                              );
             """.format(course_id=course_id, user_id=user_id,
                        middle_classfy=middle_classfy, classfy=classfy, course_number=course_number, org=org,
-                       classfy_plus=classfy_plus, linguistics=linguistics)
+                       classfy_plus=classfy_plus, linguistics=linguistics, liberal_arts_yn=liberal_arts_yn, liberal_arts=liberal_arts)
 
             cur.execute(query)
 
@@ -1300,6 +1321,8 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
                     ,audit_yn
                     ,classfy_sub
                     ,linguistics
+                    ,liberal_arts_yn
+                    ,liberal_arts
                     ,job_edu_yn
                     ,home_course_yn
                     ,home_course_step
@@ -1332,6 +1355,8 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
                     ,audit_yn
                     ,classfy_sub
                     ,linguistics
+                    ,liberal_arts_yn
+                    ,liberal_arts
                     ,job_edu_yn
                     ,home_course_yn
                     ,home_course_step
@@ -1438,6 +1463,8 @@ def _rerun_course(request, org, number, run, fields):
         fields['middle_classfy'] = source_course.middle_classfy
         fields['middle_classfysub'] = source_course.middle_classfysub
         fields['linguistics'] = source_course.linguistics
+        fields['liberal_arts_yn'] = source_course.liberal_arts_yn
+        fields['liberal_arts'] = source_course.liberal_arts
         fields['course_period'] = source_course.course_period
         fields['user_edit'] = source_course.user_edit
         # fields['org_kname'] = None
@@ -1473,7 +1500,7 @@ def _rerun_course(request, org, number, run, fields):
     rerun_course.delay(unicode(source_course_key), unicode(destination_course_key), request.user.id, json_fields)
     log.info("course_mode start (_rerun_course)--1")
     try:
-        print 'new_course.id ====> ', destination_course_key
+        print 'new_course.id2 ====> ', destination_course_key
         # 이수증 생성을 위한 course_mode 등록
         log.info("course_mode start (_rerun_course)--2")
         with connections['default'].cursor() as cur:
@@ -1503,6 +1530,8 @@ def _rerun_course(request, org, number, run, fields):
         classfy_plus = fields['classfy_plus']
         course_period = fields['course_period']
         preview_video = fields['preview_video']
+        liberal_arts_yn = fields['liberal_arts_yn']
+        liberal_arts = fields['liberal_arts']
 
         with connections['default'].cursor() as cur:
             query = """
@@ -1516,7 +1545,10 @@ def _rerun_course(request, org, number, run, fields):
                                                     classfy,
                                                     classfy_plus,
                                                     course_period,
-                                                    preview_video)
+                                                    preview_video,
+                                                    liberal_arts_yn,
+                                                    liberal_arts
+                                                    )
                      VALUES ('{course_id}',
                              date_format(now(), '%Y'),
                              (SELECT count(*)
@@ -1530,10 +1562,12 @@ def _rerun_course(request, org, number, run, fields):
                              '{classfy}',
                              '{classfy_plus}',
                              '{course_period}',
-                             '{preview_video}');
+                             '{preview_video}',
+                             '{liberal_arts_yn}',
+                             '{liberal_arts}');
             """.format(course_id=destination_course_key, user_id=user_id, middle_classfy=middle_classfy,
                        classfy=classfy, course_number=number, org=org, classfy_plus=classfy_plus,
-                       course_period=course_period, preview_video=preview_video)
+                       course_period=course_period, preview_video=preview_video, liberal_arts_yn=liberal_arts_yn, liberal_arts=liberal_arts)
 
             print 'rerun_course insert -------------- ', query
             cur.execute(query)
@@ -2536,6 +2570,10 @@ def advanced_settings_handler(request, course_key_string):
                         audit_yn = 'N' if not audit_yn or audit_yn not in ['Y', 'y'] else 'Y'
                     if 'teacher_name' in params:
                         teacher_name = params['teacher_name']['value']
+                    if 'liberal_arts_yn' in params:
+                        liberal_arts_yn = params['liberal_arts_yn']['value']
+                    if 'liberal_arts' in params:
+                        liberal_arts = params['liberal_arts']['value']
 
                     try:
                         with connections['default'].cursor() as cur:
@@ -2553,6 +2591,22 @@ def advanced_settings_handler(request, course_key_string):
                                      WHERE course_id = '{course_id}';
                                 """.format(course_id=course_key_string,
                                            teacher_name=teacher_name)
+                                cur.execute(query2)
+                            if 'liberal_arts_yn' in params:
+                                query2 = """
+                                    UPDATE course_overview_addinfo
+                                       SET liberal_arts_yn = '{liberal_arts_yn}'
+                                     WHERE course_id = '{course_id}';
+                                """.format(course_id=course_key_string,
+                                           liberal_arts_yn=liberal_arts_yn)
+                                cur.execute(query2)
+                            if 'liberal_arts' in params:
+                                query2 = """
+                                    UPDATE course_overview_addinfo
+                                       SET liberal_arts = '{liberal_arts}'
+                                     WHERE course_id = '{course_id}';
+                                """.format(course_id=course_key_string,
+                                           liberal_arts=liberal_arts)
                                 cur.execute(query2)
                     except Exception as e:
                         is_valid = False

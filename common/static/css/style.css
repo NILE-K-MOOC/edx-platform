@@ -1213,6 +1213,10 @@ background: linear-gradient(to bottom, #35c2e9 0%,#35c2e9 50%,#03b3e4 51%,#03b3e
 	.faq-tab > a {display:block;float:left;width:50%;border-top:solid 2px #fff;}
 	.faq-tab > a:nth-child(odd) {border-left:0;}
 
+	.el-xbox .classify-item2 strong {font-size: 14px;}
+	.el-xbox .classify-item2 span {font-size: 12px;}
+
+
 }
 
 .layerPopupArea{
@@ -2331,4 +2335,44 @@ button#intro_shot {
 }
 
 
-.nav
+.sec-classify .col-sm-4 {
+    height: 105px;
+}
+.sec-classify .col-sm-4 ~ .col-sm-4{
+	border-left: 0!important;
+}
+.el-xbox{
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	font-family: GmarketSans;
+
+}
+.el-xbox:nth-child(odd){
+	background:#DAE6F5;
+}
+.el-xbox .classify-item2{
+	padding:15px 0px;
+	text-align:center;
+	line-height: 1.4;
+}
+.el-xbox .classify-item2 strong{
+	display:block;
+	font-size:17px;
+	margin-bottom: 3px;
+	color:#000000;
+}
+.el-xbox .classify-item2 strong:hover {
+	color: #4d8dc5;
+}
+.el-xbox .classify-item2 span{
+	display:block;
+	color:#555;
+	font-size:15px;
+	font-weight: 600;
+}
+
+@media (max-width: 640px) {
+	.el-xbox .classify-item2 strong {font-size: 14px;}
+	.el-xbox .classify-item2 span {font-size: 12px;}
+}

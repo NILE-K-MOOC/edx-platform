@@ -46,7 +46,7 @@
                 return HtmlUtils.joinHtml.apply(this, _.map(options, function (option) {
                     var data = _.clone(option.attributes);
 
-                    console.debug('renderOptions check facet > ' + data.facet + " : term >" + data.term);
+                    console.debug("renderOptions check facet > " + data.facet + " : term > " + data.term);
 
                     if (data.facet == 'classfy' || data.facet == 'classfysub') {
                         switch (data.term) {
@@ -154,7 +154,7 @@
                         }
 
 
-                    } else if (data.facet == 'fourth_industry_yn' || data.facet == 'job_edu_yn' || data.facet == 'ai_sec_yn' || data.facet == 'basic_science_sec_yn' || data.facet == 'linguistics_yn') {
+                    } else if (data.facet == 'fourth_industry_yn' || data.facet == 'job_edu_yn' || data.facet == 'ai_sec_yn' || data.facet == 'basic_science_sec_yn' || data.facet == 'linguistics_yn' || data.facet == 'liberal_arts_yn') {
 
                         if (data.facet == 'fourth_industry_yn' && data.term.toUpperCase() == 'Y') {
                             data.name = this.termName('fourth_industry_yn', gettext("fourth_industry_y"));
@@ -166,6 +166,8 @@
                             data.name = this.termName('basic_science_sec_yn', gettext("basic_science_sec_y"));
                         } else if (data.facet == 'linguistics_yn' && data.term.toUpperCase() == 'Y') {
                             data.name = this.termName('linguistics_yn', gettext("linguistics_y"));
+                        } else if (data.facet == 'liberal_arts_yn' && data.term.toUpperCase() == 'Y') {
+                            data.name = this.termName('liberal_arts_yn', gettext("liberal_arts_y"));
                         } else {
                             data.name = this.termName(data.facet, data.term);
                         }
@@ -208,6 +210,9 @@
                             break;
                         case 'linguistics':
                             model.set('odby1', 40);
+                            break;
+                        case 'liberal_arts_yn':
+                            model.set('odby1', 41);
                             break;
                         case 'course_period':
                             model.set('odby1', 50);
@@ -448,8 +453,9 @@
                 let li_list2 = $("#basic_science_sec_yn li").clone();
                 let li_list3 = $("#job_edu_yn li").clone();
                 let li_list4 = $("#linguistics_yn li").clone();
+                let li_list5 = $("#liberal_arts_yn li").clone();
 
-                $("#fourth_industry_yn").append(li_list1, li_list2, li_list3, li_list4);
+                $("#fourth_industry_yn").append(li_list1, li_list2, li_list3, li_list4, li_list5);
 
                 $("#fourth_industry_yn li").each(function () {
                     let v = $(this).find("button").data('value');
@@ -464,7 +470,10 @@
                 // 블루 리본의 옵션중 ribbon_n 의 내용 삭제
                 $("button[data-text='ribbon_n']").parents("li").remove();
 
-                $("#job_edu_yn, #ai_sec_yn, #basic_science_sec_yn, #linguistics_yn").remove();
+                // 교양과목 종류중 값이 없는 것은 삭제
+                $("button[data-facet='liberal_arts'][data-value='']").parents("li").remove();
+
+                $("#job_edu_yn, #ai_sec_yn, #basic_science_sec_yn, #linguistics_yn, #liberal_arts_yn").remove();
 
                 // main 태그에 data-param 이 있으면 데이터에 값을 추가하고 선택된 형태르 변경후 data-param을 삭제
                 let k, v, t;
@@ -505,6 +514,11 @@
                             k = 'linguistics_yn';
                             v = 'y';
                             t = 'linguistics_y';
+                            break;
+                        case 'liberal_arts_yn':
+                            k = 'liberal_arts_yn';
+                            v = 'liberal_arts_y';
+                            t = 'liberal_arts_y';
                             break;
                         case 'home_course_yn':
                             k = 'home_course_yn';

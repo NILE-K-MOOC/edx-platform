@@ -134,6 +134,8 @@
                                 term = 'ribbon_y';
                             else if (key == 'ribbon_yn' && (term == 'N' || term == 'n'))
                                 term = 'ribbon_n';
+                            else if (key == 'liberal_arts_yn' && (term == 'Y' || term == 'y' || term == 'liberal_arts_y'))
+                                term = 'liberal_arts_y';
 
                             options.add({
                                 facet: key,

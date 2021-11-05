@@ -993,6 +993,20 @@ class CourseFields(object):
         scope=Scope.settings
     )
 
+    liberal_arts_yn = String(
+        help=_("liberal_arts_yn"),
+        default="liberal_arts_n",
+        display_name=_("liberal_arts_yn"),
+        scope=Scope.settings
+    )
+
+    liberal_arts = String(
+        help=_("liberal_arts"),
+        default="",
+        display_name=_("liberal_arts"),
+        scope=Scope.settings
+    )
+
     preview_video = String(
         help=_("Select Section name"),
         default="",

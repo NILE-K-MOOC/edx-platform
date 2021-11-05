@@ -1,0 +1,15 @@
+@font-face {
+    font-family: GmarketSans;
+    src: url(GmarketSansTTFLight.woff) format('woff');
+    font-weight: 300;
+  }
+  @font-face {
+    font-family: GmarketSans;
+    src: url(GmarketSansTTFMedium.woff) format('woff');
+    font-weight: 400;
+  }
+  @font-face {
+    font-family: GmarketSans;
+    src: url(GmarketSansBold.woff) format('woff');
+    font-weight: 700;
+  }

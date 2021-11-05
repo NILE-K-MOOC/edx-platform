@@ -371,7 +371,8 @@ from openedx.core.djangolib.markup import HTML, Text
     <div class="sec-visual" style="margin: 5px 0;">
         <div class="container-fluid">
             <div class="visual-row">
-                <a href="/banner" target="_blank"><img src="${STATIC_URL}images/banner1.png" alt="위대한수업 바로가기" style="width: 100%"></a>
+                <a href="/banner" target="_blank"><img src="${STATIC_URL}images/banner1.png" alt="위대한수업 바로가기"
+                                                       style="width: 100%"></a>
             </div>
         </div>
     </div>
@@ -383,9 +384,11 @@ from openedx.core.djangolib.markup import HTML, Text
                 <div class="visual-col txt">
                     <h1 class="title" style="text-align: left; color: #222;">${_("About K-MOOC")}</h1>
                     % if LANGUAGE_CODE == 'ko-kr':
-                    <p class="content" style="color: #222;">K-MOOC는 온라인을 통해서<br>누구나, 어디서나 원하는 강좌를 무료로 들을 수 있는<br>온라인 공개강좌 서비스로 2015년에 시작된<br>한국형 무크입니다.</p>
+                    <p class="content" style="color: #222;">K-MOOC는 온라인을 통해서<br>누구나, 어디서나 원하는 강좌를 무료로 들을 수 있는<br>온라인
+                        공개강좌 서비스로 2015년에 시작된<br>한국형 무크입니다.</p>
                     % else:
-                    <p class="content" style="color: #222;">K-MOOC is a Korean MOOC established in 2015<br>as an open online service to provide free courses<br>to anyone, anywhere.</p>
+                    <p class="content" style="color: #222;">K-MOOC is a Korean MOOC established in 2015<br>as an open
+                        online service to provide free courses<br>to anyone, anywhere.</p>
                     % endif
                     <a href="/about_intro" class="more" title="K-MOOC 소개 더 보기">more</a>
                 </div>
@@ -418,29 +421,36 @@ from openedx.core.djangolib.markup import HTML, Text
     </section>
     <section class="sec-classify">
         <div class="container-fluid">
+
             <div class="row link_to_courses">
-                <div class="col-sm-4 col-md-4 col-lg-2 el-xbox" style="background: radial-gradient(pink 20%, white 80%);">
-                    <a data-facet="home_course_yn" data-term="Y" href="#" class="classify-item inject-h">${_("Home Courses")}</a>
+                <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
+                    <a data-facet="liberal_arts_yn" data-term="liberal_arts_y" href="#" class="classify-item2 inject-h">
+                        <strong>${_("Liberal Arts")}</strong>
+                        <span>${_("Greate Minds")}</span>
+                        <span>${_("Life Lessons")}</span>
+                    </a>
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
-                    <a data-facet="fourth_industry_yn" data-term="fourth_industry_y" href="#" class="classify-item inject-h">${_("Fourth Industry")}</a>
+                    <a data-facet="fourth_industry_yn" data-term="fourth_industry_y" href="#" class="classify-item2 inject-h"><strong>${_("Fourth Industry")}</strong></a>
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
-                    <a href="/roadmap" class="classify-item inject-h">${_("Artificial intelligence")}</a>
+                    <a href="/roadmap" class="classify-item2 inject-h"><strong>${_("Artificial intelligence")}</strong></a>
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
-                    <a data-facet="basic_science_sec_yn" data-term="basic_science_sec_y" href="#" class="classify-item inject-h">${_("Basic Science")}</a>
+                    <a data-facet="basic_science_sec_yn" data-term="basic_science_sec_y" href="#" class="classify-item2 inject-h"><strong>${_("Basic Science")}</strong></a>
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
-                    <a data-facet="linguistics_yn" data-term="y" href="#" class="classify-item inject-h">${_("Linguistics")}</a>
+                    <a data-facet="linguistics_yn" data-term="y" href="#" class="classify-item2 inject-h"><strong>${_("Linguistics")}</strong></a>
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
-                    <a data-facet="job_edu_yn" data-term="job_edu_y" href="#" class="classify-item inject-h">${_("Job Edu")}</a>
+                    <a data-facet="job_edu_yn" data-term="job_edu_y" href="#" class="classify-item2 inject-h"><strong>${_("Job Edu")}</strong></a>
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
-                    <a href="/age_specific/course/" class="classify-item inject-h">${_("Age-specific")}</a>
+                    <a href="/age_specific/course/" class="classify-item2 inject-h"><strong>${_("Age-specific")}</strong></a>
                 </div>
             </div>
+
+
         </div>
     </section>
 
@@ -451,7 +461,8 @@ from openedx.core.djangolib.markup import HTML, Text
                 <h1 class="title">${_("How about this lecture?")}</h1>
                 <ul class="tab-group">
                     <li>
-                        <a href="#" onclick="change_course('home'); return false;" id="hack_home" class="csp tab active">${_("Home Courses")}</a>
+                        <a href="#" onclick="change_course('home'); return false;" id="hack_home"
+                           class="csp tab active">${_("Home Courses")}</a>
                     </li>
                     <li>
                         <a href="#" onclick="change_course('pop'); return false;" id="hack_pop" class="csp tab">${_("Popular Courses")}</a>
@@ -523,7 +534,8 @@ from openedx.core.djangolib.markup import HTML, Text
             <div class="row">
                 <div class="col-sm-4 col-md-4 col-lg-4 col-sm-12 index-bottom">
                     <div class="number-item student">
-                        <h2 class="sub-title"><span class="fwb" id="cu-a0" data-from="0" data-to="200">200</span>만명+</h2>
+                        <h2 class="sub-title"><span class="fwb" id="cu-a0" data-from="0" data-to="200">200</span>만명+
+                        </h2>
                         <p class="cont">
                             수강 신청자 <span class="fwb" id="cu-a1" data-from="0" data-to="200">200</span>만명 돌파
                             <br>
@@ -535,15 +547,18 @@ from openedx.core.djangolib.markup import HTML, Text
                 <hr class="main-line">
                 <div class="col-sm-4 col-md-4 col-lg-4 col-sm-12 index-bottom">
                     <div class="number-item course">
-                        <h2 class="sub-title">무료 강좌 <span class="fwb" id="cu-b0" data-from="0" data-to="900">900</span>개+</h2>
-                        <p class="cont">온라인 무료 강좌 <span class="fwb" id="cu-b1" data-from="0" data-to="900">900</span>개 돌파</p>
+                        <h2 class="sub-title">무료 강좌 <span class="fwb" id="cu-b0" data-from="0" data-to="900">900</span>개+
+                        </h2>
+                        <p class="cont">온라인 무료 강좌 <span class="fwb" id="cu-b1" data-from="0" data-to="900">900</span>개
+                            돌파</p>
                         <a href="/courses" class="link">전체 강좌 보기</a>
                     </div>
                 </div>
                 <hr class="main-line">
                 <div class="col-sm-4 col-md-4 col-lg-4 col-sm-12 index-bottom">
                     <div class="number-item agency">
-                        <h2 class="sub-title">참여기관 <span class="fwb" id="cu-c0" data-from="0" data-to="140">140</span>개+</h2>
+                        <h2 class="sub-title">참여기관 <span class="fwb" id="cu-c0" data-from="0" data-to="140">140</span>개+
+                        </h2>
                         <p class="cont">대학, 공공기관 및 해외기관</p>
                         <a href="/about_org" class="link">참여기관 모두 보기</a>
                     </div>
@@ -558,25 +573,30 @@ from openedx.core.djangolib.markup import HTML, Text
             <div class="row">
                 <div class="col-sm-4 col-md-4 col-lg-4 col-sm-12 index-bottom">
                     <div class="number-item student">
-                        <h2 class="sub-title"><span class="fwb" id="cu-a0" data-from="0" data-to="1.6">1.6</span> million</h2>
+                        <h2 class="sub-title"><span class="fwb" id="cu-a0" data-from="0" data-to="1.6">1.6</span>
+                            million</h2>
                         <p class="cont">
                             Applicant <span class="fwb" id="cu-a1" data-from="0" data-to="1.6">1.6</span> million
                             <br>
-                            Accumulated visitor <span class="fwb" id="cu-a2" data-from="0" data-to="17">17</span> million
+                            Accumulated visitor <span class="fwb" id="cu-a2" data-from="0" data-to="17">17</span>
+                            million
                         </p>
                         <a href="/register" class="link">Register</a>
                     </div>
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-4 col-sm-12 index-bottom">
                     <div class="number-item course">
-                        <h2 class="sub-title"><span class="fwb" id="cu-b0" data-from="0" data-to="900">900</span> free courses</h2>
-                        <p class="cont">Over <span class="fwb" id="cu-b1" data-from="0" data-to="900">900</span> free courses</p>
+                        <h2 class="sub-title"><span class="fwb" id="cu-b0" data-from="0" data-to="900">900</span> free
+                            courses</h2>
+                        <p class="cont">Over <span class="fwb" id="cu-b1" data-from="0" data-to="900">900</span> free
+                            courses</p>
                         <a href="/courses" class="link">Explore courses</a>
                     </div>
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-4 col-sm-12 index-bottom">
                     <div class="number-item agency">
-                        <h2 class="sub-title"><span class="fwb" id="cu-c0" data-from="0" data-to="140">140</span> participating agencies</h2>
+                        <h2 class="sub-title"><span class="fwb" id="cu-c0" data-from="0" data-to="140">140</span>
+                            participating agencies</h2>
                         <p class="cont">Universities, public institutions and overseas</p>
                         <a href="/about_org" class="link">institutions</a>
                     </div>
@@ -592,7 +612,9 @@ from openedx.core.djangolib.markup import HTML, Text
 % if show_homepage_promo_video:
 <section id="video-modal" class="modal home-page-video-modal video-modal">
     <div class="inner-wrapper">
-        <iframe title="YouTube Video" width="640" height="360" src="//www.youtube.com/embed/${homepage_promo_video_youtube_id}?showinfo=0" frameborder="0" allowfullscreen></iframe>
+        <iframe title="YouTube Video" width="640" height="360"
+                src="//www.youtube.com/embed/${homepage_promo_video_youtube_id}?showinfo=0" frameborder="0"
+                allowfullscreen></iframe>
     </div>
 </section>
 % endif

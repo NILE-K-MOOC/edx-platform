@@ -350,6 +350,8 @@ class CourseOverview(TimeStampedModel):
                 course_overview.ai_sec_yn = addinfo.ai_sec_yn
                 course_overview.basic_science_sec_yn = addinfo.basic_science_sec_yn
                 course_overview.linguistics = addinfo.linguistics
+                course_overview.liberal_arts_yn = addinfo.liberal_arts_yn
+                course_overview.liberal_arts = addinfo.liberal_arts
                 course_overview.classfy_name = CodeDetail.objects.get(group_code='001', detail_code=addinfo.classfy).detail_name
                 course_overview.middle_classfy_name = CodeDetail.objects.get(group_code='002', detail_code=addinfo.middle_classfy).detail_name
                 course_overview.org_name = CodeDetail.objects.get(group_code='003', detail_code=course_overview.org).detail_name
@@ -379,6 +381,8 @@ class CourseOverview(TimeStampedModel):
                 course_overview.ribbon_year = ''
                 course_overview.job_edu_yn = ''
                 course_overview.linguistics = ''
+                course_overview.liberal_arts_yn = ''
+                course_overview.liberal_arts = ''
                 course_overview.classfy_name = ''
                 course_overview.classfy_plus = ''
                 course_overview.preview_video = ''
@@ -777,6 +781,8 @@ class CourseOverview(TimeStampedModel):
             ribbon_year=Coalesce(F('courseoverviewaddinfo__ribbon_year'), V('')),
             job_edu_yn=Coalesce(F('courseoverviewaddinfo__job_edu_yn'), V('N')),
             linguistics=Coalesce(F('courseoverviewaddinfo__linguistics'), V('N')),
+            liberal_arts_yn=Coalesce(F('courseoverviewaddinfo__liberal_arts_yn'), V('liberal_arts_n')),
+            liberal_arts=Coalesce(F('courseoverviewaddinfo__liberal_arts'), V('')),
             ai_sec_yn=Coalesce(F('courseoverviewaddinfo__ai_sec_yn'), V('N')),
             basic_science_sec_yn=Coalesce(F('courseoverviewaddinfo__basic_science_sec_yn'), V('N')),
             preview_video=Coalesce(F('courseoverviewaddinfo__preview_video'), V('')),

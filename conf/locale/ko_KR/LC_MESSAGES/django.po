@@ -28211,3 +28211,12 @@ msgstr "이수증은 종강일로부터 1~2주후 [내 강의실-이수/종료�
 
 msgid "The name is used by the user for this certificate. You can use the functions of Find Your Own Account Email."
 msgstr "이름은 사용자가 이수증에 사용됩니다. 본인인증시 이메일 찾기의 기능을 이용할 수 있습니다."
+
+msgid "Liberal Arts"
+msgstr "교양강좌"
+
+msgid "Life Lessons"
+msgstr "차이나는 클라스"
+
+msgid "Greate Minds"
+msgstr "위대한 수업"

@@ -244,6 +244,12 @@ def _write_chunk(request, courselike_key):
                         if 'linguistics' in xml.attrib:
                             addinfo.linguistics = xml.attrib['linguistics']
 
+                        if 'liberal_arts_yn' in xml.attrib:
+                            addinfo.liberal_arts_yn = xml.attrib['liberal_arts_yn']
+
+                        if 'liberal_arts' in xml.attrib:
+                            addinfo.liberal_arts = xml.attrib['liberal_arts']
+
                         if 'job_edu_yn' in xml.attrib:
                             addinfo.job_edu_yn = xml.attrib['job_edu_yn']
 
