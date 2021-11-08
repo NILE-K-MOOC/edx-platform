@@ -44,13 +44,19 @@
                 </div>
                 <div class="one-depth">
                     <a href="#" class="inject-h">${_("Courses")}</a>
-                    <ul class="two-depth">
+                    <ul class="two-depth link_to_courses">
                         <li>
                             <a href="/courses">${_("Departmental Courses")}</a>
                         </li>
                         <li>
                             <a href="/series">${_("Series Course")}</a>
                         </li>
+                        
+                        <!-- 교양 강좌 -->
+                        <li>
+                            <a data-facet="liberal_arts_yn" data-term="liberal_arts_y" href="#">${_("Liberal Arts")}</a>
+                        </li>
+
                         <li>
                             <a target="_blank" href="https://cb.kmooc.kr/search">${_("Academic Credit Bank System")}</a>
                         </li>

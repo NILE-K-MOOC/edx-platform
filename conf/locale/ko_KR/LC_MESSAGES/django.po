@@ -27988,16 +27988,16 @@ msgid "Today Courses"
 msgstr "오늘의 강좌"
 
 msgid "Fourth Industry"
-msgstr "4차 산업혁명"
+msgstr "4차\n산업혁명"
 
 msgid "Artificial intelligence"
-msgstr "AI 인공지능"
+msgstr "AI\n인공지능"
 
 msgid "View All Course"
 msgstr "전체 강좌 보기"
 
 msgid "Job Edu"
-msgstr "직업교육"
+msgstr "직업\n교육"
 
 msgid "Linguistics"
 msgstr "한국학"
@@ -28009,7 +28009,7 @@ msgid "How about this lecture?"
 msgstr "이런 강좌는 어떠세요?"
 
 msgid "Basic Science"
-msgstr "이공계 기초과학"
+msgstr "이공계\n기초과학"
 
 msgid "K-MOOC by the numbers"
 msgstr "숫자로 보는 K-MOOC"
@@ -28045,7 +28045,7 @@ msgid "Download Apps"
 msgstr "앱 다운로드"
 
 msgid "Age-specific"
-msgstr "연령별 강좌"
+msgstr "연령별\n강좌"
 
 msgid "Age-specific Courses"
 msgstr "연령별 강좌 보기"
@@ -28213,10 +28213,10 @@ msgid "The name is used by the user for this certificate. You can use the functi
 msgstr "이름은 사용자가 이수증에 사용됩니다. 본인인증시 이메일 찾기의 기능을 이용할 수 있습니다."
 
 msgid "Liberal Arts"
-msgstr "교양강좌"
+msgstr "교양 강좌"
 
 msgid "Life Lessons"
 msgstr "차이나는 클라스"
 
-msgid "Greate Minds"
+msgid "Great Minds"
 msgstr "위대한 수업"

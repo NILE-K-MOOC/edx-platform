@@ -2358,17 +2358,19 @@ button#intro_shot {
 }
 .el-xbox .classify-item2 strong{
 	display:block;
-	font-size:17px;
+	font-size:18px;
 	margin-bottom: 3px;
 	color:#000000;
+	white-space: pre-line;
 }
 .el-xbox .classify-item2 strong:hover {
 	color: #4d8dc5;
+	white-space: pre-line;
 }
 .el-xbox .classify-item2 span{
 	display:block;
 	color:#555;
-	font-size:15px;
+	font-size:16px;
 	font-weight: 600;
 }
 
