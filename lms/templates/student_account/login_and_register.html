@@ -94,6 +94,8 @@
 
         }
 
+setTimeout(function(){
+
         if (window.location.pathname.endsWith('login')) {
             $('.login-oa2-facebook').remove();
             $('.login-oa2-google-oauth2').remove();
@@ -103,6 +105,7 @@
             $('.register-oa2-facebook').remove();
             $('.register-oa2-google-oauth2').remove();
         }
+}, 500);
 
     });
 </script>
