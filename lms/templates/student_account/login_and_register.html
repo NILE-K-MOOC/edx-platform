@@ -94,19 +94,15 @@
 
         }
 
-    if (window.location.pathname.endsWith('login')
-    ) {
-    $('.login-oa2-facebook').removeAttr('data-provider-url')
-    $('.login-oa2-facebook').attr('onclick','data_onclick()')
+        if (window.location.pathname.endsWith('login')) {
+            $('.login-oa2-facebook').remove()
+            $('.login-oa2-google-oauth2').remove()
+        }
 
-    $('.login-oa2-google-oauth2').removeAttr('data-provider-url')
-    $('.login-oa2-google-oauth2').attr('onclick','data_onclick()')
-    }
-    if (window.location.pathname.endsWith('register'))
-    {
-    $('.register-oa2-facebook').remove()
-    $('.register-oa2-google-oauth2').remove()
-    }
+        if (window.location.pathname.endsWith('register')) {
+            $('.register-oa2-facebook').remove()
+            $('.register-oa2-google-oauth2').remove()
+        }
 
     });
 </script>
