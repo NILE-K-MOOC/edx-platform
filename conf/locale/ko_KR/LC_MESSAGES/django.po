@@ -28220,3 +28220,6 @@ msgstr "차이나는 클라스"
 
 msgid "Great Minds"
 msgstr "위대한 수업"
+
+msgid "on TV"
+msgstr "교양 강좌"
