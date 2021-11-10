@@ -52,11 +52,19 @@
                         ) %>
                     </span>
                 </div>
-                <div class="section-title lines">
-                    <h3>
-                        <span style="font-size: 12px;" class="text"><%- gettext("or sign in with") %></span>
-                    </h3>
-                </div>
+
+                    <div class="section-title">
+                        <span style="font-size: 12px;" class="text">구글, 페이스북 간편로그인은 연동 오류로 현재 서비스 이용이 어려우며,<br>
+                        정상화 조치 중에 있습니다. 대체 로그인 및 서비스 이용을 위해 <br> 공지사항<span style="font-size: 12px;" class="text">
+                        <a href="http://www.kmooc.kr/comm_view/N/1/515" target="_blank"> '구글, 페이스북 간편로그인 오류 조치방법'</a>
+                        <span>을 참고해 주시기 바랍니다.</span>
+                        </span>
+                        <hr>
+                            <h3>
+                                <span style="font-size: 12px;" class="text">다음 계정을 통해서도 간편하게 로그인 가능합니다.  </span><br>
+                            </h3>
+                        </span>
+                    </div>
 
                 <% _.each( context.providers, function( provider ) {
                     if ( provider.loginUrl ) { %>

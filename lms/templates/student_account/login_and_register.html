@@ -94,6 +94,19 @@
 
         }
 
+setTimeout(function(){
+
+        if (window.location.pathname.endsWith('login')) {
+            $('.login-oa2-facebook').remove();
+            $('.login-oa2-google-oauth2').remove();
+        }
+
+        if (window.location.pathname.endsWith('register')) {
+            $('.register-oa2-facebook').remove();
+            $('.register-oa2-google-oauth2').remove();
+        }
+}, 500);
+
     });
 </script>
 <input type="hidden" id="is_regist" value="false"/>
@@ -301,6 +314,9 @@
 
 
 <style>
+   .swal-footer{
+        text-align: center;
+   }
   .swal-button--cancel{
     color: black;
     background-image: linear-gradient(to bottom,#ffffff 0%,#ffffff 50%,#ffffff 50%,#ffffff 100%);
@@ -529,6 +545,7 @@ function multisite_btn(){
     }
   });
 }
+
 </script>
 
 <form id="form2" name="form2" method="post" action="https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb">
