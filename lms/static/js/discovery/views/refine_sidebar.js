@@ -457,12 +457,12 @@
 
                 $("#fourth_industry_yn").append(li_list1, li_list2, li_list3, li_list4, li_list5);
 
-                $("#fourth_industry_yn li").each(function () {
+                $(".search-facets li").each(function () {
                     let v = $(this).find("button").data('value');
 
                     // console.log('#fourth_industry_yn li remove check : ' + v);
 
-                    if (v.toUpperCase() == 'N' || v == 'liberal_arts_n') {
+                    if (!v || v.toUpperCase() == 'N' || v == 'liberal_arts_n' || v == 'None' || v == '') {
                         $(this).remove();
                     }
                 });
@@ -472,6 +472,9 @@
 
                 // 교양과목 종류중 값이 없는 것은 삭제
                 $("button[data-facet='liberal_arts'][data-value='']").parents("li").remove();
+
+                // 교양강좌 종류의 표시 영문명 변경
+                $("h3:contains('liberal_arts')").text('on TV');
 
                 $("#job_edu_yn, #ai_sec_yn, #basic_science_sec_yn, #linguistics_yn, #liberal_arts_yn").remove();
 
