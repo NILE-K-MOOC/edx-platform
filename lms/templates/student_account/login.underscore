@@ -52,11 +52,6 @@
                         ) %>
                     </span>
                 </div>
-                <% // <div class="section-title lines"> %>
-                <% //     <h3>%>
-                <% //         <span style="font-size: 12px;" class="text"><%- gettext("or sign in with") %></span>%>
-                <% //     </h3>%>
-                <% // </div>%>
 
                     <div class="section-title">
                         <span style="font-size: 12px;" class="text">구글, 페이스북 간편로그인은 연동 오류로 현재 서비스 이용이 어려우며,<br>
