@@ -965,8 +965,6 @@ def _create_or_rerun_course(request):
         teacher_name = request.json.get('teacher_name')
         classfy_plus = request.json.get('classfy_plus')
         linguistics = request.json.get('linguistics')
-        if not linguistics:
-            linguistics = 'N'
 
         liberal_arts_yn = request.json.get('liberal_arts_yn')
         if not liberal_arts_yn:

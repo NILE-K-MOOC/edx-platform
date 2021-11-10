@@ -166,7 +166,7 @@
                             data.name = this.termName('basic_science_sec_yn', gettext("basic_science_sec_y"));
                         } else if (data.facet == 'linguistics_yn' && data.term.toUpperCase() == 'Y') {
                             data.name = this.termName('linguistics_yn', gettext("linguistics_y"));
-                        } else if (data.facet == 'liberal_arts_yn' && data.term.toUpperCase() == 'Y') {
+                        } else if (data.facet == 'liberal_arts_yn' && (data.term.toUpperCase() == 'Y' || data.term.toUpperCase() == 'liberal_arts_y')) {
                             data.name = this.termName('liberal_arts_yn', gettext("liberal_arts_y"));
                         } else {
                             data.name = this.termName(data.facet, data.term);
@@ -462,7 +462,7 @@
 
                     // console.log('#fourth_industry_yn li remove check : ' + v);
 
-                    if (v.toUpperCase() == 'N') {
+                    if (v.toUpperCase() == 'N' || v == 'liberal_arts_n') {
                         $(this).remove();
                     }
                 });
