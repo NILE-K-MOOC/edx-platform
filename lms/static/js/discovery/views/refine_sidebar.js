@@ -459,19 +459,10 @@
 
                 $(".search-facets li").each(function () {
                     let v = $(this).find("button").data('value');
-
-                    // console.log('#fourth_industry_yn li remove check : ' + v);
-
-                    if (!v || v.toUpperCase() == 'N' || v == 'liberal_arts_n' || v == 'None' || v == '') {
+                    if (v == 'N'|| v == 'ribbon_n' || v == 'liberal_arts_n' || v == 'None' || v == '') {
                         $(this).remove();
                     }
                 });
-
-                // 블루 리본의 옵션중 ribbon_n 의 내용 삭제
-                $("button[data-text='ribbon_n']").parents("li").remove();
-
-                // 교양과목 종류중 값이 없는 것은 삭제
-                $("button[data-facet='liberal_arts'][data-value='']").parents("li").remove();
 
                 // 교양강좌 종류의 표시 영문명 변경
                 $("h3:contains('liberal_arts')").text('on TV');
