@@ -331,6 +331,7 @@ COURSE_DISCOVERY_FILTERS = [
     'linguistics',
     'liberal_arts_yn',
     'liberal_arts',
+    'career_readiness_competencies_yn',
     'course_period',
     'fourth_industry_yn',
     'job_edu_yn',

@@ -154,7 +154,7 @@
                         }
 
 
-                    } else if (data.facet == 'fourth_industry_yn' || data.facet == 'job_edu_yn' || data.facet == 'ai_sec_yn' || data.facet == 'basic_science_sec_yn' || data.facet == 'linguistics_yn' || data.facet == 'liberal_arts_yn') {
+                    } else if (data.facet == 'fourth_industry_yn' || data.facet == 'job_edu_yn' || data.facet == 'ai_sec_yn' || data.facet == 'basic_science_sec_yn' || data.facet == 'linguistics_yn' || data.facet == 'liberal_arts_yn' || data.facet == 'career_readiness_competencies_yn') {
 
                         if (data.facet == 'fourth_industry_yn' && data.term.toUpperCase() == 'Y') {
                             data.name = this.termName('fourth_industry_yn', gettext("fourth_industry_y"));
@@ -166,8 +166,10 @@
                             data.name = this.termName('basic_science_sec_yn', gettext("basic_science_sec_y"));
                         } else if (data.facet == 'linguistics_yn' && data.term.toUpperCase() == 'Y') {
                             data.name = this.termName('linguistics_yn', gettext("linguistics_y"));
-                        } else if (data.facet == 'liberal_arts_yn' && (data.term.toUpperCase() == 'Y' || data.term.toUpperCase() == 'liberal_arts_y')) {
+                        } else if (data.facet == 'liberal_arts_yn' && (data.term.toUpperCase() == 'Y' || data.term == 'liberal_arts_y')) {
                             data.name = this.termName('liberal_arts_yn', gettext("liberal_arts_y"));
+                        } else if (data.facet == 'career_readiness_competencies_yn' && (data.term.toUpperCase() == 'Y' || data.term == 'career_readiness_competencies_y')) {
+                            data.name = this.termName('career_readiness_competencies_yn', gettext("career_readiness_competencies_y"));
                         } else {
                             data.name = this.termName(data.facet, data.term);
                         }
@@ -213,6 +215,9 @@
                             break;
                         case 'liberal_arts_yn':
                             model.set('odby1', 41);
+                            break;
+                        case 'career_readiness_competencies_yn':
+                            model.set('odby1', 42);
                             break;
                         case 'course_period':
                             model.set('odby1', 50);
@@ -454,12 +459,13 @@
                 let li_list3 = $("#job_edu_yn li").clone();
                 let li_list4 = $("#linguistics_yn li").clone();
                 let li_list5 = $("#liberal_arts_yn li").clone();
+                let li_list6 = $("#career_readiness_competencies_yn li").clone();
 
-                $("#fourth_industry_yn").append(li_list1, li_list2, li_list3, li_list4, li_list5);
+                $("#fourth_industry_yn").append(li_list1, li_list2, li_list3, li_list4, li_list5, li_list6);
 
                 $(".search-facets li").each(function () {
                     let v = $(this).find("button").data('value');
-                    if (v == 'N'|| v == 'ribbon_n' || v == 'liberal_arts_n' || v == 'None' || v == '') {
+                    if (v == 'N'|| v == 'ribbon_n' || v == 'liberal_arts_n' || v == 'career_readiness_competencies_n' || v == 'None' || v == '') {
                         $(this).remove();
                     }
                 });
@@ -467,7 +473,7 @@
                 // 교양강좌 종류의 표시 영문명 변경
                 $("h3:contains('liberal_arts')").text('on TV');
 
-                $("#job_edu_yn, #ai_sec_yn, #basic_science_sec_yn, #linguistics_yn, #liberal_arts_yn").remove();
+                $("#job_edu_yn, #ai_sec_yn, #basic_science_sec_yn, #linguistics_yn, #liberal_arts_yn, #career_readiness_competencies_yn").remove();
 
                 // main 태그에 data-param 이 있으면 데이터에 값을 추가하고 선택된 형태르 변경후 data-param을 삭제
                 let k, v, t;
@@ -513,6 +519,11 @@
                             k = 'liberal_arts_yn';
                             v = 'liberal_arts_y';
                             t = 'liberal_arts_y';
+                            break;
+                        case 'career_readiness_competencies_yn':
+                            k = 'career_readiness_competencies_yn';
+                            v = 'career_readiness_competencies_y';
+                            t = 'career_readiness_competencies_y';
                             break;
                         case 'home_course_yn':
                             k = 'home_course_yn';

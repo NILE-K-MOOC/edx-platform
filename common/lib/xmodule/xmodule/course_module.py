@@ -1007,6 +1007,13 @@ class CourseFields(object):
         scope=Scope.settings
     )
 
+    career_readiness_competencies_yn = String(
+        help=_("career_readiness_competencies_yn"),
+        default="career_readiness_competencies_n",
+        display_name=_("career_readiness_competencies_yn"),
+        scope=Scope.settings
+    )
+
     preview_video = String(
         help=_("Select Section name"),
         default="",

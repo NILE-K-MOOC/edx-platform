@@ -2112,6 +2112,7 @@
         "linguistics_y": "한국학",
         "liberal_arts_yn": "교양강좌 여부",
         "liberal_arts_y": "교양강좌",
+        "career_readiness_competencies_y": "취업역량 강화",
         "liberal_arts": "교양강좌 종류",
         "Liberal Arts": "교양강좌",
         "Life Lessons": "차이나는 클라스",

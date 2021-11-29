@@ -489,6 +489,7 @@ class CourseOverviewAddinfo(models.Model):
     linguistics = models.CharField(max_length=1, blank=True, null=True)
     liberal_arts_yn = models.CharField(max_length=15, blank=True, null=True)
     liberal_arts = models.CharField(max_length=15, blank=True, null=True)
+    career_readiness_competencies_yn = models.CharField(max_length=30, blank=True, null=True)
     job_edu_yn = models.CharField(max_length=1, blank=True, null=True)
     home_course_yn = models.CharField(max_length=1, blank=True, null=True)
     home_course_step = models.CharField(max_length=1, blank=True, null=True)

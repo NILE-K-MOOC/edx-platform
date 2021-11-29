@@ -974,6 +974,10 @@ def _create_or_rerun_course(request):
         if not liberal_arts:
             liberal_arts = ''
 
+        career_readiness_competencies_yn = request.json.get('career_readiness_competencies_yn')
+        if not liberal_arts_yn:
+            career_readiness_competencies_yn = 'career_readiness_competencies_n'
+
         fields.update({
             'classfy': classfy,
             'classfysub': classfysub,
@@ -985,6 +989,7 @@ def _create_or_rerun_course(request):
             'linguistics': linguistics,
             'liberal_arts_yn': liberal_arts_yn,
             'liberal_arts': liberal_arts,
+            'career_readiness_competencies_yn': career_readiness_competencies_yn,
             'fourth_industry_yn': 'N',
             'home_course_yn': 'N',
             'home_course_step': None,
@@ -1135,6 +1140,7 @@ def create_new_course(user, org, number, run, fields):
 
         liberal_arts_yn = fields['liberal_arts_yn']
         liberal_arts = fields['liberal_arts']
+        career_readiness_competencies_yn = fields['career_readiness_competencies_yn']
 
         with connections['default'].cursor() as cur:
             query = """
@@ -1149,7 +1155,8 @@ def create_new_course(user, org, number, run, fields):
                                                     classfy_plus,
                                                     linguistics,
                                                     liberal_arts_yn,
-                                                    liberal_arts
+                                                    liberal_arts,
+                                                    career_readiness_competencies_yn
                                                     )
                      VALUES ('{course_id}',
                              date_format(now(), '%Y'),
@@ -1165,11 +1172,12 @@ def create_new_course(user, org, number, run, fields):
                              '{classfy_plus}',
                              '{linguistics}',
                              '{liberal_arts_yn}',
-                             '{liberal_arts}'
+                             '{liberal_arts}',
+                             '{career_readiness_competencies_yn}'
                              );
             """.format(course_id=course_id, user_id=user_id,
                        middle_classfy=middle_classfy, classfy=classfy, course_number=course_number, org=org,
-                       classfy_plus=classfy_plus, linguistics=linguistics, liberal_arts_yn=liberal_arts_yn, liberal_arts=liberal_arts)
+                       classfy_plus=classfy_plus, linguistics=linguistics, liberal_arts_yn=liberal_arts_yn, liberal_arts=liberal_arts, career_readiness_competencies_yn=career_readiness_competencies_yn)
 
             cur.execute(query)
 
@@ -1321,6 +1329,7 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
                     ,linguistics
                     ,liberal_arts_yn
                     ,liberal_arts
+                    ,career_readiness_competencies_yn
                     ,job_edu_yn
                     ,home_course_yn
                     ,home_course_step
@@ -1355,6 +1364,7 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
                     ,linguistics
                     ,liberal_arts_yn
                     ,liberal_arts
+                    ,career_readiness_competencies_yn
                     ,job_edu_yn
                     ,home_course_yn
                     ,home_course_step
@@ -1463,6 +1473,7 @@ def _rerun_course(request, org, number, run, fields):
         fields['linguistics'] = source_course.linguistics
         fields['liberal_arts_yn'] = source_course.liberal_arts_yn
         fields['liberal_arts'] = source_course.liberal_arts
+        fields['career_readiness_competencies_yn'] = source_course.career_readiness_competencies_yn
         fields['course_period'] = source_course.course_period
         fields['user_edit'] = source_course.user_edit
         # fields['org_kname'] = None
@@ -1530,6 +1541,7 @@ def _rerun_course(request, org, number, run, fields):
         preview_video = fields['preview_video']
         liberal_arts_yn = fields['liberal_arts_yn']
         liberal_arts = fields['liberal_arts']
+        career_readiness_competencies_yn = fields['career_readiness_competencies_yn']
 
         with connections['default'].cursor() as cur:
             query = """
@@ -1545,7 +1557,8 @@ def _rerun_course(request, org, number, run, fields):
                                                     course_period,
                                                     preview_video,
                                                     liberal_arts_yn,
-                                                    liberal_arts
+                                                    liberal_arts,
+                                                    career_readiness_competencies_yn
                                                     )
                      VALUES ('{course_id}',
                              date_format(now(), '%Y'),
@@ -1562,10 +1575,12 @@ def _rerun_course(request, org, number, run, fields):
                              '{course_period}',
                              '{preview_video}',
                              '{liberal_arts_yn}',
-                             '{liberal_arts}');
+                             '{liberal_arts}',
+                             '{career_readiness_competencies_yn}'
+                             );
             """.format(course_id=destination_course_key, user_id=user_id, middle_classfy=middle_classfy,
                        classfy=classfy, course_number=number, org=org, classfy_plus=classfy_plus,
-                       course_period=course_period, preview_video=preview_video, liberal_arts_yn=liberal_arts_yn, liberal_arts=liberal_arts)
+                       course_period=course_period, preview_video=preview_video, liberal_arts_yn=liberal_arts_yn, liberal_arts=liberal_arts, career_readiness_competencies_yn=career_readiness_competencies_yn)
 
             print 'rerun_course insert -------------- ', query
             cur.execute(query)

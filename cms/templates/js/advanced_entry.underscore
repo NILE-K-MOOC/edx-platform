@@ -6,7 +6,7 @@
 
     <div class="field text value">
         <label class="sr" for="<%= valueUniqueId %>"><%= display_name %></label>
-        <% if((key == 'classfy' || key == 'middle_classfy' || key == 'classfysub' || key == 'middle_classfysub'||key =='difficult_degree' || key == 'linguistics' || key == 'liberal_arts_yn' || key == 'course_period' || key == 'classfy_plus') && (window.is_staff != true)) { %>
+        <% if((key == 'classfy' || key == 'middle_classfy' || key == 'classfysub' || key == 'middle_classfysub'||key =='difficult_degree' || key == 'linguistics' || key == 'liberal_arts_yn' || key == 'career_readiness_competencies_yn' || key == 'course_period' || key == 'classfy_plus') && (window.is_staff != true)) { %>
             <textarea class="text" id="<%= valueUniqueId %>" readonly><%= value %></textarea>
         <% } else if((need_lock == 1) && (key == 'display_name') && (window.is_staff != true)) { %>
             <textarea class="text" id="<%= valueUniqueId %>" readonly><%= value %></textarea>
