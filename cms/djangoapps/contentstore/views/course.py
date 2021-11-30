@@ -353,7 +353,10 @@ def course_rerun_handler(request, course_key_string):
                 'classfy_plus': course_module.classfy_plus,
                 'middle_classfy': course_module.middle_classfy,
                 'teacher_name': course_module.teacher_name,
-                'course_period': course_module.course_period
+                'course_period': course_module.course_period,
+                'liberal_arts_yn': course_module.liberal_arts_yn,
+                'liberal_arts': course_module.liberal_arts,
+                'career_readiness_competencies_yn': course_module.career_readiness_competencies_yn
             })
 
 
@@ -975,7 +978,7 @@ def _create_or_rerun_course(request):
             liberal_arts = ''
 
         career_readiness_competencies_yn = request.json.get('career_readiness_competencies_yn')
-        if not liberal_arts_yn:
+        if not career_readiness_competencies_yn:
             career_readiness_competencies_yn = 'career_readiness_competencies_n'
 
         fields.update({
@@ -1000,8 +1003,6 @@ def _create_or_rerun_course(request):
             'course_level': None,
             'preview_video': None
         })
-
-        print 'fields:', fields
 
         # 기관코드를 이용하여 기관 한글명, 기관 영문명을 가져온다.
 
@@ -1041,7 +1042,6 @@ def _create_or_rerun_course(request):
             try:
                 destination_course_key = rerun_course(request.user, source_course_key, org, course, run, fields)
 
-                print "--rerun_course"
                 log.info(u'----rerun_course')
                 return JsonResponse({
                     'url': reverse_url('course_handler'),
@@ -1092,7 +1092,6 @@ def create_new_course(user, org, number, run, fields):
     Raises:
         DuplicateCourseError: Course run already exists.
     """
-    print 'create_new_course-------debug'
     org_data = get_organization_by_short_name(org)
     if not org_data and organizations_enabled():
         raise ValidationError(_('You must link this course to an organization in order to continue. Organization '
@@ -1101,7 +1100,6 @@ def create_new_course(user, org, number, run, fields):
     new_course = create_new_course_in_store(store_for_new_course, user, org, number, run, fields)
     add_organization_course(org_data, new_course.id)
     try:
-        print 'new_course.id1 ====> ', new_course.id
         # 이수증 생성을 위한 course_mode 등록
 
         with connections['default'].cursor() as cur:
@@ -1180,8 +1178,6 @@ def create_new_course(user, org, number, run, fields):
                        classfy_plus=classfy_plus, linguistics=linguistics, liberal_arts_yn=liberal_arts_yn, liberal_arts=liberal_arts, career_readiness_competencies_yn=career_readiness_competencies_yn)
 
             cur.execute(query)
-
-            print 'course_overview_addinfo insert --------- ', query
     except Exception as e:
         print "Exception = ", e
 
@@ -1242,6 +1238,19 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
 
     try:
         source_course = modulestore().get_course(source_course_key)
+
+        # set liberal_arts_yn, liberal_arts, career_readiness_competencies_yn
+        liberal_arts_yn = source_course.liberal_arts_yn
+        liberal_arts = source_course.liberal_arts
+        career_readiness_competencies_yn = source_course.career_readiness_competencies_yn
+
+        if liberal_arts_yn:
+            fields['liberal_arts_yn'] = liberal_arts_yn
+        if liberal_arts:
+            fields['liberal_arts'] = liberal_arts
+        if career_readiness_competencies_yn:
+            fields['career_readiness_competencies_yn'] = career_readiness_competencies_yn
+
     except Exception as e:
         log.info('e-------->', e)
         print e
@@ -1277,8 +1286,6 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
 
     args = [unicode(source_course_key), unicode(destination_course_key), user.id, json_fields]
 
-    print 'args:-->', args
-
     if async:
         rerun_status = rerun_course_task.delay(*args)
     else:
@@ -1303,7 +1310,6 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
                          '',
                          FALSE);
             """.format(destination_course_key)
-            # print '_create_new_course.query :', query
             cur.execute(query)
 
         user_id = user.id
@@ -1385,7 +1391,6 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
                 , source_course_id=source_course_id
             )
 
-            print 'rerun_course insert -------------- ', query
             cur.execute(query)
 
     except Exception as e:
@@ -1427,7 +1432,6 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
                 new_course_id=new_course_id
             )
 
-            # print query
             cur.execute(query)
 
             old_course_id = cur.fetchone()[0]
@@ -1443,7 +1447,6 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
                     old_course_id=old_course_id
                 )
 
-                # print query
                 result = cur.execute(query)
 
             log.info(result)
@@ -1506,10 +1509,10 @@ def _rerun_course(request, org, number, run, fields):
 
     # Rerun the course as a new celery task
     json_fields = json.dumps(fields, cls=EdxJSONEncoder)
+
     rerun_course.delay(unicode(source_course_key), unicode(destination_course_key), request.user.id, json_fields)
     log.info("course_mode start (_rerun_course)--1")
     try:
-        print 'new_course.id2 ====> ', destination_course_key
         # 이수증 생성을 위한 course_mode 등록
         log.info("course_mode start (_rerun_course)--2")
         with connections['default'].cursor() as cur:
@@ -1529,8 +1532,6 @@ def _rerun_course(request, org, number, run, fields):
                          '',
                          FALSE);
             """.format(destination_course_key)
-            print '_create_new_course.query :', query
-
             cur.execute(query)
 
         user_id = request.user.id
@@ -1582,7 +1583,6 @@ def _rerun_course(request, org, number, run, fields):
                        classfy=classfy, course_number=number, org=org, classfy_plus=classfy_plus,
                        course_period=course_period, preview_video=preview_video, liberal_arts_yn=liberal_arts_yn, liberal_arts=liberal_arts, career_readiness_competencies_yn=career_readiness_competencies_yn)
 
-            print 'rerun_course insert -------------- ', query
             cur.execute(query)
 
     except Exception as e:
@@ -1794,8 +1794,6 @@ def settings_handler(request, course_key_string):
             cursor_active_versions = db.modulestore.active_versions.find_one({'course': cid, 'run': run, 'org': org})
             pb = cursor_active_versions.get('versions').get('published-branch')
 
-            print "modi_course_about > pb = ", pb
-
             structures_data = db.modulestore.structures.find_one({'_id': ObjectId(pb)})
 
             blocks = structures_data.get('blocks')
@@ -1815,8 +1813,6 @@ def settings_handler(request, course_key_string):
                 cur.execute(query)
                 teacher_sel = cur.fetchall()
 
-            print "modi_course_about > pb = ", pb
-
             structures_data = db.modulestore.structures.find_one({'_id': ObjectId(pb)})
 
             blocks = structures_data.get('blocks')
@@ -1826,7 +1822,7 @@ def settings_handler(request, course_key_string):
                     if 'user_edit' in block['fields']:
                         edit_check = block['fields']['user_edit']
 
-            print "------------------------------------>"
+
             course_lang = settings.ALL_LANGUAGES
 
             course_lang_tmp = []
@@ -1859,9 +1855,6 @@ def settings_handler(request, course_key_string):
             except:
                 classfy = [("TBD", "TBD", "TBD")]
 
-            # 강좌 미리보기
-            print 'video called'
-
             """ Display the progress page. """
             course_key = CourseKey.from_string(course_id)
 
@@ -1886,8 +1879,6 @@ def settings_handler(request, course_key_string):
                 wiki_slug = active_version.get('search_targets').get('wiki_slug')
 
                 if wiki_slug and pb:
-                    print 'published-branch is [%s]' % pb
-
                     structure = db.modulestore.structures.find_one({'_id': ObjectId(pb)},
                                                                    {"blocks": {"$elemMatch": {"block_type": "course"}}})
                     block = structure.get('blocks')[0]
@@ -1896,7 +1887,6 @@ def settings_handler(request, course_key_string):
                     chapters = course_fields.get('children')
 
                     for chapter_type, chapter_id in chapters:
-                        # print block_type, block_id
                         chapter = db.modulestore.structures.find_one({'_id': ObjectId(pb)}, {"blocks": {
                             "$elemMatch": {"block_id": chapter_id, "fields.visible_to_staff_only": {"$ne": True}}}})
 
@@ -1964,8 +1954,6 @@ def settings_handler(request, course_key_string):
                                         continue
 
                                     for html5_source in html5_sources:
-                                        # print org_name, classfy_name, middle_classfy_name, teacher_name, display_name, chapter_name, sequential_name, enrollment_start, enrollment_end, start, end, short_description, html5_source
-
                                         if html5_source == '':
                                             continue
 
@@ -1983,10 +1971,6 @@ def settings_handler(request, course_key_string):
 
                                         temp_list.append(temp_dict)
 
-                                        # print '----------------------------------------------------------- s'
-                                        # print chapter_name, chapter_start, sequential_name, sequential_start, vertical_name, html5_source
-                                        # print '----------------------------------------------------------- e'
-
             video_tree = {}
 
             _chapter_name1 = None
@@ -1998,7 +1982,6 @@ def settings_handler(request, course_key_string):
             _html5_source1 = None
             _html5_source2 = None
             chapter_list = []
-            print 'video_tree check -------------------------------------------------------------->'
 
             # 주제
             for temp1 in temp_list:
@@ -2017,8 +2000,6 @@ def settings_handler(request, course_key_string):
                         continue
                     else:
                         _chapter_name2 = temp1['chapter_name']
-
-                    # print _chapter_name2
 
                     _sequential_name1 = None
                     _sequential_name2 = None
@@ -2041,8 +2022,6 @@ def settings_handler(request, course_key_string):
                                 continue
                             else:
                                 _sequential_name2 = temp2['sequential_name']
-
-                            # print '\t', _sequential_name1
 
                             _html5_source1 = None
                             _html5_source2 = None
@@ -2070,8 +2049,6 @@ def settings_handler(request, course_key_string):
                                         course=course_id.replace('course-v1:', ''),
                                         vertical_id=_vertical_id
                                     )
-
-                                    # print '\t\t', _vertical_name1, _html5_source2, jump_url
 
                                     vertical_list.append({
                                         'vertical_id': _vertical_id,
@@ -2338,9 +2315,6 @@ def _refresh_course_tabs(request, course_module):
             """.format(course_id=course_id)
 
         cur.execute(query)
-        print "--------------------------------> course.py s"
-        print query
-        print "--------------------------------> course.py e"
         old_classfy_data = cur.fetchall()
 
         if len(old_classfy_data) != 0:
@@ -2348,7 +2322,7 @@ def _refresh_course_tabs(request, course_module):
             old_middle_classfy = old_classfy_data[0][1]
             old_classfy_plus = old_classfy_data[0][2]
             old_course_period = old_classfy_data[0][3]
-            print type(old_classfy), type(old_middle_classfy), type(classfy), type(middle_classfy)
+
 
     with connections['default'].cursor() as cur:
         if classfy != old_classfy or middle_classfy != old_middle_classfy or classfy_plus != old_classfy_plus or course_period != old_course_period:
@@ -2364,7 +2338,6 @@ def _refresh_course_tabs(request, course_module):
                 """.format(middle_classfy=middle_classfy, classfy=classfy, user_id=user_id, course_id=course_id,
                            classfy_plus=classfy_plus, course_period=course_period)
 
-            print 'advanced addinfo update --------- ', query2
             cur.execute(query2)
 
 
@@ -2492,7 +2465,6 @@ def advanced_settings_handler(request, course_key_string):
         json: update the Course's settings. The payload is a json rep of the
             metadata dicts.
     """
-    print course_key_string
     course_key = CourseKey.from_string(course_key_string)
     with modulestore().bulk_operations(course_key):
         course_module = get_course_and_check_access(course_key, request.user)
@@ -2575,7 +2547,7 @@ def advanced_settings_handler(request, course_key_string):
                             about_descriptor = XBlock.load_class('about')
                             overview_template = about_descriptor.get_template('overview.yaml')
 
-                            if overview_template:
+                            if updated_data and overview_template:
                                 updated_data.update(overview_template=overview_template['data'])
 
                     if 'audit_yn' in params:
@@ -2587,6 +2559,8 @@ def advanced_settings_handler(request, course_key_string):
                         liberal_arts_yn = params['liberal_arts_yn']['value']
                     if 'liberal_arts' in params:
                         liberal_arts = params['liberal_arts']['value']
+                    if 'career_readiness_competencies_yn' in params:
+                        career_readiness_competencies_yn = params['career_readiness_competencies_yn']['value']
 
                     try:
                         with connections['default'].cursor() as cur:
@@ -2620,6 +2594,14 @@ def advanced_settings_handler(request, course_key_string):
                                      WHERE course_id = '{course_id}';
                                 """.format(course_id=course_key_string,
                                            liberal_arts=liberal_arts)
+                                cur.execute(query2)
+                            if 'career_readiness_competencies_yn' in params:
+                                query2 = """
+                                    UPDATE course_overview_addinfo
+                                       SET career_readiness_competencies_yn = '{career_readiness_competencies_yn}'
+                                     WHERE course_id = '{course_id}';
+                                """.format(course_id=course_key_string,
+                                           career_readiness_competencies_yn=career_readiness_competencies_yn)
                                 cur.execute(query2)
                     except Exception as e:
                         is_valid = False

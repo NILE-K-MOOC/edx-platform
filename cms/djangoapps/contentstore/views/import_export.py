@@ -280,6 +280,9 @@ def _write_chunk(request, courselike_key):
                         if 'course_period' in xml.attrib:
                             addinfo.course_period = xml.attrib['course_period']
 
+                        if 'career_readiness_competencies_yn' in xml.attrib:
+                            addinfo.career_readiness_competencies_yn = xml.attrib['career_readiness_competencies_yn']
+
                         addinfo.save()
         except Exception as e:
             log.info(e.message)
