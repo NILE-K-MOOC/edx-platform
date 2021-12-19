@@ -76,11 +76,13 @@ log = logging.getLogger(__name__)
 AUDIT_LOG = logging.getLogger("audit")
 SessionStore = import_module(settings.SESSION_ENGINE).SessionStore  # pylint: disable=invalid-name
 
+
 # enroll status changed events - signaled to email_marketing.  See email_marketing.tasks for more info
 
 
 class TbAuthUserAddinfo(models.Model):
-    user_id = models.IntegerField(primary_key=True)
+    # user_id = models.IntegerField(primary_key=True)
+    user_id = models.OneToOneField(User, primary_key=True, unique=True, db_index=True, related_name='addinfo', on_delete=models.CASCADE, db_column='user_id')
     sub_email = models.CharField(blank=True, null=True, max_length=255)
     private_info_use_yn = models.IntegerField(blank=True, null=True)
     event_join_yn = models.IntegerField(blank=True, null=True)
@@ -96,10 +98,15 @@ class TbAuthUserAddinfo(models.Model):
     is_kakao = models.CharField(max_length=1, blank=True, null=True)
     date_of_birth = models.CharField(max_length=10, blank=True, null=True)
 
-
     class Meta:
         managed = False
         db_table = 'tb_auth_user_addinfo'
+
+    @property
+    def phone_fmt(self):
+        if not self.phone:
+            return '-'
+        return self.phone[:3] + '-' + self.phone[3:7] + '-' + self.phone[7:]
 
 
 # ENROLL signal used for free enrollment only
@@ -119,6 +126,7 @@ class EnrollStatusChange(object):
     paid_start = 'paid_start'
     # complete a paid course purchase
     paid_complete = 'paid_complete'
+
 
 UNENROLLED_TO_ALLOWEDTOENROLL = 'from unenrolled to allowed to enroll'
 ALLOWEDTOENROLL_TO_ENROLLED = 'from allowed to enroll to enrolled'
@@ -250,7 +258,7 @@ def is_username_retired(username):
     # when we are done with the username updates.
     try:
         return User.objects.filter(username__in=list(locally_hashed_usernames)).exists() or \
-            UserRetirementStatus.objects.filter(original_username=username).exists()
+               UserRetirementStatus.objects.filter(original_username=username).exists()
     except ProgrammingError as exc:
         # Check the error message to make sure it's what we expect
         if "user_api_userretirementstatus" in text_type(exc):
@@ -829,7 +837,6 @@ class PasswordHistory(models.Model):
                 PasswordHistory.is_password_reset_frequency_restricted() or
                 PasswordHistory.is_staff_forced_password_reset_enabled() or
                 PasswordHistory.is_student_forced_password_reset_enabled()):
-
             return
 
         self.user = user
@@ -1601,7 +1608,7 @@ class CourseEnrollment(models.Model):
             raise
 
     @classmethod
-    def enrollments_for_user_audit(cls, user,now_length=None):
+    def enrollments_for_user_audit(cls, user, now_length=None):
         return cls.objects.raw('''
                   SELECT a.*
                     FROM student_courseenrollment a
@@ -1737,7 +1744,7 @@ class CourseEnrollment(models.Model):
             ''', [user.id])
 
     @classmethod
-    def enrollments_for_user_end(cls, user,start_length):
+    def enrollments_for_user_end(cls, user, start_length):
         return cls.objects.raw('''
                       SELECT a.*
                         FROM student_courseenrollment a
@@ -1754,7 +1761,7 @@ class CourseEnrollment(models.Model):
                              AND a.mode != 'audit'
                     ORDER BY if(c.status = 'downloadable', 1, 2), c.created_date DESC, a.created DESC
                     limit {start_length},10
-            '''.format(user_id =user.id,start_length=start_length))
+            '''.format(user_id=user.id, start_length=start_length))
 
     @classmethod
     def enrollments_for_user_audit(cls, user):
@@ -2176,9 +2183,9 @@ class CourseEnrollment(models.Model):
         """
         enrollment = cls.get_enrollment(user, course_key)
         return (
-            enrollment is not None and
-            enrollment.is_active and
-            enrollment.is_verified_enrollment()
+                enrollment is not None and
+                enrollment.is_active and
+                enrollment.is_verified_enrollment()
         )
 
     @classmethod
@@ -2525,6 +2532,7 @@ def remove_user_from_group(user, group):
     utg.users.remove(User.objects.get(username=user))
     utg.save()
 
+
 DEFAULT_GROUPS = {
     'email_future_courses': 'Receive e-mails about future MITx courses',
     'email_helpers': 'Receive e-mails about how to help with MITx',
@@ -2559,6 +2567,7 @@ def create_comments_service_user(user):
             exc_info=True
         )
 
+
 # Define login and logout handlers here in the models file, instead of the views file,
 # so that they are more likely to be loaded when a Studio user brings up the Studio admin
 # page to login.  These are currently the only signals available, so we need to continue
@@ -2586,7 +2595,7 @@ def log_successful_logout(sender, request, user, **kwargs):  # pylint: disable=u
 
 @receiver(user_logged_in)
 @receiver(user_logged_out)
-def enforce_single_login(sender, request, user, signal, **kwargs):    # pylint: disable=unused-argument
+def enforce_single_login(sender, request, user, signal, **kwargs):  # pylint: disable=unused-argument
     """
     Sets the current session id in the user profile,
     to prevent concurrent logins.
@@ -2770,7 +2779,7 @@ class EntranceExamConfiguration(models.Model):
     skip_entrance_exam = models.BooleanField(default=True)
 
     class Meta(object):
-        unique_together = (('user', 'course_id'), )
+        unique_together = (('user', 'course_id'),)
 
     def __unicode__(self):
         return "[EntranceExamConfiguration] %s: %s (%s) = %s" % (
@@ -2826,6 +2835,7 @@ class LanguageProficiency(models.Model):
     /edx-platform/openedx/core/djangoapps/user_api/accounts/views.py or its associated api method
     (update_account_settings) so that the events are emitted.
     """
+
     class Meta(object):
         unique_together = (('code', 'user_profile'),)
 
@@ -2985,7 +2995,7 @@ class UserAttribute(TimeStampedModel):
 
     class Meta(object):
         # Ensure that at most one value exists for a given user/name.
-        unique_together = (('user', 'name',), )
+        unique_together = (('user', 'name',),)
 
     user = models.ForeignKey(User, related_name='attributes', on_delete=models.CASCADE)
     name = models.CharField(max_length=255, help_text=_("Name of this user attribute."), db_index=True)
