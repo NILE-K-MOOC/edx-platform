@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Model used by Video module for Branding configuration.
 
@@ -60,3 +61,31 @@ class BrandingApiConfig(ConfigurationModel):
     """
     class Meta(ConfigurationModel.Meta):
         app_label = "branding"
+
+
+from django.db import models
+from datetime import datetime, date
+from django.contrib.auth.models import User
+from django.urls import reverse
+
+class Invitation(models.Model):
+    user_id = models.IntegerField()
+    username = models.CharField(max_length=100)
+    phone = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100)
+    job = models.CharField(max_length=100)
+    purpose = models.CharField(max_length=150)
+    agree = models.BooleanField()
+    created = models.DateTimeField(auto_now_add=True)
+
+
+def __str__(self):
+    return self.username + ' | ' + str(self.email)
+
+
+# def get_absolute_url(self):
+#     return reverse('invitation_banner')
+
+
+class Meta:
+    ordering = ('created',)

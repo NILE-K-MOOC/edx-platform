@@ -386,8 +386,14 @@ from openedx.core.djangolib.markup import HTML, Text
     <div class="sec-visual" style="margin: 5px 0;">
         <div class="container-fluid">
             <div class="visual-row">
-                <a href="/banner" target="_blank"><img src="${STATIC_URL}images/banner1.png" alt="위대한수업 바로가기"
-                                                       style="width: 100%"></a>
+                <div class="banner">
+                    <div><a href="/invitation-banner" target="_blank" style="display:block"><img
+                            src="${STATIC_URL}images/banner2.png"
+                            alt="글로벌강좌 초대장" style="width: 100%"></a></div>
+                    <div><a href="/banner" target="_blank" style="display:block"><img
+                            src="${STATIC_URL}images/banner1.png"
+                            alt="위대한수업 바로가기" style="width: 100%"></a></div>
+                </div>
             </div>
         </div>
     </div>
@@ -654,8 +660,22 @@ from openedx.core.djangolib.markup import HTML, Text
     $(window).load(function () {
         $('#signup_action').trigger("click");
 
-
-
     });
 </script>
 % endif
+
+<script>
+    $(document).ready(function (){
+        console.log('페이지가 시작되었습니다.')
+    //배너 스와이프
+        $('.banner').bxSlider({
+            auto: true,
+            speed: 600,
+            pause: 3000,
+            captions: false,
+            pager: false,
+            controls: false,
+        });
+    })
+
+</script>

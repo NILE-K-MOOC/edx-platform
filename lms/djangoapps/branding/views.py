@@ -178,6 +178,84 @@ def banner(request):
     return render_to_response("banner.html")
 
 
+def invitation_banner(request):
+    return render_to_response("banner2.html")
+
+
+def invitation_confirm(request):
+    return render_to_response("banner2.html")
+
+
+from django.views.generic import CreateView
+from .models import Invitation
+from .forms import InvitationForm
+from django.shortcuts import render
+
+# #적용
+# class InvitationFormView(CreateView):
+#     model = Invitation
+#     template_name = 'banner2.html'
+#     fields = '__all__'
+#     logging.error('aaaaallsdffdsfdffdsfdfdsfsdfdfdsfdsfdsfdsfdsfd=======================================')
+#     success_url = '/invitation-banner'
+
+def invi(request):
+    '''
+    When GET method, show banner2.html
+    When POST method, save from data
+    '''
+    # goal = Curriculum.objects.get(id=pk)
+    # user_goal = Curriculum.objects.get(user=request.user)
+    # form = GoalForm(instance=user_goal)
+    # curriculum = Curriculum.objects.filter(user=request.user)
+    # context = {'goal': goal, 'form': form, 'curriculum': curriculum, 'user_goal': user_goal}
+
+
+    # if request.method == 'POST':
+    '''
+    user_id
+username
+phone
+email
+job
+purpose
+agree
+created
+    '''
+    print "-------------------------"
+    # with translation.atomic():
+    model = Invitation()
+
+    # email = request.POST.get()
+    #TODO session 값 User_id 받아서 넣어주기
+    model.user_id = 1111
+    model.username = request.POST.get('username')
+    model.phone = request.POST.get('phone')
+    model.email = request.POST.get('email')
+    model.job = request.POST.get('job')
+    model.purpose = request.POST.get('purpose')
+    #TODO checkbox
+    model.agree = True
+
+    model.save()
+
+    #TODO form 객체/ class based 테스트
+    #TODO template ajax, 영어이름 , 직업
+
+    print model.email
+    print "====================="
+    # if form.is_valid():
+    #     print('where')
+    #     form.save()
+    #     return render_to_response("banner2.html")
+    #     # return redirect('/invitation-banner')
+    # else:
+    #     print('nope')
+    #     import sys
+    #     sys.exit(1)
+    return redirect('banner2.html')
+
+
 @csrf_exempt
 def multisite_index(request, org):
     # 중앙교육연수원의 추가 정보 입력을 위한 변수
