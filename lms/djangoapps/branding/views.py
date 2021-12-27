@@ -187,59 +187,59 @@ from django.shortcuts import render
 from .models import Invitation
 from django.contrib import messages
 
-
-def invitation_confirm(request):
-    if request.method == 'POST':
-        #폼 이니셜 값 user_id 할당
-        updated_request = request.POST.copy()
-        updated_request.update({'user_id': request.user.id})
-        form = InvitationForm(updated_request)
-
-        #중복 참여 alert
-        model = Invitation()
-        model.phone = request.POST.get('phone')
-        model.email = request.POST.get('email')
-        phone_exist = Invitation.objects.filter(phone=model.phone).exists()
-        email_exist = Invitation.objects.filter(email=model.email).exists()
-        if phone_exist or email_exist:
-            duplicate_user = True
-            context = {
-                'duplicate_user': duplicate_user,
-            }
-            return render_to_response("banner2.html", context)
-
-        #폼 유효성 체크
-        if form.is_valid():
-            #user_id 저장
-            form = form.save(commit=False)
-            form.user_id = request.user.id
-            form.save()
-            messages.success(request, '이벤트에 참여해 주셔서 감사합니다 :)')
-
-            success = True
-            context = {
-                'success': success,
-            }
-            return render_to_response("banner2.html", context)
-            #return redirect('/invitation-banner') #original
-        else:
-            print form.errors
-            #HTML 형식 alert 불가 #<ul class="errorlist"><li>phone<ul class="errorlist"><li>Invitation with this Phone already exists.</li></ul></li><li>email<ul class="errorlist"><li>Invitation with this Email already exists.</li></ul></li></ul>
-            print('form error')
-            fail = True
-            context = {
-                'fail': fail,
-            }
-            return render_to_response("banner2.html", context)
-
-            #return render_to_response("banner2.html")
-            # redirect 줄 추가해주지 않으면 아래 render로 가서 깨진 html 이 나옴
-            #return redirect('/invitation-banner')        #original
-            #return render_to_response("banner-error.html")
-    # GET 요청이면 제출용 빈 폼을 생성
-    else:
-        form = InvitationForm()
-    return render(request, 'banner2.html', {'form': form}) #original
+#
+# def invitation_confirm(request):
+#     if request.method == 'POST':
+#         #폼 이니셜 값 user_id 할당
+#         updated_request = request.POST.copy()
+#         updated_request.update({'user_id': request.user.id})
+#         form = InvitationForm(updated_request)
+#
+#         #중복 참여 alert
+#         model = Invitation()
+#         model.phone = request.POST.get('phone')
+#         model.email = request.POST.get('email')
+#         phone_exist = Invitation.objects.filter(phone=model.phone).exists()
+#         email_exist = Invitation.objects.filter(email=model.email).exists()
+#         if phone_exist or email_exist:
+#             duplicate_user = True
+#             context = {
+#                 'duplicate_user': duplicate_user,
+#             }
+#             return render_to_response("banner2.html", context)
+#
+#         #폼 유효성 체크
+#         if form.is_valid():
+#             #user_id 저장
+#             form = form.save(commit=False)
+#             form.user_id = request.user.id
+#             form.save()
+#             messages.success(request, '이벤트에 참여해 주셔서 감사합니다 :)')
+#
+#             success = True
+#             context = {
+#                 'success': success,
+#             }
+#             return render_to_response("banner2.html", context)
+#             #return redirect('/invitation-banner') #original
+#         else:
+#             print form.errors
+#             #HTML 형식 alert 불가 #<ul class="errorlist"><li>phone<ul class="errorlist"><li>Invitation with this Phone already exists.</li></ul></li><li>email<ul class="errorlist"><li>Invitation with this Email already exists.</li></ul></li></ul>
+#             print('form error')
+#             fail = True
+#             context = {
+#                 'fail': fail,
+#             }
+#             return render_to_response("banner2.html", context)
+#
+#             #return render_to_response("banner2.html")
+#             # redirect 줄 추가해주지 않으면 아래 render로 가서 깨진 html 이 나옴
+#             #return redirect('/invitation-banner')        #original
+#             #return render_to_response("banner-error.html")
+#     # GET 요청이면 제출용 빈 폼을 생성
+#     else:
+#         form = InvitationForm()
+#     return render(request, 'banner2.html', {'form': form}) #original
 
 
 # ==================================================================================================> 배너 종료
