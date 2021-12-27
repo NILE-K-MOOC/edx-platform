@@ -88,7 +88,7 @@ urlpatterns = [
     url(r'^$', branding_views.index, name='root'),
     url(r'^banner$', branding_views.banner, name='banner'),
     url(r'^invitation-banner$', branding_views.invitation_banner, name='invitation_banner'),
-    # url(r'^invitation-confirm$', branding_views.invitation_confirm, name='invitation_confirm'),
+    url(r'^invitation-confirm$', branding_views.invitation_confirm, name='invitation_confirm'),
     url(r'^get_index_courses$', student_views.get_index_courses, name='get_index_courses'),
 
     # Common
