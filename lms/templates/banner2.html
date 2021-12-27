@@ -451,7 +451,7 @@ button.invitation_submit:focus:not(:disabled){
                 <div class="input_style input_name">
                     <img src="${STATIC_URL}/images/invitation_images/input_name.png" alt="성함">
                     <!-- TODO: 이름 부분 id: input_name -->
-                    <input type="text" id="input_name" name="username" title="성함" maxlength="20" onchange="onChangeInputValue()"/>
+                    <input type="text" id="input_name" name="username" title="성함" maxlength="20" readonly onchange="onChangeInputValue()"/>
                     <span id="name_error" class="banner2_error_msg"></span>
                 </div>
 
@@ -465,7 +465,7 @@ button.invitation_submit:focus:not(:disabled){
                 <div class="input_style input_email">
                     <img src="${STATIC_URL}/images/invitation_images/input_email.png" alt="이메일">
                     <!-- TODO: 이메일 부분 id: input_email -->
-                    <input type="text" id="input_email" name="email" title="이메일" maxlength="40" onchange="onChangeInputValue()"/>
+                    <input type="text" id="input_email" name="email" title="이메일" maxlength="40" readonly onchange="onChangeInputValue()"/>
                     <span id="email_error" class="banner2_error_msg"></span>
                 </div>
 
