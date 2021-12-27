@@ -23,21 +23,6 @@ from openedx.core.djangolib.markup import HTML, Text
 <script language="Javascript">
 
     $(document).ready(function () {
-
-        % if user.is_authenticated:
-        // 성함
-        console.log('성함: ${user.profile.name}');
-        // 연락처
-        console.log('연락처: ${user.addinfo.phone_fmt}');
-        // 이메일
-        console.log('이메일: ${user.email}');
-        % else:
-        // 로그인관련 메세지 표시 및 로그인 화면으로 이동 스크립트 작성
-        // window.location.href = "/login";
-        % endif
-
-
-
         // 실제로 강좌 목록 위에 영역 선택 부분이 있으므로 해당 높이를 추가
         // 20210114 기본 강좌는 집콕강좌로 변경
         let secCourseTop = $(".sec-course").offset().top + $(".course-top").height();
