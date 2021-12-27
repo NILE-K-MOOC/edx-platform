@@ -66,7 +66,8 @@ class BrandingApiConfig(ConfigurationModel):
 from django.db import models
 
 
-class Invitation(models.Model):
+#class Invitation(models.Model):
+class Invitation(ConfigurationModel):
     user_id = models.IntegerField()
     username = models.CharField(max_length=100)
     phone = models.CharField(max_length=100, unique=True)
@@ -75,6 +76,9 @@ class Invitation(models.Model):
     purpose = models.CharField(max_length=150)
     agree = models.BooleanField()
     created = models.DateTimeField(auto_now_add=True)
+
+    class Meta(ConfigurationModel.Meta):
+        app_label = "branding"
 
     def __unicode__(self):
         return unicode('NAME: ' + str(self.username) + ' | ' +'EMAIL: ' + str(self.email))
