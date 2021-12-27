@@ -64,28 +64,18 @@ class BrandingApiConfig(ConfigurationModel):
 
 
 from django.db import models
-from datetime import datetime, date
-from django.contrib.auth.models import User
-from django.urls import reverse
+
 
 class Invitation(models.Model):
     user_id = models.IntegerField()
     username = models.CharField(max_length=100)
-    phone = models.CharField(max_length=100)
-    email = models.EmailField(max_length=100)
+    phone = models.CharField(max_length=100, unique=True)
+    email = models.EmailField(max_length=100, unique=True)
     job = models.CharField(max_length=100)
     purpose = models.CharField(max_length=150)
     agree = models.BooleanField()
     created = models.DateTimeField(auto_now_add=True)
 
+    def __unicode__(self):
+        return unicode('NAME: ' + str(self.username) + ' | ' +'EMAIL: ' + str(self.email))
 
-def __str__(self):
-    return self.username + ' | ' + str(self.email)
-
-
-# def get_absolute_url(self):
-#     return reverse('invitation_banner')
-
-
-class Meta:
-    ordering = ('created',)

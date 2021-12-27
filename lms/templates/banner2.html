@@ -371,10 +371,8 @@ button.invitation_submit:focus:not(:disabled){
             <img src="${STATIC_URL}/images/invitation_images/enroll_btn.png" alt="구독권 신청"/>
         </div>
 % else:
-##    // 로그인관련 메세지 표시 및 로그인 화면으로 이동 스크립트 작성
-##     // window.location.href = "/login";
+<!--    로그인이 필요합니다. 로그인 페이지로 리다이렉트 window.location.href = "/login"; -->
         <div class="invitation_btn invitation_enroll" onclick="onDirection()">
-
             <img src="${STATIC_URL}/images/invitation_images/enroll_btn.png" alt="구독권 신청"/>
         </div>
 % endif
@@ -446,7 +444,7 @@ button.invitation_submit:focus:not(:disabled){
     <div class="invitation_popup_bg">
         <form method="post" action="/invitation-confirm">
         <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
-            <input type="hidden" value="11111">
+            <input type="hidden" id="user_id" name="user_id">
         <div class="invitation_popup">
             <img src="${STATIC_URL}/images/invitation_images/popup.png" alt="K-MOOC 수강신청 이벤트에 참여해주셔서 감사합니다. 당첨 시 아래 기재해 주신 연락처로 안내해 드릴 예정입니다."/>
             <div class="invitation_inputboxes">
@@ -474,16 +472,36 @@ button.invitation_submit:focus:not(:disabled){
                 <div class="input_style input_job">
                     <img src="${STATIC_URL}/images/invitation_images/input_job.png" class="input_job_etc_off" alt="직업">
                     <img src="${STATIC_URL}/images/invitation_images/input_job_etc.png" class="input_job_etc_on" alt="직업">
-                    <select name="job" id="input_job" name="job" class="" onchange="onChangeJobOpt()">
+
+
+
+                    <!-- input job original start -->
+                    <!--
+                    <select name="job" id="input_job" class="" onchange="onChangeJobOpt()">
                         <option value="" selected disabled>직업을 선택해 주세요</option>
-                        <option vale="학생">학생</option>
-                        <option vale="직장인">직장인</option>
-                        <option vale="교사">교사</option>
-                        <option vale="공무원">공무원</option>
-                        <option vale="기타">기타 (직접입력)</option>
+                        <option value="학생">학생</option>
+                        <option value="직장인">직장인</option>
+                        <option value="교사">교사</option>
+                        <option value="공무원">공무원</option>
+                        <option value="기타">기타 (직접입력)</option>
                     </select>
                     <input type="text" class="input_style input_job_etc" title="기타 직업" id="input_job_etc" name="job"
                            maxlength="20"/>
+                           -->
+                    <!-- input job original end -->
+
+
+                 <!-- input job sample start -->
+                    <select name="job" id="id_job"> <!--onchange="onChangeJobOpt() -->
+                        <option value="학생">학생</option>
+                        <option value="직장인">직장인</option>
+                        <option value="교사">교사</option>
+                        <option value="공무원">공무원</option>
+                        <option value="기타">기타</option>
+                    </select>
+                 <!-- input job sample end -->
+
+
                 </div>
 
                 <div class="input_style input_purpose">
@@ -492,19 +510,50 @@ button.invitation_submit:focus:not(:disabled){
                 </div>
             </div>
 
+
+            <!-- sample checkbox start -->
+                <div class="chkbox_wrap">
+                    <input type="checkbox" name="agree" id="id_agree">
+                    <label for="id_agree"><span>&nbsp;마케팅 정보 수신에 동의합니다.</span>
+                </label>
+                </div>
+            <!-- sample checkbox end -->
+
+
+            <!-- original checkbox start -->
+            <!--
             <div class="chkbox_wrap">
                 <label class="chkbox_label">
-                    <input type="checkbox" id="invitation_chckbox">
-                    <img src="${STATIC_URL}/images/invitation_images/chkbox_on.png" class="chkbox_on" alt="마케팅 정보 수신에 동의합니다."/>
+                    <input type="checkbox" id="invitation_chckbox" name="agree">
+                     <img src="${STATIC_URL}/images/invitation_images/chkbox_on.png" class="chkbox_on" alt="마케팅 정보 수신에 동의합니다."/>
                     <img src="${STATIC_URL}/images/invitation_images/chkbox_off.png" class="chkbox_off" alt="마케팅 정보 수신에 동의합니다."/>
                 </label>
             </div>
+            -->
+             <!-- original checkbox end -->
 
+
+            <!-- test check box start -->
+            <!--<label for="id_agree">Agree:</label><input type="checkbox" name="agree" id="id_agree">-->
+            <!-- test checkbox end -->
+
+
+            <!-- 자바 스크립트 onclick 으로 폼 저장 안됨  -->
 ##             <button class="invitation_submit" type="submit" onclick="submitForm()">
-            <button class="invitation_submit" type="submit" >
+
+
+            <button class="invitation_submit" type="submit" onclick="submitForm()">
                 <img src="${STATIC_URL}/images/invitation_images/submit_btn.png" alt="제출하기"/>
             </button>
         </div>
+        <!-- 중복 에러 테스트 -->
+
+        ## %if form.errors:
+        ## <h1> error </h1>
+        ## %endif
+
+        <!-- 중복 에러 테스트 -->
+
         </form>
     </div>
 </div>
@@ -532,16 +581,30 @@ button.invitation_submit:focus:not(:disabled){
 
 
         // TODO: 로그인 상태일 시 회원정보 (이름, 연락처, 이메일) 자동 입력 부분
-        document.getElementById('input_name').value = '${user.profile.name}';
-        document.getElementById('input_phone').value = '';
-        document.getElementById('input_email').value = '${user.email}';
+        % if user.is_authenticated:
+            document.getElementById('input_name').value = '${user.profile.name}';
+            document.getElementById('input_phone').value = '';
+            document.getElementById('input_email').value = '${user.email}';
+        % else:
+            document.getElementById('input_name').value = '';
+            document.getElementById('input_phone').value = '';
+            document.getElementById('input_email').value = '';
+        % endif
+
+        % if success:
+            alert('이벤트에 참여해 주셔서 감사합니다 :)');
+            location.href="/invitation-banner";
+        % elif fail:
+            alert('입력한 값이 올바르지 않습니다. ');
+            location.href="/invitation-banner";
+        % elif duplicate_user:
+            alert('이벤트 중복 참여는 불가합니다. ');
+            location.href="/invitation-banner";
+            //alert('  ');
+        % endif
+
     })
 
-    console.log('성함: ${user.profile.name}');
-    // 연락처
-    console.log('연락처: ${user.addinfo.phone_fmt}');
-    // 이메일
-    console.log('이메일: ${user.email}');
 
     function onDirection() {
         alert('로그인이 필요합니다.')
@@ -659,15 +722,11 @@ button.invitation_submit:focus:not(:disabled){
         $(".event_loading_popup").fadeOut();
         */
 
-
-
         // 중복 제출
         // alert('이벤트 중복 참여는 불가합니다.')
-
         // success
 
     }
-
 
     // 브로슈어 보기
     const brochure = document.querySelector('.invitation_brochure_popup_bg')
@@ -709,11 +768,9 @@ button.invitation_submit:focus:not(:disabled){
     }
 
 
-
-
-
     // popup - 기타 직접 입력
     function onChangeJobOpt() {
+        return false;
         const job = document.querySelector('.input_job')
         if (input_job.options[input_job.selectedIndex].value.indexOf('기타') !== -1) {
             job.classList.add('active');
@@ -730,7 +787,6 @@ button.invitation_submit:focus:not(:disabled){
         //로그인 여부를 체크해 로그인 상태일 때 아래 코드 실행 or 비 로그인 상태에서는 로그인 페이지로 이동 처리
         // if logined popup.style.display = 'block'; else redirect login page
         popup.style.display = 'block';
-
 
     }
 

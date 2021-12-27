@@ -382,22 +382,33 @@ from openedx.core.djangolib.markup import HTML, Text
 </style>
 <main id="main" aria-label="Content" tabindex="-1" class="main-content">
 
-    <!-- 배너자리 -->
-    <div class="sec-visual" style="margin: 5px 0;">
+    <!-- 캐러셀 배너자리 -->
+##     <div class="sec-visual" style="margin: 5px 0;">
+##         <div class="container-fluid">
+##             <div class="visual-row">
+##                 <div class="banner">
+##                     <div><a href="/invitation-banner" target="_blank" style="display:block"><img
+##                             src="${STATIC_URL}images/banner2.png"
+##                             alt="글로벌강좌 초대장" style="width: 100%"></a></div>
+##                     <div><a href="/banner" target="_blank" style="display:block"><img
+##                             src="${STATIC_URL}images/banner1.png"
+##                             alt="위대한수업 바로가기" style="width: 100%"></a></div>
+##                 </div>
+##             </div>
+##         </div>
+##     </div>
+    <!-- // 캐러셀 배너자리 -->
+
+    <!-- 새로운 도전 (기존) 띠배너  -->
+<div class="sec-visual" style="margin: 5px 0;">
         <div class="container-fluid">
             <div class="visual-row">
-                <div class="banner">
-                    <div><a href="/invitation-banner" target="_blank" style="display:block"><img
-                            src="${STATIC_URL}images/banner2.png"
-                            alt="글로벌강좌 초대장" style="width: 100%"></a></div>
-                    <div><a href="/banner" target="_blank" style="display:block"><img
-                            src="${STATIC_URL}images/banner1.png"
-                            alt="위대한수업 바로가기" style="width: 100%"></a></div>
-                </div>
+                <a href="/banner" target="_blank"><img src="${STATIC_URL}images/banner1.png" alt="위대한수업 바로가기" style="width: 100%"></a>
             </div>
         </div>
     </div>
-    <!-- //배너자리 -->
+
+    <!-- 새로운 도전 (기존) 띠배너  -->
 
     <section class="sec-visual about">
         <div class="container-fluid">
