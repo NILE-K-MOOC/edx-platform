@@ -89,7 +89,10 @@ urlpatterns = [
     url(r'^banner$', branding_views.banner, name='banner'),
     url(r'^invitation-banner$', branding_views.invitation_banner, name='invitation_banner'),
     url(r'^invitation-confirm$', branding_views.invitation_confirm, name='invitation_confirm'),
+    url(r'^coursera-course$', branding_views.coursera_course, name='coursera_course'),
+    # url(r'^coursera-test$', branding_views.coursera_course_test, name='coursera_course2'),
     url(r'^get_index_courses$', student_views.get_index_courses, name='get_index_courses'),
+
 
     # Common
     # made by kotech system

@@ -1,0 +1,1048 @@
+<%page expression_filter="h"/>
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.core.urlresolvers import reverse
+from microsite_configuration import microsite
+from openedx.core.djangolib.markup import HTML, Text
+%>
+
+<%block name="pagetitle">
+${("")}
+</%block>
+
+<style>
+    html, body {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+    }
+
+    .cos_wrap {
+
+        width: 100%;
+        max-width: 1170px;
+        margin: 0 auto;
+    }
+
+    .cos_banner {
+        width: 100%;
+    }
+
+    .cos_banner > img {
+        width: 100%;
+        display: block;
+    }
+
+    .cos_banner > img.kv {
+        display: block;
+    }
+
+    .cos_inner {
+        position: relative;
+        padding: 40px 90px;
+    }
+
+    .cos_inner > img.desc {
+        margin-bottom: 26px;
+    }
+
+    .cos_btn_list {
+        width: 100%;
+        list-style: none;
+        padding: 20px 0;
+        margin: 0 0 76px 0;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        border-bottom: 2px solid rgba(36, 36, 36, .3);
+    }
+
+    .cos_btn_list.top {
+        margin: 0 0 0 0;
+        padding: 20px 0 0 0;
+        border-bottom: none;
+    }
+
+    .cos_btn_list > li {
+        margin-right: 16px;
+    }
+
+    .cos_btn_list > li a {
+        cursor: pointer;
+        display: block;
+        display: flex;
+        justify-content: center;
+    }
+
+    .cos_btn_list > li img {
+        display: block;
+    }
+
+    .cos_btn_list > li:last-child {
+        margin-right: 0;
+    }
+
+    .cos_btn_list > li.line {
+        width: 2px;
+        height: 18px;
+        background-color: #000;
+    }
+
+    .cos_btn_list > li img.btn_non_01_on {
+        display: block;
+    }
+
+    .cos_btn_list > li img.btn_non_02_on {
+        display: none;
+    }
+
+    .cos_btn_list > li img.btn_non_03_on {
+        display: none;
+    }
+
+    .cos_btn_list > li img.btn_non_04_on {
+        display: none;
+    }
+
+    .cos_btn_list > li img.btn_non_05_on {
+        display: none;
+    }
+
+    .cos_btn_list > li img.btn_non_01_off {
+        display: none;
+    }
+
+    .cos_btn_list > li img.btn_non_02_off {
+        display: block;
+    }
+
+    .cos_btn_list > li img.btn_non_03_off {
+        display: block;
+    }
+
+    .cos_btn_list > li img.btn_non_04_off {
+        display: block;
+    }
+
+    .cos_btn_list > li img.btn_non_05_off {
+        display: block;
+    }
+
+    .cos_list_wrap {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 42px;
+    }
+
+    .cos_list_wrap > div.label {
+        display: flex;
+        align-items: center;
+        margin-bottom: 14px;
+    }
+
+    .cos_list_wrap > div.label > div.label {
+        width: 5px;
+        height: 24px;
+        background-color: #5493ff;
+    }
+
+    .cos_list_wrap > ul.list {
+        width: 100%;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .cos_list_wrap > ul.list > li {
+        position: relative;
+        width: 194px;
+        height: 195px;
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center;
+        margin: 4px 2px 4px 2px;
+        float: left;
+    }
+
+    .cos_list_wrap > ul.list > li > a {
+        cursor: pointer;
+        display: block;
+        width: 100%;
+        height: 100%;
+
+        background-color: rgba(8, 9, 18, .8);
+        text-align: center;
+        line-height: 195px;
+        opacity: 0;
+        transition: opacity .3s;
+    }
+
+    .cos_list_wrap > ul.list > li > a:hover {
+        opacity: 1;
+    }
+
+    .cos_btn_area {
+        display: flex;
+        justify-content: center;
+        padding: 38px 0;
+    }
+
+    .cos_btn_area a {
+        cursor: pointer;
+    }
+
+    .cos_btn_area img {
+        display: block;
+    }
+
+    .cos_tab_area {
+        width: 100%;
+        display: flex;
+    }
+
+    .cos_tab {
+        cursor: pointer;
+        display: block;
+        flex: 1;
+        width: 100%;
+    }
+
+    .cos_tab > img.tab1_on {
+        display: block;
+    }
+
+    .cos_tab > img.tab1_off {
+        display: none;
+    }
+
+    .cos_tab > img.tab2_on {
+        display: none;
+    }
+
+    .cos_tab > img.tab2_off {
+        display: block;
+    }
+
+    .cos_inner.tab1 {
+        display: block;
+    }
+
+    .cos_inner.tab2 {
+        display: none;
+    }
+
+    .cos_btn_list > li img.btn_01_on {
+        display: block;
+    }
+
+    .cos_btn_list > li img.btn_02_on {
+        display: none;
+    }
+
+    .cos_btn_list > li img.btn_03_on {
+        display: none;
+    }
+
+    .cos_btn_list > li img.btn_04_on {
+        display: none;
+    }
+
+    .cos_btn_list > li img.btn_05_on {
+        display: none;
+    }
+
+    .cos_btn_list > li img.btn_06_on {
+        display: none;
+    }
+
+    .cos_btn_list > li img.btn_07_on {
+        display: none;
+    }
+
+    .cos_btn_list > li img.btn_08_on {
+        display: none;
+    }
+
+    .cos_btn_list > li img.btn_09_on {
+        display: none;
+    }
+
+    .cos_btn_list > li img.btn_01_off {
+        display: none;
+    }
+
+    .cos_btn_list > li img.btn_02_off {
+        display: block;
+    }
+
+    .cos_btn_list > li img.btn_03_off {
+        display: block;
+    }
+
+    .cos_btn_list > li img.btn_04_off {
+        display: block;
+    }
+
+    .cos_btn_list > li img.btn_05_off {
+        display: block;
+    }
+
+    .cos_btn_list > li img.btn_06_off {
+        display: block;
+    }
+
+    .cos_btn_list > li img.btn_07_off {
+        display: block;
+    }
+
+    .cos_btn_list > li img.btn_08_off {
+        display: block;
+    }
+
+    .cos_btn_list > li img.btn_09_off {
+        display: block;
+    }
+
+
+    .cos_popup_wrap {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background-color: rgba(36, 36, 36, 0.65);
+        display: none;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .cos_popup_inner {
+        position: relative;
+    }
+
+    .cos_popup_inner > div.btn_area {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        display: flex;
+    }
+
+    .cos_popup_inner > div.btn_area > img {
+        display: block;
+    }
+
+    .cos_popup_inner > div.btn_area > a {
+        cursor: pointer;
+    }
+
+    .cos_popup_inner > a.close_ic {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        cursor: pointer;
+    }
+
+</style>
+
+<!-- ${STATIC_URL}/images/banner3_images/-->
+<body>
+<!-- 구독권 보유일 경우 -->
+<div class="cos_wrap">
+    <div class="cos_banner">
+        <img class="kv" src="${STATIC_URL}/images/banner3_images/kv.png"/>
+
+    </div>
+    <div class="cos_tab_area">
+        <a class="cos_tab" onclick="onTabClick(1);">
+            <img class="tab1_on" src="${STATIC_URL}/images/banner3_images/tab1_on.png"/>
+            <img class="tab1_off" src="${STATIC_URL}/images/banner3_images/tab1_off.png"/>
+        </a>
+        <a class="cos_tab" onclick="onTabClick(2);">
+            <img class="tab2_on" src="${STATIC_URL}/images/banner3_images/tab2_on.png"/>
+            <img class="tab2_off" src="${STATIC_URL}/images/banner3_images/tab2_off.png"/>
+        </a>
+    </div>
+
+    <div class="cos_inner tab1" style="float: none; width: 100%;">
+        <img class="desc" src="${STATIC_URL}/images/banner3_images/desc_tap1.png"/>
+        <ul class="cos_btn_list top">
+            <li>
+                <a onclick="menuClick(1);">
+                    <img class="btn_01_on" src="${STATIC_URL}/images/banner3_images/btn_01_on.png"/>
+                    <img class="btn_01_off" src="${STATIC_URL}/images/banner3_images/btn_01_off.png"/>
+                </a>
+            </li>
+            <li class="line"></li>
+            <li>
+                <a onclick="menuClick(2);">
+                    <img class="btn_02_on" src="${STATIC_URL}/images/banner3_images/btn_02_on.png"/>
+                    <img class="btn_02_off" src="${STATIC_URL}/images/banner3_images/btn_02_off.png"/>
+                </a>
+            </li>
+            <li class="line"></li>
+            <li>
+                <a onclick="menuClick(3);">
+                    <img class="btn_03_on" src="${STATIC_URL}/images/banner3_images/btn_03_on.png"/>
+                    <img class="btn_03_off" src="${STATIC_URL}/images/banner3_images/btn_03_off.png"/>
+                </a>
+            </li>
+            <li class="line"></li>
+            <li>
+                <a onclick="menuClick(4);">
+                    <img class="btn_04_on" src="${STATIC_URL}/images/banner3_images/btn_04_on.png"/>
+                    <img class="btn_04_off" src="${STATIC_URL}/images/banner3_images/btn_04_off.png"/>
+                </a>
+            </li>
+        </ul>
+        <ul class="cos_btn_list">
+            <li style="margin-right: 14px;">
+                <a onclick="menuClick(5);">
+                    <img class="btn_05_on" src="${STATIC_URL}/images/banner3_images/btn_05_on.png"/>
+                    <img class="btn_05_off" src="${STATIC_URL}/images/banner3_images/btn_05_off.png"/>
+                </a>
+            </li>
+            <li class="line" style="margin-right: 14px;"></li>
+            <li style="margin-right: 14px;">
+                <a onclick="menuClick(6);">
+                    <img class="btn_06_on" src="${STATIC_URL}/images/banner3_images/btn_06_on.png"/>
+                    <img class="btn_06_off" src="${STATIC_URL}/images/banner3_images/btn_06_off.png"/>
+                </a>
+            </li>
+            <li class="line"></li>
+            <li>
+                <a onclick="menuClick(7);" style="width:129px;">
+                    <img class="btn_07_on" src="${STATIC_URL}/images/banner3_images/btn_07_on.png"/>
+                    <img class="btn_07_off" src="${STATIC_URL}/images/banner3_images/btn_07_off.png"/>
+                </a>
+            </li>
+            <li class="line"></li>
+            <li>
+                <a onclick="menuClick(8);" style="width:138px;">
+                    <img class="btn_08_on" src="${STATIC_URL}/images/banner3_images/btn_08_on.png"/>
+                    <img class="btn_08_off" src="${STATIC_URL}/images/banner3_images/btn_08_off.png"/>
+                </a>
+            </li>
+            <li class="line"></li>
+            <li>
+                <a onclick="menuClick(9);" style="width:169px;">
+                    <img class="btn_09_on" src="${STATIC_URL}/images/banner3_images/btn_09_on.png"/>
+                    <img class="btn_09_off" src="${STATIC_URL}/images/banner3_images/btn_09_off.png"/>
+                </a>
+            </li>
+        </ul>
+        <div class="cos_list_wrap" id="n01">
+            <div class="label">
+                <div class="line"></div>
+                <img src="${STATIC_URL}/images/banner3_images/label_01.png"/>
+            </div>
+            <ul class="list">
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/n_01_01.png');"><a target="_blank"
+                                                                              href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=PEuG9jNsEeyTERK47a9PLQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/n_01_02.png');"><a target="_blank"
+                                                                              href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=2JKwh15BEeyERRLkmvBkJQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/n_01_03.png');"><a target="_blank"
+                                                                              href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=ZIVvfx00EeagBBLYvz0q6w&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/n_01_04.png');"><a target="_blank"
+                                                                              href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=RZ1S0B0MEeacvQ6cODzg5Q&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+            </ul>
+        </div>
+        <div class="cos_list_wrap" id="n02">
+            <div class="label">
+                <div class="line"></div>
+                <img src="${STATIC_URL}/images/banner3_images/label_02.png"/>
+            </div>
+            <ul class="list">
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/n_02_01.png');"><a target="_blank"
+                                                                              href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=4wJvgF8HEeyGyBIIdSsL5w&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/n_02_02.png');"><a target="_blank"
+                                                                              href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=8D3R5HiaEeioIg7r4jw_PA&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/n_02_03.png');"><a target="_blank"
+                                                                              href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=vuhMUF8GEeyIUg4Qv2RsBQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+            </ul>
+        </div>
+        <div class="cos_list_wrap" id="n03">
+            <div class="label">
+                <div class="line"></div>
+                <img src="${STATIC_URL}/images/banner3_images/label_03.png"/>
+            </div>
+            <ul class="list">
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/n_03_01.png');"><a target="_blank"
+                                                                              href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=kWGvJivBEeeW5RJUyz1uFA&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/n_03_02.png');"><a target="_blank"
+                                                                              href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=BZ5quSvBEee6gA5XksfBbg&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/n_03_03.png');"><a target="_blank"
+                                                                              href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=dpd_vjNrEeyeYA42DXbPkQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/n_03_04.png');"><a target="_blank"
+                                                                              href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=mM9q3zNrEeyTERK47a9PLQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/n_03_05.png');"><a target="_blank"
+                                                                              href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=FTogwWgMEeyxLxJK4mLviw&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+            </ul>
+        </div>
+        <div class="cos_list_wrap" id="n04">
+            <div class="label">
+                <div class="line"></div>
+                <img src="${STATIC_URL}/images/banner3_images/label_04.png"/>
+            </div>
+            <ul class="list">
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/n_04_01.png');"><a target="_blank"
+                                                                              href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=gd53h111EeyqRw7g84MSoQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/n_04_02.png');"><a target="_blank"
+                                                                              href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=GPz8hjNsEeyZlQoNyXy15Q&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/n_04_03.png');"><a target="_blank"
+                                                                              href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=oeHwKhiDEea2Gw5ROLcooQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/n_04_04.png');"><a target="_blank"
+                                                                              href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=I5rpKhnoEeWnbwoiFA2iGw&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/n_04_05.png');"><a target="_blank"
+                                                                              href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=2dHcFsRdEeW2JxKnR3RyOw&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/n_04_06.png');"><a target="_blank"
+                                                                              href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=usSN4sNZEemeWhJJ1-tMYg&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/n_04_07.png');"><a target="_blank"
+                                                                              href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=2wbw9dsHEemZYA6RFvxeDg&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/n_04_08.png');"><a target="_blank"
+                                                                              href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=-HG-ZWh8EeyIUg4Qv2RsBQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+            </ul>
+        </div>
+        <div class="cos_list_wrap" id="n05">
+            <div class="label">
+                <div class="line"></div>
+                <img src="${STATIC_URL}/images/banner3_images/label_none_01.png"/>
+            </div>
+            <ul class="list">
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_01_01.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=jJ6ZxPrdEee5DBIdFhoH_A&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_01_02.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=rNpCSyQbEeWXzxJxfIL00w&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_01_03.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=hbvvfJLaEeWBSw79YYA_8Q&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_01_04.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=bT0Wwd7yEeWlNQ4GEaPmcw&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_01_05.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=dScDad8bEeWNrAqe1RXmgw&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_01_06.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=3UY0FCmGEeWFggqB2SRvtQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_01_07.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=s4CUmzCqEeWPngoW78wA_Q&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_01_08.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=5afSO-9VEem5hAoTk7uzWg&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_01_09.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=5TWYj6aKEeSKZCIACymNCQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_01_10.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=CN4C2CQnEeW5Rwo0txKkgQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_01_11.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=Tr9rK6JtEeSwKiIACiONVg&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_01_12.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=ujDaYENhEeSfwCIACxeXRw&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_01_13.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=GdeNrll1EeSROyIACtiVvg&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_01_14.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=XDJWC7ZqEeaa7BLnmaLUtg&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+            </ul>
+        </div>
+        <div class="cos_list_wrap" id="n06">
+            <div class="label">
+                <div class="line"></div>
+                <img src="${STATIC_URL}/images/banner3_images/label_none_02.png"/>
+            </div>
+            <ul class="list">
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_02_01.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=MzfG3f9QEei65w7Gl4XZlA&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_02_02.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=SgcGB0YOEeemlQrrzf9X-A&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_02_03.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=tGbJuel4EeSnMSIACzuFJw&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_02_04.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=v0l76HmGEeSi3yIACzSGcw&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_02_05.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=y20FTlDPEeWMlwoziUhyxQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_02_06.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=bzhAuJ9sEeWJORITtzkPnQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_02_07.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=piI3I3igEeeogw6Liqr3Tg&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_02_08.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=2e_l18MBEea6CwrxGAW0VA&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_02_09.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=0QsUTZowEeWOGRJpcxIcbQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_02_10.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=dr084v9QEeintArl5H6ceA&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_02_11.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=F33NELB2Eei5ZhIvnNMO1A&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_02_12.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=MxCQMv9QEei9jhJCCemBhA&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+            </ul>
+        </div>
+        <div class="cos_list_wrap" id="n07">
+            <div class="label">
+                <div class="line"></div>
+                <img src="${STATIC_URL}/images/banner3_images/label_none_03.png"/>
+            </div>
+            <ul class="list">
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_03_01.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=EtEAgQeUEea_hRLvvwwU3Q&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_03_02.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=KC6DzQqDEeenAhJZe8ktbg&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_03_03.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=5zjIsJq-EeW_wArffOXkOw&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_03_04.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=rUHfSakHEeeQ3gpuC4Fs_g&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_03_05.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=QEXoJRBmEeWhsgqB1eduww&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_03_06.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=xxP3poDiEeq4zBKgTIm8gQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+            </ul>
+        </div>
+        <div class="cos_list_wrap" id="n08">
+            <div class="label">
+                <div class="line"></div>
+                <img src="${STATIC_URL}/images/banner3_images/label_none_04.png"/>
+            </div>
+            <ul class="list">
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_04_01.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=rsAZZPB3Eemv_wrOmtVsrA&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_04_02.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=daG-a-O1EeijKBISCWxf6g&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_04_03.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=2RGeY3RDEeatvg5z1JaMJw&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_04_04.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=k9LPPi_EEeWv_w7cMMH1Uw&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_04_05.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=yQcuJCOcEeagwg7hVay0BQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_04_06.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=fEHS45vFEeaF3g7NeAQepg&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_04_07.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=vhLVVTe9EeWnxw5wP_KHTw&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_04_08.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=o4yIjxxHEeWo5g5SXpDA8Q&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_04_09.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=mKzzYp5YEeWVBgpelZA5Jw&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_04_10.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=yO1M0Hj6EeWX2xK7ROQidQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_04_11.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=T_hpstgKEeSA2iIAC22KLw&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+            </ul>
+        </div>
+        <div class="cos_list_wrap" id="n09">
+            <div class="label">
+                <div class="line"></div>
+                <img src="${STATIC_URL}/images/banner3_images/label_none_05.png"/>
+            </div>
+            <ul class="list">
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_05_01.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=bu-bs9_HEeSNQCIAC2-J5Q&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_05_02.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=eV-OTCTuEeWCGRL6mLoB5w&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_05_03.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=mCHpGhCGEearKQowajWNkQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_05_04.png');"><a target="_blank"
+                                                                                href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=Auue1KA-EeS9VCIACyUcdg&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"><img
+                        src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+            </ul>
+        </div>
+
+        <div class="cos_btn_area">
+            <a target="_blank"
+               href="https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?authProvider=kmooc">
+                <img src="${STATIC_URL}/images/banner3_images/btn_list_all.png"/>
+            </a>
+        </div>
+
+    </div>
+    <div class="cos_inner tab2" style="float: none; width: 100%;" >
+        <img class="desc" src="${STATIC_URL}/images/banner3_images/desc_tap2.png"/>
+        <ul class="cos_btn_list">
+            <li>
+                <a onclick="nonMenuClick(1);">
+                    <img class="btn_non_01_on" src="${STATIC_URL}/images/banner3_images/btn_non_01_on.png"/>
+                    <img class="btn_non_01_off" src="${STATIC_URL}/images/banner3_images/btn_non_01_off.png"/>
+                </a>
+            </li>
+            <li class="line"></li>
+            <li>
+                <a onclick="nonMenuClick(2);">
+                    <img class="btn_non_02_on" src="${STATIC_URL}/images/banner3_images/btn_non_02_on.png"/>
+                    <img class="btn_non_02_off" src="${STATIC_URL}/images/banner3_images/btn_non_02_off.png"/>
+                </a>
+            </li>
+            <li class="line"></li>
+            <li>
+                <a onclick="nonMenuClick(3);">
+                    <img class="btn_non_03_on" src="${STATIC_URL}/images/banner3_images/btn_non_03_on.png"/>
+                    <img class="btn_non_03_off" src="${STATIC_URL}/images/banner3_images/btn_non_03_off.png"/>
+                </a>
+            </li>
+            <li class="line"></li>
+            <li>
+                <a onclick="nonMenuClick(4);">
+                    <img class="btn_non_04_on" src="${STATIC_URL}/images/banner3_images/btn_non_04_on.png"/>
+                    <img class="btn_non_04_off" src="${STATIC_URL}/images/banner3_images/btn_non_04_off.png"/>
+                </a>
+            </li>
+            <li class="line"></li>
+            <li>
+                <a onclick="nonMenuClick(5);">
+                    <img class="btn_non_05_on" src="${STATIC_URL}/images/banner3_images/btn_non_05_on.png"/>
+                    <img class="btn_non_05_off" src="${STATIC_URL}/images/banner3_images/btn_non_05_off.png"/>
+                </a>
+            </li>
+        </ul>
+        <div class="cos_list_wrap" id="non01">
+            <div class="label">
+                <div class="line"></div>
+                <img src="${STATIC_URL}/images/banner3_images/label_none_01.png"/>
+            </div>
+            <ul class="list">
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_01_01.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/introduction-psychology?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_01_02.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/positive-psychology?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_01_03.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/psychological-first-aid?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_01_04.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/business?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_01_05.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/careerdevelopment?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_01_06.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/modern-world?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_01_07.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/modern-world-2?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_01_08.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/medical-research?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_01_09.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/how-things-work?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_01_10.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/moral-politics?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_01_11.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/physiology?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_01_12.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/synapses?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_01_13.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/learning-how-to-learn?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_01_14.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/mindshift?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+            </ul>
+        </div>
+        <div class="cos_list_wrap" id="non02">
+            <div class="label">
+                <div class="line"></div>
+                <img src="${STATIC_URL}/images/banner3_images/label_none_02.png"/>
+            </div>
+            <ul class="list">
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_02_01.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/financial-engineering-intro?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_02_02.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/financial-markets-global?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_02_03.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/negotiation?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_02_04.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/negotiation-skills?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_02_05.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/uva-darden-market-analytics?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_02_06.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/company-future-management?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_02_07.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/communication-strategies-virtual-age?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_02_08.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/mindware?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_02_09.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/transmedia-storytelling?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_02_10.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/financial-engineering-advancedtopics?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_02_11.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/financial-engineering-computationalmethods?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_02_12.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/financial-engineering-optimizationmethods?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+            </ul>
+        </div>
+        <div class="cos_list_wrap" id="non03">
+            <div class="label">
+                <div class="line"></div>
+                <img src="${STATIC_URL}/images/banner3_images/label_none_03.png"/>
+            </div>
+            <ul class="list">
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_03_01.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/nutrition-pregnancy?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_03_02.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/science-exercise?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_03_03.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/vital-signs?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_03_04.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/the-science-of-well-being?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_03_05.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/happiness?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_03_06.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/covid-19-contact-tracing?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+            </ul>
+        </div>
+        <div class="cos_list_wrap" id="non04">
+            <div class="label">
+                <div class="line"></div>
+                <img src="${STATIC_URL}/images/banner3_images/label_none_04.png"/>
+            </div>
+            <ul class="list">
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_04_01.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/ai-for-everyone?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_04_02.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/ai-for-everyone?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_04_03.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/datasciencemathskills?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_04_04.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/cryptocurrency?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_04_05.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/algorithms-part1?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_04_06.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/algorithms-part2?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_04_07.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/html-css-javascript-for-web-developers?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_04_08.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/learn-to-program?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_04_09.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/android-app?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_04_10.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/digital-systems?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_04_11.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/sustainable-development?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+            </ul>
+        </div>
+        <div class="cos_list_wrap" id="non05">
+            <div class="label">
+                <div class="line"></div>
+                <img src="${STATIC_URL}/images/banner3_images/label_none_05.png"/>
+            </div>
+            <ul class="list">
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_05_01.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/edinburgh-music-theory?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_05_02.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/introclassicalmusic?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_05_03.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/painting?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+                <li style="background-image: url('${STATIC_URL}/images/banner3_images/non_05_04.png');"><a
+                        onclick="onItemClick('https\:\/\/www.coursera.org/learn/philosophy?utm_source=kmooc&utm_medium=customers&authMode=login&authProvider=kmooc');"
+                        target="_blank"><img src="${STATIC_URL}/images/banner3_images/item_hover_txt.png"/></a></li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+<div class="cos_popup_wrap">
+    <div class="cos_popup_inner">
+        <img src="${STATIC_URL}/images/banner3_images/popup_img.png"/>
+        <div class="btn_area">
+            <a onclick="onAgreeClick();">
+                <img src="${STATIC_URL}/images/banner3_images/popup_left.png"/>
+            </a>
+            <a onclick="closeClick();">
+                <img src="${STATIC_URL}/images/banner3_images/popup_right.png"/>
+            </a>
+        </div>
+        <a onclick="closeClick();" class="close_ic">
+            <img src="${STATIC_URL}/images/banner3_images/close_ic.png"/>
+        </a>
+    </div>
+</div>
+<input style="display: none;" id="cos_save_url" type="text"/>
+<script>
+    function nonMenuClick(idx) {
+        document.getElementById('non0' + String(idx)).scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+            inline: "nearest"
+        });
+        document.querySelector('.cos_btn_list > li img.btn_non_01_on').style.display = 'none';
+        document.querySelector('.cos_btn_list > li img.btn_non_02_on').style.display = 'none';
+        document.querySelector('.cos_btn_list > li img.btn_non_03_on').style.display = 'none';
+        document.querySelector('.cos_btn_list > li img.btn_non_04_on').style.display = 'none';
+        document.querySelector('.cos_btn_list > li img.btn_non_05_on').style.display = 'none';
+        document.querySelector('.cos_btn_list > li img.btn_non_01_off').style.display = 'block';
+        document.querySelector('.cos_btn_list > li img.btn_non_02_off').style.display = 'block';
+        document.querySelector('.cos_btn_list > li img.btn_non_03_off').style.display = 'block';
+        document.querySelector('.cos_btn_list > li img.btn_non_04_off').style.display = 'block';
+        document.querySelector('.cos_btn_list > li img.btn_non_05_off').style.display = 'block';
+        document.querySelector('.cos_btn_list > li img.btn_non_0' + String(idx) + '_off').style.display = 'none';
+        document.querySelector('.cos_btn_list > li img.btn_non_0' + String(idx) + '_on').style.display = 'block';
+    }
+
+    function menuClick(idx) {
+
+        document.querySelector('.cos_btn_list > li img.btn_01_on').style.display = 'none';
+        document.querySelector('.cos_btn_list > li img.btn_02_on').style.display = 'none';
+        document.querySelector('.cos_btn_list > li img.btn_03_on').style.display = 'none';
+        document.querySelector('.cos_btn_list > li img.btn_04_on').style.display = 'none';
+        document.querySelector('.cos_btn_list > li img.btn_05_on').style.display = 'none';
+        document.querySelector('.cos_btn_list > li img.btn_06_on').style.display = 'none';
+        document.querySelector('.cos_btn_list > li img.btn_07_on').style.display = 'none';
+        document.querySelector('.cos_btn_list > li img.btn_08_on').style.display = 'none';
+        document.querySelector('.cos_btn_list > li img.btn_09_on').style.display = 'none';
+
+        document.querySelector('.cos_btn_list > li img.btn_01_off').style.display = 'block';
+        document.querySelector('.cos_btn_list > li img.btn_02_off').style.display = 'block';
+        document.querySelector('.cos_btn_list > li img.btn_03_off').style.display = 'block';
+        document.querySelector('.cos_btn_list > li img.btn_04_off').style.display = 'block';
+        document.querySelector('.cos_btn_list > li img.btn_05_off').style.display = 'block';
+        document.querySelector('.cos_btn_list > li img.btn_06_off').style.display = 'block';
+        document.querySelector('.cos_btn_list > li img.btn_07_off').style.display = 'block';
+        document.querySelector('.cos_btn_list > li img.btn_08_off').style.display = 'block';
+        document.querySelector('.cos_btn_list > li img.btn_09_off').style.display = 'block';
+
+        document.querySelector('.cos_btn_list > li img.btn_0' + String(idx) + '_off').style.display = 'none';
+        document.querySelector('.cos_btn_list > li img.btn_0' + String(idx) + '_on').style.display = 'block';
+        document.getElementById('n0' + String(idx)).scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+            inline: "nearest"
+        });
+    }
+
+    function onTabClick(idx) {
+        if (idx === 1) {
+            document.querySelector('.cos_tab > img.tab1_on').style.display = 'block';
+            document.querySelector('.cos_tab > img.tab1_off').style.display = 'none';
+            document.querySelector('.cos_tab > img.tab2_on').style.display = 'none';
+            document.querySelector('.cos_tab > img.tab2_off').style.display = 'block';
+            document.querySelector('.cos_inner.tab1').style.display = 'block';
+            document.querySelector('.cos_inner.tab2').style.display = 'none';
+        } else {
+            document.querySelector('.cos_tab > img.tab1_on').style.display = 'none';
+            document.querySelector('.cos_tab > img.tab1_off').style.display = 'block';
+            document.querySelector('.cos_tab > img.tab2_on').style.display = 'block';
+            document.querySelector('.cos_tab > img.tab2_off').style.display = 'none';
+            document.querySelector('.cos_inner.tab1').style.display = 'none';
+            document.querySelector('.cos_inner.tab2').style.display = 'block';
+        }
+
+    }
+
+    function onItemClick(url) {
+        document.querySelector('.cos_popup_wrap').style.display = 'flex';
+        document.getElementById('cos_save_url').value = url;
+    }
+
+    function onAgreeClick() {
+        let url = document.getElementById('cos_save_url').value;
+        if (url) {
+            window.open(url, '_blank');
+        }
+        document.getElementById('cos_save_url').value = '';
+    }
+
+    function closeClick() {
+        document.querySelector('.cos_popup_wrap').style.display = 'none';
+    }
+
+</script>
+</body>
+</html>
