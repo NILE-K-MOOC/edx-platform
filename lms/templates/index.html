@@ -368,35 +368,35 @@ from openedx.core.djangolib.markup import HTML, Text
 <main id="main" aria-label="Content" tabindex="-1" class="main-content">
 
 
-##     <!-- 캐러셀 배너자리 -->
-##     <div class="sec-visual" style="margin: 5px 0;">
-##         <div class="container-fluid">
-##             <div class="visual-row">
-##                 <div class="banner">
-##                     <!-- 배너3 이미지 추가 필요 (현재 주석처리) 210111 -->
-##                     <div><a href="/coursera" target="_blank" style="display:block"><img
-##                              src="${STATIC_URL}images/banner3.jpg" alt="kmc 바로가기" style="width: 100%"></a></div>
-##
-##                     <div><a href="/banner" target="_blank" style="display:block"><img
-##                             src="${STATIC_URL}images/banner1.png"
-##                             alt="위대한수업 바로가기" style="width: 100%"></a></div>
-##                 </div>
-##             </div>
-##         </div>
-##     </div>
-##     <!-- // 캐러셀 배너자리 -->
-
-
-    <!-- 새로운 도전 (기존) 띠배너  -->
-<div class="sec-visual" style="margin: 5px 0;">
+    <!-- 캐러셀 배너자리 -->
+    <div class="sec-visual" style="margin: 5px 0;">
         <div class="container-fluid">
             <div class="visual-row">
-                <a href="/banner" target="_blank"><img src="${STATIC_URL}images/banner1.png" alt="위대한수업 바로가기" style="width: 100%"></a>
+                <div class="banner">
+                    <!-- 배너3 이미지 추가 필요 (현재 주석처리) 210111 -->
+                    <div><a href="/coursera" target="_blank" style="display:block"><img
+                             src="${STATIC_URL}images/banner3.jpg" alt="kmc 바로가기" style="width: 100%"></a></div>
+
+                    <div><a href="/banner" target="_blank" style="display:block"><img
+                            src="${STATIC_URL}images/banner1.png"
+                            alt="위대한수업 바로가기" style="width: 100%"></a></div>
+                </div>
             </div>
         </div>
     </div>
+    <!-- // 캐러셀 배너자리 -->
 
-    <!-- 새로운 도전 (기존) 띠배너  -->
+
+##     <!-- 새로운 도전 (기존) 띠배너  -->
+## <div class="sec-visual" style="margin: 5px 0;">
+##         <div class="container-fluid">
+##             <div class="visual-row">
+##                 <a href="/banner" target="_blank"><img src="${STATIC_URL}images/banner1.png" alt="위대한수업 바로가기" style="width: 100%"></a>
+##             </div>
+##         </div>
+##     </div>
+##
+##     <!-- 새로운 도전 (기존) 띠배너  -->
 
 
     <section class="sec-visual about">
