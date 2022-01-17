@@ -182,13 +182,13 @@ def invitation_banner(request):
     return render_to_response("banner2.html")
 
 
-def coursera_course(request):
+def prev_coursera_course(request):
     return render_to_response("banner3.html")
     # return render_to_response("page_kmc01.html")
 
 
-# def coursera_course_test(request):
-#     return render_to_response("page_kmc02.html")
+def coursera_course(request):
+    return render_to_response("banner4.html")
 
 
 from .forms import InvitationForm
