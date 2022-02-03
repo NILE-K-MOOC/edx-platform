@@ -171,7 +171,8 @@ function org_search_send(){
 
             if (check_intro == 'Y') {
                 var template = ''+
-                '<div class="org-item" onclick="window.location.href = \t&#39;/school/'+org_id+'/\t&#39;" data-org_id=' + org_id + 'title="'+ 학교이름 +'기관 소개 및 강좌 보기">'+
+                '<div class="org-item" onclick="window.location.href = \t&#39;/school/'+org_id+'/\t&#39;" data-org_id=' + org_id + '>'+
+                //'<div class="org-item" onclick="window.location.href = \t&#39;/school/'+org_id+'/\t&#39;" data-org_id=' + org_id + 'title="'+ 학교이름 +'기관 소개 및 강좌 보기">'+
                 '    <div class="item" tabindex="0">'+
                 '        <div class="item-img">'+
                 '            <img onerror="this.src=\'/static/images/blank.png\'" src="'+logo_img+'" alt="'+ univ_name +'">'+
