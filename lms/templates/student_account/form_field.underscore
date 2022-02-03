@@ -24,12 +24,24 @@
         <select id="<%- form %>-<%- name %>"
             name="<%- name %>"
             class="input-inline"
+
+
+            <% if ( name == 'gender') { %>
+            alt="성별 선택"
+            <% } %>
+
+            <% if ( name == 'year_of_birth') { %>
+            alt="출생연도 선택"
+            <% } %>
+
+
             <% if ( instructions ) { %>
             aria-describedby="<%- form %>-<%- name %>-desc <%- form %>-<%- name %>-validation-error"
             <% } %>
+
             <% if ( typeof errorMessages !== 'undefined' ) {
                 _.each(errorMessages, function( msg, type ) {%>
-                    data-errormsg-<%- type %>="<%- msg %>"
+                    data-errormsg-<%- type %>="<%- msg %>" alt="<%- msg %>"
             <%  });
             } %>
             <% if ( required ) { %> aria-required="true" required<% } %>
@@ -52,6 +64,7 @@
         <textarea id="<%- form %>-<%- name %>"
             type="<%- type %>"
             name="<%- name %>"
+            title="케이무크에 관심을 갖게 된 이유 입력"
             class="input-block"
             <% if ( instructions ) { %>
             aria-describedby="<%- form %>-<%- name %>-desc <%- form %>-<%- name %>-validation-error"
@@ -79,6 +92,7 @@
         <input id="<%= form %>-<%= name %>"
            type="<%= type %>"
            name="<%= name %>"
+          alt="비밀번호 입력"
            placeholder="<%- gettext('Password input') %>"
            class="input-block <% if ( type === 'checkbox' ) { %>checkbox<% } %>"
             <% if ( type !== 'password' ) { %> aria-describedby="<%= form %>-<%= name %>-desc" <% } %>
@@ -100,6 +114,7 @@
            name="<%= name %>2"
            class="input-block"
            placeholder="<%- gettext('Password check') %>"
+           alt="비밀번호 확인 입력"
         />
         <% if ( instructions ) { %> <span class="tip tip-input" id="<%= form %>-<%= name %>-desc"><%= instructions %></span><% } %>
         <%}%>
@@ -128,6 +143,13 @@
                 <input id="<%- form %>-<%- name %>"
                    type="<%- type %>"
                    name="<%- name %>"
+
+
+                   <% if ( name == 'name') { %>
+                    alt="이름 입력"
+                   <% } %>
+
+
                    class="input-block <% if ( type === 'checkbox' ) { %>checkbox<% } %>"
                     <% if ( instructions ) { %>
                     aria-describedby="<%- form %>-<%- name %>-desc <%- form %>-<%- name %>-validation-error"
@@ -147,11 +169,11 @@
                 />
 
 
-                <button type="button" class="action action-primary identity" style="width: 20%; margin: 0 0 0 2%; padding:0; height: 32px;">
+                <button type="button" class="action action-primary identity" style="width: 20%; margin: 0 0 0 2%; padding:0; height: 32px;" title="실명 인증 버튼">
                     <%- gettext("Authentication") %>
                 </button>
 
-                <button type="button" class="action action-primary " id="kakao_identity_regist" style="width: 37%; margin: 0 0 0 2%; padding:0; height: 32px; box-shadow: none; background: #f1d900; color:black; font-weight: 500; font-size: 15px">
+                <button type="button" class="action action-primary " id="kakao_identity_regist" style="width: 37%; margin: 0 0 0 2%; padding:0; height: 32px; box-shadow: none; background: #f1d900; color:black; font-weight: 500; font-size: 15px" title="카카오 페이 실명 인증 버튼">
                     <%- gettext("KaKao Authentication") %>
                 </button>
 
@@ -161,12 +183,12 @@
                         <div class="form-group">
                             <span class="label-control"><%- gettext('Full Name') %></span>
                             <input type="text" class="form-control kakao_name_text" placeholder="<%- gettext('Jane Doe') %>"
-                                   id="register_kakao_name" >
+                                   id="register_kakao_name"alt="이름 입력">
                         </div>
                         <div class="form-group">
                             <span class="label-control"><%- gettext('Year of Birth') %>/<%- gettext('Gender') %></span>
-                            <input type="text" class="form-control kakao_year_text" placeholder="19951009" id="register_kakao_year" style="width:27% !important" maxlength="8"> -
-                            <input type="text" class="form-control kakao_gender_text" placeholder="1" id="register_kakao_gender" style="width:8% !important" maxlength="1">
+                            <input type="text" class="form-control kakao_year_text" placeholder="19951009" id="register_kakao_year" style="width:27% !important" maxlength="8" alt="출생년도 네자리 포함 주민번호 여덟자리 입력"> -
+                            <input type="text" class="form-control kakao_gender_text" placeholder="1" id="register_kakao_gender" style="width:8% !important" maxlength="1" alt="주민번호 뒷자리 첫번째 성별 입력">
                             <span style="display:inline-flex">
                                 <i class="i_tag"></i>
                                 <i class="i_tag"></i>
@@ -178,23 +200,23 @@
                         </div>
                         <div class="form-group">
                             <span class="label-control"><%- gettext('Phone') %></span>
-                            <input class="form-control kakao_phone_text" type="text" class="form-control" placeholder="'-'없이 숫자만 입력" maxlength="11" id="register_kakao_phone">
+                            <input class="form-control kakao_phone_text" type="text" class="form-control" placeholder="'-'없이 숫자만 입력" maxlength="11" id="register_kakao_phone" alt="핸드폰 번호 입력 숫자만 입력">
                         </div>
                         <div class="pa-group">
                             <p class="pa-text">간편인증서비스 이용에 대한 동의</p>
 
                             <table style="width:102%">
-                            <button id="all_agree_regist" type="button" style="float: right; margin-bottom: 20px; float: right; margin-bottom: 20px; background: white; box-shadow: none; border: 1px solid gray;">전체동의</button>
+                            <button id="all_agree_regist" type="button" style="float: right; margin-bottom: 20px; float: right; margin-bottom: 20px; background: white; box-shadow: none; border: 1px solid gray;" title="전체 동의 버튼">전체동의</button>
 
                             <tr>
-                                <td style=""><input type="checkbox" name="kakao_agree_regist"> <label style="font-size:12px; display:inline-block; float: left;" class="agree_text_regist" id="privacy_text_button">개인정보 이용 동의(필수)</label></td>
-                                <td style=""><input type="checkbox" name="kakao_agree_regist"><label style="font-size:12px; display:inline-block; float: left;" id="third_party_text_button" class="agree_text_regist">제3자 정보제공 동의(필수)</label></td>
+                                <td style=""><input type="checkbox" name="kakao_agree_regist" alt="개인정보 이용 동의 필수 사항"> <label style="font-size:12px; display:inline-block; float: left;" class="agree_text_regist" id="privacy_text_button">개인정보 이용 동의(필수)</label></td>
+                                <td style=""><input type="checkbox" name="kakao_agree_regist" alt="제3자 정보제공 동의 필수 사항"><label style="font-size:12px; display:inline-block; float: left;" id="third_party_text_button" class="agree_text_regist">제3자 정보제공 동의(필수)</label></td>
                             </tr>
 
                             </table>
                         </div>
-                        <button style="width:39%; background:gray" type="button" class="acbs-btn kakao_close_regist"><%- gettext('Close') %></button>
-                        <button style="width:60%" type="button" class="acbs-btn" id="kakao_form_submit_regist"><%- gettext('Confirm') %></button>
+                        <button style="width:39%; background:gray" type="button" class="acbs-btn kakao_close_regist" title="닫기 버튼"><%- gettext('Close') %></button>
+                        <button style="width:60%" type="button" class="acbs-btn" id="kakao_form_submit_regist" title="확인 버튼"><%- gettext('Confirm') %></button>
                     </div>
                 </div>
             </div>
@@ -245,7 +267,7 @@
                             <p>ㆍ 제공 받는자의 개인정보 보유, 이용기간 : 제공받은 날로부터 5년 </p>
                             <p>ㆍ 제공 항목 : 이름, 생년월일, 휴대폰번호 </p>
                         </div>
-                        <button style="width:95%; background:gray" type="button" class="acbs-btn kakao_pop_close_regist"><%- gettext('Close') %></button>
+                        <button style="width:95%; background:gray" type="button" class="acbs-btn kakao_pop_close_regist" ><%- gettext('Close') %></button>
                     </div>
                 </div>
             </div>
@@ -261,7 +283,7 @@
                             <p class="">카카오톡 앱에서 인증을 진행해주세요.</p>
 
                         </div>
-                        <button style="width:39%; background:gray" type="button" class="acbs-btn kakao_close_regist"><%- gettext('Close') %></button>
+                        <button style="width:39%; background:gray" type="button" class="acbs-btn kakao_close_regist" ><%- gettext('Close') %></button>
                         <button style="width:60%" type="button" class="acbs-btn" id="kakao_confirm_submit_regist"><%- gettext('Confirm') %></button>
                     </div>
                 </div>
@@ -273,6 +295,19 @@
             <input id="<%- form %>-<%- name %>"
                type="<%- type %>"
                name="<%- name %>"
+
+
+               <% if ( name == 'email') { %>
+                alt="이메일 입력"
+               <% } %>
+
+               <% if ( name == 'username') { %>
+                alt="아이디 입력"
+               <% } %>
+
+
+
+
                class="input-block <% if ( type === 'checkbox' ) { %>checkbox<% } %>"
                 <% if ( instructions ) { %>
                 aria-describedby="<%- form %>-<%- name %>-desc <%- form %>-<%- name %>-validation-error"
@@ -337,6 +372,7 @@
            type="email"
            name="subemail"
            class="input-block"
+           alt="보조 이메일 입력"
             <% if ( instructions ) { %>
             aria-describedby="register-subemail-desc register-subemail-validation-error"
             <% } %>

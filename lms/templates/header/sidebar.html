@@ -179,12 +179,12 @@
                 let close_button = '';
 
                 if(i == data.data.length - 1){
-                    close_button = '<a class="unfold" id="close_button" href="#" onclick="return false;"></a>';
-                    box = '<a href="' + data.data[i][1] + '" class="link" target="' + data.data[i][3] + '"><img src="' + data.data[i][2] + '" style="width:32px; height: 32px;" class="icon" alt="">' + data.data[i][0] + '</a>'
+                    close_button = '<a class="unfold" id="close_button" href="#" onclick="return false;" title="사이드 메뉴 접고 펴기"></a>';
+                    box = '<a href="' + data.data[i][1] + '" class="link" target="' + data.data[i][3] + '"><img src="' + data.data[i][2] + '" style="width:32px; height: 32px;" class="icon" alt="'+ data.data[i][0] + '바로가기">' + data.data[i][0] +  '</a>'
 
                     $('#sidebar').prepend(close_button);
                 }else{
-                    box = '<a href="' + data.data[i][1] + '" class="link" target="' + data.data[i][3] + '"><img src="' + data.data[i][2] + '" style="width:32px; height: 32px;" class="icon" alt="">' + data.data[i][0] + '</a>'
+                    box = '<a href="' + data.data[i][1] + '" class="link" target="' + data.data[i][3] + '"><img src="' + data.data[i][2] + '" style="width:32px; height: 32px;" class="icon" alt="'+ data.data[i][0] + '바로가기">' + data.data[i][0] + '</a>'
                 }
 
                 header = $(".new-container").outerHeight();

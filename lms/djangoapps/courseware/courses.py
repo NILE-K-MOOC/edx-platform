@@ -348,7 +348,7 @@ def get_course_about_section(request, course, section_key):
             if about_module is not None:
                 try:
                     html = about_module.render(STUDENT_VIEW).content
-                    html = html.replace('<label for="toggle"></label>', '<a href="javascript:click_syllabus_label();"><label for="toggle"></label></a>')
+                    html = html.replace('<label for="toggle"></label>', '<a href="javascript:click_syllabus_label();" title="강좌계획표 펼치고 접기"><label for="toggle"></label></a>')
 
                 except Exception:  # pylint: disable=broad-except
                     html = render_to_string('courseware/error-message.html', None)
