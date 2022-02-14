@@ -95,6 +95,11 @@ function view_content() {
             $(this).parent().next().slideDown();
         }
     });
+    //클릭시 현재탭 alt 추가
+    $(".faq-list>dt>a").click(function (e) {
+          $(".faq-list>dt>a").removeAttr("alt");
+          $(this).attr("alt","현재탭");
+    });
 
     $("dd input:button").click(function (e) {
         e.preventDefault();

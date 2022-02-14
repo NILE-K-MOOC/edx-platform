@@ -44,7 +44,8 @@ if course is not None:
                         <a href="${tab.link_func(course, reverse)}" class="nav-link">
                             ${_(tab.name)}
                             % if tab_is_active:
-                                <span class="sr-only">, ${_('current location')}</span>
+                                <span class="sr-only"> </span>
+##                             ${_('current location')}
                             %endif
                             % if tab_image:
                                 ## Translators: 'needs attention' is an alternative string for the

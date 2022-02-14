@@ -19,10 +19,16 @@ def url_class(is_active):
     tab_class = url_class(tab_is_active)
   %>
   <li class="tab">
-  <a href="${tab.link_func(course, reverse)}" class="${tab_class}">
-  ${_(tab.name)}
+
   % if tab_is_active:
-      <span class="sr">, current location</span>
+  <a href="${tab.link_func(course, reverse)}" class="${tab_class}" alt="현재탭">
+  ${_(tab.name)}
+      <span class="sr"></span>
+
+  % else:
+      <a href="${tab.link_func(course, reverse)}" class="${tab_class}">
+      ${_(tab.name)}
+
   %endif
   % if tab_image:
       ## Translators: 'needs attention' is an alternative string for the
