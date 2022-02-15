@@ -78,7 +78,9 @@ function search(head_title) {
 function tab_click() {
     $(".faq-tab>a").click(function (e) {
         e.preventDefault();
-        $('#faq_header').text($(this).attr('title'));
+        $(this).attr('title',"현재탭");
+        $(this).siblings().attr('title',"");
+        $('#faq_header').text($(this).text());
         $("#search").val('');
         search($(this).data('value'));
         sel_title = $(this).data('value');
