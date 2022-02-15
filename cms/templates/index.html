@@ -89,16 +89,16 @@ from openedx.core.djangolib.js_utils import (
         <iframe id="frame_1" frameborder="0" scrolling="no" width="100%" class="popup-contents-iframe"></iframe>
       </div>
 
-      <div class="popup-footer" style="background: black; text-align: right;">
-        <label class="popup-footer-label" onclick="closeWin('pop_close_1','1','1');" style="text-align: left; padding: 0 10px;">
-          <input id="pop_close_1" name="pop_close_1" type="checkbox">
-          <span class="popup-footer-day"><b>1일간 열지 않음</b></span>
-        </label>
-        <span class="popup-footer-day popup-footer-close" style="padding: 0 10px; vertical-align: middle;">
-            <a href="javascript:popClose('1');" title="닫기"><b>[ 닫기 ]</b></a>
-        </span>
-      </div>
-    </div>
+       <div class="popup-footer" style="background: black; text-align: right;">
+         <label class="popup-footer-label" onclick="closeWin('pop_close_1','1','1');" style="text-align: left; padding: 0 10px;">
+           <input id="pop_close_1" name="pop_close_1" type="checkbox">
+           <span class="popup-footer-day"><b>1일간 열지 않음</b></span>
+         </label>
+         <span class="popup-footer-day popup-footer-close" style="padding: 0 10px; vertical-align: middle;">
+             <a href="javascript:popClose('1');" title="닫기"><b>[ 닫기 ]</b></a>
+         </span>
+         </div>
+       </div>
   </div>
 </div>
 <script>
@@ -152,67 +152,64 @@ from openedx.core.djangolib.js_utils import (
     }
 
 
-function popClose(id){
-    $("#" + id).hide();
-}
 
-function setCookie1( name, value, expiredays ) {
-    var todayDate = new Date();
-    todayDate.setDate( todayDate.getDate() + expiredays );
-    document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
-}
+ function setCookie1( name, value, expiredays ) {
+     var todayDate = new Date();
+     todayDate.setDate( todayDate.getDate() + expiredays );
+     document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
+ }
 
-function setCookie( name, value, expiredays ) {
-    var todayDate = new Date();
-    if(expiredays == '0'){
-        expiredays = '999';
-    }
-    todayDate.setDate( todayDate.getDate() + Number(expiredays) );
-    document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
-}
+ function setCookie( name, value, expiredays ) {
+     var todayDate = new Date();
+     if(expiredays == '0'){
+         expiredays = '999';
+     }
+     todayDate.setDate( todayDate.getDate() + Number(expiredays) );
+     document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
+ }
 
-function closeWin(check, id, hidden_day) {
-    if ($("#" + check).is(":checked")){
-        setCookie( id , "done" , hidden_day);
-    }
-    $("#" + id).css("display" , "none");
-}
+ function closeWin(check, id, hidden_day) {
+     if ($("#" + check).is(":checked")){
+         setCookie( id , "done" , hidden_day);
+     }
+     $("#" + id).css("display" , "none");
+ }
 
-function closeWin1() {
-    if ($("#chkbox_1").is(":checked")){
-        setCookie1( "popupdiv1", "done" , 3 );
-    }
-    document.all['popupWrap_1'].style.display = "none";
-}
+ function closeWin1() {
+     if ($("#chkbox_1").is(":checked")){
+         setCookie1( "popupdiv1", "done" , 3 );
+     }
+     document.all['popupWrap_1'].style.display = "none";
+ }
 
-function closeWin2() {
-    if ($("#chkbox_2").is(":checked")){
-        setCookie1( "popupdiv2", "done" , 1 );
-    }
-    document.all['popupWrap_2'].style.display = "none";
-}
+ function closeWin2() {
+     if ($("#chkbox_2").is(":checked")){
+         setCookie1( "popupdiv2", "done" , 1 );
+     }
+     document.all['popupWrap_2'].style.display = "none";
+ }
 
-cookiedata = document.cookie;
+ cookiedata = document.cookie;
 
-$("#layerPopupArea .pop_content").each(function() {
-    var content_id = $(this).attr("id");
-    $("#"+content_id).html($("#"+content_id).text());
-});
+ $("#layerPopupArea .pop_content").each(function() {
+     var content_id = $(this).attr("id");
+     $("#"+content_id).html($("#"+content_id).text());
+ });
 
-var leng = '1';
-leng = Number(leng);
+ var leng = '1';
+ leng = Number(leng);
 
-for (var i = 1; i<=leng; i++) {
-    if (cookiedata.indexOf(i +"=done") < 0 && popupDate <= targetDate) {
-        %if LANG == 'en':
-            $("#" + i).css("display" , "none");
-        %else:
-            $("#" + i).css("display" , "inline-block !important;");
-        %endif
-} else {
-    $("#" + i).css("display" , "none");
-}
-}
+ for (var i = 1; i<=leng; i++) {
+     if (cookiedata.indexOf(i +"=done") < 0 && popupDate <= targetDate) {
+         %if LANG == 'en':
+             $("#" + i).css("display" , "none");
+         %else:
+             $("#" + i).css("display" , "inline-block !important;");
+         %endif
+ } else {
+     $("#" + i).css("display" , "none");
+ }
+ }
 
 
 // targetDate2 = new Date(2018, 1, 5);

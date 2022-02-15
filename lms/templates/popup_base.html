@@ -6,7 +6,32 @@ from django.utils.translation import ugettext as _
 from django.urls import reverse
 %>
 <%page args="pop" expression_filter="h"/>
-
+<style>
+    .popup-image-area {
+        margin: 0!important;
+    }
+    .popup-footer {
+        border-top: 1px solid #000;
+        padding: 10px 15px ;
+    }
+    .popup-footer label{
+        font-style: unset;
+        font-family: 'Noto Sans KR';
+    }
+    .popup-footer .footer-close{
+        float: right;
+    }
+    .layerPopupArea {
+        max-width: 500px!important;
+    }
+    .popup-area {
+        max-width: 400px!important;
+    }
+    .layerPopupArea {
+        top: 8px !important;
+        left: 8px !important;
+    }
+</style>
 <div id="${pop['pop_id']}" class="popup-area" style="display: none; width: ${pop['pop_width']}px;" title=${_("Updates")}>
 
   <div class="popup-main">
@@ -18,16 +43,27 @@ from django.urls import reverse
         <iframe id="frame_${pop['pop_id']}" frameborder="0" scrolling="no" width="100%" class="popup-contents-iframe" title="공지사항"></iframe>
       </div>
 
+##     <div class="popup-footer">
+##       <a href="#" style="color:white" for="pop_close_${pop['pop_id']}" class="popup-footer-label popup-footer-day" onclick="closeWin('pop_close_${pop['pop_id']}', '${pop['pop_id']}', '${pop['pop_hidden_day'][0]}'); return false;">
+##         <input title="일정기간 열지 않기" id="pop_close_${pop['pop_id']}" name="pop_close_${pop['pop_id']}" type="checkbox" class="hidden">${pop['pop_hidden_day'][1]}
+##       </a>
+##       <a href="javascript:popClose('${pop['pop_id']}');" class="popup-footer-label popup-footer-close" title='${_("Close")}'>닫기</a>
+##     </div>
+
     <div class="popup-footer">
-      <a href="#" style="color:white" for="pop_close_${pop['pop_id']}" class="popup-footer-label popup-footer-day" onclick="closeWin('pop_close_${pop['pop_id']}', '${pop['pop_id']}', '${pop['pop_hidden_day'][0]}'); return false;">
-        <input title="일정기간 열지 않기" id="pop_close_${pop['pop_id']}" name="pop_close_${pop['pop_id']}" type="checkbox" class="hidden">${pop['pop_hidden_day'][1]}
-      </a>
-      <a href="javascript:popClose('${pop['pop_id']}');" class="popup-footer-label popup-footer-close" title='${_("Close")}'>닫기</a>
+        <label class="layer-check" for="pop_close_${pop['pop_id']}">
+            <input title="일정기간 열지 않기" id="pop_close_${pop['pop_id']}"  name="pop_close_${pop['pop_id']}" type="checkbox">
+            ${pop['pop_hidden_day'][1]}
+        </label>
+        <a href="javascript:closeWin('pop_close_${pop['pop_id']}', '${pop['pop_id']}', '${pop['pop_hidden_day'][0]}');"  title="${_("Close")}" class="footer-close"><B>[닫기]</B></a>
     </div>
+
   </div>
 </div>
 
 <script>
+
+
   $(document).ready(function(){
 
     let contents = $("#contents_${pop['pop_id']}").text();
