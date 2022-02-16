@@ -443,3 +443,10 @@ input, select, button {font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고
 
     .main-line {border: 0.5px solid #ccc; width: 90%; margin: auto; }
 }
+
+.main-cta>#register_error {
+    position: absolute;
+    top: 60px;
+    box-shadow: #8f0c0c 3px 3px 0px 0px;
+    color: white !important;
+}

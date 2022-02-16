@@ -120,6 +120,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from pymongo import MongoClient
 from bson import ObjectId
 
+from student.views.management import block_country_for_ebs
+
 log = logging.getLogger("edx.courseware")
 
 # Only display the requirements on learner dashboard for
@@ -695,8 +697,16 @@ class CourseTabView(EdxFragmentView):
             )
         else:
             if not CourseEnrollment.is_enrolled(request.user, course_key):
+
+                # EBS 강좌의 경우 접근 차단 국가 인지 확인하여 수강신청을 비활성화 함 (수강 신청 이후 사용은 고려하지 않음)
+                if course_key.org == 'EBS' and block_country_for_ebs():  # EBS 로 변경 예정
+                    PageLevelMessages.register_warning_message(
+                        request,
+                        Text(_("This course is restricted from enrolling in the relevant country due to the EBS's operation policy."))
+                    )
+
                 # Only show enroll button if course is open for enrollment.
-                if course_open_for_self_enrollment(course_key):
+                elif course_open_for_self_enrollment(course_key):
                     enroll_message = _('You must be enrolled in the course to see course content. \
                             {enroll_link_start}Enroll now{enroll_link_end}.')
                     PageLevelMessages.register_warning_message(
@@ -2380,8 +2390,6 @@ from lms.djangoapps.courseware.views.views import CourseTabView
 @ensure_valid_course_key
 @data_sharing_consent_required
 def video(request, course_id):
-    print 'video called'
-
     """ Display the progress page. """
     course_key = CourseKey.from_string(course_id)
 

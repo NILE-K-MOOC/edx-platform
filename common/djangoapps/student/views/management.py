@@ -3,6 +3,7 @@
 Student Views
 """
 
+import requests
 import datetime
 import json
 import logging
@@ -114,6 +115,8 @@ import re
 import os
 from copy import deepcopy
 import time
+
+
 
 log = logging.getLogger("edx.student")
 
@@ -1628,6 +1631,17 @@ def enrollment_verifi(request):
     return HttpResponse()
 
 
+def block_country_for_ebs():
+    country_info = requests.get(url='https://api.ip.pe.kr/json', verify=False)
+    ip_info = country_info.content
+    ip_info_json = json.loads(ip_info)
+
+    # EBS 강좌의 경우 접근 차단 국가여부 확인후 진행
+    user_country_code = ip_info_json.get('country_code')
+    block_country_list = ['AE', 'AM', 'AR', 'AT', 'AU', 'AZ', 'BE', 'BR', 'BY', 'CA', 'CH', 'CL', 'CN', 'CO', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR', 'GB', 'GR', 'HK', 'HR', 'HU', 'ID', 'IE', 'IL', 'IN', 'IR', 'IS', 'IT', 'JP', 'KG', 'KZ', 'LT', 'LU', 'LV', 'MD', 'MX', 'MY', 'NL', 'NO', 'NZ', 'PL', 'PT', 'RO', 'RU', 'SA', 'SE', 'SI', 'SK', 'TH', 'TJ', 'TR', 'TW', 'US', 'UZ', 'VN']
+    return user_country_code in block_country_list
+
+
 @transaction.non_atomic_requests
 @require_POST
 @outer_atomic(read_committed=True)
@@ -1677,6 +1691,10 @@ def change_enrollment(request, check_access=True):
 
     try:
         course_id = CourseKey.from_string(request.POST.get("course_id"))
+
+        org = request.POST.get("course_id").split('+')[0][10:]
+        if org == 'EBS' and block_country_for_ebs():
+            return HttpResponseBadRequest(_("This course is restricted from enrolling in the relevant country due to the EBS's operation policy."))
     except InvalidKeyError:
         log.warning(
             u"User %s tried to %s with invalid course id: %s",
@@ -2589,7 +2607,6 @@ def validate_new_email(user, new_email):
 
 
 def validate_sub_new_email(user, new_email):
-
     try:
         validate_email(new_email)
     except ValidationError:
