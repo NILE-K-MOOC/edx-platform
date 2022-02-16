@@ -50,3 +50,14 @@ ${page_title}
     </section>
     <!-- [e] board list -->
 </section>
+
+<script>
+//이미지 alt 넣기
+    var boardView = document.querySelector('.board-view');
+    var boardImg = boardView.querySelectorAll('img');
+    for (let i = 0; i < boardImg.length; i++) {
+        boardImg[i].alt = '포스터 내용을 확인해주세요.';
+    }
+</script>
+
+

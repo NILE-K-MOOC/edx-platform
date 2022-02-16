@@ -1,5 +1,5 @@
 <div class="image-wrapper">
-    <img class="image-frame" alt="" src="<%- imageUrl %>" />
+    <img class="image-frame" alt="프로필 사진" src="<%- imageUrl %>" />
     <div class="u-field-actions">
         <label class="u-field-upload-button">
             <span class="upload-button-icon" aria-hidden="true"><%= uploadButtonIcon %></span>
@@ -7,7 +7,7 @@
             <input class="upload-button-input" type="file" name="<%= inputName %>"/>
        	</label>
        	<button class="upload-submit" type="button" hidden="true"><%= uploadButtonTitle %></button>
-        <button class="u-field-remove-button" type="button">
+        <button class="u-field-remove-button" type="button" title="이미지 제거" style="opacity:1!important;">
             <span class="remove-button-icon" aria-hidden="true"><%= removeButtonIcon %></span>
             <span class="remove-button-title" aria-live="polite"><%= removeButtonTitle %></span>
             <span class="sr"><%= screenReaderTitle %></span>

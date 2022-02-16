@@ -153,7 +153,7 @@ table caption{display: none}
 }
 
 #toggle:checked + a {
-  background:#aaa;
+    background: #737373;
 }
 
 #toggle:checked + label {

@@ -53,15 +53,15 @@
 
     <div id="head_title" style="display: none;">FAQ</div>
     <nav class="faq-tab">
-        <a href="#" class="${'on' if head_title == 'kmooc_f' else ''}" data-value="kmooc_f" title="K-MOOC 현재탭" style="color: #ffffff;">K-MOOC</a>
-        <a href="#" class="${'on' if head_title == 'regist_f' else ''}" data-value="regist_f" title="회원가입" style="color: #ffffff;">회원가입</a>
-        <a href="#" class="${'on' if head_title == 'login_f' else ''}" data-value="login_f" title="로그인/계정" style="color: #ffffff;">로그인/계정</a>
-        <a href="#" class="${'on' if head_title == 'enroll_f' else ''}" data-value="enroll_f" style="font-size: 15px;color: #ffffff;" title="수강신청/취소">수강신청/취소</a>
-        <a href="#" class="${'on' if head_title == 'course_f' else ''}" data-value="course_f" title="강좌 수강" style="color: #ffffff;">강좌 수강</a>
-        <a href="#" class="${'on' if head_title == 'certi_f' else ''}" data-value="certi_f" title="성적/이수증" style="color: #ffffff;">성적/이수증</a>
-        <a href="#" class="${'on' if head_title == 'tech_f' else ''}" data-value="tech_f" title="기술적문제" style="color: #ffffff;">기술적 문제</a>
-        <a href="#" class="${'on' if head_title == 'mobile_f' else ''}" data-value="mobile_f" title="모바일앱" style="color: #ffffff;">모바일앱</a>
-        <a href="#" class="${'on' if head_title == 'total_f' else ''}" data-value="total_f" title="전체보기" style="color: #ffffff;">전체보기</a>
+        <a href="#" class="${'on' if head_title == 'kmooc_f' else ''}" data-value="kmooc_f" title="현재탭" style="color: #ffffff;">K-MOOC</a>
+        <a href="#" class="${'on' if head_title == 'regist_f' else ''}" data-value="regist_f"  style="color: #ffffff;">회원가입</a>
+        <a href="#" class="${'on' if head_title == 'login_f' else ''}" data-value="login_f" style="color: #ffffff;">로그인/계정</a>
+        <a href="#" class="${'on' if head_title == 'enroll_f' else ''}" data-value="enroll_f" style="font-size: 15px;color: #ffffff;">수강신청/취소</a>
+        <a href="#" class="${'on' if head_title == 'course_f' else ''}" data-value="course_f" style="color: #ffffff;">강좌 수강</a>
+        <a href="#" class="${'on' if head_title == 'certi_f' else ''}" data-value="certi_f" style="color: #ffffff;">성적/이수증</a>
+        <a href="#" class="${'on' if head_title == 'tech_f' else ''}" data-value="tech_f" style="color: #ffffff;">기술적 문제</a>
+        <a href="#" class="${'on' if head_title == 'mobile_f' else ''}" data-value="mobile_f" style="color: #ffffff;">모바일앱</a>
+        <a href="#" class="${'on' if head_title == 'total_f' else ''}" data-value="total_f" style="color: #ffffff;">전체보기</a>
     </nav>
     <h3 class="hidden_head" id="faq_header">K-MOOC</h3>
     <dl class="faq-list" title="FAQ 목록">
@@ -85,24 +85,5 @@
     <!-- [e] board write -->
 </section>
 <br/><br/><br/><br/><br/><br/><br/>
-<script>
-    var tabData =['K-MOOC','회원가입','로그인/계정','수강신청/취소','강좌 수강','성적/이수증','기술적 문제','모바일앱','전체보기']
-    var faqTab = document.querySelector('.faq-tab');
-    var tabList = faqTab.querySelectorAll('a');
-    var fasqTabOn = faqTab.querySelector('.on');
-    let activeCont = ''; // 현재 활성화 된 컨텐츠
-    for (let i = 0; i < tabList.length; i++) {
-        console.log(tabList[i].title);
-        tabList[i].title = tabData[i];
-        tabList[i].addEventListener('click', function(e){
-            for (var j = 0; j < tabList.length; j++) {
-                // 나머지 탭 타이틀 현재탭 없음
-                tabList[j].title = tabData[j];
-            }
-            console.log(e.target.title)
-            e.target.title = tabData[i] + ' 현재탭';
-        });
-    }
-</script>
 
 

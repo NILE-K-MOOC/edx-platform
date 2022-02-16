@@ -1,6 +1,6 @@
 <% if (facet != "org"){ %>
     <li>
-     <button data-facet="<%- facet %>" data-value="<%- term %>" data-text="<%- name %>" class="facet-option discovery-button <%- selected ? 'selected' : '' %>">
+     <button data-facet="<%- facet %>" data-value="<%- term %>" data-text="<%- name %>" title="<%- name %> 조회하기" class="facet-option discovery-button <%- selected ? 'selected' : '' %>">
          <div style="width:95%;overflow:hidden;text-overflow:ellipsis;float:left;">
          <%- gettext(name) %>
          </div>

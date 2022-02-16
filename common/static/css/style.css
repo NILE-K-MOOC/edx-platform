@@ -843,10 +843,10 @@ input[type="button"].btn-gray-dark, input[type="button"].btn-gray-dark:hover {ba
 .faq-list dt, .faq-list dd {position:relative;margin:0;}
 .faq-list dt {border-bottom:solid 1px #eeeeee;}
 .faq-list dt > a {display:block;padding:12px 10px 12px 50px;font-size:1.125rem;font-weight:700;line-height:1.688em;color:#333;}
-.faq-list dt:before {content:"Q";position:absolute;left:12px;top:12px;background:#03b3e4;color:#fff;font-size:1.063rem;width:27px;height:27px;border-radius:100%;text-align:center;line-height:25px;font-weight:700;}
+.faq-list dt:before {content:"Q";position:absolute;left:12px;top:12px;background: #027da0;color:#fff;font-size:1.063rem;width:27px;height:27px;border-radius:100%;text-align:center;line-height:25px;font-weight:700;}
 .faq-list dd {padding-top:10px;display:none;}
 .faq-list dd > div {background:#f6f6f6;padding:12px 20px 12px 50px;font-size:0.938rem;line-height:1.667em;}
-.faq-list dd:before {content:"A";position:absolute;left:12px;top:24px;background:#7bae03;color:#fff;font-size:1.063rem;width:27px;height:27px;border-radius:100%;text-align:center;line-height:25px;font-weight:700;}
+.faq-list dd:before {content:"A";position:absolute;left:12px;top:24px;background: #567a02;color:#fff;font-size:1.063rem;width:27px;height:27px;border-radius:100%;text-align:center;line-height:25px;font-weight:700;}
 .faq-list dt.on + dd {display:block;}
 
 .agree-frm-box {padding:25px 20px;}
