@@ -1,0 +1,180 @@
+@font-face {
+    font-family: 'Noto Sans Korean';
+    font-style: normal;
+    font-weight: 100;
+    src: local('Noto Sans Thin'), local('NotoSans-Thin'),
+    url(https://cdn.jsdelivr.net/gh/theeluwin/NotoSansKR-Hestia@master/fonts/eot/NotoSansKR-Thin-Hestia.eot),
+    url(https://cdn.jsdelivr.net/gh/theeluwin/NotoSansKR-Hestia@master/fonts/eot/NotoSansKR-Thin-Hestia.eot?#iefix) format('embedded-opentype'),
+    url(https://cdn.jsdelivr.net/gh/theeluwin/NotoSansKR-Hestia@master/fonts/woff/NotoSansKR-Thin-Hestia.woff) format('woff'),
+    url(https://cdn.jsdelivr.net/gh/theeluwin/NotoSansKR-Hestia@master/fonts/otf/NotoSansKR-Thin-Hestia.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Noto Sans Korean';
+    font-style: normal;
+    font-weight: 300;
+    src: local('Noto Sans Light'), local('NotoSans-Light'),
+    url(https://cdn.jsdelivr.net/gh/theeluwin/NotoSansKR-Hestia@master/fonts/eot/NotoSansKR-Light-Hestia.eot),
+    url(https://cdn.jsdelivr.net/gh/theeluwin/NotoSansKR-Hestia@master/fonts/eot/NotoSansKR-Light-Hestia.eot?#iefix) format('embedded-opentype'),
+    url(https://cdn.jsdelivr.net/gh/theeluwin/NotoSansKR-Hestia@master/fonts/woff/NotoSansKR-Light-Hestia.woff) format('woff'),
+    url(https://cdn.jsdelivr.net/gh/theeluwin/NotoSansKR-Hestia@master/fonts/otf/NotoSansKR-Light-Hestia.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Noto Sans Korean';
+    font-style: normal;
+    font-weight: 350;
+    src: local('Noto Sans DemiLight'), local('NotoSans-DemiLight'),
+    url(https://cdn.jsdelivr.net/gh/theeluwin/NotoSansKR-Hestia@master/fonts/eot/NotoSansKR-DemiLight-Hestia.eot),
+    url(https://cdn.jsdelivr.net/gh/theeluwin/NotoSansKR-Hestia@master/fonts/eot/NotoSansKR-DemiLight-Hestia.eot?#iefix) format('embedded-opentype'),
+    url(https://cdn.jsdelivr.net/gh/theeluwin/NotoSansKR-Hestia@master/fonts/woff/NotoSansKR-DemiLight-Hestia.woff) format('woff'),
+    url(https://cdn.jsdelivr.net/gh/theeluwin/NotoSansKR-Hestia@master/fonts/otf/NotoSansKR-DemiLight-Hestia.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Noto Sans Korean';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Noto Sans Regular'), local('NotoSans-Regular'),
+    url(https://cdn.jsdelivr.net/gh/theeluwin/NotoSansKR-Hestia@master/fonts/eot/NotoSansKR-Regular-Hestia.eot),
+    url(https://cdn.jsdelivr.net/gh/theeluwin/NotoSansKR-Hestia@master/fonts/eot/NotoSansKR-Regular-Hestia.eot?#iefix) format('embedded-opentype'),
+    url(https://cdn.jsdelivr.net/gh/theeluwin/NotoSansKR-Hestia@master/fonts/woff/NotoSansKR-Regular-Hestia.woff) format('woff'),
+    url(https://cdn.jsdelivr.net/gh/theeluwin/NotoSansKR-Hestia@master/fonts/otf/NotoSansKR-Regular-Hestia.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Noto Sans Korean';
+    font-style: normal;
+    font-weight: 500;
+    src: local('Noto Sans Medium'), local('NotoSans-Medium'),
+    url(https://cdn.jsdelivr.net/gh/theeluwin/NotoSansKR-Hestia@master/fonts/eot/NotoSansKR-Medium-Hestia.eot),
+    url(https://cdn.jsdelivr.net/gh/theeluwin/NotoSansKR-Hestia@master/fonts/eot/NotoSansKR-Medium-Hestia.eot?#iefix) format('embedded-opentype'),
+    url(https://cdn.jsdelivr.net/gh/theeluwin/NotoSansKR-Hestia@master/fonts/woff/NotoSansKR-Medium-Hestia.woff) format('woff'),
+    url(https://cdn.jsdelivr.net/gh/theeluwin/NotoSansKR-Hestia@master/fonts/otf/NotoSansKR-Medium-Hestia.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Noto Sans Korean';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Noto Sans Bold'), local('NotoSans-Bold'),
+    url(https://cdn.jsdelivr.net/gh/theeluwin/NotoSansKR-Hestia@master/fonts/eot/NotoSansKR-Bold-Hestia.eot),
+    url(https://cdn.jsdelivr.net/gh/theeluwin/NotoSansKR-Hestia@master/fonts/eot/NotoSansKR-Bold-Hestia.eot?#iefix) format('embedded-opentype'),
+    url(https://cdn.jsdelivr.net/gh/theeluwin/NotoSansKR-Hestia@master/fonts/woff/NotoSansKR-Bold-Hestia.woff) format('woff'),
+    url(https://cdn.jsdelivr.net/gh/theeluwin/NotoSansKR-Hestia@master/fonts/otf/NotoSansKR-Bold-Hestia.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Noto Sans Korean';
+    font-style: normal;
+    font-weight: 900;
+    src: local('Noto Sans Black'), local('NotoSans-Black'),
+    url(https://cdn.jsdelivr.net/gh/theeluwin/NotoSansKR-Hestia@master/fonts/eot/NotoSansKR-Black-Hestia.eot),
+    url(https://cdn.jsdelivr.net/gh/theeluwin/NotoSansKR-Hestia@master/fonts/eot/NotoSansKR-Black-Hestia.eot?#iefix) format('embedded-opentype'),
+    url(https://cdn.jsdelivr.net/gh/theeluwin/NotoSansKR-Hestia@master/fonts/woff/NotoSansKR-Black-Hestia.woff) format('woff'),
+    url(https://cdn.jsdelivr.net/gh/theeluwin/NotoSansKR-Hestia@master/fonts/otf/NotoSansKR-Black-Hestia.otf) format('opentype');
+}
+
+* {margin:0;padding:0;}
+html {font-size: 10px;}
+textarea,
+body{font-family:'Noto Sans Korean',"맑은 고딕","Malgun Gothic","돋움",Dotum,"굴림",Gulim,"Helvetica Neue", Helvetica, Arial, sans-serif; font-size:16px; line-height:1.5; -webkit-text-size-adjust:none; font-weight:normal; letter-spacing: -1px;}
+.nw {white-space:nowrap;}
+
+hr{display:none;}
+img{border:0; vertical-align:top;}
+fieldset{border:0;}
+ul,ol,li{list-style:none;}
+select,textarea{border:0; outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0); -webkit-appearance:none;}
+select::-ms-expand {display:none}
+a[href^=tel] {color: inherit; text-decoration: none;}
+
+em, i {font-style:normal;}
+table { border-collapse:collapse;}
+
+a{color:#000; text-decoration:none; outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0); -webkit-appearance:none;}
+a:link,a:hover,a:active{text-decoration:none;}
+
+audio,
+canvas,
+video {display: inline-block; *display: inline; *zoom: 1;}
+audio:not([controls]) {display: none;height: 0;}
+::-moz-selection {background: #b3d4fc; text-shadow: none;}
+::selection {background: #b3d4fc; text-shadow: none;}
+
+textarea,
+input[type='text'], input[type='password'] {
+	-webkit-appearance:none;
+	appearance:none;
+	-webkit-border-radius:0;
+	border-radius:0;
+	border: 1px solid #ccc;
+}
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+	border: 0;
+	padding: 0;
+}
+::-webkit-input-placeholder {color: #DFDFDF;}
+:-moz-placeholder {color: #DFDFDF;}
+::-moz-placeholder {color: #DFDFDF;}
+:-ms-input-placeholder {}
+::-ms-input-placeholder {}
+:-ms-placeholder {color: #DFDFDF;}
+:placeholder {color: #DFDFDF;}
+input[type='text'] {border:1px solid #ccc; outline:0;}
+
+.hidden {position: absolute !important; height: 1px; width: 1px; overflow: hidden; clip: rect(1px, 1px, 1px, 1px);}
+caption {height: 1px; width: 1px; overflow: hidden; clip: rect(1px, 1px, 1px, 1px); top: -1px; left: -1px;}
+
+
+.preline {
+	white-space: pre-line;
+}
+
+.wrap {}
+.inbox {margin: 0 auto; width: 1170px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.header .inbox {padding: 20px 0 0 100px; height: 362px; background: url('/static/images/sericeo/bg.png') 0 0 no-repeat;}
+.header .inbox .logo {position: relative;}
+.header .inbox .logo a {display: inline-block; font-size: 0; width: 161px; height: 19px; background: url('/static/images/sericeo/logo.png') 0 0 no-repeat;}
+.header .inbox .copy {margin-top: 50px;}
+
+.contents .inbox {background-color: #f5f5f5;}
+.contents .inbox .list {display: flex; flex-wrap:wrap; justify-content:space-between; margin: 0 auto; padding: 80px 0 70px; width: 970px;}
+.contents .inbox .list > li {margin-top: 20px;}
+.contents .inbox .list > li > a {position: relative; display: block; overflow: hidden; padding-bottom: 25px; color: #000;
+	-webkit-border-radius: 18px;
+	-moz-border-radius: 18px;
+	border-radius: 18px;
+}
+.contents .inbox .list > li > a > span {display: block;}
+.contents .inbox .list > li > a > .pic {}
+.contents .inbox .list > li > a > .num {position: absolute; top: 0; left: 0; padding: 0 30px 0 20px; color: #fff; line-height: 32px; background-color: #000;
+	-webkit-border-radius: 0 0 10px 0;
+	-moz-border-radius: 0 0 10px 0;
+	border-radius: 0 0 10px 0;
+}
+.contents .inbox .list > li > a > .num:after {content:''; position: absolute; top: 0; right: -26px; font-weight: bold; font-size: 16px; border-left: 27px solid #000; border-bottom: 27px solid transparent;}
+.contents .inbox .list > li > a > .t1 {margin-top: 15px; text-align: center; font-size: 20px; line-height: 1.5em; font-weight: bold;}
+.contents .inbox .list > li > a > .t2 {margin-top: 4px; text-align: center; font-size: 16px; line-height: 1.625em;}
+.contents .inbox .list > li > a > .view {opacity: 0; display: flex; justify-content:center; align-items:center; position: absolute; top: 0; right: 0; bottom: 0; left: 0; text-align:center; color:#fff; background-color: rgba(0,0,0,0.65);
+	transition:opacity 0.4s ease-in;
+}
+.contents .inbox .list > li > a > .view em {font-size: 40px;}
+.contents .inbox .list > li > a:hover > .view {opacity: 1;}
+
+.footer .inbox {padding: 65px 0 55px;text-align: center; color: #fff; background-color: #222;}
+.footer .inbox .p1 {font-size: 34px; line-height: 44px;}
+.footer .inbox .p1 .cross {display: inline-block; position: relative; vertical-align: top; height: 44px; width: 26px; margin-right: 3px;}
+.footer .inbox .p1 .cross:before,
+.footer .inbox .p1 .cross:after {content:''; position: absolute; top: 50%; left: 50%; width: 20px; height: 5px; background-color: #ff9a2d;
+	transform-origin:0 0;
+}
+.footer .inbox .p1 .cross:before {transform:rotate(-45deg) translate(-50%, -50%);}
+.footer .inbox .p1 .cross:after {transform:rotate(45deg) translate(-50%, -50%);}
+.footer .inbox .p2 {margin-top: 10px; font-size: 28px; line-height: 56px;}

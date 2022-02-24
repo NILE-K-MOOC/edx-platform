@@ -177,6 +177,10 @@ def multisite_error(request):
 def banner(request):
     return render_to_response("banner.html")
 
+@csrf_exempt
+def sericeo(request):
+    return render_to_response("sericeo.html")
+
 
 def invitation_banner(request):
     return render_to_response("banner2.html")

@@ -1,0 +1,152 @@
+<%page expression_filter="h"/>
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.core.urlresolvers import reverse
+from microsite_configuration import microsite
+from openedx.core.djangolib.markup import HTML, Text
+%>
+<link rel="stylesheet" type="text/css" href="/static/css/sericeo.css">
+<div class="content-wrapper" id="content">
+
+    <div class="wrap">
+		<div class="header">
+			<div class="inbox">
+				<h1 class="logo"><a href="#" target="_blank">K-MOOC SERICEO</a></h1>
+				<p class="copy"><img src="${STATIC_URL}images/sericeo/txt.png" alt="K-MOOC X SERICEO 취업지원강좌" /></p>
+			</div>
+		</div>
+		<div class="contents">
+			<div class="inbox">
+				<ul class="list">
+					<li>
+						<a href="http://www.kmooc.kr/courses/course-v1:MULTICAMPUS+MULTI01+2021_1/about" target="_blank">
+							<span class="pic"><img src="${STATIC_URL}images/sericeo/item1.png" alt="" /></span>
+							<span class="num">01</span>
+							<span class="t1">반드시 알아야 할 비즈니스 트렌드!,<br />핵심단어로 풀다</span>
+							<span class="t2">부정확한 용어의 사용을 줄이는 것은<br />업무 전반에 큰 도움이 될 것입니다.</span>
+							<span class="view"><em>강좌보기</em></span>
+						</a>
+					</li>
+					<li>
+						<a href="http://www.kmooc.kr/courses/course-v1:MULTICAMPUS+MULTI02+2021_1/about" target="_blank">
+							<span class="pic"><img src="${STATIC_URL}images/sericeo/item2.png" alt="" /></span>
+							<span class="num">02</span>
+							<span class="t1">뭉치면 살고 흩어지면 죽는다,<br />시너지를 이끌어 내는 협업의 스킬</span>
+							<span class="t2">‘협업이란 무엇인가’ 부터,<br />전문가와 협업하는 방법까지!</span>
+							<span class="view"><em>강좌보기</em></span>
+						</a>
+					</li>
+					<li>
+						<a href="http://www.kmooc.kr/courses/course-v1:MULTICAMPUS+MULTI03+2021_1/about" target="_blank">
+							<span class="pic"><img src="${STATIC_URL}images/sericeo/item3.png" alt="" /></span>
+							<span class="num">03</span>
+							<span class="t1">골목과 스타트업에서 배우는<br />‘시장을 보는 눈’</span>
+							<span class="t2">골목과 스타트업의 사례를 통해<br />시장을 보는 눈을 키워봅니다.</span>
+							<span class="view"><em>강좌보기</em></span>
+						</a>
+					</li>
+					<li>
+						<a href="http://www.kmooc.kr/courses/course-v1:MULTICAMPUS+MULTI04+2021_1/about" target="_blank">
+							<span class="pic"><img src="${STATIC_URL}images/sericeo/item4.png" alt="" /></span>
+							<span class="num">04</span>
+							<span class="t1">인지심리학 한 스푼,<br />일 잘하는 업무리더로 거듭나기</span>
+							<span class="t2">일을 하는 ‘동기’, ‘아이디어’, ‘성과향상’까지<br />인지심리학으로 업무 리더십을 향상시켜봅니다.</span>
+							<span class="view"><em>강좌보기</em></span>
+						</a>
+					</li>
+					<li>
+						<a href="http://www.kmooc.kr/courses/course-v1:MULTICAMPUS+MULTI05+2021_1/about" target="_blank">
+							<span class="pic"><img src="${STATIC_URL}images/sericeo/item5.png" alt="" /></span>
+							<span class="num">05</span>
+							<span class="t1">성공의 열쇠,<br />‘매장전략’의 모든 것</span>
+							<span class="t2">매장 전략을 통해 소비자 심리나 머천다이징에<br />필요한 지식을 얻으려는 취준생분들은 집중!</span>
+							<span class="view"><em>강좌보기</em></span>
+						</a>
+					</li>
+					<li>
+						<a href="http://www.kmooc.kr/courses/course-v1:MULTICAMPUS+MULTI06+2021_1/about" target="_blank">
+							<span class="pic"><img src="${STATIC_URL}images/sericeo/item6.png" alt="" /></span>
+							<span class="num">06</span>
+							<span class="t1">글로벌 선진기업으로부터 배우는<br />성공적 경영전략</span>
+							<span class="t2">글로벌 선진기업들만의 특장점과 경영전략<br />성공 사례에서 인사이트를 습득하려 합니다.</span>
+							<span class="view"><em>강좌보기</em></span>
+						</a>
+					</li>
+					<li>
+						<a href="http://www.kmooc.kr/courses/course-v1:MULTICAMPUS+MULTI07+2021_1/about" target="_blank">
+							<span class="pic"><img src="${STATIC_URL}images/sericeo/item7.png" alt="" /></span>
+							<span class="num">07</span>
+							<span class="t1">‘일잘러’의 효율적인 업무 방법</span>
+							<span class="t2">제한적인 시간 안에도 눈에 띄는 일잘러.<br />이를 위한 업무관리는 어떻게 해야 할까요?</span>
+							<span class="view"><em>강좌보기</em></span>
+						</a>
+					</li>
+					<li>
+						<a href="http://www.kmooc.kr/courses/course-v1:MULTICAMPUS+MULTI08+2021_1/about" target="_blank">
+							<span class="pic"><img src="${STATIC_URL}images/sericeo/item8.png" alt="" /></span>
+							<span class="num">08</span>
+							<span class="t1">PT, 발표, 스피치의 달인! 파워스피치</span>
+							<span class="t2">스피치는 회의, PT, 면접 등에서 중요합니다.<br />이를 위해 스피치의 달인이 되어 보려 합니다!</span>
+							<span class="view"><em>강좌보기</em></span>
+						</a>
+					</li>
+					<li>
+						<a href="http://www.kmooc.kr/courses/course-v1:MULTICAMPUS+MULTI09+2021_1/about" target="_blank">
+							<span class="pic"><img src="${STATIC_URL}images/sericeo/item9.png" alt="" /></span>
+							<span class="num">09</span>
+							<span class="t1">상황별 처세의 기술</span>
+							<span class="t2">우리는 직장 생활 중 곤란한 다양한 상황 속에서<br />어떻게 빠져나올 수 있을까요?</span>
+							<span class="view"><em>강좌보기</em></span>
+						</a>
+					</li>
+					<li>
+						<a href="http://www.kmooc.kr/courses/course-v1:MULTICAMPUS+MULTI10+2021_1/about" target="_blank">
+							<span class="pic"><img src="${STATIC_URL}images/sericeo/item10.png" alt="" /></span>
+							<span class="num">10</span>
+							<span class="t1">질문엔 이렇게 대답하라!<br />대답의 달인</span>
+							<span class="t2">다양한 질문 상황 별 할 수 있는<br />대답의 스킬에 대하여 알아봅니다.</span>
+							<span class="view"><em>강좌보기</em></span>
+						</a>
+					</li>
+					<li>
+						<a href="http://www.kmooc.kr/courses/course-v1:MULTICAMPUS+MULTI11+2021_1/about" target="_blank">
+							<span class="pic"><img src="${STATIC_URL}images/sericeo/item11.png" alt="" /></span>
+							<span class="num">11</span>
+							<span class="t1">비즈니스를 이해하기 쉽게 전달한다!<br />보고의 달인</span>
+							<span class="t2">업무나 의견을 논리적으로 전달할 때 필요한<br />‘보고’하는 방법을 알아봅니다.</span>
+							<span class="view"><em>강좌보기</em></span>
+						</a>
+					</li>
+					<li>
+						<a href="http://www.kmooc.kr/courses/course-v1:MULTICAMPUS+MULTI12+2021_1/about" target="_blank">
+							<span class="pic"><img src="${STATIC_URL}images/sericeo/item12.png" alt="" /></span>
+							<span class="num">12</span>
+							<span class="t1">처음부터 대단한 생각은 없다!<br />생각 수업</span>
+							<span class="t2">취준생으로서의 마인드를 포함한 다양한 생각의<br />원료는 어떻게 만들지 알아봅니다.</span>
+							<span class="view"><em>강좌보기</em></span>
+						</a>
+					</li>
+					<li>
+						<a href="http://www.kmooc.kr/courses/course-v1:MULTICAMPUS+MULTI14+2021_1/about" target="_blank">
+							<span class="pic"><img src="${STATIC_URL}images/sericeo/item13.png" alt="" /></span>
+							<span class="num">13</span>
+							<span class="t1">생활 속으로 들어온 미래, Robot</span>
+							<span class="t2">최신 로봇 기술 트렌드가<br />어떻게 변화하고, 발전해 나아갈까요?</span>
+							<span class="view"><em>강좌보기</em></span>
+						</a>
+					</li>
+
+				</ul>
+			</div>
+		</div>
+		<div class="footer">
+			<div class="inbox">
+				<p class="p1"><strong>K-MOOC <span class="cross"></span>SERICEO 취업지원강좌</strong>와 함께 <br /><strong>모두가 취업</strong>하는 그 날까지!</p>
+				<p class="p2">K-MOOC가 여러분을 응원합니다!</p>
+			</div>
+		</div>
+	</div>
+
+</div>

@@ -197,12 +197,12 @@ from openedx.core.djangolib.markup import HTML, Text
     }
 
     cookiedata = document.cookie;
-    
+
     $("#layerPopupArea .pop_content").each(function () {
         var content_id = $(this).attr("id");
         $("#" + content_id).html($("#" + content_id).text());
     });
-    
+
     var leng = '${max_pop}';
     leng = Number(leng);
     for (var i = 1; i <= leng; i++) {
@@ -368,7 +368,6 @@ from openedx.core.djangolib.markup import HTML, Text
 <main id="main" aria-label="Content" tabindex="-1" class="main-content">
 
 
-
     <!-- 캐러셀 배너자리 -->
     <div class="sec-visual" style="margin: 5px 0;">
         <div class="container-fluid">
@@ -376,11 +375,18 @@ from openedx.core.djangolib.markup import HTML, Text
                 <div class="banner">
                     <!-- 배너3 이미지 추가 필요 (현재 주석처리) 210111 -->
                     <div><a href="/coursera" target="_blank" style="display:block" title="코세라 강좌 바로가기"><img
-                             src="${STATIC_URL}images/banner3.jpg" alt="코세라 강좌 바로가기" style="width: 100%"></a></div>
+                            src="${STATIC_URL}images/banner3.jpg" alt="코세라 강좌 바로가기" style="width: 100%"></a></div>
 
                     <div><a href="/banner" target="_blank" style="display:block" title="위대한수업 바로가기"><img
                             src="${STATIC_URL}images/banner1.png"
                             alt="위대한수업 바로가기" style="width: 100%"></a></div>
+
+                    <!-- sericeo -->
+                    <div>
+                        <a href="/sericeo" target="_blank" style="display:block" title="취업지원 바로가기">
+                            <img src="${STATIC_URL}images/sericeo.png" alt="취업지원 바로가기" style="width: 100%"/>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -388,16 +394,22 @@ from openedx.core.djangolib.markup import HTML, Text
     <!-- // 캐러셀 배너자리 -->
 
 
-##     <!-- 새로운 도전 (기존) 띠배너  -->
-## <div class="sec-visual" style="margin: 5px 0;">
-##         <div class="container-fluid">
-##             <div class="visual-row">
-##                 <a href="/banner" target="_blank"><img src="${STATIC_URL}images/banner1.png" alt="위대한수업 바로가기" style="width: 100%"></a>
-##             </div>
-##         </div>
-##     </div>
-##
-##     <!-- 새로운 도전 (기존) 띠배너  -->
+    ##     <!-- 새로운 도전 (기존) 띠배너  -->
+    ##
+    <div class="sec-visual" style="margin: 5px 0;">
+        ##
+        <div class="container-fluid">
+            ##
+            <div class="visual-row">
+                ## <a href="/banner" target="_blank"><img src="${STATIC_URL}images/banner1.png" alt="위대한수업 바로가기" style="width: 100%"></a>
+                ##
+            </div>
+            ##
+        </div>
+        ##
+    </div>
+    ##
+    ##     <!-- 새로운 도전 (기존) 띠배너  -->
 
 
     <section class="sec-visual about">
@@ -460,7 +472,7 @@ from openedx.core.djangolib.markup import HTML, Text
                     <a href="/roadmap" class="classify-item2 inject-h"><strong>${_("Artificial intelligence")}</strong></a>
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
-                <a data-facet="basic_science_sec_yn" data-term="basic_science_sec_y" href="#" class="classify-item2 inject-h"><strong>${_("Basic Science")}</strong></a>
+                    <a data-facet="basic_science_sec_yn" data-term="basic_science_sec_y" href="#" class="classify-item2 inject-h"><strong>${_("Basic Science")}</strong></a>
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
                     <a data-facet="linguistics" data-term="Korean" href="#" class="classify-item2 inject-h"><strong>${_("Linguistics")}</strong></a>
@@ -666,9 +678,9 @@ from openedx.core.djangolib.markup import HTML, Text
 % endif
 
 <script>
-    $(document).ready(function (){
+    $(document).ready(function () {
         console.log('페이지가 시작되었습니다.')
-    //배너 스와이프
+        //배너 스와이프
         $('.banner').bxSlider({
             auto: true,
             speed: 600,
