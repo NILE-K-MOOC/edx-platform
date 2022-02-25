@@ -699,7 +699,7 @@ class CourseTabView(EdxFragmentView):
             if not CourseEnrollment.is_enrolled(request.user, course_key):
 
                 # EBS 강좌의 경우 접근 차단 국가 인지 확인하여 수강신청을 비활성화 함 (수강 신청 이후 사용은 고려하지 않음)
-                if course_key.org == 'EBS' and block_country_for_ebs():  # EBS 로 변경 예정
+                if course_key.org == 'EBS' and block_country_for_ebs(request=request):
                     PageLevelMessages.register_warning_message(
                         request,
                         Text(_("This course is restricted from enrolling in the relevant country due to the EBS's operation policy."))

@@ -1629,21 +1629,45 @@ def enrollment_verifi(request):
     return HttpResponse()
 
 
-def block_country_for_ebs():
+def block_country_for_ebs(request=None):
     try:
-        country_info = requests.get(url='https://api.ip.pe.kr/json', verify=False)
-        ip_info = country_info.content
-        ip_info_json = json.loads(ip_info)
+        if request:
+            x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+            if x_forwarded_for:
+                log.info('### ip get x_forwarded_for')
+                ip = x_forwarded_for.split(',')[0]
+            else:
+                log.info('### ip get REMOTE_ADDR')
+                ip = request.META.get('REMOTE_ADDR')
 
-        # EBS 강좌의 경우 접근 차단 국가여부 확인후 진행
-        user_country_code = ip_info_json.get('country_code')
+        log.info('ip [%s] ' % ip)
+        ip1 = str(ip).split('.')[0]
+        ip2 = str(ip).split('.')[1]
+
+        # ip가 10, 172, 192 로 시작하면 사설 아이피 대역이므로 블럭하지 않음.
+        if int(ip1) == 10:
+            log.info('block_country_for_ebs ip block pass case 1')
+            return False
+        elif int(ip1) == 172 and int(ip2) in range(16, 32):
+            log.info('block_country_for_ebs ip block pass case 2')
+            return False
+        elif int(ip1) == 192 and int(ip2) == 168:
+            log.info('block_country_for_ebs ip block pass case 3')
+            return False
+
+        country_info = requests.get(url='https://ip2c.org/%s' % ip, verify=False)
+        ip_info = country_info.content
+        user_country_code = ip_info.split(';')[1]
 
         # 조회 되는 국가 코드가 없는 경우 True를 리턴하여 수강신청이 안되도록 함
         if not user_country_code:
             return True
+        else:
+            log.info('user_country_code [%s]' % user_country_code)
 
         block_country_list = ['AE', 'AM', 'AR', 'AT', 'AU', 'AZ', 'BE', 'BR', 'BY', 'CA', 'CH', 'CL', 'CN', 'CO', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR', 'GB', 'GR', 'HK', 'HR', 'HU', 'ID', 'IE', 'IL', 'IN', 'IR', 'IS', 'IT', 'JP', 'KG', 'KZ', 'LT', 'LU', 'LV', 'MD', 'MX', 'MY', 'NL', 'NO', 'NZ', 'PL', 'PT', 'RO', 'RU', 'SA', 'SE', 'SI', 'SK', 'TH', 'TJ', 'TR', 'TW', 'US', 'UZ', 'VN']
         return user_country_code in block_country_list
+
     except Exception as e:
         print e
         # 오류가 발생했을 경우 True 를 리턴
@@ -1701,7 +1725,7 @@ def change_enrollment(request, check_access=True):
         course_id = CourseKey.from_string(request.POST.get("course_id"))
 
         org = request.POST.get("course_id").split('+')[0][10:]
-        if org == 'EBS' and block_country_for_ebs():
+        if org == 'EBS' and block_country_for_ebs(request=request):
             return HttpResponseBadRequest(_("This course is restricted from enrolling in the relevant country due to the EBS's operation policy."))
     except InvalidKeyError:
         log.warning(
