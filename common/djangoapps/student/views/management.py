@@ -1599,6 +1599,10 @@ def _update_email_opt_in(request, org):
 def enrollment_verifi(request):
     course_id = request.POST.get('course_id')
     user_id = request.POST.get('user_id')
+    org = request.POST.get("course_id").split('+')[0][10:]
+
+    if org == 'EBS' and block_country_for_ebs(request=request):
+        return JsonResponse({"status": False, "message": _("This course is restricted from enrolling in the relevant country due to the EBS's operation policy.")})
 
     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
                       settings.DATABASES.get('default').get('USER'),
@@ -1626,7 +1630,7 @@ def enrollment_verifi(request):
     cur.execute(query)
     con.commit()
 
-    return HttpResponse()
+    return JsonResponse({"status": True, "message": ""})
 
 
 def block_country_for_ebs(request=None):

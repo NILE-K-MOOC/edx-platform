@@ -272,7 +272,17 @@ $("#audit_mode").click(function(event) {
                     user_id: '${user.id}'
                 },
                 function (data) {
-                    location.href = "/dashboard";
+                    console.log(data);
+
+                    if(data.status){
+                        location.href = "/dashboard";
+                    }else{
+                        $(".main-cta").append($("<div></div>", {
+                            id: 'register_error',
+                            css: {"display": "block"},
+                            text: data.message
+                        }));
+                    }
                 });
             } else {
                 return;
