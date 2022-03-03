@@ -8,7 +8,8 @@ import base64
 
 # common value set #    
 strApp = "maepagesafer"
-strPVersion = "25131"
+# strPVersion = "25131"
+strPVersion = "25164"
 strSignature = "MARKANYEPS"
 
 # 2D Bacode value set #
