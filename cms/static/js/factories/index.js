@@ -173,6 +173,7 @@ define(['jquery.form', 'js/index'], function () {
         }
 
         // 강좌 엔터 시 검색 이벤트
+        /*
         $("*").keydown(function (event) {
             if (event.which === 13 && $("#cms_text").is(":focus") == true) {
                 console.log("event call start");
@@ -181,6 +182,7 @@ define(['jquery.form', 'js/index'], function () {
                 $("#cms_text").blur();
             }
         });
+         */
 
         // 강좌 클릭 시 검색 이벤트
         $('#cms_search').click(function (event) {
