@@ -28226,3 +28226,6 @@ msgstr "교양 강좌"
 
 msgid "This course is restricted from enrolling in the relevant country due to the EBS's operation policy."
 msgstr "본 강좌는 콘텐츠 제공기관(EBS)의 운영 정책상 해당 국가에서의 수강 신청이 제한됩니다."
+
+msgid "Match UP"
+msgstr "매치업 강좌"

@@ -195,6 +195,10 @@ def coursera_course(request):
     return render_to_response("banner4.html")
 
 
+def matchup(request):
+    return render_to_response("matchup.html")
+
+
 from .forms import InvitationForm
 from django.shortcuts import render
 from .models import Invitation

@@ -93,6 +93,9 @@ urlpatterns = [
     url(r'^coursera$', branding_views.coursera_course, name='coursera_course'),
     url(r'^get_index_courses$', student_views.get_index_courses, name='get_index_courses'),
 
+    # matchup
+    url(r'^matchup$', branding_views.matchup, name='matchup'),
+
     # sericeo
     url(r'^sericeo$', branding_views.sericeo, name='sericeo'),
 

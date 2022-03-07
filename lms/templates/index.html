@@ -185,13 +185,12 @@ from openedx.core.djangolib.markup import HTML, Text
 
 
     function closeWin(check, id, hidden_day) {
-        /*
+
         if ($("#" + check).is(":checked")){
             setCookie( id , "done" , hidden_day);
         }
-         */
 
-        setCookie(id, "done", hidden_day);
+        ##  setCookie(id, "done", hidden_day);
 
         $("#" + id).css("display", "none");
     }
@@ -215,12 +214,20 @@ from openedx.core.djangolib.markup import HTML, Text
 
 
     function setCookie1(name, value, expiredays) {
-        console.log('1')
         var todayDate = new Date();
-        console.log('2')
         todayDate.setDate(todayDate.getDate() + parseInt(expiredays));
-        console.log('3')
         document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todayDate.toGMTString() + ";"
+    }
+
+    function closeWin1(check, id, hidden_day) {
+
+        if ($("#" + check).is(":checked")){
+            setCookie( id , "done" , hidden_day);
+        }
+        ##
+        ##  setCookie1(id, "done", hidden_day);
+
+        $("#" + id).css("display", "none");
     }
 
     cookiedata = document.cookie;
@@ -387,6 +394,14 @@ from openedx.core.djangolib.markup import HTML, Text
                             <img src="${STATIC_URL}images/sericeo.png" alt="취업지원 바로가기" style="width: 100%"/>
                         </a>
                     </div>
+                    <!-- matchup -->
+                    <div>
+                        <a href="/matchup" target="_blank" style="display:block" title="매치 바로가기">
+                            <img src="${STATIC_URL}images/matchup_images/banner4.png" alt="매치업 바로가기" style="width: 100%"/>
+                        </a>
+                    </div>
+
+
                 </div>
             </div>
         </div>
@@ -448,6 +463,10 @@ from openedx.core.djangolib.markup import HTML, Text
                         <li>
                             <a target="_blank" href="https://cb.kmooc.kr/search">${_("Academic Credit Bank System")}</a>
                         </li>
+
+                        <li>
+                            <a target="_blank" href="https://kmooc.kr/matchup">${_("Match UP")}</a>
+                        </li>
                     </ul>
                     <a href="/courses" class="more" title="강좌찾기 더 보기">more</a>
                 </div>
@@ -468,6 +487,11 @@ from openedx.core.djangolib.markup import HTML, Text
                 <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
                     <a data-facet="fourth_industry_yn" data-term="fourth_industry_y" href="#" class="classify-item2 inject-h"><strong>${_("Fourth Industry")}</strong></a>
                 </div>
+
+##                 <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
+##                     <a href="/matchup" class="classify-item2 inject-h"><strong>${_("Match UP")}</strong></a>
+##                 </div>
+
                 <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
                     <a href="/roadmap" class="classify-item2 inject-h"><strong>${_("Artificial intelligence")}</strong></a>
                 </div>
