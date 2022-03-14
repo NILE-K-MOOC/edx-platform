@@ -169,7 +169,7 @@
                 />
 
 
-                <button type="button" class="action action-primary identity" style="width: 20%; margin: 0 0 0 2%; padding:0; height: 32px;" title="실명 인증 버튼">
+                <button type="button" class="action action-primary identity" style="width: 20%; margin: 0 0 0 2%; padding:0; height: 32px;" title="실명 인증 버튼 및 새창 알림">
                     <%- gettext("Authentication") %>
                 </button>
 
