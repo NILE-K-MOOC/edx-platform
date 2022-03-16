@@ -535,10 +535,10 @@ from student.models import CourseEnrollment
 
                 <nav class="faq-tab" id="myClassTab" data-status_flag="${status_flag}">
                     % if 'status' in request.session:
-                    <a href="#" class="${'on' if status_flag == 'ing' or not status_flag else ''} dash-link" data-status="ing" title="${_("ing course")} ${'현재탭' if status_flag == 'ing' or 'None' else ''}"><span>${_("ing course")}</span>
+                    <a href="#" class="${'on' if status_flag == 'ing' or not status_flag else ''} dash-link" data-status="ing" title="${_("ing course")} ${'현재탭' if status_flag == 'ing' or not status_flag else ''}"><span>${_("ing course")}</span>
                     </a>
                     % else:
-                    <a href="#" class="${'on' if status_flag == 'ing' or not status_flag else ''}  dash-link" data-status="ing" title="${_("ing course")} ${'현재탭' if status_flag == 'ing' or 'None' else ''}"><span>${_("ing course")}</span>
+                    <a href="#" class="${'on' if status_flag == 'ing' or not status_flag else ''}  dash-link" data-status="ing" title="${_("ing course")} ${'현재탭' if status_flag == 'ing' or not status_flag else ''}"><span>${_("ing course")}</span>
                     </a>
                     <a href="#" data-status="audit" class="${'on' if status_flag == 'audit' else ''} dash-link"  title="${_("Audit Course")} ${'현재탭' if status_flag == 'audit' else ''}"><span>${_("Audit Course")}</span>
                     </a>
