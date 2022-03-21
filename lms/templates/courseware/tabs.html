@@ -21,7 +21,7 @@ def url_class(is_active):
   <li class="tab">
 
   % if tab_is_active:
-  <a href="${tab.link_func(course, reverse)}" class="${tab_class}" alt="현재탭">
+  <a href="${tab.link_func(course, reverse)}" class="${tab_class}" title="현재탭">
   ${_(tab.name)}
       <span class="sr"></span>
 
