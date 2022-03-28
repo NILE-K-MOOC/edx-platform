@@ -196,7 +196,7 @@ def coursera_course(request):
 
 
 def matchup(request):
-    return render_to_response("matchup.html")
+    return render_to_response("matchup_update.html")
 
 
 from .forms import InvitationForm

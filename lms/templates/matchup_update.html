@@ -1,0 +1,455 @@
+<%page expression_filter="h"/>
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.core.urlresolvers import reverse
+from microsite_configuration import microsite
+from openedx.core.djangolib.markup import HTML, Text
+%>
+
+<%block name="pagetitle">
+${("")}
+</%block>
+
+<style>
+    .match__wrap {
+        width: 100%;
+        max-width: 1170px;
+        margin: 0 auto;
+    }
+
+    .match__wrap_banner {
+        width: 100%;
+    }
+
+    .match__wrap_banner > img {
+        width: 100%;
+        display: block;
+    }
+
+    .category__title {
+        text-align: center;
+    }
+
+    .category__title h3 {
+        font-family: 'Noto Sans KR';
+    }
+
+    .match__inner {
+        background-color: rgba(255, 198, 206, 30%);
+        padding: 45px 60px 65px;
+    }
+
+    .match__footer {
+        background: #F34579;
+        color: #fff;
+        text-align: right;
+        padding: 15px 64px;
+    }
+
+    .match__footer .btn__match-more {
+        font-weight: bold;
+        font-size: 24px;
+    }
+
+    .category__title h3 {
+        font-size: 26px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .category__title p {
+        font-size: 20px;
+        color: #F34579;
+    }
+
+    .match__list_wrap h2 {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .match__btn_list {
+        display: flex;
+        justify-content: center;
+        margin: 33px 0 45px;
+    }
+
+    .match__btn_list li:not(:last-child) {
+        border-right: 1px solid #222;
+    }
+
+    .match__btn_list li a {
+        padding: 0 20px;
+        font-size: 26px;
+        font-weight: 600;
+        color: #AAAAAA;
+        line-height: 1;
+    }
+
+    .match__btn_list li a:hover:not(.disabled) {
+        color: #f16e95
+
+    }
+
+    .match__btn_list li a.active {
+        font-weight: bold;
+        color: #F34579
+    }
+
+    .match__btn_list li a.disabled {
+        cursor: not-allowed
+    }
+
+    .match__list_wrap {
+        margin-left: 8px;
+    }
+
+    .match__list_wrap ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    .list__card {
+        position: relative;
+        width: 248px;
+        background-color: #fff;
+        cursor: pointer;
+        margin-bottom: 0;
+    }
+    .list__card a:hover{
+        text-decoration: none;
+    }
+
+    .list__card .list__lecture-view {
+        display: none;
+        padding-top: 65px;
+    }
+
+    .list__card:hover .list__lecture-view {
+        position: absolute;
+        display: block;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        border: 2px solid #F34579;
+        background-color: rgba(243, 69, 121, 0.3);
+        box-sizing: border-box;
+        font-weight: bold;
+        font-size: 30px;
+        color: #fff;
+        text-align: center;
+    }
+
+    .list__thumbnail {
+        display: block;
+    }
+
+    .list__thumbnail img {
+        width: 100%;
+    }
+
+    .list__card-details {
+        padding: 18px;
+    }
+
+    .list__card-details .list__card-title {
+        font-size: 16px;
+        font-weight: 500;
+        height: 42px;
+        line-height: 1.3;
+        font-family: 'Noto Sans KR';
+    }
+
+    .list__card-details p {
+        font-size: 14px;
+        margin: 0;
+        color: #333;
+    }
+
+    @media (max-width: 991px) {
+
+        .list__card {
+            width: 31%;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .match__inner {
+            padding: 45px 20px 65px;
+        }
+
+        .list__card {
+            width: 48%;
+        }
+
+        .match__btn_list li a {
+            font-size: 22px;
+        }
+    }
+
+    @media (max-width: 550px) {
+        .list__card {
+            width: 100%;
+        }
+
+        .match__btn_list li a {
+            padding: 0 12px;
+            font-size: 18px;
+        }
+    }
+
+    @media (max-width: 441px) {
+        .match__btn_list li a {
+            font-size: 16px;
+        }
+    }
+
+
+</style>
+
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K-MOOC X MATCH ME</title>
+
+
+    <!-- TODO: 헤더에 css 파일 링크 필요 -->
+
+    <link rel="stylesheet" href="./style.css">
+
+</head>
+
+<body>
+
+
+<div class="match__wrap">
+    <div class="match__wrap_banner">
+        <img src="${STATIC_URL}/images/matchup_images/banner-title.png" alt="banner-title">
+    </div>
+    <div class="match__inner">
+        <div class="category__title">
+            <h3>교육강좌</h3>
+            <p>K-MOOC을 통해 교육강좌를 확인해봐요!</p>
+        </div>
+        <ul class="match__btn_list">
+
+            <li><a href="#category-1" class="active" title="드론" data-toggle-id="category-1">드론</a></li>
+            <li><a href="#category-2" class="active" title="가상·증강현실" data-toggle-id="category-2">가상·증강현실</a></li>
+##             <li><a href="#none" class="disabled" title="빅데이터 준비중">빅데이터</a></li>
+##             <li><a href="#none" class="disabled" title="대체에너지 준비중">대체에너지</a></li>
+        </ul>
+        <div class="match__list_wrap">
+            <section id="category-1">
+                <h2>드론</h2>
+                <ul class="list">
+                    <li class="list__card">
+                        <a href="http://www.kmooc.kr/courses/course-v1:MA_DU+MATCHUP_DU02+2022_T1/about" target="_blank"
+                           title="드론 설계 제작 이론">
+                            <div class="list__card-content">
+                                <div class="list__thumbnail">
+                                    <img src="${STATIC_URL}/images/matchup_images/img-01.png" alt="이미지">
+                                </div>
+                                <div class="list__card-details">
+                                    <h5 class="list__card-title">드론 설계 제작 이론</h5>
+                                    <p>교육기관 : 동서울대학교</p>
+                                    <p>교육분야 : 드론 정비 전문가 과정</p>
+                                </div>
+                            </div>
+                            <div class="list__lecture-view">강좌보기</div>
+                        </a>
+                    </li>
+                    <li class="list__card">
+                        <a href="http://www.kmooc.kr/courses/course-v1:MA_DU+MATCHUP_DU05+2022_T1/about" target="_blank"
+                           title="드론운용 및 실습">
+                            <div class="list__card-content">
+                                <div class="list__thumbnail">
+                                    <img src="${STATIC_URL}/images/matchup_images/img-02.png" alt="이미지">
+                                </div>
+                                <div class="list__card-details">
+                                    <h5 class="list__card-title">드론운용 및 실습</h5>
+                                    <p>교육기관 : 동서울대학교</p>
+                                    <p>교육분야 : 드론 조종 전문가 과정</p>
+                                </div>
+                            </div>
+                            <div class="list__lecture-view">강좌보기</div>
+                        </a>
+                    </li>
+                    <li class="list__card">
+                        <a href="http://www.kmooc.kr/courses/course-v1:MA_DU+MATCHUP_DU04+2022_T1/about" target="_blank"
+                           title="항공법규와 역학">
+                            <div class="list__card-content">
+                                <div class="list__thumbnail">
+                                    <img src="${STATIC_URL}/images/matchup_images/img-03.png" alt="이미지">
+                                </div>
+                                <div class="list__card-details">
+                                    <h5 class="list__card-title">항공법규와 역학</h5>
+                                    <p>교육기관 : 동서울대학교</p>
+                                    <p>교육분야 : 드론 조종 전문가 과정</p>
+                                </div>
+                            </div>
+                            <div class="list__lecture-view">강좌보기</div>
+                        </a>
+                    </li>
+                    <li class="list__card">
+                        <a href="http://www.kmooc.kr/courses/course-v1:MA_DU+MATCHUP_DU06+2022_T1/about" target="_blank"
+                           title="드론 영상기획과 기본촬영 및 편집">
+                            <div class="list__card-content">
+                                <div class="list__thumbnail">
+                                    <img src="${STATIC_URL}/images/matchup_images/img-04.png" alt="이미지">
+                                </div>
+                                <div class="list__card-details">
+                                    <h5 class="list__card-title">드론 영상기획과 기본촬영 및 편집</h5>
+                                    <p>교육기관 : 동서울대학교</p>
+                                    <p>교육분야 : 드론 촬영 전문가 과정</p>
+                                </div>
+                            </div>
+                            <div class="list__lecture-view">강좌보기</div>
+                        </a>
+                    </li>
+                    <li class="list__card">
+                        <a href="http://www.kmooc.kr/courses/course-v1:MA_DU+MATCHUP_DU03+2022_T1/about" target="_blank"
+                           title="드론 제작 정비 실습">
+                            <div class="list__card-content">
+                                <div class="list__thumbnail">
+                                    <img src="${STATIC_URL}/images/matchup_images/img-05.png" alt="이미지">
+                                </div>
+                                <div class="list__card-details">
+                                    <h5 class="list__card-title">드론 제작 정비 실습</h5>
+                                    <p>교육기관 : 동서울대학교</p>
+                                    <p>교육분야 : 드론 정비 전문가 과정</p>
+                                </div>
+                            </div>
+                            <div class="list__lecture-view">강좌보기</div>
+                        </a>
+                    </li>
+                    <li class="list__card">
+                        <a href="http://www.kmooc.kr/courses/course-v1:MA_DU+MATCHUP_DU01+2022_T1/about" target="_blank"
+                           title="드론 FC와 프로그램tool을 이용한 드론 코딩기초 및 고급 응용">
+                            <div class="list__card-content">
+                                <div class="list__thumbnail">
+                                    <img src="${STATIC_URL}/images/matchup_images/img-06.png" alt="이미지">
+                                </div>
+                                <div class="list__card-details">
+                                    <h5 class="list__card-title">드론 FC와 프로그램tool을 이용한 드론 코딩기초 및 고급 응용</h5>
+                                    <p>교육기관 : 동서울대학교</p>
+                                    <p>교육분야 : 드론 코딩 전문가 과정</p>
+                                </div>
+                            </div>
+                            <div class="list__lecture-view">강좌보기</div>
+                        </a>
+                    </li>
+                    <li class="list__card">
+                        <a href="http://www.kmooc.kr/courses/course-v1:MA_DU+MATCHUP_DU07+2022_T1/about" target="_blank"
+                           title="다양한 드론 촬영 기법 및 편집">
+                            <div class="list__card-content">
+                                <div class="list__thumbnail">
+                                    <img src="${STATIC_URL}/images/matchup_images/img-07.png" alt="이미지">
+                                </div>
+                                <div class="list__card-details">
+                                    <h5 class="list__card-title">다양한 드론 촬영 기법 및 편집</h5>
+                                    <p>교육기관 : 동서울대학교</p>
+                                    <p>교육분야 : 드론 촬영 전문가 과정</p>
+                                </div>
+                            </div>
+                            <div class="list__lecture-view">강좌보기</div>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+            <br><br>
+            <section id="category-2">
+                <h2>가상·증강현실</h2>
+                <ul class="list">
+                    <li class="list__card">
+                        <a href="http://www.kmooc.kr/courses/course-v1:MA_NSU+MATCHUP_NSU01+2022_01/about"
+                           target="_blank" title="VR 프로그래밍">
+                            <div class="list__card-content">
+                                <div class="list__thumbnail">
+                                    <img src="${STATIC_URL}/images/matchup_images/img2-01.png" alt="이미지">
+                                </div>
+                                <div class="list__card-details">
+                                    <h5 class="list__card-title">VR 프로그래밍</h5>
+                                    <p>교육기관 : 남서울대학교</p>
+                                    <p>교육분야 : VR 프로그래밍</p>
+                                </div>
+                            </div>
+                            <div class="list__lecture-view">강좌보기</div>
+                        </a>
+                    </li>
+                    <li class="list__card">
+                        <a href="http://www.kmooc.kr/courses/course-v1:MA_NSU+MATCHUP_NSU02+2022_02/about"
+                           target="_blank" title="비주얼스크립팅">
+                            <div class="list__card-content">
+                                <div class="list__thumbnail">
+                                    <img src="${STATIC_URL}/images/matchup_images/img2-02.png" alt="이미지">
+                                </div>
+                                <div class="list__card-details">
+                                    <h5 class="list__card-title">비주얼스크립팅</h5>
+                                    <p>교육기관 : 남서울대학교</p>
+                                    <p>교육분야 : 비주얼스크립팅</p>
+                                </div>
+                            </div>
+                            <div class="list__lecture-view">강좌보기</div>
+                        </a>
+                    </li>
+                    <li class="list__card">
+                        <a href="http://www.kmooc.kr/courses/course-v1:MA_NSU+MATCHUP_NSU03+2022_03/about"
+                           target="_blank" title="산업용 증강현실(iAR)">
+                            <div class="list__card-content">
+                                <div class="list__thumbnail">
+                                    <img src="${STATIC_URL}/images/matchup_images/img2-03.png" alt="이미지">
+                                </div>
+                                <div class="list__card-details">
+                                    <h5 class="list__card-title">산업용 증강현실(iAR)</h5>
+                                    <p>교육기관 : 남서울대학교</p>
+                                    <p>교육분야 : 산업용 증강현실(iAR)</p>
+                                </div>
+                            </div>
+                            <div class="list__lecture-view">강좌보기</div>
+                        </a>
+                    </li>
+                    <li class="list__card">
+                        <a href="http://www.kmooc.kr/courses/course-v1:MA_NSU+MATCHUP_NSU04+2022_04/about"
+                           target="_blank" title="ML-Agent와 강화학습">
+                            <div class="list__card-content">
+                                <div class="list__thumbnail">
+                                    <img src="${STATIC_URL}/images/matchup_images/img2-04.png" alt="이미지">
+                                </div>
+                                <div class="list__card-details">
+                                    <h5 class="list__card-title">ML-Agent와 강화학습</h5>
+                                    <p>교육기관 : 남서울대학교</p>
+                                    <p>교육분야 : ML-Agent와 강화학습</p>
+                                </div>
+                            </div>
+                            <div class="list__lecture-view">강좌보기</div>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+
+        </div>
+    </div>
+    <!-- 추후 적용 -->
+    <!-- <div class="match__footer">
+        <a href="#" class="btn__match-more">교육강좌 더보기</a>
+    </div> -->
+    <!-- 추후 적용 -->
+</div>
+<!-- //page_match 상세이미지 -->
+</main>
+</div>
+
+</body>
+
+</html>
+
+
+
+##     "${STATIC_URL}/images/matchup_images/example.png"
+##
