@@ -156,7 +156,7 @@ def instructor_dashboard_2(request, course_id):
         # Temporarily show the "Analytics" section until we have a better way of linking to Insights
         
 	# insight section invisible 20220427
-        sections.append(_section_analytics(course, access))
+        # sections.append(_section_analytics(course, access))
 
     # Check if there is corresponding entry in the CourseMode Table related to the Instructor Dashboard course
     course_mode_has_price = False
