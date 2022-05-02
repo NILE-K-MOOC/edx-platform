@@ -186,11 +186,12 @@ from openedx.core.djangolib.markup import HTML, Text
 
     function closeWin(check, id, hidden_day) {
 
-        if ($("#" + check).is(":checked")){
-            setCookie( id , "done" , hidden_day);
+        if ($("#" + check).is(":checked")) {
+            setCookie(id, "done", hidden_day);
         }
 
-        ##  setCookie(id, "done", hidden_day);
+    ##
+        setCookie(id, "done", hidden_day);
 
         $("#" + id).css("display", "none");
     }
@@ -221,11 +222,12 @@ from openedx.core.djangolib.markup import HTML, Text
 
     function closeWin1(check, id, hidden_day) {
 
-        if ($("#" + check).is(":checked")){
-            setCookie( id , "done" , hidden_day);
+        if ($("#" + check).is(":checked")) {
+            setCookie(id, "done", hidden_day);
         }
-        ##
-        ##  setCookie1(id, "done", hidden_day);
+    ##
+    ##
+        setCookie1(id, "done", hidden_day);
 
         $("#" + id).css("display", "none");
     }
@@ -379,7 +381,7 @@ from openedx.core.djangolib.markup import HTML, Text
     <div class="sec-visual" style="margin: 5px 0;">
         <div class="container-fluid">
             <div class="visual-row">
-                <div class="banner">
+                <div class="banner" style="visibility:hidden;opacity:0; height: 120px; overflow: hidden;">
                     <!-- 배너3 이미지 추가 필요 (현재 주석처리) 210111 -->
                     <div><a href="/coursera" target="_blank" style="display:block" title="코세라 강좌 바로가기"><img
                             src="${STATIC_URL}images/banner3.jpg" alt="코세라 강좌 바로가기" style="width: 100%"></a></div>
@@ -465,7 +467,7 @@ from openedx.core.djangolib.markup import HTML, Text
                         </li>
 
                         <li>
-                            <a href="/matchup">${_("Match UP")}</a>
+                            <a href="/matchup" target="_blank">${_("Match UP")}</a>
                         </li>
                     </ul>
                     <a href="/courses" class="more" title="강좌찾기 더 보기">more</a>
@@ -477,6 +479,13 @@ from openedx.core.djangolib.markup import HTML, Text
         <div class="container-fluid">
 
             <div class="row link_to_courses">
+
+                <!-- 매치업 -->
+                <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
+                    <a href="/matchup" target="_blank" class="classify-item2 inject-h"><strong>${_("Match UP")}</strong></a>
+                </div>
+
+                <!-- 교양 강좌 -->
                 <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
                     <a data-facet="liberal_arts_yn" data-term="liberal_arts_y" href="#" class="classify-item2 inject-h">
                         <strong>${_("on TV")}</strong>
@@ -484,31 +493,37 @@ from openedx.core.djangolib.markup import HTML, Text
                         <span>${_("Life Lessons")}</span>
                     </a>
                 </div>
+
+                <!-- 4차 산업혁명 -->
                 <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
                     <a data-facet="fourth_industry_yn" data-term="fourth_industry_y" href="#" class="classify-item2 inject-h"><strong>${_("Fourth Industry")}</strong></a>
                 </div>
 
-##                 <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
-##                     <a href="/matchup" class="classify-item2 inject-h"><strong>${_("Match UP")}</strong></a>
-##                 </div>
-
+                <!-- AI 인공지능 -->
                 <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
                     <a href="/roadmap" class="classify-item2 inject-h"><strong>${_("Artificial intelligence")}</strong></a>
                 </div>
+
+                <!-- 이공계 기초과학 -->
                 <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
                     <a data-facet="basic_science_sec_yn" data-term="basic_science_sec_y" href="#" class="classify-item2 inject-h"><strong>${_("Basic Science")}</strong></a>
                 </div>
+
+                <!-- 한국학 -->
                 <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
                     <a data-facet="linguistics" data-term="Korean" href="#" class="classify-item2 inject-h"><strong>${_("Linguistics")}</strong></a>
                 </div>
+
+                <!-- 직업 교육 -->
                 <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
                     <a data-facet="job_edu_yn" data-term="job_edu_y" href="#" class="classify-item2 inject-h"><strong>${_("Job Edu")}</strong></a>
                 </div>
+
+                <!-- 연령별 강좌 -->
                 <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
                     <a href="/age_specific/course/" class="classify-item2 inject-h"><strong>${_("Age-specific")}</strong></a>
                 </div>
             </div>
-
 
         </div>
     </section>
@@ -702,22 +717,28 @@ from openedx.core.djangolib.markup import HTML, Text
 % endif
 
 <script>
+
     $(document).ready(function () {
-        console.log('페이지가 시작되었습니다.')
-        //배너 스와이프
-        $('.banner').bxSlider({
-            auto: true,
-            autoHover: true,
-            speed: 600,
-            pause: 3000,
-            captions: false,
-            pager: false,
-            controls: true,
-            //autoControls: true,
-            nextText: '<img src="${STATIC_URL}images/right.png" height="25" width="25"/>',
-            prevText: '<img src="${STATIC_URL}images/left.png" height="25" width="25"/>',
-            touchEnabled: false
-        });
-    })
+        setTimeout(function () {
+            console.log('페이지가 시작되었습니다.')
+            //배너 스와이프
+            $('.banner').bxSlider({
+                auto: true,
+                autoHover: true,
+                speed: 600,
+                pause: 3000,
+                captions: false,
+                pager: false,
+                controls: true,
+                //autoControls: true,
+                nextText: '<img src="${STATIC_URL}images/right.png" height="25" width="25"/>',
+                prevText: '<img src="${STATIC_URL}images/left.png" height="25" width="25"/>',
+                touchEnabled: false,
+                onSliderLoad: function () {
+                    $(".banner").css("visibility", "visible").animate({opacity: 1});
+                }
+            });
+        }, 100); // setTimeout
+    }) // ready
 
 </script>
