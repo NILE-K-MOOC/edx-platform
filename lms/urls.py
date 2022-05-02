@@ -95,6 +95,8 @@ urlpatterns = [
 
     # matchup
     url(r'^matchup$', branding_views.matchup, name='matchup'),
+    url(r'^matchup_info$', branding_views.matchup_info, name='matchup_info'),
+    url(r'^matchup_course$', branding_views.matchup_course, name='matchup_course'),
 
     # sericeo
     url(r'^sericeo$', branding_views.sericeo, name='sericeo'),

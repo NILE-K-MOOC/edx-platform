@@ -199,6 +199,14 @@ def matchup(request):
     return render_to_response("matchup_update.html")
 
 
+def matchup_info(request):
+    return render_to_response("matchup_info.html")
+
+
+def matchup_course(request):
+    return render_to_response("matchup_course.html")
+
+
 from .forms import InvitationForm
 from django.shortcuts import render
 from .models import Invitation
