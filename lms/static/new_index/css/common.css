@@ -390,7 +390,7 @@ input, select, button {font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고
     }
     
     .col-lg-4 {
-        width: calc((100% - 1px)/4);
+        width: calc((100% - 1px)/3);
     }
     
     .col-lg-5 {
