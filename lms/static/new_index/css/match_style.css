@@ -1,5 +1,12 @@
-html {scroll-behavior: smooth;} 
-
+html {
+    scroll-behavior: smooth;
+}
+a:hover{
+    text-decoration: none!important;
+}
+#main {
+    font-family: 'Noto Sans KR';
+}
 .match__wrap{
     width: 100%;
     max-width: 1170px;
@@ -13,12 +20,14 @@ html {scroll-behavior: smooth;}
     background-position: center;
 }
 .match__wrap_banner h3{
+    font-family: 'Noto Sans KR';
     font-size: 2.5rem;
     font-weight: 600;
     color: #333;
     margin: 15px 0;
 }
 .match__wrap_banner h4{
+    font-family: 'Noto Sans KR';
     font-size: 1.5rem;
     font-weight: 600;
     color: #fff;
@@ -33,18 +42,20 @@ html {scroll-behavior: smooth;}
 }
 .match__wrap_banner .match__btn-logo{
     position: absolute;
-    top: 3rem;
-    right: 4rem;
+    top: 1rem;
+    right: 1rem;
 }
 .match__btn-border{
     background: #F34579;
     color:#fff;
     padding: 0.735em 1.2em;
-    font-size: 20px;
+    font-size: 20px!important;
     margin-bottom: 1rem;
     filter: drop-shadow(0px 8px 14px #FF8298);
+    font-weight: bold!important;
 }
 .match__btn-border:hover{
+    text-decoration: none!important;
     background: #cb3a66;
     color:#fff;
 }
@@ -56,6 +67,8 @@ html {scroll-behavior: smooth;}
     padding: 0.735em 1.2em;
     font-size: 16px;
     font-weight:500;
+    border-radius: 0;
+    text-decoration: none!important;
 }
 .match__btn-pink{
     display: block;
@@ -65,6 +78,7 @@ html {scroll-behavior: smooth;}
     padding: 0.735em 1.2em;
     font-size: 16px;
     font-weight:500;
+    text-decoration: none!important;
 }
 .match__btn-border-pink:hover,.match__btn-border-pink:active,.match__btn-border-pink:visited{
     background:#fff4f5;
@@ -91,15 +105,22 @@ html {scroll-behavior: smooth;}
     padding:15px 64px;
 }
 .btn__match-more{
-    padding: 15px 64px;
+    padding: 30px 10px;
     color: #fff;
     background: #F34579;
     display: block;
-    font-weight: bold;
-    font-size: 24px;
+    font-weight: bold!important;
+    font-size: 24px!important;
     text-align: center;
+    margin-top: 40px;
+}
+.btn__match-more:hover{
+    color: #fff;
+    background: #cb3a66;
+    text-decoration: none!important;
 }
 .category__title h3{
+    font-family: 'Noto Sans KR';
     font-size: 26px;
     font-weight: bold;
     margin-bottom: 10px;
@@ -157,6 +178,10 @@ html {scroll-behavior: smooth;}
     cursor: pointer;
     margin-bottom: 0;
 }
+.list__card a{
+    font-family: 'Noto Sans KR';
+    text-decoration: none!important;
+}
 .list__card .list__lecture-view{
     display:none;
     padding-top: 65px;
@@ -190,6 +215,7 @@ html {scroll-behavior: smooth;}
     padding:18px;
 }
 .list__card-details .list__card-title{
+    font-family: 'Noto Sans KR';
     font-size: 16px;
     font-weight: 500;
     height: 42px;
@@ -227,6 +253,7 @@ html {scroll-behavior: smooth;}
 .match__table{
     width: 100%;
     border: 1px solid #FFD6DA;
+    font-size: 16px;
 }
 .match__table thead tr th{
     background-color: #FFE0E4;
@@ -358,6 +385,7 @@ body.match__modal-open {
     margin-bottom: 0;
 }
 .match__info-nav ul li a{
+    color: #000!important;
     display: block;
     padding: 15px 30px;
     font-size: 18px;
@@ -366,7 +394,9 @@ body.match__modal-open {
 }
 .match__info-nav ul li:hover,.match__info-nav ul li.on {
     border-bottom: 3px solid #F34579;
-    color: #F34579
+}
+.match__info-nav ul li:hover a,.match__info-nav ul li.on a{
+    color: #F34579!important;
 }
 #sec06 .title{
     padding: 55px 0 30px;
