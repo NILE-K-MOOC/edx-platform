@@ -340,6 +340,7 @@ body.match__modal-open {
     overflow-y: auto;
 }
 .match__modal-body h5{
+    font-family: 'Noto Sans KR';
     margin: 10px 0;
     font-weight: bold;
     font-size: 18px;
@@ -362,10 +363,13 @@ body.match__modal-open {
     margin-bottom: 0;
 }
 .match__modal-close{
-    background-color: #fff;
+    background: #fff!important;
     border:0;
-    width: 45px;
     height: 45px;
+    box-shadow: none!important;
+}
+.match__modal-close:hover{
+    transform: scale(1.2);
 }
 .mobile-view{
     display: none;

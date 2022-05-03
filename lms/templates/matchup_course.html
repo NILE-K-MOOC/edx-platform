@@ -103,7 +103,7 @@ ${("")}
     <main id="main" aria-label="Content" tabindex="-1" class="main-content">
         <!-- page_match 상세이미지 -->
         <div class="match__wrap">
-            <div class="match__wrap_banner" style="background-image: url('/static/new_index/images/matchup-img/bg-matchup.png')">
+            <div class="match__wrap_banner" style="background-image: url('${STATIC_URL}/new_index/images/matchup-img/bg-matchup.png')">
                 <img src="${STATIC_URL}/new_index/images/matchup-img/kmoocbymatchup-logo.png" alt="banner-title">
                 <h3>4차 산업혁명 분야 단기직무능력인증과정</h3>
                 <h4>매치업(Match業)</h4>
@@ -111,7 +111,7 @@ ${("")}
                     매치업에서 운영되는 교육강좌의 이수자는 직무능력 인증평가를 통해 관련 분야에 대한 직무 능력을 인증받을 수 있습니다.
 
                 </p>
-                <a href="matchup_update1.html" target="_blank" class="match__btn-border" alt="매치업 소개 이동">매치업 소개 바로가기 <img src="${STATIC_URL}/new_index/images/matchup-img/arrow-right.svg"></a>
+                <a href="/matchup_info" class="match__btn-border" alt="매치업 소개 이동">매치업 소개 바로가기 <img src="${STATIC_URL}/new_index/images/matchup-img/arrow-right.svg"></a>
                 <a href="https://www.matchup.kr/" target="_blank" class="match__btn-logo" alt="매치업 사이트 이동"><img src="${STATIC_URL}/new_index/images/matchup-img/matchup_logo_white.png"></a>
             </div>
             <div class="match__inner">
@@ -489,6 +489,52 @@ ${("")}
     </main>
 </div>
 
+<!-- 모달찰 -->
+<div class="match__modal fade" id="match-modal">
+    <div class="match__modal-dialog">
+        <div class="match__modal-content">
+            <div class="match__modal-header">
+                <h2 class="title">드론</h2>
+                <button type="button" class="match__modal-close">
+                    <img src="${STATIC_URL}/new_index/images/matchup-img/btn-close-xl.png">
+                </button>
+            </div>
+            <div class="match__modal-body match__overflow-scroll">
+                <h5>드론 분야 소개</h5>
+                <table class="match__table">
+                    <colgroup>
+                        <col width="50%">
+                        <col width="50%">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>핵심직무, 인증평가 개발기관</th>
+                        <th>교육강좌 개발/운영기관</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="text__center"><img src="${STATIC_URL}/new_index/images/matchup-img/logo/1-01.png"></td>
+                        <td class="text__center"><img src="${STATIC_URL}/new_index/images/matchup-img/logo/1-02.png"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <p>
+                    드론 산업은 항공기술을 포함한 ICT, 소프트웨어, 센서 등 첨단기술 융합산업으로 드론 관련 HW 및 SW 등의 제작 및 촬영, 물류, 운송 등 운영·서비스 창출 및 첨단 시스템 개발 등 성장 잠재력이 매우 큰 산업 분야입니다.<br>
+                    미국, 유럽연합, 중국 등 많은 국가에서 관련 사업 육성을 위하여 제도를 정비하고, 인프라 구축 및 투자 등 경쟁적으로 추진 중입니다.<br>
+
+                    국내의 경우 4차 산업혁명 선도를 위한 산업기반의 조성을 필요로 하여 2017년 “드론사업발전 기본계획”이 수립되어 드론 산업을 육성하고자 하고, 시장 활성화 및 확대의 일환으로 공공 분야(공공건설, 도로철도 시설물 관리, 하천해양 등 자연자원 관리, 안전재난 관리)에 드론을 활용하여 시장을 창출하며 인프라 구축 및 규제 혁신을 통한 한국형 시스템을 구축하고자 하고 있습니다.<br>
+
+                    향후 다양한 산업분야에서 드론 관련 인력수요는 더욱 늘어날 것이며, 이로 인해 전문기술을 갖춘 드론 분야의 우수 인재 발굴 및 육성이 필요합니다.<br>
+
+                    동서울대학교는 창의메이커스페이스 및 최첨단 실습실을 활용한 다양한 콘텐츠 제작 및 실습이 가능하고, 핵심역량 기반 교육과정 개발 및 성과관리 시스템을 갖추고 있어 드론분야에서 최적의 교육을 제공할 것입니다.
+
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 
     //매치업 상세정보 데이터
@@ -620,7 +666,7 @@ ${("")}
     var modal = $('#match-modal');
     var modalCloseBtn = $(".match__modal-close");
     var modalBody = $(".match__modal-content");
-    var modalShow;
+    var modalShow = false;
 
     //모달창 닫기
     modalCloseBtn.on('click', modalClose);
@@ -629,7 +675,7 @@ ${("")}
         if (modal.is(e.target)) {
             modalClose();
         }
-    })
+    });
 
     function modalClose() {
         $('body').removeClass('match__modal-open');
@@ -649,6 +695,7 @@ ${("")}
 
     //모달창 열기
     $(".modal__open").on('click', function () {
+
         if (modalShow != "true") {
             modalOpen();
         } else {
@@ -663,27 +710,26 @@ ${("")}
         $(".match__modal-header .title").append(element.title);
 
         var modalContent = ""
-                + "<h5>" + element.title + " 분야 소개</h5>"
-                + "    <table class='match__table'>"
-                + "        <colgroup>"
-                + "            <col width='50%'>"
-                + "            <col width='50%'>"
-                + "        </colgroup>"
-                + "        <thead>"
-                + "            <tr>"
-                + "                <th>핵심직무,  인증평가 개발기관</th>"
-                + "                <th>교육강좌 개발/운영기관</th>"
-                + "            </tr>"
-                + "        </thead>"
-                + "        <tbody>"
-                + "            <tr>"
-                + "                <td class='text__center'><img src='${STATIC_URL}/new_index/images/matchup-img/logo/" + element.img[0]
-        }.png + "' style='max-width:200px'></td>"
-        + "                <td class='text__center'><img src='${STATIC_URL}/new_index/images/matchup-img/logo/" + element.img[1].png + "' style='max-width:200px'></td>"
-        + "            </tr>"
-        + "        </tbody>"
-        + "    </table>"
-        + "    <p>" + element.text + "</p>";
+            + "<h5>" + element.title + " 분야 소개</h5>"
+            + "    <table class='match__table'>"
+            + "        <colgroup>"
+            + "            <col width='50%'>"
+            + "            <col width='50%'>"
+            + "        </colgroup>"
+            + "        <thead>"
+            + "            <tr>"
+            + "                <th>핵심직무,  인증평가 개발기관</th>"
+            + "                <th>교육강좌 개발/운영기관</th>"
+            + "            </tr>"
+            + "        </thead>"
+            + "        <tbody>"
+            + "            <tr>"
+            + "                <td class='text__center'><img src='${STATIC_URL}/new_index/images/matchup-img/logo/" + element.img[0] + ".png' style='max-width:200px'></td>"
+            + "                <td class='text__center'><img src='${STATIC_URL}/new_index/images/matchup-img/logo/" + element.img[1] + ".png' style='max-width:200px'></td>"
+            + "            </tr>"
+            + "        </tbody>"
+            + "    </table>"
+            + "    <p>" + element.text + "</p>";
 
         $(".match__modal-body").append(modalContent);
     });
