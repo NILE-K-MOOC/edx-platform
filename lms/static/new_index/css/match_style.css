@@ -95,7 +95,7 @@ a:hover{
     text-align: center;
 }
 .match__inner{
-    background-color: rgba(255,198,206,30%);
+    background:#FFEEF0;
     padding: 80px 60px 5px;
 }
 .match__footer{
@@ -156,13 +156,13 @@ a:hover{
     cursor:not-allowed
 }
 .match__list_wrap{
-    margin-left: 8px;
+    margin-left: 12px;
     margin-bottom: 5rem;
 }
 .match__list_wrap ul{
     display: flex;
     flex-wrap: wrap;
-    gap:16px;
+    /*gap:16px;*/
 }
 
 .match__list_wrap > section > h2{
@@ -177,6 +177,7 @@ a:hover{
     background-color: #fff;
     cursor: pointer;
     margin-bottom: 0;
+     margin-right: 10px!important;
 }
 .list__card a{
     font-family: 'Noto Sans KR';
@@ -466,6 +467,7 @@ body.match__modal-open {
         font-size: 18px;
     }
     .match__inner {
+        background: #FFEEF0;
         padding: 45px 20px 5px;
     }
     .list__card{
