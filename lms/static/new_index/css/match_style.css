@@ -44,26 +44,29 @@ a:hover {
     vertical-align: middle;
     padding: 35px 0;
 }
-.match__wrap_banner h2{
+
+.match__wrap_banner h2 {
     font-family: 'Noto Sans KR';
     font-size: 3rem;
     font-weight: 600;
     margin-top: 25px;
     margin-bottom: 0;
 }
-.match__wrap_banner h2 strong{
+
+.match__wrap_banner h2 strong {
     background-color: #9064EE;
     color: #fff;
-    padding:2px 15px;
+    padding: 2px 15px;
 }
 
-.match__wrap_banner h3{
+.match__wrap_banner h3 {
     font-family: 'Noto Sans KR';
     font-size: 2rem;
     font-weight: 600;
     color: #333;
     margin: 0 0 15px;
 }
+
 .match__wrap_banner h4 {
     font-family: 'Noto Sans KR';
     font-size: 1.5rem;
@@ -618,8 +621,13 @@ body.match__modal-open {
         width: 100%;
     }
 
+    .match__wrap_banner h2 strong {
+        font-size: 2.6rem;
+    }
+
     .match__info-nav ul li a {
         padding: 15px 0px;
+        font-size: 16px;
     }
 
     #sec06 .title {
