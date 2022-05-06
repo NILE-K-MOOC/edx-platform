@@ -627,7 +627,7 @@ body.match__modal-open {
 
     .match__info-nav ul li a {
         padding: 15px 0px;
-        font-size: 16px;
+        /*font-size: 16px;*/
     }
 
     #sec06 .title {
