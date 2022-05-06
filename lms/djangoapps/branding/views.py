@@ -183,7 +183,7 @@ def sericeo(request):
 
 
 def invitation_banner(request):
-    return render_to_response("banner2.html")
+    return render_to_response("invitation-banner2.html")
 
 
 def prev_coursera_course(request):
@@ -231,7 +231,7 @@ def invitation_confirm(request):
             context = {
                 'duplicate_user': duplicate_user,
             }
-            return render_to_response("banner2.html", context)
+            return render_to_response("invitation-banner2.html", context)
 
         #폼 유효성 체크
         if form.is_valid():
@@ -245,7 +245,7 @@ def invitation_confirm(request):
             context = {
                 'success': success,
             }
-            return render_to_response("banner2.html", context)
+            return render_to_response("invitation-banner2.html", context)
             #return redirect('/invitation-banner') #original
         else:
             print form.errors
@@ -255,16 +255,16 @@ def invitation_confirm(request):
             context = {
                 'fail': fail,
             }
-            return render_to_response("banner2.html", context)
+            return render_to_response("invitation-banner2.html", context)
 
-            #return render_to_response("banner2.html")
+            #return render_to_response("invitation-banner2.html")
             # redirect 줄 추가해주지 않으면 아래 render로 가서 깨진 html 이 나옴
             #return redirect('/invitation-banner')        #original
             #return render_to_response("banner-error.html")
     # GET 요청이면 제출용 빈 폼을 생성
     else:
         form = InvitationForm()
-    return render(request, 'banner2.html', {'form': form}) #original
+    return render(request, 'invitation-banner2.html', {'form': form}) #original
 
 
 # ==================================================================================================> 배너 종료
