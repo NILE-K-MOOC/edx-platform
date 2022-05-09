@@ -224,14 +224,14 @@ def invitation_confirm(request):
         model = Invitation()
         model.phone = request.POST.get('phone')
         model.email = request.POST.get('email')
-        phone_exist = Invitation.objects.filter(phone=model.phone).exists()
-        email_exist = Invitation.objects.filter(email=model.email).exists()
-        if phone_exist or email_exist:
-            duplicate_user = True
-            context = {
-                'duplicate_user': duplicate_user,
-            }
-            return render_to_response("invitation-banner2.html", context)
+        # phone_exist = Invitation.objects.filter(phone=model.phone).exists()
+        # email_exist = Invitation.objects.filter(email=model.email).exists()
+        # if phone_exist or email_exist:
+        #     duplicate_user = True
+        #     context = {
+        #         'duplicate_user': duplicate_user,
+        #     }
+        #     return render_to_response("invitation-banner2.html", context)
 
         #폼 유효성 체크
         if form.is_valid():

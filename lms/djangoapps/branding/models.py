@@ -70,8 +70,8 @@ from django.db import models
 class Invitation(ConfigurationModel):
     user_id = models.IntegerField()
     username = models.CharField(max_length=100)
-    phone = models.CharField(max_length=100, unique=True)
-    email = models.EmailField(max_length=100, unique=True)
+    phone = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100)
     job = models.CharField(max_length=100)
     purpose = models.CharField(max_length=150)
     agree = models.BooleanField()
