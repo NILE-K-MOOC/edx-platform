@@ -596,6 +596,7 @@ class CourseAboutSearchIndexer(object):
         AboutInfo("basic_science_sec_yn", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("teacher_name", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
         AboutInfo("course_level", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
+        AboutInfo("matchup_yn", AboutInfo.PROPERTY, AboutInfo.FROM_COURSE_PROPERTY),
     ]
 
     @classmethod
@@ -653,6 +654,7 @@ class CourseAboutSearchIndexer(object):
             'org_kname': org_kname,
             'org_ename': org_ename,
             'teacher_name': None,
+            'matchup_yn': course.matchup_yn,
         }
 
         # load data for all of the 'about' modules for this course into a dictionary

@@ -283,6 +283,9 @@ def _write_chunk(request, courselike_key):
                         if 'career_readiness_competencies_yn' in xml.attrib:
                             addinfo.career_readiness_competencies_yn = xml.attrib['career_readiness_competencies_yn']
 
+                        if 'matchup_yn' in xml.attrib:
+                            addinfo.matchup_yn = xml.attrib['matchup_yn']
+
                         addinfo.save()
         except Exception as e:
             log.info(e.message)

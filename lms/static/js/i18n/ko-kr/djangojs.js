@@ -2111,6 +2111,8 @@
         "linguistics": "한국학",
         "linguistics_y": "한국학",
         "liberal_arts_yn": "교양강좌 여부",
+        "matchup_yn": "매치업 여부",
+        "matchup_y": "매치업(단기직무능력인증과정)",
         "liberal_arts_y": "교양강좌",
         "career_readiness_competencies_y": "취업역량 강화",
         "liberal_arts": "교양강좌 종류",

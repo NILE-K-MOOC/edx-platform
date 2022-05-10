@@ -356,7 +356,8 @@ def course_rerun_handler(request, course_key_string):
                 'course_period': course_module.course_period,
                 'liberal_arts_yn': course_module.liberal_arts_yn,
                 'liberal_arts': course_module.liberal_arts,
-                'career_readiness_competencies_yn': course_module.career_readiness_competencies_yn
+                'career_readiness_competencies_yn': course_module.career_readiness_competencies_yn,
+                'matchup_yn': course_module.matchup_yn,
             })
 
 
@@ -981,6 +982,10 @@ def _create_or_rerun_course(request):
         if not career_readiness_competencies_yn:
             career_readiness_competencies_yn = 'career_readiness_competencies_n'
 
+        matchup_yn = request.json.get('matchup_yn')
+        if not matchup_yn:
+            matchup_yn = 'matchup_n'
+
         fields.update({
             'classfy': classfy,
             'classfysub': classfysub,
@@ -1001,7 +1006,8 @@ def _create_or_rerun_course(request):
             'ai_sec_yn': 'N',
             'basic_science_sec_yn': 'N',
             'course_level': None,
-            'preview_video': None
+            'preview_video': None,
+            'matchup_yn': matchup_yn
         })
 
         # 기관코드를 이용하여 기관 한글명, 기관 영문명을 가져온다.
@@ -1139,6 +1145,7 @@ def create_new_course(user, org, number, run, fields):
         liberal_arts_yn = fields['liberal_arts_yn']
         liberal_arts = fields['liberal_arts']
         career_readiness_competencies_yn = fields['career_readiness_competencies_yn']
+        matchup_yn = fields['matchup_yn']
 
         with connections['default'].cursor() as cur:
             query = """
@@ -1154,7 +1161,8 @@ def create_new_course(user, org, number, run, fields):
                                                     linguistics,
                                                     liberal_arts_yn,
                                                     liberal_arts,
-                                                    career_readiness_competencies_yn
+                                                    career_readiness_competencies_yn,
+                                                    matchup_yn
                                                     )
                      VALUES ('{course_id}',
                              date_format(now(), '%Y'),
@@ -1171,11 +1179,12 @@ def create_new_course(user, org, number, run, fields):
                              '{linguistics}',
                              '{liberal_arts_yn}',
                              '{liberal_arts}',
-                             '{career_readiness_competencies_yn}'
+                             '{career_readiness_competencies_yn}',
+                             '{matchup_yn}'
                              );
             """.format(course_id=course_id, user_id=user_id,
                        middle_classfy=middle_classfy, classfy=classfy, course_number=course_number, org=org,
-                       classfy_plus=classfy_plus, linguistics=linguistics, liberal_arts_yn=liberal_arts_yn, liberal_arts=liberal_arts, career_readiness_competencies_yn=career_readiness_competencies_yn)
+                       classfy_plus=classfy_plus, linguistics=linguistics, liberal_arts_yn=liberal_arts_yn, liberal_arts=liberal_arts, career_readiness_competencies_yn=career_readiness_competencies_yn, matchup_yn=matchup_yn)
 
             cur.execute(query)
     except Exception as e:
@@ -1243,6 +1252,7 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
         liberal_arts_yn = source_course.liberal_arts_yn
         liberal_arts = source_course.liberal_arts
         career_readiness_competencies_yn = source_course.career_readiness_competencies_yn
+        matchup_yn = source_course.matchup_yn
 
         if liberal_arts_yn:
             fields['liberal_arts_yn'] = liberal_arts_yn
@@ -1250,6 +1260,8 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
             fields['liberal_arts'] = liberal_arts
         if career_readiness_competencies_yn:
             fields['career_readiness_competencies_yn'] = career_readiness_competencies_yn
+        if matchup_yn:
+            fields['matchup_yn'] = matchup_yn
 
     except Exception as e:
         log.info('e-------->', e)
@@ -1347,6 +1359,7 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
                     ,basic_science_sec_yn
                     ,classfy_plus
                     ,preview_video
+                    ,matchup_yn
                     )
                 select '{destination_course_key}'
                     ,create_type
@@ -1382,6 +1395,7 @@ def rerun_course(user, source_course_key, org, number, run, fields, async=True):
                     ,basic_science_sec_yn 
                     ,classfy_plus
                     ,preview_video
+                    ,matchup_yn
                     from course_overview_addinfo where course_id = '{source_course_id}'
             """.format(
                 destination_course_key=destination_course_key
@@ -1479,6 +1493,7 @@ def _rerun_course(request, org, number, run, fields):
         fields['career_readiness_competencies_yn'] = source_course.career_readiness_competencies_yn
         fields['course_period'] = source_course.course_period
         fields['user_edit'] = source_course.user_edit
+        fields['matchup_yn'] = source_course.matchup_yn
         # fields['org_kname'] = None
         # fields['org_ename'] = None
     except Exception as e:
@@ -1543,6 +1558,7 @@ def _rerun_course(request, org, number, run, fields):
         liberal_arts_yn = fields['liberal_arts_yn']
         liberal_arts = fields['liberal_arts']
         career_readiness_competencies_yn = fields['career_readiness_competencies_yn']
+        matchup_yn = fields['matchup_yn']
 
         with connections['default'].cursor() as cur:
             query = """
@@ -1559,7 +1575,8 @@ def _rerun_course(request, org, number, run, fields):
                                                     preview_video,
                                                     liberal_arts_yn,
                                                     liberal_arts,
-                                                    career_readiness_competencies_yn
+                                                    career_readiness_competencies_yn,
+                                                    matchup_yn
                                                     )
                      VALUES ('{course_id}',
                              date_format(now(), '%Y'),
@@ -1577,11 +1594,12 @@ def _rerun_course(request, org, number, run, fields):
                              '{preview_video}',
                              '{liberal_arts_yn}',
                              '{liberal_arts}',
-                             '{career_readiness_competencies_yn}'
+                             '{career_readiness_competencies_yn}',
+                             '{matchup_yn}'
                              );
             """.format(course_id=destination_course_key, user_id=user_id, middle_classfy=middle_classfy,
                        classfy=classfy, course_number=number, org=org, classfy_plus=classfy_plus,
-                       course_period=course_period, preview_video=preview_video, liberal_arts_yn=liberal_arts_yn, liberal_arts=liberal_arts, career_readiness_competencies_yn=career_readiness_competencies_yn)
+                       course_period=course_period, preview_video=preview_video, liberal_arts_yn=liberal_arts_yn, liberal_arts=liberal_arts, career_readiness_competencies_yn=career_readiness_competencies_yn, matchup_yn=matchup_yn)
 
             cur.execute(query)
 
@@ -2561,6 +2579,8 @@ def advanced_settings_handler(request, course_key_string):
                         liberal_arts = params['liberal_arts']['value']
                     if 'career_readiness_competencies_yn' in params:
                         career_readiness_competencies_yn = params['career_readiness_competencies_yn']['value']
+                    if 'matchup_yn' in params:
+                        matchup_yn = params['matchup_yn']['value']
 
                     try:
                         with connections['default'].cursor() as cur:
@@ -2602,6 +2622,14 @@ def advanced_settings_handler(request, course_key_string):
                                      WHERE course_id = '{course_id}';
                                 """.format(course_id=course_key_string,
                                            career_readiness_competencies_yn=career_readiness_competencies_yn)
+                                cur.execute(query2)
+                            if 'matchup_yn' in params:
+                                query2 = """
+                                    UPDATE course_overview_addinfo
+                                       SET matchup_yn = '{matchup_yn}'
+                                     WHERE course_id = '{course_id}';
+                                """.format(course_id=course_key_string,
+                                           matchup_yn=matchup_yn)
                                 cur.execute(query2)
                     except Exception as e:
                         is_valid = False

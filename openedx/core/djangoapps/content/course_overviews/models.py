@@ -366,6 +366,7 @@ class CourseOverview(TimeStampedModel):
                 course_overview.video_time = str(course_overview.effort)[9:14]
                 course_overview.learning_time = str(course_overview.effort)[15:]
                 course_overview.preview_video = addinfo.preview_video
+                course_overview.matchup_yn = addinfo.matchup_yn
 
                 log.debug('***** def get_from_id time check5 [%s]' % format(time.time() - start, ".6f"))
             except Exception as e:
@@ -398,6 +399,7 @@ class CourseOverview(TimeStampedModel):
                 course_overview.ai_sec_yn = ''
                 course_overview.basic_science_sec_yn = ''
                 course_overview.preview_video = ''
+                course_overview.matchup_yn = ''
 
                 log.debug('CourseOverview get_from_id e.message [%s]' % e.message)
 
@@ -789,6 +791,7 @@ class CourseOverview(TimeStampedModel):
             ai_sec_yn=Coalesce(F('courseoverviewaddinfo__ai_sec_yn'), V('N')),
             basic_science_sec_yn=Coalesce(F('courseoverviewaddinfo__basic_science_sec_yn'), V('N')),
             preview_video=Coalesce(F('courseoverviewaddinfo__preview_video'), V('')),
+            matchup_yn=Coalesce(F('courseoverviewaddinfo__matchup_yn'), V('matchup_n')),
         )
 
         # 표시 항목 추가 (EXTRA)

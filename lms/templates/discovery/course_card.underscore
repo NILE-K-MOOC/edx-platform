@@ -1,6 +1,14 @@
 <article class="course <%- status  %> <% if (audit_yn == 'Y') { %> audit<% } %>" role="region" aria-label="<%- content.display_name %>">
     <a href="/courses/<%- course %>/about">
-        <header class="course-image">
+        <header class="course-image" data-ribbon_yn="<%- ribbon_yn %>" data-matchup_yn="<%- matchup_yn %>">
+
+            <% if (matchup_yn == 'matchup_y'){ %>
+
+            <i class="kr01-matchupArea"><img class="ribbonImg" src="/static/new_index/images/matchup-img/match-label.svg">
+                <span class="ribbon-tooltip-text">매치업 강좌</span>
+            </i>
+            <% } %>
+
             <% if (ribbon_yn == 'Y' && ribbon_year >2000){ %>
 
             <i class="kr01-ribbonArea"><img class="ribbonImg" src="/static/images/main/ribbon_<%- ribbon_year %>.png">

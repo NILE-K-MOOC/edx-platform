@@ -1113,6 +1113,13 @@ class CourseFields(object):
         default='',
     )
 
+    matchup_yn = String(
+        display_name=_("matchup_yn"),
+        help=_("matchup_yn hidden value"),
+        scope=Scope.settings,
+        default='N'
+    )
+
 
 class CourseModule(CourseFields, SequenceModule):  # pylint: disable=abstract-method
     """

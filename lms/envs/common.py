@@ -345,7 +345,8 @@ COURSE_DISCOVERY_FILTERS = [
     'home_course_step',
     'ribbon_yn',
     'ribbon_year',
-    'preview_video'
+    'preview_video',
+    'matchup_yn'
 ]
 
 # Features

@@ -138,6 +138,10 @@
                                 term = 'liberal_arts_y';
                             else if (key == 'career_readiness_competencies_yn' && (term == 'Y' || term == 'y' || term == 'career_readiness_competencies_y'))
                                 term = 'career_readiness_competencies_y';
+                            else if (key == 'matchup_yn' && (term == 'Y' || term == 'y' || term == 'matchup_y'))
+                                term = 'matchup_y';
+                            else if (key == 'matchup_yn' && (term == 'N' || term == 'n' || term == 'matchup_n'))
+                                term = 'matchup_n';
 
                             options.add({
                                 facet: key,

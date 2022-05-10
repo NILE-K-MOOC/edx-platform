@@ -86,6 +86,13 @@
                 <div class="item">
                     <a href="/courses/${courses.id}/about" class="course-item">
                         <div class="course-thumb">
+                            <!-- 매치업 강좌 여부 -->
+                            % if courses.matchup_yn == 'matchup_y':
+                            <i class="kr01-matchupArea"><img alt="매치업 강좌" src="${STATIC_URL}new_index/images/matchup-img/match-label.svg">
+                                <span class="ribbon-tooltip-text">매치업 강좌</span>
+                            </i>
+                            % endif
+
                             % if courses.ribbon_yn == 'Y' and courses.ribbon_year is not null and courses.ribbon_year != '' :
                             <i class="kr01-ribbonArea"><img alt="K-MOOC 우수강좌" src="/static/images/main/ribbon_${courses.ribbon_year}.png">
                                 <span class="ribbon-tooltip-text">K-MOOC 우수강좌</span>
