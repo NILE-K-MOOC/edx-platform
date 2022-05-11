@@ -1086,8 +1086,7 @@ class CourseFields(object):
         display_name=_("job_edu_yn"),
         help=_("job_edu_yn hidden value"),
         scope=Scope.settings,
-        default='N',
-        hidden=True
+        default='job_edu_n'
     )
 
     ai_sec_yn = String(
@@ -1117,7 +1116,7 @@ class CourseFields(object):
         display_name=_("matchup_yn"),
         help=_("matchup_yn hidden value"),
         scope=Scope.settings,
-        default='N'
+        default='matchup_n'
     )
 
 

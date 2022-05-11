@@ -250,10 +250,33 @@ $(document).ready(function(){
     $(".link_to_courses [data-term]").each(function(){
         $(this).click(function(e){
             e.preventDefault();
+
+            let facets = $(this).data('facet').split(",");
+            let terms = $(this).data('term').split(",");
+            let cnt = 0;
+
+            if (facets)
+                cnt = facets.length;
+
+            if(cnt > terms.length)
+                cnt = terms.length;
+
+            for(let i=0; i< cnt; i++){
+                console.log(facets[i] + "::" + terms[i]);
+            }
+
+            console.log("term check -------------------------------------------------- e");
+
             let form = $("<form>", {action: "/courses", method: "POST"}),
-            csrftoken = $("<input>", {name: "csrfmiddlewaretoken", value: $.cookie('csrftoken')}),
-            term = $("<input>", {name: $(this).data('facet'), value: $(this).data('term')});
-            form.append(csrftoken, term);
+                csrftoken = $("<input>", {name: "csrfmiddlewaretoken", value: $.cookie('csrftoken')});
+
+            for(let i=0; i< cnt; i++){
+                console.log(facets[i] + "::" + terms[i]);
+                let t = $("<input>", {name: facets[i].trim(), value: terms[i].trim()});
+                form.append(csrftoken, t);
+            }
+
+
             if(form) {
                 form.appendTo($("body")).submit();
             }

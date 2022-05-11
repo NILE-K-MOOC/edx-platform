@@ -142,7 +142,7 @@
 
                     } else if (data.facet == 'home_course_step') {
                         // 집콕강좌 옵션 추가
-                        console.log('data.term:' + data.term);
+                        //console.log('data.term:' + data.term);
 
                         if (data.term == '1') {
                             data.name = this.termName('home_course_step', gettext("home_course_step_1"));
@@ -199,6 +199,7 @@
             },
 
             render: function () {
+                let e = this;
                 var i = 0;
                 this.collection.comparator = function (model) {
                     i = 0;
@@ -494,84 +495,86 @@
                     obj[k] = v;
 
                     $(this).remove();
+
+                    // 검색박스 표시
+                    if (k && v) {
+
+                        switch (k) {
+                            case 'fourth_industry_yn':
+                                k = 'fourth_industry_yn';
+                                v = 'fourth_industry_y';
+                                t = 'fourth_industry_y';
+                                break;
+                            case 'job_edu_yn':
+                                k = 'job_edu_yn'
+                                v = 'job_edu_y';
+                                t = 'job_edu_y';
+                                break;
+                            case 'ai_sec_yn':
+                                k = 'ai_sec_yn';
+                                v = 'ai_sec_y';
+                                t = 'ai_sec_y';
+                                break;
+                            case 'basic_science_sec_yn':
+                                k = 'basic_science_sec_yn';
+                                v = 'basic_science_y';
+                                t = 'basic_science_y';
+                                break;
+                            case 'linguistics_yn':
+                                k = 'linguistics_yn';
+                                v = 'y';
+                                t = 'linguistics_y';
+                                break;
+                            case 'liberal_arts_yn':
+                                k = 'liberal_arts_yn';
+                                v = 'liberal_arts_y';
+                                t = 'liberal_arts_y';
+                                break;
+                            case 'career_readiness_competencies_yn':
+                                k = 'career_readiness_competencies_yn';
+                                v = 'career_readiness_competencies_y';
+                                t = 'career_readiness_competencies_y';
+                                break;
+                            case 'matchup_yn':
+                                k = 'matchup_yn';
+                                v = 'matchup_y';
+                                t = 'matchup_y';
+                                break;
+
+                            case 'home_course_yn':
+                                k = 'home_course_yn';
+                                v = 'Y';
+                                t = 'home_course_y';
+                                break;
+                            case 'home_course_step':
+                                k = 'home_course_step';
+                                v = v;
+
+                                if (v == '1') {
+                                    t = 'home_course_step_1';
+                                } else if (v == '2') {
+                                    t = 'home_course_step_2';
+                                } else if (v == '3') {
+                                    t = 'home_course_step_3';
+                                }
+                                break;
+                        }
+
+                        if ($("button[data-facet='" + k + "'][data-value='" + v + "']").size() > 0) {
+                            e.trigger(
+                                'selectedOption',
+                                k,
+                                v,
+                                gettext(t)
+                            );
+                        } else {
+                            console.debug('선택된 검색어가 존재 하지 않습니다.' + k + " : " + v);
+                        }
+                    }
+                    return this;
                 });
 
-                // 검색박스 표시
-                if (k && v) {
-                    let e = this;
-                    switch (k) {
-                        case 'fourth_industry_yn':
-                            k = 'fourth_industry_yn';
-                            v = 'fourth_industry_y';
-                            t = 'fourth_industry_y';
-                            break;
-                        case 'job_edu_yn':
-                            k = 'job_edu_yn'
-                            v = 'job_edu_y';
-                            t = 'job_edu_y';
-                            break;
-                        case 'ai_sec_yn':
-                            k = 'ai_sec_yn';
-                            v = 'ai_sec_y';
-                            t = 'ai_sec_y';
-                            break;
-                        case 'basic_science_sec_yn':
-                            k = 'basic_science_sec_yn';
-                            v = 'basic_science_y';
-                            t = 'basic_science_y';
-                            break;
-                        case 'linguistics_yn':
-                            k = 'linguistics_yn';
-                            v = 'y';
-                            t = 'linguistics_y';
-                            break;
-                        case 'liberal_arts_yn':
-                            k = 'liberal_arts_yn';
-                            v = 'liberal_arts_y';
-                            t = 'liberal_arts_y';
-                            break;
-                        case 'career_readiness_competencies_yn':
-                            k = 'career_readiness_competencies_yn';
-                            v = 'career_readiness_competencies_y';
-                            t = 'career_readiness_competencies_y';
-                            break;
-                        case 'matchup_yn':
-                            k = 'matchup_yn';
-                            v = 'matchup_y';
-                            t = 'matchup_y';
-                            break;
 
-                        case 'home_course_yn':
-                            k = 'home_course_yn';
-                            v = 'Y';
-                            t = 'home_course_y';
-                            break;
-                        case 'home_course_step':
-                            k = 'home_course_step';
-                            v = v;
-
-                            if (v == '1') {
-                                t = 'home_course_step_1';
-                            } else if (v == '2') {
-                                t = 'home_course_step_2';
-                            } else if (v == '3') {
-                                t = 'home_course_step_3';
-                            }
-                            break;
-                    }
-
-                    if ($("button[data-facet='" + k + "'][data-value='" + v + "']").size() > 0) {
-                        e.trigger(
-                            'selectedOption',
-                            k,
-                            v,
-                            gettext(t)
-                        );
-                    } else {
-                        console.debug('선택된 검색어가 존재 하지 않습니다.' + k + " : " + v);
-                    }
-                }
-                return this;
             },
 
             collapse: function (event) {
