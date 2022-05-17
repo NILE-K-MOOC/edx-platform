@@ -473,7 +473,10 @@
                 $(".search-facets li").each(function () {
                     let v = $(this).find("button").data('value');
 
-                    if (v == 'N'|| v == 'ribbon_n' || v == 'liberal_arts_n' || v == 'career_readiness_competencies_n' || v == 'None' || v == '' || v == 'null' || v == 'all' || v == 'none') {
+                    if (typeof v == 'number')
+                        return true;
+
+                    if (!v || ['n', 'ribbon_n', 'liberal_arts_n', 'career_readiness_competencies_n', 'none', 'matchup_n', 'null', 'all', ''].indexOf(v.toString().toLowerCase()) >= 0) {
                         $(this).remove();
                     }
                 });
