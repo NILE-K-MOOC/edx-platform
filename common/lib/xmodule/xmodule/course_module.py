@@ -1086,7 +1086,7 @@ class CourseFields(object):
         display_name=_("job_edu_yn"),
         help=_("job_edu_yn hidden value"),
         scope=Scope.settings,
-        default='job_edu_n'
+        default='N'
     )
 
     ai_sec_yn = String(
