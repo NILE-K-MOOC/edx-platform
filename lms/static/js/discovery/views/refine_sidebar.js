@@ -486,6 +486,10 @@
 
                 $("#job_edu_yn, #ai_sec_yn, #basic_science_sec_yn, #linguistics_yn, #liberal_arts_yn, #career_readiness_competencies_yn, #matchup_yn").remove();
 
+                // 20220517 집콕강좌 사용안함으로 삭제처리
+                $("h3[data-name='home_course_step']").remove();
+                $("ul[data-facet='home_course_step']").remove();
+
                 // main 태그에 data-param 이 있으면 데이터에 값을 추가하고 선택된 형태르 변경후 data-param을 삭제
                 let k, v, t;
                 $("#main input[name='default_term']").each(function () {
