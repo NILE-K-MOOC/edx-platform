@@ -6,19 +6,13 @@
 %>
 <%page args="course" expression_filter="h"/>
 
-
-<div hidden>${course.audit_yn}</div>
-<div hidden>${course.status}</div>
-<div hidden>${course.matchup_yn}</div>
-
-
 % if course.audit_yn == 'Y':
     <article class="course ${course.status} audit main-course-card" tabindex="0" id="${course.id}" role="region" aria-label="${course.display_name_with_default}"  style="" >
 % elif course.audit_yn == 'N':
     <article class="course ${course.status} main-course-card" tabindex="0" id="${course.id}" role="region" aria-label="${course.display_name_with_default}"  style="" >
 % endif
     <a class="main-course-card-link" tabindex="-1" style="text-decoration: none;" href="${reverse('about_course', args=[course.id.to_deprecated_string()])}" alt="${course.display_name_with_default}" title="${course.display_name_with_default} 개강일 ${course.start.strftime("%Y-%m-%d") if course.start else ''} 종강일 ${course.end.strftime("%Y-%m-%d") if course.end else ''} 강좌상태 ${_(course.status)}">
-        <header class="course-image" data-matchup="${course.matchup_yn}">
+        <header class="course-image">
                 % if course.ribbon_yn == 'Y':
                 <i class="kr01-ribbonArea"><img alt="" src="/static/images/main/ribbon.png">
                   <span class="ribbon-tooltip-text">${_("K-MOOC Excellent Course")}</span>
