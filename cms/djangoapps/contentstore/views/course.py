@@ -2581,6 +2581,8 @@ def advanced_settings_handler(request, course_key_string):
                         career_readiness_competencies_yn = params['career_readiness_competencies_yn']['value']
                     if 'matchup_yn' in params:
                         matchup_yn = params['matchup_yn']['value']
+                    if 'job_edu_yn' in params:
+                        job_edu_yn = params['job_edu_yn']['value']
 
                     try:
                         with connections['default'].cursor() as cur:
@@ -2591,6 +2593,7 @@ def advanced_settings_handler(request, course_key_string):
                                      WHERE course_id = '{course_id}';
                                 """.format(audit_yn=audit_yn, course_id=course_key_string)
                                 cur.execute(query)
+
                             if 'teacher_name' in params:
                                 query2 = """
                                     UPDATE course_overview_addinfo
@@ -2599,6 +2602,7 @@ def advanced_settings_handler(request, course_key_string):
                                 """.format(course_id=course_key_string,
                                            teacher_name=teacher_name)
                                 cur.execute(query2)
+
                             if 'liberal_arts_yn' in params:
                                 query2 = """
                                     UPDATE course_overview_addinfo
@@ -2607,6 +2611,7 @@ def advanced_settings_handler(request, course_key_string):
                                 """.format(course_id=course_key_string,
                                            liberal_arts_yn=liberal_arts_yn)
                                 cur.execute(query2)
+
                             if 'liberal_arts' in params:
                                 query2 = """
                                     UPDATE course_overview_addinfo
@@ -2615,6 +2620,7 @@ def advanced_settings_handler(request, course_key_string):
                                 """.format(course_id=course_key_string,
                                            liberal_arts=liberal_arts)
                                 cur.execute(query2)
+
                             if 'career_readiness_competencies_yn' in params:
                                 query2 = """
                                     UPDATE course_overview_addinfo
@@ -2623,6 +2629,16 @@ def advanced_settings_handler(request, course_key_string):
                                 """.format(course_id=course_key_string,
                                            career_readiness_competencies_yn=career_readiness_competencies_yn)
                                 cur.execute(query2)
+
+                            if 'job_edu_yn' in params:
+                                query2 = """
+                                    UPDATE course_overview_addinfo
+                                       SET job_edu_yn = '{job_edu_yn}'
+                                     WHERE course_id = '{course_id}';
+                                """.format(course_id=course_key_string,
+                                           job_edu_yn=job_edu_yn)
+                                cur.execute(query2)
+
                             if 'matchup_yn' in params:
                                 query2 = """
                                     UPDATE course_overview_addinfo
