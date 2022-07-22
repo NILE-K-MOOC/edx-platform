@@ -7,6 +7,7 @@
         text-align: center;
         font-size: 20px;
     }
+
     .btn-lol {
         text-align: center;
         background: #3F51B5;
@@ -22,50 +23,63 @@
         cursor: pointer;
         transition: 0.3s;
     }
+
     .btn-lol:hover {
         border: solid 1px #3F51B5;
         background: #ffffff;
         color: #3F51B5;
     }
+
     @media screen and (max-width: 600px) {
         .txt-lol {
             font-size: 12px;
         }
     }
+
     .more {
         color: #222 !important;
-        text-decoration:none !important
+        text-decoration: none !important
     }
+
     .quick-link > li > a {
         color: #222 !important;
     }
+
     .classify-item {
         color: #222 !important;
     }
+
     .link {
         color: #222 !important;
     }
+
     .instructor {
         color: #222 !important;
     }
+
     .course-item {
-        text-decoration:none !important
+        text-decoration: none !important
     }
+
     .el-xbox > a {
-        text-decoration:none !important
+        text-decoration: none !important
     }
+
     .el-xbox {
         padding-top: 12px;
         padding-bottom: 12px;
         transition: 0.3s;
     }
+
     .course-title {
         font-family: 'Noto Sans KR' !important;
         color: #222 !important;
     }
+
     .sub-title {
         font-family: 'Noto Sans KR' !important;
     }
+
     .csp {
         cursor: pointer;
     }
@@ -77,15 +91,22 @@
     }
 
     .find-courses.multi-search {
-        width: 250px; float: right; padding-bottom: 0;
+        width: 250px;
+        float: right;
+        padding-bottom: 0;
     }
 
     .find-courses.multi-search .discovery-input {
-        height: 35px; position: relative; padding-right: 12px; width: 195px;
+        height: 35px;
+        position: relative;
+        padding-right: 12px;
+        width: 195px;
     }
 
     .find-courses.multi-search .discovery-submit {
-        position: relative; margin-left: -7px; height: 35px;
+        position: relative;
+        margin-left: -7px;
+        height: 35px;
     }
 
     @media screen and (max-width: 979px) and (min-width: 769px) {
@@ -93,42 +114,52 @@
             width: 100% !important;
         }
     }
+
     @media screen and (min-width: 980px) {
-        .courses-listing-item:nth-child(3n+1){
+        .courses-listing-item:nth-child(3n+1) {
             clear: unset !important;
         }
+
         .courses-listing-item {
             width: 24% !important;
         }
+
         .courses-listing-item:nth-child(3n) {
             margin-right: 10px !important;
         }
+
         .courses-listing-item:nth-child(4n) {
             margin-right: 0px !important;
         }
+
         .courses {
             width: 100% !important;
         }
     }
+
     .loader {
-      border: 16px solid #f3f3f3; /* Light grey */
-      border-top: 16px solid #3498db; /* Blue */
-      border-radius: 50%;
-      width: 120px;
-      height: 120px;
-      animation: spin 2s linear infinite;
-        margin-left:45%;
+        border: 16px solid #f3f3f3; /* Light grey */
+        border-top: 16px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        animation: spin 2s linear infinite;
+        margin-left: 45%;
     }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
 </style>
 <link rel="stylesheet" type="text/css" href="/static/images/kotech_roadmap/about_org.css">
-<link rel="stylesheet" type="text/css" href="/static/new_index/css/owl.carousel.css" />
+<link rel="stylesheet" type="text/css" href="/static/new_index/css/owl.carousel.css"/>
 <!--<link rel="stylesheet" type="text/css" href="/static/new_index/css/common.css" />-->
-<link rel="stylesheet" type="text/css" href="/static/new_index/css/main.css" />
+<link rel="stylesheet" type="text/css" href="/static/new_index/css/main.css"/>
 <script type="text/javascript" src="/static/new_index/js/owl.carousel.js"></script>
 
 <section class="multi-visual">
@@ -453,7 +484,7 @@
     <div class="find-courses multi-search">
         <input id="multisite_search" class="discovery-input" placeholder="${_('Search for a course')}" type="text"/>
         <button type="button" onclick="multisite_search()" class="button postfix discovery-submit" title="${_('Search')}">
-            <img style="width: 23px;" src="/static/css/vendor/pdfjs/images/toolbarButton-search@2x.png" alt="${_('Search')}" />
+            <img style="width: 23px;" src="/static/css/vendor/pdfjs/images/toolbarButton-search@2x.png" alt="${_('Search')}"/>
         </button>
     </div>
 </div>
@@ -479,7 +510,7 @@
 
 <script>
     let search_word = ''
-    let search_cnt =10
+    let search_cnt = 10
 
     let total_count = 0
 
@@ -487,94 +518,105 @@
     var status_ = $(location).attr('href')
 
     $(document).ready(function () {
-      search_count();
-      $(window).scroll(function () {
-        if (($(document).height()) / ($(window).scrollTop() + $(window).height()) <= 1.5 && !isVisible) {
-          if ($('#course_total').text() > $('.courses-listing-item').size()) {
-            //$('.find-courses').append("<div class=\"loader\"></div>");
-            isVisible = true;
-            search_ajax();
-          }
-        }
-      });
+        search_count();
+        $(window).scroll(function () {
+            if (($(document).height()) / ($(window).scrollTop() + $(window).height()) <= 1.5 && !isVisible) {
+                if ($('#course_total').text() > $('.courses-listing-item').size()) {
+                    //$('.find-courses').append("<div class=\"loader\"></div>");
+                    isVisible = true;
+                    search_ajax();
+                }
+            }
+        });
 
     });
 
     function search_ajax() {
-      $.ajax({
-        url: '/org/' + status_.split('/').reverse()[0],
-        type: "POST",
-        dataType: 'html',
-        data: {
-          now_length: $('.courses-listing-item').size(),
-          search_word: search_word,
-          search_cnt: search_cnt,
-          csrfmiddlewaretoken: $.cookie('csrftoken')
+
+        let org = status_.split('/').reverse()[0];
+        if (org.indexOf("?") > 0) {
+            org = org.split("?")[0];
         }
-      }).done(function (data) {
-        //$('.loader').remove();
-        $('.courses-listing').append(data);
-        search_cnt = search_cnt + 10
-        isVisible = false;
-      });
+
+        $.ajax({
+            url: '/org/' + org,
+            type: "POST",
+            dataType: 'html',
+            data: {
+                now_length: $('.courses-listing-item').size(),
+                search_word: search_word,
+                search_cnt: search_cnt,
+                csrfmiddlewaretoken: $.cookie('csrftoken')
+            }
+        }).done(function (data) {
+            //$('.loader').remove();
+            $('.courses-listing').append(data);
+            search_cnt = search_cnt + 10
+            isVisible = false;
+        });
     };
 
     $(function () {
 
-      $('.owl-carousel').owlCarousel({
-        margin: 20,
-        nav: true,
-        dots: false,
-        responsive: {
-          0: {
-            items: 1
-          },
-          443: {
-            items: 2
-          },
+        $('.owl-carousel').owlCarousel({
+            margin: 20,
+            nav: true,
+            dots: false,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                443: {
+                    items: 2
+                },
 
-          768: {
-            items: 3
-          },
+                768: {
+                    items: 3
+                },
 
-          992: {
-            items: 4
-          }
-        }
-      })
+                992: {
+                    items: 4
+                }
+            }
+        })
     });
     $("#multisite_search").keydown(function (e) {
-      if (e.keyCode == 13) {
-        multisite_search();
+        if (e.keyCode == 13) {
+            multisite_search();
 
-      }
+        }
     });
 
     function multisite_search() {
-      $('.courses-listing-item').remove();
+        $('.courses-listing-item').remove();
 
-      search_word = $('#multisite_search').val();
-      search_cnt = 0
-      search_count();
-      $('.courses-listing-item').remove();
-      search_ajax();
+        search_word = $('#multisite_search').val();
+        search_cnt = 0
+        search_count();
+        $('.courses-listing-item').remove();
+        search_ajax();
     };
 
     function search_count() {
-      $.ajax({
-        url: '/multi_index_count/' + status_.split('/').reverse()[0],
-        type: "POST",
-        dataType: 'JSON',
-        data: {
-          search_word: search_word,
-          csrfmiddlewaretoken: $.cookie('csrftoken')
+        let org = status_.split('/').reverse()[0];
+        if (org.indexOf("?") > 0) {
+            org = org.split("?")[0];
         }
-      }).done(function (data) {
-        //$('#course_total').html(total_count);
-        total_count = data.a
-        $('#course_total').html(data.a);
-      });
+        $.ajax({
+            url: '/multi_index_count/' + org,
+            type: "POST",
+            dataType: 'JSON',
+            data: {
+                search_word: search_word,
+                csrfmiddlewaretoken: $.cookie('csrftoken')
+            }
+        }).done(function (data) {
+            //$('#course_total').html(total_count);
+            total_count = data.a
+            $('#course_total').html(data.a);
+        });
     };
+
     /*
     function multisite_search(){
         $('.courses-listing-item').show();
@@ -592,10 +634,10 @@
     }
     */
 
-    function change_course(type){
+    function change_course(type) {
         // $('#section_owl').show();
         $('#section_no').hide();
-        if (type=='pop') {
+        if (type == 'pop') {
             $('#section_today').hide();
             $('#section_pop').show();
             $('#section_new').hide();
@@ -604,7 +646,7 @@
             $('#hack_pop').addClass("active");
             $('#hack_new').removeClass("active");
             $('#hack_my').removeClass("active");
-        } else if (type=='new') {
+        } else if (type == 'new') {
             $('#section_today').hide();
             $('#section_pop').hide();
             $('#section_new').show();
@@ -613,7 +655,7 @@
             $('#hack_pop').removeClass("active");
             $('#hack_new').addClass("active");
             $('#hack_my').removeClass("active");
-        } else if (type=='today') {
+        } else if (type == 'today') {
             $('#section_today').show();
             $('#section_pop').hide();
             $('#section_new').hide();
@@ -622,7 +664,7 @@
             $('#hack_pop').removeClass("active");
             $('#hack_new').removeClass("active");
             $('#hack_my').removeClass("active");
-        } else if (type=='my') {
+        } else if (type == 'my') {
             $('#section_today').hide();
             $('#section_pop').hide();
             $('#section_new').hide();
