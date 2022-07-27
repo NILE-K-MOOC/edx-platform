@@ -9,6 +9,23 @@ from django.template.defaultfilters import escapejs
 <script src="https://unpkg.com/sweetalert2@7.17.0/dist/sweetalert2.all.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
+        let course_id = $("#course_id").val();
+        let nice_check_flag = $("#nice_check_flag").val();
+        let kakao_check_flag = $("#kakao_check_flag").val();
+
+        if (course_id.toLowerCase().indexOf("matchup") > 0 && nice_check_flag == 0 && kakao_check_flag == 'N') {
+            $("div.content>h5:eq(0)").text("발급번호 : ********************************"); // 발급번호 내용 삭제
+            setTimeout(function(){
+                if (confirm("해당 강좌는 본인인증 이후 출력이 가능합니다.\n본인인증을 진행하시겠습니까?")) {
+                    $("#action-check-view").click();
+                    self.close();
+                } else {
+                    self.close();
+                }
+            }, 100);
+        }
+
+
         if ($(":input:radio[name='radio2']:checked").val() == 'sc') {
             $('#special_cert_print_id').show();
 
@@ -84,6 +101,9 @@ from django.template.defaultfilters import escapejs
 
 <div id="fb-root"></div>
 <div class="wrapper-banner wrapper-banner-user">
+    <input type="hidden" id="course_id" value="${course_id}"/>
+    <input type="hidden" id="nice_check_flag" value="${nice_check_flag}"/>
+    <input type="hidden" id="kakao_check_flag" value="${kakao_check_flag}"/>
     <section class="banner banner-user">
         <div class="message message-block message-notice">
             <h2 class="message-title hd-5 emphasized">${accomplishment_banner_opening | h}</h2>
@@ -169,19 +189,19 @@ from django.template.defaultfilters import escapejs
                         <span class="icon fa fa-print" aria-hidden="true"></span>
                         ${_("Print Certificate")}
                     </button>
-                        % if nice_check_flag == 0 and kakao_check_flag == 'N':
-                        <button class="action action-print btn-inverse btn-small Test_btn" id="action-check-view">
-                            본인인증하기
-                        </button>
-                        %endif
+                    % if nice_check_flag == 0 and kakao_check_flag == 'N':
+                    <button class="action action-print btn-inverse btn-small Test_btn" id="action-check-view">
+                        본인인증하기
+                    </button>
+                    %endif
 
-                            %if badge:
-                            <button class="action action-share-mozillaopenbadges btn btn-overlay btn-small">
-                                <img class="icon icon-mozillaopenbadges" src="/static/certificates/images/ico-mozillaopenbadges.png" alt="Mozilla Open Badges Backpack">
-                                ${_("Add to Mozilla Backpack")}
-                            </button>
-                            %endif
-                        %endif
+                    %if badge:
+                    <button class="action action-share-mozillaopenbadges btn btn-overlay btn-small">
+                        <img class="icon icon-mozillaopenbadges" src="/static/certificates/images/ico-mozillaopenbadges.png" alt="Mozilla Open Badges Backpack">
+                        ${_("Add to Mozilla Backpack")}
+                    </button>
+                    %endif
+                    %endif
                     % endif
                     <form name="frmPopup" method="POST">
                         <input type="hidden" name="language_flag">
