@@ -533,7 +533,7 @@
 
     function search_ajax() {
 
-        let org = status_.split('/').reverse()[0];
+        let org = status_.split('org/')[1];
         if (org.indexOf("?") > 0) {
             org = org.split("?")[0];
         }
@@ -598,7 +598,7 @@
     };
 
     function search_count() {
-        let org = status_.split('/').reverse()[0];
+        let org = status_.split('org/')[1];
         if (org.indexOf("?") > 0) {
             org = org.split("?")[0];
         }
