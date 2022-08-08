@@ -1648,6 +1648,10 @@ def block_country_for_ebs(request=None):
         ip1 = str(ip).split('.')[0]
         ip2 = str(ip).split('.')[1]
 
+        # country_info = requests.get(url='https://ipapi.co/106.248.245.114/json/', timeout=2, verify=False).json()
+        # user_country_code = country_info.get('country_code')
+        # print 'user_country_code = [%s]' % user_country_code
+
         # ip가 10, 172, 192 로 시작하면 사설 아이피 대역이므로 블럭하지 않음.
         if int(ip1) == 10:
             log.info('block_country_for_ebs ip block pass case 1')
@@ -1659,9 +1663,8 @@ def block_country_for_ebs(request=None):
             log.info('block_country_for_ebs ip block pass case 3')
             return False
 
-        country_info = requests.get(url='https://ip2c.org/%s' % ip, verify=False)
-        ip_info = country_info.content
-        user_country_code = ip_info.split(';')[1]
+        country_info = requests.get(url='https://ipapi.co/%s/json/' % ip, timeout=2, verify=False).json()
+        user_country_code = country_info.get('country_code')
 
         # 조회 되는 국가 코드가 없는 경우 True를 리턴하여 수강신청이 안되도록 함
         if not user_country_code:
