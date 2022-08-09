@@ -150,6 +150,7 @@ h1, h2, h3 {
 .multi-visual {height: 375px; padding-top: 140px; background: url(/static/new_index/images/bg_multi.png) no-repeat; letter-spacing: -.04em;}
 .multi-visual .visual-title {margin-bottom: 10px; font-size: 36px; font-weight: 700; text-align: left; color: #618deb;}
 .multi-visual .visual-subtitle {font-size: 24px; font-weight: 500; color: #555;}
+.visual-info {font-size: 17px; font-weight: 500; color: #555; color: #618deb;}
 
 .group-title {background: #222 url(/static/new_index/images/bg_group.jpg) no-repeat; background-size: cover;}
 .page-title .visual-title {margin-bottom: 0;}
@@ -159,6 +160,8 @@ h1, h2, h3 {
  *    media
  * --------------------------
 **/
+@media (max-width: 640px) {
+    .visual-info {font-size: 13px; font-weight: 500; color: #555; color: #618deb;}
 
 @media (min-width: 768px) {
     .rdmap-list-group .rdmap-list tbody td.type .number {
