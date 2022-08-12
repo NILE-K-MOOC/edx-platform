@@ -30,12 +30,30 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
   else:
     help_link = doc_link
 %>
-
 <div id="menu-container">
-  <div id="menu-wrapper">
-    <div id="hamburger-menu"><span></span><span></span><span></span></div>
-    <!-- hamburger-menu -->
-  </div>
+<!-- hamburger w/ kmooc link s -->
+% if 'multisite_org' not in request.session:
+    <div id="menu-wrapper">
+        <div id="hamburger-menu"><span></span><span></span><span></span></div>
+        <!-- hamburger-menu -->
+    </div>
+% else:
+    <div id="menu-wrapper">
+    <div class="col-md-3" style="font-size:13px; margin-top: 13px;padding-right: 0px;"><a class="go-kmooc" href="/"> K-MOOC 홈페이지 </a></div>
+    <div id="hamburger-menu" class="col-md-2"><span></span><span></span><span></span></div>
+        <!-- hamburger-menu -->
+    </div>
+% endif
+<!-- hamburger w/ kmooc link e -->
+
+<!-- original hamburger s -->
+## <div id="menu-container">
+##   <div id="menu-wrapper">
+##     <div id="hamburger-menu"><span></span><span></span><span></span></div>
+##     <!-- hamburger-menu -->
+##   </div>
+<!-- original hamburger e-->
+
   <!-- menu-wrapper -->
   <ul class="menu-list accordion">
 
