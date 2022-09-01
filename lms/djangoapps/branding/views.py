@@ -177,18 +177,22 @@ def multisite_error(request):
 def banner(request):
     return render_to_response("banner.html")
 
+
 @csrf_exempt
 def sericeo(request):
     return render_to_response("sericeo.html")
 
 
+def invitation_banner_old1(request):
+    return render_to_response("invitation-banner2back.html")
+
+
 def invitation_banner(request):
-    return render_to_response("invitation-banner2.html")
+    return render_to_response("invitation-banner2-form.html")
 
 
 def prev_coursera_course(request):
     return render_to_response("banner3.html")
-    # return render_to_response("page_kmc01.html")
 
 
 def coursera_course(request):

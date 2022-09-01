@@ -1,0 +1,803 @@
+<%page expression_filter="h"/>
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.core.urlresolvers import reverse
+from microsite_configuration import microsite
+from openedx.core.djangolib.markup import HTML, Text
+%>
+
+<%block name="pagetitle">
+${("")}
+</%block>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css">
+
+<style>
+html, body {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.invitation_wrap {
+    width: 100%;
+    max-width: 1170px;
+    margin: 0 auto;
+}
+
+.invitation_event {
+    position: relative;
+    width: 100%;
+}
+.invitation_event > img {
+    display: block;
+    width: 100%;
+}
+
+.invitation_slide_wrap {
+    position: absolute;
+    top: 57%;
+    left: 50%;
+    width: 87%;
+    transform: translateX(-50%);
+}
+.invitation_slide_wrap .slick-track {
+    padding: 10% 0;
+}
+.invitation_slide_wrap .slick-slide {
+    /* opacity: 0.7; */
+    transform: scale(1.2);
+    opacity: 0;
+}
+.invitation_slide_wrap .slick-slide.slick-active, .invitation_slide_wrap .slick-slide.slick-cloned + .slick-active:not(.slick-center), #slick-slide05:not(.slick-active) {
+    transform: scale(1.2) translate(10%);
+    opacity: 0.7;
+}
+.invitation_slide_wrap .slick-center + .slick-slide {
+    transform: scale(1.2) translate(-10%);
+    opacity: 0.7;
+}
+.invitation_slide_wrap .slick-slide.slick-center, #slick-slide05:not(.slick-active) + .slick-cloned {
+    position: relative;
+    z-index: 50;
+    transform: scale(1.4);
+    opacity: 1;
+    transition: all .3s ;
+}
+.invitation_slide_wrap .slides img {
+    width: 100%;
+}
+.invitation_slide_wrap .slick-next:before, .invitation_slide_wrap .slick-prev:before {
+    content: '';
+}
+.invitation_slide_wrap .slick-next, .invitation_slide_wrap .slick-prev {
+    opacity: 0.8;
+    width: 4%;
+    height: 6%;
+    z-index: 20;
+}
+.invitation_slide_wrap .slick-next:hover {
+    opacity: 1;
+    background: url('${STATIC_URL}/images/invitation_images2/next.png') no-repeat center / contain;
+    box-shadow: none;
+}
+.invitation_slide_wrap .slick-prev:hover {
+    opacity: 1;
+    background: url('${STATIC_URL}/images/invitation_images2/prev.png') no-repeat center / contain;
+    box-shadow: none;
+}
+.invitation_slide_wrap .slick-next {
+    right: 0.5%;
+    background: url('${STATIC_URL}/images/invitation_images2/next.png') no-repeat center / contain;
+    box-shadow: none;
+}
+.invitation_slide_wrap .slick-prev {
+    left: 0.5%;
+    background: url('${STATIC_URL}/images/invitation_images2/prev.png') no-repeat center / contain;
+    box-shadow: none;
+}
+.slick-dots li button {
+    box-shadow: none;
+}
+.slick-dots li button:hover {
+    background: none;
+}
+.invitation_btn {
+    position: absolute;
+    left: 50%;
+    width: 20%;
+    transform: translateX(-50%);
+    cursor: pointer;
+}
+.invitation_btn img {
+    width: 100%;
+}
+.invitation_brochure {
+    bottom: 5.7%;
+    left: 76%;
+}
+.invitation_enroll {
+    top: 31.2%;
+    width: 37%;
+}
+
+.invitation_event:nth-child(3) {
+    padding-bottom: 100px;
+    background-color: #4b3b3b;
+}
+.kmooc_information {
+    position: absolute;
+    top: 30%;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0 15%;
+    box-sizing: border-box;
+}
+.kmooc_information li {
+    display: flex;
+    align-items: baseline;
+    margin: 10px 0;
+    color: #fff;
+    font-size: 16px;
+    line-height: 1.57;
+}
+.kmooc_information li span {
+    display: block;
+    padding-right: 8px;
+}
+.kmooc_information li p {
+    margin: 0;
+}
+.kmooc_information li a {
+    color: #fff;
+}
+
+.invitation_brochure_popup_bg .invitation_brochure_popup {
+    position: relative;
+    width: 70%;
+    max-width: 1180px;
+    height: 100%;
+    max-height: 880px;
+    margin: 20px auto;
+    overflow: auto;
+}
+.brochure_prev, .brochure_next {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    cursor: pointer;
+    z-index: 100;
+}
+.brochure_next {
+    left: 50%;
+}
+.brochure_item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: none;
+}
+.brochure_item img {
+    display: inline-block;
+    width: calc(50% - 4px);
+    margin: 0 2px;
+}
+.brochure_item.brochure01 {
+    display: flex;
+}
+.brochure_item .brochure_guide {
+    position: absolute;
+    bottom: -31px;
+    right: 0;
+    padding: 3px 5px;
+    background: rgba(250,250,250,.6);
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.invitation_wrap .invitation_popup_bg, .invitation_brochure_popup_bg {
+    position: fixed;
+    display: none;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .3);
+    z-index: 10000;
+    overflow: auto;
+}
+.invitation_wrap .invitation_popup_bg .invitation_popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background-color: #fff;
+    border-radius: 14px;
+    transform: translate(-50%, -50%);
+}
+.invitation_wrap .invitation_popup_bg .invitation_popup .invitation_inputboxes {
+    padding: 40px 0 18px;
+    text-align: center;
+}
+.invitation_wrap .invitation_popup_bg .invitation_popup .input_style {
+    position: relative;
+    margin-bottom: 17px;
+}
+.invitation_wrap .invitation_popup_bg .invitation_popup .input_style input, .invitation_wrap .invitation_popup_bg .invitation_popup .input_job select {
+    position: absolute;
+    left: 36.5%;
+    top: 10%;
+    width: 43%;
+    padding: 5px;
+    font-size: 1.2em;
+    border: none;
+    background: transparent;
+}
+.invitation_wrap .invitation_popup_bg .invitation_popup .input_job select {
+    left: 35.5%;
+    width: 47%;
+    border: 2px solid #dcdcdc;
+    border-radius: 3px;
+}
+.invitation_wrap .invitation_popup_bg .invitation_popup .input_job.active select {
+    top: -8%;
+}
+.invitation_wrap .invitation_popup_bg .invitation_popup .input_job input {
+    display: none;
+}
+.invitation_wrap .invitation_popup_bg .invitation_popup .input_job.active input {
+    display: block;
+    top: auto;
+    bottom: 13%;
+    margin: 0;
+}
+.invitation_wrap .invitation_popup_bg .invitation_popup .input_job.active .input_job_etc_on, .invitation_wrap .invitation_popup_bg .invitation_popup .input_job .input_job_etc_off {
+    display: inline-block;
+}
+.invitation_wrap .invitation_popup_bg .invitation_popup .input_job.active .input_job_etc_off, .invitation_wrap .invitation_popup_bg .invitation_popup .input_job .input_job_etc_on {
+    display: none;
+}
+.banner2_error_msg {
+    display: block;
+    margin-left: 37%;
+    text-align: left;
+    font-size: 13px;
+    color: red;
+}
+.chkbox_wrap {
+    /* position: absolute;
+    top: 78%;
+    left: 50%;
+    transform: translateX(-50%); */
+    width: 50%;
+    margin: 0 auto;
+}
+/* .chkbox_off {width: 99%} */
+.chkbox_label input, .chkbox_label [type=checkbox] ~.chkbox_on, .chkbox_label [type=checkbox]:checked ~.chkbox_off {
+    display: none;
+    cursor: pointer;
+    width: 100%;
+}
+.chkbox_label [type=checkbox]:checked ~.chkbox_on, .chkbox_label [type=checkbox] ~.chkbox_off {
+    display: block;
+    cursor: pointer;
+    width: 100%;
+}
+
+.invitation_submit {
+    /* position: absolute;
+    top: 84%;
+    left: 50%;
+    transform: translateX(-50%); */
+    display: block;
+    margin: 15px auto 43px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    box-shadow: none;
+}
+button:hover:not(:disabled),
+button:active:not(:disabled),
+button.invitation_submit:focus:not(:disabled){
+    background: none;
+    box-shadow: none;
+    outline: none!important;
+}
+
+.event_loading_popup {
+    display: none;
+    position: fixed;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100%;
+    height: 100%;
+    z-index: 99999;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.event_loading_popup img {
+    width: 70px;
+    height: 70px;
+    position: relative;
+    top: calc(50% - 35px);
+    left: calc(50% - 35px);
+}
+
+
+</style>
+
+<!-- banner 2 start-->
+<body>
+<div class="invitation_wrap">
+    <div class="invitation_event">
+        <img src="${STATIC_URL}/images/invitation_images2/event1.png" alt="K-mook 글로벌 강좌 초대장 내 미래를 바꿔줄 특별한 강의"/>
+        <div class="invitation_slide_wrap">
+            <div class="slides">
+                <img src="${STATIC_URL}/images/invitation_images2/slide1.png" alt="우리집이 글로벌 명문대가 되는 기적! K-MOOC라서 누릴 수 있는 혜택"/>
+            </div>
+            <div class="slides">
+                <img src="${STATIC_URL}/images/invitation_images2/slide2.png" alt="딥러닝 입문자코스 딥러닝과 AI의 전문가가 되기 위한 첫 단추!"/>
+            </div>
+            <div class="slides">
+                <img src="${STATIC_URL}/images/invitation_images2/slide3.png" alt="데이터 사이언스 ALL-PASS 데이터 사이언티스트로의 여정 시작!"/>
+            </div>
+            <div class="slides">
+                <img src="${STATIC_URL}/images/invitation_images2/slide4.png" alt="프로그래밍 SKILL-UP 실무진 업무스킬 하이패스 과정!"/>
+            </div>
+            <div class="slides">
+                <img src="${STATIC_URL}/images/invitation_images2/slide5.png" alt="국내에서 쉽게 볼 수 없는 글로벌 명문대의 강좌"/>
+            </div>
+            <div class="slides">
+                <img src="${STATIC_URL}/images/invitation_images2/slide6.png" alt="나 자신과 주변을 넘어 인간의 본질을 이해하기 위한 발걸음!"/>
+            </div>
+        </div>
+        <div class="invitation_btn invitation_brochure" onclick="onShowBrochure()">
+            <img src="${STATIC_URL}/images/invitation_images2/brochure_btn.png" alt="전체 강의 브로슈어 보기"/>
+        </div>
+    </div>
+    <div class="invitation_event">
+        <img src="${STATIC_URL}/images/invitation_images2/event2.png" alt="K-mook 글로벌 강좌 초대장 내 미래를 바꿔줄 특별한 강의"/>
+
+% if user.is_authenticated:
+        <div class="invitation_btn invitation_enroll" onclick="onShowEvent()">
+            <img src="${STATIC_URL}/images/invitation_images2/enroll_btn.png" alt="구독권 신청"/>
+        </div>
+% else:
+<!--    로그인이 필요합니다. 로그인 페이지로 리다이렉트 window.location.href = "/login"; -->
+        <div class="invitation_btn invitation_enroll" onclick="onDirection()">
+            <img src="${STATIC_URL}/images/invitation_images2/enroll_btn.png" alt="구독권 신청"/>
+        </div>
+% endif
+
+</div>
+    <div class="invitation_event">
+        <img src="${STATIC_URL}/images/invitation_images2/event3.png" alt="유의사항을 꼭 확인해주세요!"/>
+        <ul class="kmooc_information">
+            <li>
+                <span> · </span>
+                <p>K-MOOC 로그인 시에만 참여 가능하며, 비회원은 가입 후 이용 부탁 드립니다.</p>
+            </li>
+            <li>
+                <span> · </span>
+                <p>K-MOOC 로그인 시 자동으로 가입 정보가 연동됩니다.</p>
+            </li>
+            <li>
+                <span> · </span>
+                <p>개인정보 제공 및 마케팅 활용에 동의하지 않을 시 구독권 신청 및 경품 수령 모두 참여 불가합니다.</p>
+            </li>
+            <li>
+                <span> · </span>
+                <p>중복으로 제출하여도 1회만 인정됩니다.</p>
+            </li>
+            <li>
+                <span> · </span>
+                <p>구독권 발급엔 정해진 기한이 없으며, TO 발생 시 순차적으로 발급됩니다.</p>
+            </li>
+            <li>
+                <span> · </span>
+                <p>구독권 발급 시 제출하신 아이디(이메일)나 휴대폰 번호로 안내해 드릴 예정입니다.</p>
+            </li>
+            <li>
+                <span> · </span>
+                <p>구경품은 내부 사정 상 불가피한 경우 경품 종류, 수량, 일정, 지급 방법이 변경될 수 있습니다.</p>
+            </li>
+            <li>
+                <span> · </span>
+                <p>유의사항 미확인으로 인한 불이익은 참가자 본인에게 있습니다.</p>
+            </li>
+        </ul>
+    </div>
+    <div class="invitation_brochure_popup_bg">
+        <div class="invitation_brochure_popup">
+            <div class="brochure_prev" onclick="onChangeBrochure('prev')"></div>
+            <div class="brochure_next" onclick="onChangeBrochure('next')"></div>
+            <div class="brochure_item brochure01">
+                <img src="${STATIC_URL}/images/invitation_images2/brochure01.jpg" alt="브로슈어 01장">
+                <img src="${STATIC_URL}/images/invitation_images2/brochure02.jpg" alt="브로슈어 02장">
+                <span class="brochure_guide">넘기려면 페이지를 클릭하세요</span>
+            </div>
+            <div class="brochure_item brochure02">
+                <img src="${STATIC_URL}/images/invitation_images2/brochure03.jpg" alt="브로슈어 03장">
+                <img src="${STATIC_URL}/images/invitation_images2/brochure04.jpg" alt="브로슈어 04장">
+                <span class="brochure_guide">넘기려면 페이지를 클릭하세요</span>
+            </div>
+            <div class="brochure_item brochure03">
+                <img src="${STATIC_URL}/images/invitation_images2/brochure05.jpg" alt="브로슈어 05장">
+                <img src="${STATIC_URL}/images/invitation_images2/brochure06.jpg" alt="브로슈어 06장">
+                <span class="brochure_guide">넘기려면 페이지를 클릭하세요</span>
+            </div>
+            <div class="brochure_item brochure04">
+                <img src="${STATIC_URL}/images/invitation_images2/brochure07.jpg" alt="브로슈어 07장">
+                <img src="${STATIC_URL}/images/invitation_images2/brochure08.jpg" alt="브로슈어 08장">
+                <span class="brochure_guide">마지막 페이지입니다. 클릭시 첫페이지로 이동합니다.</span>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- 신청 form -->
+    <div class="invitation_popup_bg">
+        <form method="post" action="/invitation-confirm">
+        <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
+            <input type="hidden" id="user_id" name="user_id">
+        <div class="invitation_popup">
+            <img src="${STATIC_URL}/images/invitation_images2/popup.png" alt="K-MOOC 수강신청 이벤트에 참여해주셔서 감사합니다. 당첨 시 아래 기재해 주신 연락처로 안내해 드릴 예정입니다."/>
+            <div class="invitation_inputboxes">
+                <div class="input_style input_name">
+                    <img src="${STATIC_URL}/images/invitation_images2/input_name.png" alt="성함">
+                    <!-- TODO: 이름 부분 id: input_name -->
+                    <input type="text" id="input_name" name="username" title="성함" maxlength="20" readonly onchange="onChangeInputValue()"/>
+                    <span id="name_error" class="banner2_error_msg"></span>
+                </div>
+
+                <div class="input_style input_phone">
+                    <img src="${STATIC_URL}/images/invitation_images2/input_phone.png" alt="연락처">
+                    <!-- TODO: 연락처 부분 id: input_phone -->
+                    <input type="text" id="input_phone" name="phone" title="연락처" maxlength="11" onchange="onChangeInputValue()"/>
+                    <span id="phone_error" class="banner2_error_msg"></span>
+                </div>
+
+                <div class="input_style input_email">
+                    <img src="${STATIC_URL}/images/invitation_images2/input_email.png" alt="이메일">
+                    <!-- TODO: 이메일 부분 id: input_email -->
+                    <input type="text" id="input_email" name="email" title="이메일" maxlength="40" readonly onchange="onChangeInputValue()"/>
+                    <span id="email_error" class="banner2_error_msg"></span>
+                </div>
+
+                <div class="input_style input_job">
+                    <img src="${STATIC_URL}/images/invitation_images2/input_job.png" class="input_job_etc_off" alt="직업">
+                    <img src="${STATIC_URL}/images/invitation_images2/input_job_etc.png" class="input_job_etc_on" alt="직업">
+
+
+
+                    <!-- input job original start -->
+                    <!--
+                    <select name="job" id="input_job" class="" onchange="onChangeJobOpt()">
+                        <option value="" selected disabled>직업을 선택해 주세요</option>
+                        <option value="학생">학생</option>
+                        <option value="직장인">직장인</option>
+                        <option value="교사">교사</option>
+                        <option value="공무원">공무원</option>
+                        <option value="기타">기타 (직접입력)</option>
+                    </select>
+                    <input type="text" class="input_style input_job_etc" title="기타 직업" id="input_job_etc" name="job"
+                           maxlength="20"/>
+                           -->
+                    <!-- input job original end -->
+
+
+                 <!-- input job sample start -->
+                    <select name="job" id="id_job"> <!--onchange="onChangeJobOpt() -->
+                        <option value="학생">학생</option>
+                        <option value="직장인">직장인</option>
+                        <option value="교사">교사</option>
+                        <option value="공무원">공무원</option>
+                        <option value="기타">기타</option>
+                    </select>
+                 <!-- input job sample end -->
+
+
+                </div>
+
+                <div class="input_style input_purpose">
+                    <img src="${STATIC_URL}/images/invitation_images2/input_purpose.png" alt="신청 목적">
+                    <input type="text" class="" id="input_purpose" name="purpose" title="신청 목적" maxlength="50"/>
+                </div>
+            </div>
+
+
+            <!-- sample checkbox start -->
+                <div class="chkbox_wrap">
+                    <input type="checkbox" name="agree" id="id_agree">
+                    <label for="id_agree"><span>&nbsp;마케팅 정보 수신에 동의합니다.</span>
+                </label>
+                </div>
+            <!-- sample checkbox end -->
+
+
+            <!-- original checkbox start -->
+            <!--
+            <div class="chkbox_wrap">
+                <label class="chkbox_label">
+                    <input type="checkbox" id="invitation_chckbox" name="agree">
+                     <img src="${STATIC_URL}/images/invitation_images2/chkbox_on.png" class="chkbox_on" alt="마케팅 정보 수신에 동의합니다."/>
+                    <img src="${STATIC_URL}/images/invitation_images2/chkbox_off.png" class="chkbox_off" alt="마케팅 정보 수신에 동의합니다."/>
+                </label>
+            </div>
+            -->
+             <!-- original checkbox end -->
+
+
+            <!-- test check box start -->
+            <!--<label for="id_agree">Agree:</label><input type="checkbox" name="agree" id="id_agree">-->
+            <!-- test checkbox end -->
+
+
+            <!-- 자바 스크립트 onclick 으로 폼 저장 안됨  -->
+##             <button class="invitation_submit" type="submit" onclick="submitForm()">
+
+
+            <button class="invitation_submit" type="submit" onclick="submitForm()">
+                <img src="${STATIC_URL}/images/invitation_images2/submit_btn.png" alt="제출하기"/>
+            </button>
+        </div>
+        <!-- 중복 에러 테스트 -->
+
+        ## %if form.errors:
+        ## <h1> error </h1>
+        ## %endif
+
+        <!-- 중복 에러 테스트 -->
+
+        </form>
+    </div>
+</div>
+<!-- 신청 form end-->
+
+<div class="event_loading_popup">
+    <img src="${STATIC_URL}/images/invitation_images2/loading.gif" alt="로딩 중.."/>
+</div>
+
+<!-- banner 2 end-->
+
+<script>
+    $(document).ready(function () {
+        $('.invitation_slide_wrap').slick({
+            slidesToShow: 3,
+            centerMode: true,
+            infinite: true,
+            autoplay: true,
+            speed: 600,
+            arrows: true,
+            dots: true,
+            easing: 'easeOutElastic',
+            centerPadding: '0',
+        });
+
+
+        // TODO: 로그인 상태일 시 회원정보 (이름, 연락처, 이메일) 자동 입력 부분
+        % if user.is_authenticated:
+            document.getElementById('input_name').value = '${user.profile.name}';
+            document.getElementById('input_phone').value = '';
+            document.getElementById('input_email').value = '${user.email}';
+        % else:
+            document.getElementById('input_name').value = '';
+            document.getElementById('input_phone').value = '';
+            document.getElementById('input_email').value = '';
+        % endif
+
+        % if success:
+            alert('이벤트에 참여해 주셔서 감사합니다 :)');
+            location.href="/invitation-banner";
+        % elif fail:
+            alert('입력한 값이 올바르지 않습니다. ');
+            location.href="/invitation-banner";
+        % elif duplicate_user:
+            alert('이벤트 중복 참여는 불가합니다. ');
+            location.href="/invitation-banner";
+            //alert('  ');
+        % endif
+
+    })
+
+
+    function onDirection() {
+        alert('로그인이 필요합니다.')
+        window.location.href = "/login";
+    }
+
+    // 이름, 번호, 이멜 유효성 검사
+    function onChangeInputValue() {
+        var num = /^[0-9]+$/;
+        var nameRegex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|]+$/;
+        var regex = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+
+        if (input_name.value && !nameRegex.test(input_name.value)) {
+            name_error.innerHTML = '숫자 및 특수문자는 입력할 수 없습니다.'
+            input_name.focus();
+        } else {
+            name_error.innerHTML = ''
+        }
+        if (input_phone.value && !num.test(input_phone.value)) {
+            phone_error.innerHTML = '숫자만 입력하실 수 있습니다'
+            input_phone.focus();
+        } else {
+            phone_error.innerHTML = ''
+        }
+        if (input_email.value && !regex.test(input_email.value)) {
+            email_error.innerHTML = '정확한 이메일 주소를 입력해 주세요.'
+            input_email.focus();
+        } else {
+            email_error.innerHTML = ''
+        }
+    }
+
+    // 신청 제출하기
+    function submitForm() {
+        //TODO: 로그인 체크 부분
+        //로그인 여부를 체크해 로그인 상태일 때 아래 코드 실행
+        //앞단에서 막지만 혹시모를 상황을 대비해 로그인 하지 않으면 제출되지 않도록 처리 필요
+
+        var num = /^[0-9]+$/;
+        var nameRegex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|]+$/;
+        var regex = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+
+        if (!input_name.value) {
+            alert('성함을 입력해 주세요.')
+            return;
+        }
+        if (!nameRegex.test(input_name.value)) {
+            alert('성함에 숫자 및 특수문자는 입력할 수 없습니다.')
+            return
+        }
+        if (!input_phone.value) {
+            alert('연락처를 입력해 주세요.')
+            return;
+        }
+        if (!num.test(input_phone.value)) {
+            alert('연락처는 숫자만 입력해 주세요.')
+            return
+        }
+        if (!input_email.value) {
+            alert('이메일을 입력해 주세요.')
+            return;
+        }
+        if (!regex.test(input_email.value)) {
+            alert('이메일을 정확하게 입력해 주세요.')
+            return
+        }
+        if (!input_job.value) {
+            alert('직업을 선택해 주세요.')
+            return;
+        }
+        if (!input_purpose.value) {
+            alert('신청 목적을 입력해 주세요.')
+            return;
+        }
+        if (!invitation_chckbox.checked) {
+            alert('마케팅 정보 수신에 동의해 주세요.')
+            return;
+        }
+
+
+        const name = input_name.value;
+        const phone = input_phone.value;
+        const email = input_email.value;
+        let job = input_job.value;
+        if (job.indexOf("기타") !== -1) {
+            if (!input_job_etc.value) {
+                alert('기타 직업을 입력해 주세요.');
+                return;
+            }
+
+            job = "(기타)" + input_job_etc.value;
+        }
+        const purpose = input_purpose.value;
+        const agree = invitation_chckbox.checked ? 'Y' : 'N'
+
+        let params = {
+            "Name": name,
+            "Phone": phone,
+            "Email": email,
+            "Job": job,
+            "Purpose": purpose,
+            "Agree": agree
+        };
+
+/*
+        //Alert 및 로딩
+        //이벤트 참여 완료 alert
+        alert('이벤트에 참여해 주셔서 감사합니다 :)');
+        //이벤트 중복 참여 alert
+        alert('이벤트 중복 참여는 불가합니다.');
+
+        //로딩 보이기
+        $(".event_loading_popup").fadeIn();
+        //로딩 사라지기
+        $(".event_loading_popup").fadeOut();
+        */
+
+        // 중복 제출
+        // alert('이벤트 중복 참여는 불가합니다.')
+        // success
+
+    }
+
+    // 브로슈어 보기
+    const brochure = document.querySelector('.invitation_brochure_popup_bg')
+
+    function onShowBrochure() {
+        brochure.style.display = 'block';
+    }
+
+    brochure.addEventListener('click', (e) => {
+        if (e.target !== e.currentTarget) return
+        brochure.style.display = 'none';
+    })
+
+    let currentBrochure = 0;
+
+    // 브로슈어 넘기기
+    function onChangeBrochure(type) {
+        let items = document.querySelectorAll('.brochure_item');
+        // console.log(current)
+        if (type == 'prev') {
+            if (currentBrochure == 0) {
+                currentBrochure = items.length - 1;
+            } else currentBrochure--;
+        } else {
+            if (currentBrochure == items.length - 1) {
+                currentBrochure = 0;
+            } else currentBrochure++;
+        }
+
+        let brochurePage = '.brochure0' + (Number(currentBrochure) + 1);
+        // console.log(brochurePage)
+
+        let page = document.querySelector(brochurePage)
+        for (let i = 0; i < items.length; i++) {
+            items[i].style.display = 'none';
+        }
+        page.style.display = 'flex'
+        // console.log(current, page)
+    }
+
+
+    // popup - 기타 직접 입력
+    function onChangeJobOpt() {
+        return false;
+        const job = document.querySelector('.input_job')
+        if (input_job.options[input_job.selectedIndex].value.indexOf('기타') !== -1) {
+            job.classList.add('active');
+            input_job_etc.focus()
+        } else job.classList.remove('active')
+    }
+
+    // popup 열기 닫기
+    const popup = document.querySelector('.invitation_popup_bg');
+
+    function onShowEvent() {
+
+        //TODO: 로그인 체크 부분
+        //로그인 여부를 체크해 로그인 상태일 때 아래 코드 실행 or 비 로그인 상태에서는 로그인 페이지로 이동 처리
+        // if logined popup.style.display = 'block'; else redirect login page
+        popup.style.display = 'block';
+
+    }
+
+    popup.addEventListener('click', (e) => {
+        if (e.target !== e.currentTarget) return
+        popup.style.display = 'none';
+    })
+
+
+</script>

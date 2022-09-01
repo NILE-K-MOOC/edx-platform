@@ -88,6 +88,7 @@ urlpatterns = [
     url(r'^$', branding_views.index, name='root'),
     url(r'^banner$', branding_views.banner, name='banner'),
     url(r'^invitation-banner$', branding_views.invitation_banner, name='invitation_banner'),
+    url(r'^invitation-banner_old1$', branding_views.invitation_banner_old1, name='invitation_banner_old1'),
     url(r'^invitation-confirm$', branding_views.invitation_confirm, name='invitation_confirm'),
     url(r'^prevcoursera$', branding_views.prev_coursera_course, name='prev_coursera_course'),
     url(r'^coursera$', branding_views.coursera_course, name='coursera_course'),
