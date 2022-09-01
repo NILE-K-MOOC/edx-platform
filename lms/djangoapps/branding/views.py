@@ -188,7 +188,7 @@ def invitation_banner_old1(request):
 
 
 def invitation_banner(request):
-    return render_to_response("invitation-banner2-form.html")
+    return render_to_response("invitation-banner2.html")
 
 
 def prev_coursera_course(request):
