@@ -373,6 +373,8 @@ url('${STATIC_URL}/images/invitation_images2/next.png'  ) */
     right: 17vw;
       top: 130px;
   }
+
+
 }
 
 
@@ -488,7 +490,7 @@ table {
     font-weight: bold;
 }
 
-.invitation_wrap .invitation_popup_bg, .invitation_brochure_popup_bg {
+.invitation_wrap .invitation_brochure_popup_bg  {
     position: fixed;
     display: none;
     top: 0;
@@ -499,7 +501,20 @@ table {
     z-index: 10000;
     overflow: auto;
 }
-.invitation_wrap .invitation_popup_bg .invitation_popup {
+/*invitation_popup_bg -> popWrap 변경*/
+.invitation_wrap .popWrap  {
+    position: fixed;
+    display: none;
+    margin: 0 auto;
+    top: 20%;
+    left: 0;
+    right:0;
+    background-color: rgba(0, 0, 0, .3);
+    z-index: 10000;
+    overflow: auto;
+}
+
+.invitation_wrap .popWrap .invitation_popup {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -507,15 +522,15 @@ table {
     border-radius: 14px;
     transform: translate(-50%, -50%);
 }
-.invitation_wrap .invitation_popup_bg .invitation_popup .invitation_inputboxes {
+.invitation_wrap .popWrap .invitation_popup .invitation_inputboxes {
     padding: 40px 0 18px;
     text-align: center;
 }
-.invitation_wrap .invitation_popup_bg .invitation_popup .input_style {
+.invitation_wrap .popWrap .invitation_popup .input_style {
     position: relative;
     margin-bottom: 17px;
 }
-.invitation_wrap .invitation_popup_bg .invitation_popup .input_style input, .invitation_wrap .invitation_popup_bg .invitation_popup .input_job select {
+.invitation_wrap .popWrap .invitation_popup .input_style input, .invitation_wrap .popWrap .invitation_popup .input_job select {
     position: absolute;
     left: 36.5%;
     top: 10%;
@@ -525,34 +540,34 @@ table {
     border: none;
     background: transparent;
 }
-.invitation_wrap .invitation_popup_bg .invitation_popup .input_job select {
+.invitation_wrap .popWrap .invitation_popup .input_job select {
     left: 35.5%;
     width: 47%;
     border: 2px solid #dcdcdc;
     border-radius: 3px;
 }
-.invitation_wrap .invitation_popup_bg .invitation_popup .input_job.active select {
+.invitation_wrap .popWrap .invitation_popup .input_job.active select {
     top: -8%;
 }
-.invitation_wrap .invitation_popup_bg .invitation_popup .input_job input {
+.invitation_wrap .popWrap .invitation_popup .input_job input {
     display: none;
 }
-.invitation_wrap .invitation_popup_bg .invitation_popup .input_job.active input {
+.invitation_wrap .popWrap .invitation_popup .input_job.active input {
     display: block;
     top: auto;
     bottom: 13%;
     margin: 0;
 }
-.invitation_wrap .invitation_popup_bg .invitation_popup .input_job.active .input_job_etc_on, .invitation_wrap .invitation_popup_bg .invitation_popup .input_job .input_job_etc_off {
+.invitation_wrap .popWrap .invitation_popup .input_job.active .input_job_etc_on, .invitation_wrap .popWrap .invitation_popup .input_job .input_job_etc_off {
     display: inline-block;
 }
-.invitation_wrap .invitation_popup_bg .invitation_popup .input_job.active .input_job_etc_off, .invitation_wrap .invitation_popup_bg .invitation_popup .input_job .input_job_etc_on {
+.invitation_wrap .popWrap .invitation_popup .input_job.active .input_job_etc_off, .invitation_wrap .popWrap .invitation_popup .input_job .input_job_etc_on {
     display: none;
 }
     /* 브로슈어 e*/
 
 /* 신청폼 s*/
-.invitation_wrap .invitation_popup_bg .invitation_popup {
+.invitation_wrap .popWrap .invitation_popup {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -560,15 +575,15 @@ table {
     border-radius: 14px;
     transform: translate(-50%, -50%);
 }
-.invitation_wrap .invitation_popup_bg .invitation_popup .invitation_inputboxes {
+.invitation_wrap .popWrap .invitation_popup .invitation_inputboxes {
     padding: 40px 0 18px;
     text-align: center;
 }
-.invitation_wrap .invitation_popup_bg .invitation_popup .input_style {
+.invitation_wrap .popWrap .invitation_popup .input_style {
     position: relative;
     margin-bottom: 17px;
 }
-.invitation_wrap .invitation_popup_bg .invitation_popup .input_style input, .invitation_wrap .invitation_popup_bg .invitation_popup .input_job select {
+.invitation_wrap .popWrap .invitation_popup .input_style input, .invitation_wrap .popWrap .invitation_popup .input_job select {
     position: absolute;
     left: 36.5%;
     top: 10%;
@@ -578,28 +593,28 @@ table {
     border: none;
     background: transparent;
 }
-.invitation_wrap .invitation_popup_bg .invitation_popup .input_job select {
+.invitation_wrap .popWrap .invitation_popup .input_job select {
     left: 35.5%;
     width: 47%;
     border: 2px solid #dcdcdc;
     border-radius: 3px;
 }
-.invitation_wrap .invitation_popup_bg .invitation_popup .input_job.active select {
+.invitation_wrap .popWrap .invitation_popup .input_job.active select {
     top: -8%;
 }
-.invitation_wrap .invitation_popup_bg .invitation_popup .input_job input {
+.invitation_wrap .popWrap .invitation_popup .input_job input {
     display: none;
 }
-.invitation_wrap .invitation_popup_bg .invitation_popup .input_job.active input {
+.invitation_wrap .popWrap .invitation_popup .input_job.active input {
     display: block;
     top: auto;
     bottom: 13%;
     margin: 0;
 }
-.invitation_wrap .invitation_popup_bg .invitation_popup .input_job.active .input_job_etc_on, .invitation_wrap .invitation_popup_bg .invitation_popup .input_job .input_job_etc_off {
+.invitation_wrap .popWrap .invitation_popup .input_job.active .input_job_etc_on, .invitation_wrap .popWrap .invitation_popup .input_job .input_job_etc_off {
     display: inline-block;
 }
-.invitation_wrap .invitation_popup_bg .invitation_popup .input_job.active .input_job_etc_off, .invitation_wrap .invitation_popup_bg .invitation_popup .input_job .input_job_etc_on {
+.invitation_wrap .popWrap .invitation_popup .input_job.active .input_job_etc_off, .invitation_wrap .popWrap .invitation_popup .input_job .input_job_etc_on {
     display: none;
 }
 
@@ -661,8 +676,9 @@ button.invitation_submit:focus:not(:disabled){
 
 /*신청폼 e*/
 
-/* 유비온 form s */
+/* 유 form s */
 .popWrap {
+    display: none;
     width: 516px;
     height: 612px;
     padding-top: 150px;
@@ -670,6 +686,11 @@ button.invitation_submit:focus:not(:disabled){
     margin: 0 auto;
     background: url('${STATIC_URL}/images/invitation_images2/pop_bg.png') center/cover no-repeat;
     position: relative;
+    /*position: fixed; */
+
+    z-index: 10000;
+    overflow: auto;
+
 }
 
 .formWrap {
@@ -706,10 +727,55 @@ button.invitation_submit:focus:not(:disabled){
 
 .formWrap select {
     padding-right: 50px;
-    background: white url(./img/select_arr.png) right 20px center no-repeat;
+    background: white url('${STATIC_URL}/images/invitation_images2/select_arr.png') right 20px center no-repeat;
 }
-/*유비온 form e*/
 
+.agree {
+    margin: 0 auto;
+    text-align: center;
+    display: block;
+    margin-top: 45px;
+    color: white;
+    font-family: sans-serif;
+}
+
+.agree input {
+    display: none;
+}
+
+.agree span {
+    position: relative;
+    padding-left: 32px;
+}
+
+.agree span i {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 16px;
+    height: 16px;
+    background: url('${STATIC_URL}/images/invitation_images2/check_off.png') left center no-repeat;
+}
+
+.agree input:checked + span i {
+    background: url('${STATIC_URL}/images/invitation_images2/check_on.png') left center no-repeat;
+}
+
+.invitation_submit {
+    position: absolute;
+    left: -39px;
+    right: 0;
+    bottom: -38px;
+    width: 100%;
+    height: 80px;
+   /* background: url('${STATIC_URL}/images/invitation_images2/btn.png') center/cover no-repeat; */
+}
+
+
+/*유 form e*/
+#input_email, #input_name, #input_phone {
+    left: 7%;
+}
 
 </style>
 <!--   <img src="${STATIC_URL}/images/invitation220830/event1.png" alt="K-mook 글로벌 강좌 초대장 내 미래를 바꿔줄 특별한 강의"/> -->
@@ -732,16 +798,16 @@ button.invitation_submit:focus:not(:disabled){
         <img class="sec01_bg" src="${STATIC_URL}/images/invitation220830/bg_visual_01.gif" alt="bg_visual_01">
         <div class="itemWrap">
             <img src="${STATIC_URL}/images/invitation220830/sec01_item.png" alt="sec01_item">
-% if user.is_authenticated:
-    <div class="invitation_btn invitation_enroll" onclick="onShowEvent()">
-                <img src="${STATIC_URL}/images/invitation220830/btn_01.png" alt="btn_01">
-    </div>
-% else:
-    <!--    로그인이 필요합니다. 로그인 페이지로 리다이렉트 window.location.href = "/login"; -->
-    <div class="invitation_btn invitation_enroll" onclick="onDirection()">
-        <img src="${STATIC_URL}/images/invitation220830/btn_01.png" alt="btn_01">
-        </div>
-% endif
+            % if user.is_authenticated:
+                <div class="invitation_btn invitation_enroll" onclick="onShowEvent()">
+                            <img src="${STATIC_URL}/images/invitation220830/btn_01.png" alt="btn_01">
+                </div>
+            % else:
+                <!--    로그인이 필요합니다. 로그인 페이지로 리다이렉트 window.location.href = "/login"; -->
+                <div class="invitation_btn invitation_enroll" onclick="onDirection()">
+                    <img src="${STATIC_URL}/images/invitation220830/btn_01.png" alt="btn_01">
+                </div>
+            % endif
         </div>
     </div>
 </section>
@@ -794,18 +860,18 @@ button.invitation_submit:focus:not(:disabled){
             <img src="${STATIC_URL}/images/invitation220830/sec_03.png" alt="sec_03">
             <!-- <img src="./img/bg_02.png" alt="bg_02"> -->
         </div>
-    <!--    <a class="btn03" href="#"><img src="${STATIC_URL}/images/invitation220830/btn_03.png" alt="btn_03"></a> -->
+    <!--  <a class="btn03" href="#"><img src="${STATIC_URL}/images/invitation220830/btn_03.png" alt="btn_03"></a> -->
 
-% if user.is_authenticated:
-    <div class="invitation_btn invitation_enroll" onclick="onShowEvent()">
+        % if user.is_authenticated:
+            <div class="invitation_btn invitation_enroll" onclick="onShowEvent()">
+                 <img src="${STATIC_URL}/images/invitation220830/btn_03.png" alt="btn_03">
+            </div>
+        % else:
+            <!--    로그인이 필요합니다. 로그인 페이지로 리다이렉트 window.location.href = "/login"; -->
+            <div class="invitation_btn invitation_enroll" onclick="onDirection()">
                 <img src="${STATIC_URL}/images/invitation220830/btn_03.png" alt="btn_03">
-    </div>
-% else:
-    <!--    로그인이 필요합니다. 로그인 페이지로 리다이렉트 window.location.href = "/login"; -->
-    <div class="invitation_btn invitation_enroll" onclick="onDirection()">
-        <img src="${STATIC_URL}/images/invitation220830/btn_03.png" alt="btn_03">
-        </div>
-% endif
+            </div>
+        % endif
 
         <img src="${STATIC_URL}/images/invitation220830/sec_04.png" alt="sec_04">
     </div>
@@ -814,8 +880,10 @@ button.invitation_submit:focus:not(:disabled){
 <!-- 브로슈어 s-->
 <div class="invitation_brochure_popup_bg">
     <div class="invitation_brochure_popup">
-        <div class="brochure_prev" onclick="onChangeBrochure('prev')"></div>
-        <div class="brochure_next" onclick="onChangeBrochure('next')"></div>
+        <div class="brochure_prev" onclick="onChangeBrochure('prev')">
+        </div>
+        <div class="brochure_next" onclick="onChangeBrochure('next')">
+        </div>
         <div class="brochure_item brochure01">
             <img src="${STATIC_URL}/images/invitation_images2/brochure01.jpg" alt="브로슈어 01장">
             <img src="${STATIC_URL}/images/invitation_images2/brochure02.jpg" alt="브로슈어 02장">
@@ -842,84 +910,69 @@ button.invitation_submit:focus:not(:disabled){
 
 
 <!-- 신청 form s-->
- <!-- 신청 form -->
-    <div class="invitation_popup_bg">
-        <form method="post" action="/invitation-confirm">
-        <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
+<div class="popWrap"> <!-- invitation_popup_bg -->
+    <form method="post" action="/invitation-confirm">
+            <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
             <input type="hidden" id="user_id" name="user_id">
-        <div class="invitation_popup">
-            <img src="${STATIC_URL}/images/invitation_images2/pop_bg.png" alt="K-MOOC 수강신청 이벤트에 참여해주셔서 감사합니다. 당첨 시 아래 기재해 주신 연락처로 안내해 드릴 예정입니다."/>
-            <div class="invitation_inputboxes">
-                <div class="input_style input_name">
-                    <img src="${STATIC_URL}/images/invitation_images2/input_name.png" alt="성함">
+        <div class="formWrap"> <!-- invitaiton_popup -->
+                <div class="inputWrap"> <!-- invitation_inputboxes -->
+                    <img src="${STATIC_URL}/images/invitation_images2/input1.png" alt="성함">
                     <!-- TODO: 이름 부분 id: input_name -->
-                    <input type="text" id="input_name" name="username" title="성함" maxlength="20" readonly onchange="onChangeInputValue()"/>
+                    <input type="text" id="input_name" name="username" title="성함" maxlength="20" readonly
+                           onchange="onChangeInputValue()"/>
                     <span id="name_error" class="banner2_error_msg"></span>
                 </div>
 
-                <div class="input_style input_phone">
-                    <img src="${STATIC_URL}/images/invitation_images2/input_phone.png" alt="연락처">
+                <div class="inputWrap input_phone">
+                    <img src="${STATIC_URL}/images/invitation_images2/input2.png" alt="연락처">
                     <!-- TODO: 연락처 부분 id: input_phone -->
-                    <input type="text" id="input_phone" name="phone" title="연락처" maxlength="11" onchange="onChangeInputValue()"/>
+                    <input type="text" id="input_phone" name="phone" title="연락처" maxlength="11"
+                           onchange="onChangeInputValue()"/>
                     <span id="phone_error" class="banner2_error_msg"></span>
                 </div>
 
-                <div class="input_style input_email">
-                    <img src="${STATIC_URL}/images/invitation_images2/input_email.png" alt="이메일">
+                <div class="inputWrap input_email">
+                    <img src="${STATIC_URL}/images/invitation_images2/input3.png" alt="이메일">
                     <!-- TODO: 이메일 부분 id: input_email -->
-                    <input type="text" id="input_email" name="email" title="이메일" maxlength="40" readonly onchange="onChangeInputValue()"/>
+                    <input type="text" id="input_email" name="email" title="이메일" maxlength="40" readonly
+                           onchange="onChangeInputValue()"/>
                     <span id="email_error" class="banner2_error_msg"></span>
                 </div>
 
-                <div class="input_style input_job">
-                    <img src="${STATIC_URL}/images/invitation_images2/input_job.png" class="input_job_etc_off" alt="직업">
-                    <img src="${STATIC_URL}/images/invitation_images2/input_job_etc.png" class="input_job_etc_on" alt="직업">
+                <div class="inputWrap input_job">
+                    <img src="${STATIC_URL}/images/invitation_images2/input4.png" class="input_job_etc_off" alt="직업">
 
-                 <!-- input job sample start -->
-                    <select name="job" id="id_job"> <!--onchange="onChangeJobOpt() -->
+                    <select name="job" id="id_job">
                         <option value="학생">학생</option>
                         <option value="직장인">직장인</option>
                         <option value="교사">교사</option>
                         <option value="공무원">공무원</option>
                         <option value="기타">기타</option>
                     </select>
-                 <!-- input job sample end -->
-
-
                 </div>
 
-                <div class="input_style input_purpose">
-                    <img src="${STATIC_URL}/images/invitation_images2/input_purpose.png" alt="신청 목적">
+                <div class="inputWrap input_purpose">
+                    <img src="${STATIC_URL}/images/invitation_images2/input5.png" alt="신청 목적">
                     <input type="text" class="" id="input_purpose" name="purpose" title="신청 목적" maxlength="50"/>
                 </div>
-            </div>
+        </div>
 
+            <label class="agree"> <!-- chkbox_wrap --> <!-- label 구조확인 -->
+                <input type="checkbox" name="agree" id="id_agree">
+                <span><i></i>마케팅 정보 수신에 동의합니다.</span>
+            </label>
 
-            <!-- sample checkbox start -->
-                <div class="chkbox_wrap">
-                    <input type="checkbox" name="agree" id="id_agree">
-                    <label for="id_agree"><span>&nbsp;마케팅 정보 수신에 동의합니다.</span>
-                </label>
-                </div>
-            <!-- sample checkbox end -->
-
+            <!-- <a href="#" class="submit"></a> -->
             <button class="invitation_submit" type="submit" onclick="submitForm()">
                 <img src="${STATIC_URL}/images/invitation_images2/btn.png" alt="제출하기"/>
             </button>
-        </div>
-        </form>
-    </div>
-
-<!-- 신청 form end-->
+    </form>
+</div>
 <!-- 신청 form e-->
 
 <!-- <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script> -->
 <!-- <script type="text/javascript" src="./js/slick.min.js"></script> -->
-
-
-
 </div>
-
 </body>
 
 <script>
@@ -1136,7 +1189,7 @@ button.invitation_submit:focus:not(:disabled){
     }
 
     // popup 열기 닫기
-    const popup = document.querySelector('.invitation_popup_bg');
+    const popup = document.querySelector('.popWrap');
 
     function onShowEvent() {
 
