@@ -961,8 +961,8 @@ button.invitation_submit:focus:not(:disabled){
 
 <!-- 신청 form s-->
 <div class="popWrap_bg">
-<div class="popWrap"> <!-- invitation_popup_bg -->
-    <form method="post" action="/invitation-confirm">
+<div class="popWrap"> <!-- invitation_popup_bg onsubmit="return false"-->
+    <form method="post" action="/invitation-confirm" onsubmit="return submitForm()">
             <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
             <input type="hidden" id="user_id" name="user_id">
         <div class="formWrap"> <!-- invitaiton_popup -->
@@ -979,7 +979,7 @@ button.invitation_submit:focus:not(:disabled){
 
                     <img src="${STATIC_URL}/images/invitation_images2/input2.png" alt="연락처">
                     <!-- TODO: 연락처 부분 id: input_phone -->
-                    <input type="text" id="input_phone" name="phone" title="연락처" maxlength="11"
+                    <input type="text" id="input_phone" name="phone" title="연락처" maxlength="11" placeholder="숫자만 입력하세요"
                            onchange="onChangeInputValue()"/>
                     <span id="phone_error" class="banner2_error_msg"></span>
 
@@ -1017,7 +1017,7 @@ button.invitation_submit:focus:not(:disabled){
             </label>
 
             <!-- <a href="#" class="submit"></a> -->
-            <button class="invitation_submit" type="submit" onclick="submitForm()">
+            <button class="invitation_submit" type="submit" >
                 <img src="${STATIC_URL}/images/invitation_images2/btn.png" alt="제출하기"/>
             </button>
     </form>
@@ -1077,31 +1077,6 @@ button.invitation_submit:focus:not(:disabled){
     }
 
     // 이름, 번호, 이멜 유효성 검사
-    function onChangeInputValue() {
-        var num = /^[0-9]+$/;
-        var nameRegex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|]+$/;
-        var regex = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-
-        ##  if (input_name.value && !nameRegex.test(input_name.value)) {
-        ##      name_error.innerHTML = '숫자 및 특수문자는 입력할 수 없습니다.'
-        ##      input_name.focus();
-        ##  } else {
-        ##      name_error.innerHTML = ''
-        ##  }
-        if (input_phone.value && !num.test(input_phone.value)) {
-            phone_error.innerHTML = '숫자만 입력하실 수 있습니다'
-            input_phone.focus();
-        } else {
-            phone_error.innerHTML = ''
-        }
-        if (input_email.value && !regex.test(input_email.value)) {
-            email_error.innerHTML = '정확한 이메일 주소를 입력해 주세요.'
-            input_email.focus();
-        } else {
-            email_error.innerHTML = ''
-        }
-    }
-
     // 신청 제출하기
     function submitForm() {
         //TODO: 로그인 체크 부분
@@ -1111,86 +1086,32 @@ button.invitation_submit:focus:not(:disabled){
         var num = /^[0-9]+$/;
         var nameRegex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|]+$/;
         var regex = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+        var regPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
 
-        if (!input_name.value) {
-            alert('성함을 입력해 주세요.')
-            return;
+        if (!regPhone.test(input_phone.value)) {
+            alert('연락처를 정확히 입력해 주세요.')
+            return false;
         }
-        if (!id_agree.checked) {
-            alert('마케팅 정보 수신에 동의해 주세요.')
-            return;
-        }
-        ##  if (!nameRegex.test(input_name.value)) {
-        ##      alert('성함에 숫자 및 특수문자는 입력할 수 없습니다.')
-        ##      return
-        ##  }
         if (!input_phone.value) {
             alert('연락처를 입력해 주세요.')
-            return;
+            return false;
         }
         if (!num.test(input_phone.value)) {
             alert('연락처는 숫자만 입력해 주세요.')
-            return
+            return false;
         }
-        if (!input_email.value) {
-            alert('이메일을 입력해 주세요.')
-            return;
+        if (input_phone.value.length !== 11) {
+            alert('연락처를 정확히 입력해 주세요.')
+            return false;
         }
-        if (!regex.test(input_email.value)) {
-            alert('이메일을 정확하게 입력해 주세요.')
-            return
-        }
-        if (!input_job.value) {
-            alert('직업을 선택해 주세요.')
-            return;
+        if (!id_agree.checked) {
+            alert('마케팅 정보 수신에 동의해 주세요.')
+            return false;
         }
         if (!input_purpose.value) {
             alert('신청 목적을 입력해 주세요.')
-            return;
+            return false;
         }
-
-
-        const name = input_name.value;
-        const phone = input_phone.value;
-        const email = input_email.value;
-        let job = input_job.value;
-        if (job.indexOf("기타") !== -1) {
-            if (!input_job_etc.value) {
-                alert('기타 직업을 입력해 주세요.');
-                return;
-            }
-
-            job = "(기타)" + input_job_etc.value;
-        }
-        const purpose = input_purpose.value;
-        const agree = invitation_chckbox.checked ? 'Y' : 'N'
-
-        let params = {
-            "Name": name,
-            "Phone": phone,
-            "Email": email,
-            "Job": job,
-            "Purpose": purpose,
-            "Agree": agree
-        };
-
-/*
-        //Alert 및 로딩
-        //이벤트 참여 완료 alert
-        alert('이벤트에 참여해 주셔서 감사합니다 :)');
-        //이벤트 중복 참여 alert
-        alert('이벤트 중복 참여는 불가합니다.');
-
-        //로딩 보이기
-        $(".event_loading_popup").fadeIn();
-        //로딩 사라지기
-        $(".event_loading_popup").fadeOut();
-        */
-
-        // 중복 제출
-        // alert('이벤트 중복 참여는 불가합니다.')
-        // success
-
     }
 
     // 브로슈어 보기
