@@ -502,17 +502,44 @@ table {
     overflow: auto;
 }
 /*invitation_popup_bg -> popWrap 변경*/
-.invitation_wrap .popWrap  {
+.invitation_wrap .popWrap_bg {
     position: fixed;
     display: none;
-    margin: 0 auto;
-    top: 20%;
+    top: 0;
     left: 0;
-    right:0;
+    width: 100%;
+    height: 100%;
     background-color: rgba(0, 0, 0, .3);
     z-index: 10000;
     overflow: auto;
 }
+
+.invitation_wrap .popWrap {
+    position: fixed;
+    display: block;
+    margin: 0 auto;
+    top: 20%;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, .3);
+    /* z-index: 10000; */
+    overflow: auto;
+    ## width: 100%;
+    ## height: 100%; /* 불투명 백그라운드 */
+}
+
+.invitation_wrap .popWrap {
+    position: fixed;
+    display: block;
+    width: 516px;
+    height: 612px;
+    padding-top: 150px;
+    box-sizing: border-box;
+    margin: 0 auto;
+    background: url('${STATIC_URL}/images/invitation_images2/pop_bg.png') center/cover no-repeat;
+
+}
+
 
 .invitation_wrap .popWrap .invitation_popup {
     position: absolute;
@@ -621,10 +648,12 @@ table {
 
 .banner2_error_msg {
     display: block;
-    margin-left: 37%;
     text-align: left;
     font-size: 13px;
     color: red;
+    padding-left: 100px;
+    padding-top: 3px;
+
 }
 .chkbox_wrap {
     /* position: absolute;
@@ -677,35 +706,40 @@ button.invitation_submit:focus:not(:disabled){
 /*신청폼 e*/
 
 /* 유 form s */
-.popWrap {
-    display: none;
-    width: 516px;
-    height: 612px;
-    padding-top: 150px;
-    box-sizing: border-box;
-    margin: 0 auto;
-    background: url('${STATIC_URL}/images/invitation_images2/pop_bg.png') center/cover no-repeat;
-    position: relative;
-    /*position: fixed; */
-
-    z-index: 10000;
-    overflow: auto;
-
-}
+## .popWrap {
+##     display: none;
+##     width: 516px;
+##     height: 612px;
+##     padding-top: 150px;
+##     box-sizing: border-box;
+##     margin: 0 auto;
+##     background: url('${STATIC_URL}/images/invitation_images2/pop_bg.png') center/cover no-repeat;
+##     position: relative;
+##     /*position: fixed; */
+##     z-index: 10000;
+##     overflow: auto;
+## }
 
 .formWrap {
     margin: 0 auto;
     width: 372px;
 }
 
+
 .formWrap .inputWrap {
-    display: flex;
+    /* display: flex; */
+    display: block;
     align-items: center;
     justify-content: space-between;
 }
 
 .formWrap .inputWrap + .inputWrap {
     margin-top: 20px;
+}
+
+.formWrap .inputWrap .input_style .banner2_error_msg{
+    position: relative;
+
 }
 
 .formWrap select,
@@ -773,9 +807,25 @@ button.invitation_submit:focus:not(:disabled){
 
 
 /*유 form e*/
-#input_email, #input_name, #input_phone {
-    left: 7%;
+#input_email, #input_name, #input_phone, #id_job, #input_purpose {
+    left: 4%;
 }
+
+.popWrap .input_style {
+    position: relative;
+    margin-bottom: 17px;
+}
+.popWrap .input_style input, .invitation_popup .input_job select {
+    position: absolute;
+    left: 36.5%;
+    top: 10%;
+    width: 43%;
+    padding: 5px;
+    font-size: 1.2em;
+    border: none;
+    background: transparent;
+}
+
 
 </style>
 <!--   <img src="${STATIC_URL}/images/invitation220830/event1.png" alt="K-mook 글로벌 강좌 초대장 내 미래를 바꿔줄 특별한 강의"/> -->
@@ -910,11 +960,13 @@ button.invitation_submit:focus:not(:disabled){
 
 
 <!-- 신청 form s-->
+<div class="popWrap_bg">
 <div class="popWrap"> <!-- invitation_popup_bg -->
     <form method="post" action="/invitation-confirm">
             <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
             <input type="hidden" id="user_id" name="user_id">
         <div class="formWrap"> <!-- invitaiton_popup -->
+
                 <div class="inputWrap"> <!-- invitation_inputboxes -->
                     <img src="${STATIC_URL}/images/invitation_images2/input1.png" alt="성함">
                     <!-- TODO: 이름 부분 id: input_name -->
@@ -924,11 +976,13 @@ button.invitation_submit:focus:not(:disabled){
                 </div>
 
                 <div class="inputWrap input_phone">
+
                     <img src="${STATIC_URL}/images/invitation_images2/input2.png" alt="연락처">
                     <!-- TODO: 연락처 부분 id: input_phone -->
                     <input type="text" id="input_phone" name="phone" title="연락처" maxlength="11"
                            onchange="onChangeInputValue()"/>
                     <span id="phone_error" class="banner2_error_msg"></span>
+
                 </div>
 
                 <div class="inputWrap input_email">
@@ -967,6 +1021,7 @@ button.invitation_submit:focus:not(:disabled){
                 <img src="${STATIC_URL}/images/invitation_images2/btn.png" alt="제출하기"/>
             </button>
     </form>
+</div>
 </div>
 <!-- 신청 form e-->
 
@@ -1052,13 +1107,17 @@ button.invitation_submit:focus:not(:disabled){
         //TODO: 로그인 체크 부분
         //로그인 여부를 체크해 로그인 상태일 때 아래 코드 실행
         //앞단에서 막지만 혹시모를 상황을 대비해 로그인 하지 않으면 제출되지 않도록 처리 필요
-
+        ##  var iagree = document.getElementById("id_agree")
         var num = /^[0-9]+$/;
         var nameRegex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|]+$/;
         var regex = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
 
         if (!input_name.value) {
             alert('성함을 입력해 주세요.')
+            return;
+        }
+        if (!id_agree.checked) {
+            alert('마케팅 정보 수신에 동의해 주세요.')
             return;
         }
         ##  if (!nameRegex.test(input_name.value)) {
@@ -1087,10 +1146,6 @@ button.invitation_submit:focus:not(:disabled){
         }
         if (!input_purpose.value) {
             alert('신청 목적을 입력해 주세요.')
-            return;
-        }
-        if (!invitation_chckbox.checked) {
-            alert('마케팅 정보 수신에 동의해 주세요.')
             return;
         }
 
@@ -1146,7 +1201,17 @@ button.invitation_submit:focus:not(:disabled){
     }
 
     brochure.addEventListener('click', (e) => {
+        console.log('brochure e.target')
+        console.log(e.target)
+        console.log('bro e.currenttarget')
+        console.log(e.currentTarget)
+
         if (e.target !== e.currentTarget) return
+        console.log('brochure e.target')
+        console.log(e.target)
+        console.log('bro e.currenttarget')
+        console.log(e.currentTarget)
+
         brochure.style.display = 'none';
     })
 
@@ -1189,19 +1254,20 @@ button.invitation_submit:focus:not(:disabled){
     }
 
     // popup 열기 닫기
-    const popup = document.querySelector('.popWrap');
+    const popup = document.querySelector('.popWrap_bg');
 
     function onShowEvent() {
-
-        //TODO: 로그인 체크 부분
-        //로그인 여부를 체크해 로그인 상태일 때 아래 코드 실행 or 비 로그인 상태에서는 로그인 페이지로 이동 처리
-        // if logined popup.style.display = 'block'; else redirect login page
         popup.style.display = 'block';
-
     }
 
     popup.addEventListener('click', (e) => {
+
         if (e.target !== e.currentTarget) return
+        console.log('e.target')
+        console.log(e.target)
+        console.log('e.currenttarget')
+        console.log(e.currentTarget)
+
         popup.style.display = 'none';
     })
 
