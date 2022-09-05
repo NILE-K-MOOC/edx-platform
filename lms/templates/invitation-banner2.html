@@ -40,6 +40,7 @@ ${("")}
   max-width: 770px;
   margin: 0 auto;
   box-sizing: border-box;
+  ## overflow-x: hidden;
 }
 
 .d-pc {
@@ -68,12 +69,14 @@ section {
   color: #fff;
   text-align: center;
 }
+
 .rec_sec01 .inner {
   position: relative;
   padding: 0;
 }
 .rec_sec01 .inner .sec01_bg {
   display: block;
+  height: 1200px;
 }
 .rec_sec01 .inner .itemWrap {
   position: absolute;
@@ -157,6 +160,10 @@ url('${STATIC_URL}/images/invitation_images2/next.png'  ) */
 }
 .rec_sec02 img {
   width: 100%;
+}
+
+.rec_sec02 .inner{
+  overflow-x: hidden;
 }
 
 .rec_sec03 {
@@ -844,7 +851,7 @@ button.invitation_submit:focus:not(:disabled){
 <div class="invitation_wrap">
 <section class="rec_sec01">
     <div class="inner">
-        <img class="sec01_bg" src="${STATIC_URL}/images/invitation220830/bg_visual_01.gif" alt="bg_visual_01">
+        <img class="sec01_bg" src="${STATIC_URL}/images/invitation220830/bg_visual_01_2.gif" alt="bg_visual_01">
         <div class="itemWrap">
             <img src="${STATIC_URL}/images/invitation220830/sec01_item.png" alt="sec01_item">
             % if user.is_authenticated:
@@ -906,7 +913,7 @@ button.invitation_submit:focus:not(:disabled){
 <section class="rec_sec04">
     <div class="inner">
         <div class="imgWrap">
-            <img src="${STATIC_URL}/images/invitation220830/sec_03.png" alt="sec_03">
+            <img src="${STATIC_URL}/images/invitation220830/sec_03_2.png" alt="sec_03">
             <!-- <img src="./img/bg_02.png" alt="bg_02"> -->
         </div>
     <!--  <a class="btn03" href="#"><img src="${STATIC_URL}/images/invitation220830/btn_03.png" alt="btn_03"></a> -->
