@@ -872,13 +872,9 @@ from openedx.core.djangolib.js_utils import (
 
       % if libraries_enabled or archived_courses:
       <ul id="course-index-tabs">
-        <li class="courses-tab active" id="course_tab"><a>${_("Courses")}</a></li>
-        % if archived_courses:
-        <li class="archived-courses-tab" id="archived_tab"><a>${_("Archived Courses")}</a></li>
-        % endif
-        % if libraries_enabled:
-        <li class="libraries-tab" id="libraries_tab"><a>${_("Libraries")}</a></li>
-        % endif
+        <li class="courses-tab ${'active' if section == 'ing' else ''}" id="course_tab"><a>${_("Courses")}</a></li>
+        <li class="archived-courses-tab ${'active' if section == 'end' else ''}" id="archived_tab"><a>${_("Archived Courses")}</a></li>
+        <li class="libraries-tab ${'active' if section == 'library' else ''}" id="libraries_tab"><a>${_("Libraries")}</a></li>
       </ul>
       % endif
 
@@ -899,8 +895,8 @@ from openedx.core.djangolib.js_utils import (
         </div>
       </div>
 
-      %if len(courses) > 0 or optimization_enabled:
-      <div class="courses courses-tab react-course-listing active">
+      %if len(courses) > 0 or len(archived_courses) > 0 or optimization_enabled:
+      <div class="courses courses-tab react-course-listing ${'active' if section == 'ing' else ''}">
         ${static.renderReact(
           component="CourseOrLibraryListing",
           id="react-course-listing",
@@ -1029,7 +1025,7 @@ from openedx.core.djangolib.js_utils import (
       % endif
 
       %if archived_courses:
-      <div class="archived-courses react-archived-course-listing archived-courses-tab">
+      <div class="archived-courses react-archived-course-listing archived-courses-tab ${'active' if section == 'end' else ''}">
         ${static.renderReact(
           component="CourseOrLibraryListing",
           id="react-archived-course-listing",
@@ -1044,7 +1040,7 @@ from openedx.core.djangolib.js_utils import (
       %endif
 
       %if len(libraries) > 0 or optimization_enabled:
-      <div class="libraries react-library-listing libraries-tab">
+      <div class="libraries react-library-listing libraries-tab ${'active' if section == 'library' else ''}">
         ${static.renderReact(
           component="CourseOrLibraryListing",
           id="react-library-listing",

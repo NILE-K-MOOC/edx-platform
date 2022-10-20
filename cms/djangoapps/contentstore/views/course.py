@@ -604,6 +604,8 @@ def course_listing(request):
     user = request.user
     libraries = _accessible_libraries_iter(request.user, org) if LIBRARIES_ENABLED else []
 
+    section = request.GET.get('section', 'ing')
+
     def format_in_process_course_view(uca):
         """
         Return a dict of the data which the view requires for each unsucceeded course
@@ -662,7 +664,18 @@ def course_listing(request):
         org_index = cur.fetchall()
         org_list = list(org_index)
 
+    if section == 'ing':
+        archived_courses = []
+    elif section == 'end':
+        active_courses = []
+    else:
+        active_courses = []
+        archived_courses = []
+
+    print 'courses len [%s] archived_courses [%s]' % (len(active_courses), len(archived_courses))
+
     return render_to_response(u'index.html', {
+        u'section': section,
         u'courses': active_courses,
         u'archived_courses': archived_courses,
         u'in_process_course_actions': in_process_course_actions,

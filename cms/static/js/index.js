@@ -1,5 +1,5 @@
 define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/views/utils/create_course_utils",
-    "js/views/utils/create_library_utils", "common/js/components/utils/view_utils"],
+        "js/views/utils/create_library_utils", "common/js/components/utils/view_utils"],
     function (domReady, $, _, CancelOnEscape, CreateCourseUtilsFactory, CreateLibraryUtilsFactory, ViewUtils) {
         "use strict";
         var CreateCourseUtils = new CreateCourseUtilsFactory({
@@ -88,19 +88,19 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
             var classfysub = "";
             var middle_classfysub = "";
 
-            if(csub1 != null && csub1 != "" && csub1 != "null")
+            if (csub1 != null && csub1 != "" && csub1 != "null")
                 classfysub = csub1;
-            if(csub2 != null && csub2 != "" && csub2 != "null")
-                classfysub += ","+csub2;
-            if(csub3 != null && csub3 != "" && csub3 != "null")
-                classfysub += ","+csub3;
+            if (csub2 != null && csub2 != "" && csub2 != "null")
+                classfysub += "," + csub2;
+            if (csub3 != null && csub3 != "" && csub3 != "null")
+                classfysub += "," + csub3;
 
-            if(msub1 != null && msub1 != "" && msub1 != "null")
+            if (msub1 != null && msub1 != "" && msub1 != "null")
                 middle_classfysub = msub1;
-            if(msub2 != null && msub2 != "" && msub2 != "null")
-                middle_classfysub += ","+msub2;
-            if(msub3 != null && msub3 != "" && msub3 != "null")
-                middle_classfysub += ","+msub3;
+            if (msub2 != null && msub2 != "" && msub2 != "null")
+                middle_classfysub += "," + msub2;
+            if (msub3 != null && msub3 != "" && msub3 != "null")
+                middle_classfysub += "," + msub3;
 
             var linguistics = $newCourseForm.find(".new-course-linguistics").val();
             var period = $newCourseForm.find(".new-course-period").val();
@@ -154,15 +154,15 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
         };
 
         var makeCancelHandler = function (addType) {
-            return function(e) {
+            return function (e) {
                 e.preventDefault();
-                $('.new-'+addType+'-button').removeClass('is-disabled').attr('aria-disabled', false);
-                $('.wrapper-create-'+addType).removeClass('is-shown');
+                $('.new-' + addType + '-button').removeClass('is-disabled').attr('aria-disabled', false);
+                $('.wrapper-create-' + addType).removeClass('is-shown');
                 // Clear out existing fields and errors
-                $('#create-'+addType+'-form input[type=text]').val('');
-                $('#'+addType+'_creation_error').html('');
-                $('.create-'+addType+' .wrap-error').removeClass('is-shown');
-                $('.new-'+addType+'-save').off('click');
+                $('#create-' + addType + '-form input[type=text]').val('');
+                $('#' + addType + '_creation_error').html('');
+                $('.create-' + addType + ' .wrap-error').removeClass('is-shown');
+                $('.new-' + addType + '-save').off('click');
             };
         };
 
@@ -222,17 +222,30 @@ define(["domReady", "jquery", "underscore", "js/utils/cancel_on_escape", "js/vie
             CreateLibraryUtils.configureHandlers();
         };
 
-        var showTab = function(tab) {
-          return function(e) {
-            e.preventDefault();
-            $('.courses-tab').toggleClass('active', tab === 'courses');
-            $('.archived-courses-tab').toggleClass('active', tab === 'archived-courses');
-            $('.libraries-tab').toggleClass('active', tab === 'libraries');
-            $('.programs-tab').toggleClass('active', tab === 'programs');
+        var showTab = function (tab) {
+            return function (e) {
+                e.preventDefault();
+                var current_url = window.location.toString().split('?')[0];
 
-            // Also toggle this course-related notice shown below the course tab, if it is present:
-            $('.wrapper-creationrights').toggleClass('is-hidden', tab !== 'courses');
-          };
+                console.log('go url: ' + current_url + '/' + tab);
+
+                if (tab == 'courses') {
+                    window.location.href = current_url + '?section=ing';
+                } else if (tab == 'archived-courses') {
+                    window.location.href = current_url + '?section=end';
+                } else {
+                    window.location.href = current_url + '?section=library';
+                }
+                /*
+                $('.courses-tab').toggleClass('active', tab === 'courses');
+                $('.archived-courses-tab').toggleClass('active', tab === 'archived-courses');
+                $('.libraries-tab').toggleClass('active', tab === 'libraries');
+                $('.programs-tab').toggleClass('active', tab === 'programs');
+
+                // Also toggle this course-related notice shown below the course tab, if it is present:
+                $('.wrapper-creationrights').toggleClass('is-hidden', tab !== 'courses');
+                */
+            };
         };
 
         var onReady = function () {
