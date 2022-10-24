@@ -121,6 +121,7 @@ from pymongo import MongoClient
 from bson import ObjectId
 from datetime import datetime
 from pytz import utc
+import time
 
 log = logging.getLogger(__name__)
 
@@ -595,14 +596,21 @@ def course_listing(request):
     """
     List all courses and libraries available to the logged in user
     """
+    start_time = time.time()
     optimization_enabled = GlobalStaff().has_user(request.user) and \
                            WaffleSwitchNamespace(name=WAFFLE_NAMESPACE).is_enabled(u'enable_global_staff_optimization')
 
     org = request.GET.get('org', '') if optimization_enabled else None
 
+    log.info('-----> used time1 [%s]' % round((time.time() - start_time), 4))
+
     courses_iter, in_process_course_actions = get_courses_accessible_to_user(request, org)
+
+    log.info('-----> used time2 [%s]' % round((time.time() - start_time), 4))
     user = request.user
     libraries = _accessible_libraries_iter(request.user, org) if LIBRARIES_ENABLED else []
+
+    log.info('-----> used time3 [%s]' % round((time.time() - start_time), 4))
 
     section = request.GET.get('section', 'ing')
 
@@ -649,8 +657,16 @@ def course_listing(request):
         }
 
     split_archived = settings.FEATURES.get(u'ENABLE_SEPARATE_ARCHIVED_COURSES', False)
+
+    log.info('-----> used time4 [%s]' % round((time.time() - start_time), 4))
+
     active_courses, archived_courses = _process_courses_list(courses_iter, in_process_course_actions, split_archived)
+
+    log.info('-----> used time5 [%s]' % round((time.time() - start_time), 4))
+
     in_process_course_actions = [format_in_process_course_view(uca) for uca in in_process_course_actions]
+
+    log.info('-----> used time6 [%s]' % round((time.time() - start_time), 4))
 
     with connections['default'].cursor() as cur:
         query = """
@@ -671,6 +687,8 @@ def course_listing(request):
     else:
         active_courses = []
         archived_courses = []
+
+    log.info('-----> used time7 [%s]' % round((time.time() - start_time), 4))
 
     print 'courses len [%s] archived_courses [%s]' % (len(active_courses), len(archived_courses))
 
