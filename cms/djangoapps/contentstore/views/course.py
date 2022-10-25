@@ -660,7 +660,7 @@ def course_listing(request):
 
     log.info('-----> used time4 [%s]' % round((time.time() - start_time), 4))
 
-    active_courses, archived_courses = _process_courses_list(courses_iter, in_process_course_actions, split_archived)
+    active_courses, archived_courses = _process_courses_list(courses_iter, in_process_course_actions, split_archived, section=section)
 
     log.info('-----> used time5 [%s]' % round((time.time() - start_time), 4))
 
@@ -837,7 +837,7 @@ def get_courses_accessible_to_user(request, org=None):
     return courses, in_process_course_actions
 
 
-def _process_courses_list(courses_iter, in_process_course_actions, split_archived=False):
+def _process_courses_list(courses_iter, in_process_course_actions, split_archived=False, section=None):
     """
     Iterates over the list of courses to be displayed to the user, and:
 
@@ -896,10 +896,17 @@ def _process_courses_list(courses_iter, in_process_course_actions, split_archive
     archived_courses = []
 
     for course in courses_iter:
+        course_ended = course.has_ended()
+
+        if section == 'ing' and course_ended:
+            continue
+        elif section == 'end' and not course_ended:
+            continue
+
         if isinstance(course, ErrorDescriptor) or (course.id in in_process_action_course_keys):
             continue
         formatted_course = format_course_for_view(course)
-        if split_archived and course.has_ended():
+        if split_archived and course_ended:
             archived_courses.append(formatted_course)
         else:
             active_courses.append(formatted_course)
