@@ -902,6 +902,8 @@ def _process_courses_list(courses_iter, in_process_course_actions, split_archive
             continue
         elif section == 'end' and not course_ended:
             continue
+        elif section == 'library':
+            continue
 
         if isinstance(course, ErrorDescriptor) or (course.id in in_process_action_course_keys):
             continue
