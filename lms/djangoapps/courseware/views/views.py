@@ -3868,6 +3868,14 @@ def privacy_old9(request):
 
 @ensure_csrf_cookie
 @cache_if_anonymous()
+def privacy_old10(request):
+    return render_to_response(
+        "courseware/privacy_old10_n.html"
+    )
+
+
+@ensure_csrf_cookie
+@cache_if_anonymous()
 def copyright(request):
     return render_to_response(
         "courseware/copyright.html"
