@@ -172,6 +172,7 @@ def multisite_error(request):
 
     return render_to_response("multisite_error.html", context)
 
+
 # ==================================================================================================> 배너 시작
 @csrf_exempt
 def banner(request):
@@ -219,12 +220,12 @@ from django.contrib import messages
 
 def invitation_confirm(request):
     if request.method == 'POST':
-        #폼 이니셜 값 user_id 할당
+        # 폼 이니셜 값 user_id 할당
         updated_request = request.POST.copy()
         updated_request.update({'user_id': request.user.id})
         form = InvitationForm(updated_request)
 
-        #중복 참여 alert
+        # 중복 참여 alert
         model = Invitation()
         model.phone = request.POST.get('phone')
         model.email = request.POST.get('email')
@@ -237,9 +238,9 @@ def invitation_confirm(request):
         #     }
         #     return render_to_response("invitation-banner2.html", context)
 
-        #폼 유효성 체크
+        # 폼 유효성 체크
         if form.is_valid():
-            #user_id 저장
+            # user_id 저장
             form = form.save(commit=False)
             form.user_id = request.user.id
             form.save()
@@ -250,10 +251,10 @@ def invitation_confirm(request):
                 'success': success,
             }
             return render_to_response("invitation-banner2.html", context)
-            #return redirect('/invitation-banner') #original
+            # return redirect('/invitation-banner') #original
         else:
             print form.errors
-            #HTML 형식 alert 불가 #<ul class="errorlist"><li>phone<ul class="errorlist"><li>Invitation with this Phone already exists.</li></ul></li><li>email<ul class="errorlist"><li>Invitation with this Email already exists.</li></ul></li></ul>
+            # HTML 형식 alert 불가 #<ul class="errorlist"><li>phone<ul class="errorlist"><li>Invitation with this Phone already exists.</li></ul></li><li>email<ul class="errorlist"><li>Invitation with this Email already exists.</li></ul></li></ul>
             print('form error')
             fail = True
             context = {
@@ -261,14 +262,14 @@ def invitation_confirm(request):
             }
             return render_to_response("invitation-banner2.html", context)
 
-            #return render_to_response("invitation-banner2.html")
+            # return render_to_response("invitation-banner2.html")
             # redirect 줄 추가해주지 않으면 아래 render로 가서 깨진 html 이 나옴
-            #return redirect('/invitation-banner')        #original
-            #return render_to_response("banner-error.html")
+            # return redirect('/invitation-banner')        #original
+            # return render_to_response("banner-error.html")
     # GET 요청이면 제출용 빈 폼을 생성
     else:
         form = InvitationForm()
-    return render(request, 'invitation-banner2.html', {'form': form}) #original
+    return render(request, 'invitation-banner2.html', {'form': form})  # original
 
 
 # ==================================================================================================> 배너 종료
@@ -369,7 +370,8 @@ def multisite_index(request, org):
         login_type = 'debug'
     else:
         if in_url.find(out_url) == -1:
-            return redirect('/multisite_error?error=error002')
+            # return redirect('/multisite_error?error=error002')
+            pass
 
     # 파라미터 방식
     log.info('multisite check login_type [%s]' % login_type)
@@ -385,6 +387,10 @@ def multisite_index(request, org):
             encStr = None
 
         log.info('multisite check encStr [%s]' % encStr)
+
+        # encStr 이 있는 경우 세션에 지정
+        if encStr:
+            request.session['multisite_encStr'] = encStr
 
         # DEBUG
         # encStr = 'HMSFfWYS/NSUE93/Ra7TfEWuBhTPy9XZiHJoeD+QV+mMVgEEb9ezJ4OyYuDlwuNG'
@@ -568,7 +574,8 @@ def multisite_index(request, org):
 
     return student.views.management.multisite_index(request, user=request.user)
 
-def multi_index_count(request,org):
+
+def multi_index_count(request, org):
     with connections['default'].cursor() as cur:
         query = '''
                 SELECT site_id, course_select_type
@@ -639,7 +646,7 @@ def multi_index_count(request,org):
         cur.execute(query)
         result_table = cur.fetchall()
 
-    return JsonResponse({'a':len(result_table)})
+    return JsonResponse({'a': len(result_table)})
 
 
 def get_multisite_list(request):
@@ -732,8 +739,8 @@ def index(request):
         if configuration_helpers.get_value(
                 'ALWAYS_REDIRECT_HOMEPAGE_TO_DASHBOARD_FOR_AUTHENTICATED_USER',
                 settings.FEATURES.get('ALWAYS_REDIRECT_HOMEPAGE_TO_DASHBOARD_FOR_AUTHENTICATED_USER', True)):
-            # return redirect(reverse('dashboard'))
             pass
+            return redirect(reverse('dashboard'))
 
     if settings.FEATURES.get('AUTH_USE_CERTIFICATES'):
         from openedx.core.djangoapps.external_auth.views import ssl_login
@@ -794,7 +801,6 @@ def mobile_index(request):
             settings.MKTG_URLS
         )
         return redirect(marketing_urls.get('ROOT'))
-
 
     #  we do not expect this case to be reached in cases where
     #  marketing and edge are enabled

@@ -396,6 +396,25 @@ def login_and_registration_form(request, initial_mode="login"):
         initial_mode (string): Either "login" or "register".
 
     """
+
+    # session 객체 생성
+    session = request.session
+    # 멀티사이트 이용중 홈페이지로 이동했을경우 session 을 클리어
+
+    if 'multisite_org' in session:
+        log.info('multisite_org [%s]' % session['multisite_org'])
+        if 'multisite_encStr' not in session:
+            log.info('multisite check clear request.session ------------------------ s')
+            for key in request.session.keys():
+                if str(key).startswith('multisite'):
+                    log.info('multisite check delete session key: [%s]' % key)
+                    del request.session[key]
+            log.info('multisite check clear request.session ------------------------ e')
+        else:
+            log.info('multisite_encStr [%s]' % session['multisite_encStr'])
+    else:
+        log.info('multisite_org is not exists')
+
     # Determine the URL to redirect to following login/registration/third_party_auth
     redirect_to = get_next_url_for_login_page(request)
     provider_info = _third_party_auth_context(request, redirect_to)
@@ -636,7 +655,6 @@ def find_email_by_ci(request):
 
 
 def find_email_by_kakao(request):
-
     print 'find_email_by_kakao'
 
     source = string.ascii_letters
@@ -669,7 +687,6 @@ def find_email_by_kakao(request):
     if len(user_id_list) != 0:
 
         for user_id in user_id_list:
-
             add_info_update = TbAuthUserAddinfo.objects.get(pk=user_id)
             add_info_update.code = random_string
             add_info_update.save()
@@ -1115,7 +1132,6 @@ def account_nice_check(request):
 
 @login_required
 def kakao_account_check(request):
-
     if 'kakao_name' in request.session:
         del request.session['kakao_name']
 
@@ -1417,7 +1433,6 @@ def account_settings_context(request):
             user_gender = None
             user_birthday = None
             nice_check = 'no'
-
 
     with connections['default'].cursor() as cur:
         try:

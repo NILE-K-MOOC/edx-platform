@@ -364,8 +364,14 @@ def multisite_index(request, extra_context=None, user=AnonymousUser()):
         # print "result_table -> ", result_table
         # print "====================================> 강좌 상태값 연산 시작"
 
+        log.info('default HOST [%s]' % settings.DATABASES.get('default').get('HOST'))
+
+        default_host = settings.DATABASES.get('default').get('HOST')
+        if default_host == 'edx.devstack.mysql':
+            default_host = 'edx.devstack.mongo'
+
         # catalog_visibility 가 none 이면 출력 대상에서 제외하는 로직이나 현재는 미사용
-        client = MongoClient(settings.DATABASES.get('default').get('HOST'), 27017)
+        client = MongoClient(default_host, 27017)
         # print  'result_tableresult_table',result_table
         for item in result_table:
             course_lock = 0
