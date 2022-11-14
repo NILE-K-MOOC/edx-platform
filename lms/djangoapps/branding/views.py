@@ -740,7 +740,7 @@ def index(request):
                 'ALWAYS_REDIRECT_HOMEPAGE_TO_DASHBOARD_FOR_AUTHENTICATED_USER',
                 settings.FEATURES.get('ALWAYS_REDIRECT_HOMEPAGE_TO_DASHBOARD_FOR_AUTHENTICATED_USER', True)):
             pass
-            return redirect(reverse('dashboard'))
+            # return redirect(reverse('dashboard'))
 
     if settings.FEATURES.get('AUTH_USE_CERTIFICATES'):
         from openedx.core.djangoapps.external_auth.views import ssl_login
