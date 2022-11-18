@@ -13,11 +13,11 @@ class InvitationForm(forms.ModelForm):
     job = forms.CharField(max_length=10, widget=forms.Select, required=True)
     purpose = forms.CharField(max_length=200, required=True)
     agree = forms.CharField(widget=forms.CheckboxInput, required=False)
-
+    org = forms.CharField(max_length=20, required=True)
 
     class Meta:
         model = Invitation
-        fields = ('username', 'phone', 'email', 'job', 'purpose', 'agree')
+        fields = ('username', 'phone', 'email', 'job', 'purpose', 'agree', 'org')
 
 
 

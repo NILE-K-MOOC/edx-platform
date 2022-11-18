@@ -76,6 +76,7 @@ class Invitation(ConfigurationModel):
     purpose = models.CharField(max_length=150)
     agree = models.BooleanField()
     created = models.DateTimeField(auto_now_add=True)
+    org = models.CharField(max_length=10)
 
     class Meta(ConfigurationModel.Meta):
         app_label = "branding"

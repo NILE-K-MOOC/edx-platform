@@ -541,13 +541,14 @@ table {
 .invitation_wrap .popWrap {
     position: fixed;
     display: block;
-    width: 516px;
+    max-width: 516px;
+    width: 90%;
     height: 612px;
     padding-top: 150px;
     box-sizing: border-box;
     margin: 0 auto;
     background: url('${STATIC_URL}/images/invitation_images2/pop_bg.png') center/cover no-repeat;
-
+    background-size: 100% 100%;
 }
 
 
@@ -741,6 +742,7 @@ button.invitation_submit:focus:not(:disabled){
     display: block;
     align-items: center;
     justify-content: space-between;
+    padding: 0 10px;
 }
 
 .formWrap .inputWrap + .inputWrap {
@@ -763,7 +765,7 @@ button.invitation_submit:focus:not(:disabled){
     padding-left: 30px;
     padding-right: 30px;
     box-sizing: border-box;
-    width: 270px;
+    width: 260px;
     display: inline-block;
     appearance: none;
     position: relative;
@@ -835,6 +837,154 @@ button.invitation_submit:focus:not(:disabled){
     border: none;
     background: transparent;
 }
+
+.popWrap .popup_apply_btn_wrapper {
+    position: absolute;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.popWrap .popup_apply_btn_wrapper > button {
+    position: static;
+    width: 50%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    box-shadow: none;
+}
+
+@media all and (max-width: 1024px) {
+.popWrap .popup_apply_btn_wrapper > button {
+    height: 50px;
+}
+}
+
+.popWrap .popup_apply_btn_wrapper > button > img {
+    width: 100%;
+    height: 100%;
+}
+
+/* 22.11.16 - 상세보기 팝업 소스 수정 시작 */
+.popupDetail {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 430px;
+    height: 430px;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.popupDetail div.title {
+    box-sizing: border-box;
+    padding-left: 20px;
+    background-color: #0036ce;
+    font-size: 0;
+}
+
+.popupDetail div.title:after {
+    display: block;
+    content: '';
+    clear: both;
+}
+
+.popupDetail div.title strong {
+    display: inline-block;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 60px;
+}
+
+.popupDetail div.title button.close {
+    float: right;
+    width: 55px;
+    height: 60px;
+    background: url('${STATIC_URL}/images/invitation_images2/icon_close.png') no-repeat center;
+    background-size: auto;
+    border: none;
+    box-shadow: none;
+}
+
+.popupDetail div.title button.close:focus {
+    text-shadow: none;
+    box-shadow: none;
+}
+
+.popupDetail div.content {
+    box-sizing: border-box;
+    padding: 30px;
+    width:;
+}
+
+.popupDetail div.content p.text {
+    margin-bottom: 18px;
+    font-size: 14px;
+    line-height: 24px;
+    color: #333;
+    word-break: keep-all;
+}
+
+.popupDetail div.content div.contentInner {
+    box-sizing: border-box;
+    padding: 20px;
+    background-color: #e3f0fc;
+
+}
+
+.popupDetail div.content div.contentInner strong {
+    display: block;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #0036ce;
+    line-height: 24px;
+    word-break: keep-all;
+
+}
+
+.popupDetail div.content div.contentInner ul li {
+    position: relative;
+    padding-left: 10px;
+    text-decoration: none;
+    font-size: 14px;
+    color: #333;
+    word-break: keep-all;
+    letter-spacing: -1px;
+
+}
+
+.popupDetail div.content div.contentInner ul li:before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 0;
+    display: block;
+    width: 3px;
+    height: 3px;
+    background-color: #333;
+}
+
+/* 22.11.16 - 상세보기 팝업 소스 수정 끝 */
+
+.btn_popup_detail {
+    vertical-align: middle;
+}
+
+.btn_popup_detail:hover,
+.btn_popup_detail:focus {
+    background-color: #002c90 !important;
+}
+
 
 
 </style>
@@ -975,6 +1125,7 @@ button.invitation_submit:focus:not(:disabled){
     <form method="post" action="/invitation-confirm" onsubmit="return submitForm()">
             <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
             <input type="hidden" id="user_id" name="user_id">
+            <input type="hidden" id="org" name="org" value="coursera">
         <div class="formWrap"> <!-- invitaiton_popup -->
 
                 <div class="inputWrap"> <!-- invitation_inputboxes -->
@@ -1024,14 +1175,39 @@ button.invitation_submit:focus:not(:disabled){
             <label class="agree"> <!-- chkbox_wrap --> <!-- label 구조확인 -->
                 <input type="checkbox" name="agree" id="id_agree">
                 <span><i></i>마케팅 정보 수신에 동의합니다.</span>
+                <button type="button" class="btn_popup_detail" onclick="onShowDetail();">내용보기</button>
             </label>
 
-            <!-- <a href="#" class="submit"></a> -->
-            <button class="invitation_submit" type="submit" >
-                <img src="${STATIC_URL}/images/invitation_images2/btn.png" alt="제출하기"/>
+            <!-- <a href="#" class="submit"></a> onclick="onClosePopup();"-->
+        <div class="popup_apply_btn_wrapper">
+            <button type="button" class="close" onclick="onClosePopup();">
+                <img src="${STATIC_URL}/images/invitation_images2/img_popup_cancel.png" alt="취소">
             </button>
+            <button class="invitation_submit" type="submit" onclick="submitForm()">
+                <img src="${STATIC_URL}/images/invitation_images2/img_popup_apply.png" alt="제출하기"/>
+            </button>
+
+        </div>
     </form>
 </div>
+<div class="popupDetail">
+        <div class="title">
+            <strong>개인정보 제3자 제공에 대한 별도 동의</strong>
+            <button class="close" onclick="onCloseDetail();"></button>
+        </div>
+        <div class="content">
+            <p class="text">별도의 회원가입 없이 K-MOOC 계정으로 강좌를 수강하실 수 있습니다. 이를 위해 아래 내용을 확인해주세요.</p>
+            <div class="contentInner">
+                <strong>[개인정보 제3자 제공에 대한 별도 동의]</strong>
+                <ul>
+                    <li>개인정보를 제공받는자 : 웅진씽크빅</li>
+                    <li>개인정보를 제공받는자의 개인정보 이용목적 :<br>학습 데이터 관리</li>
+                    <li>제공하는 개인정보의 항목 : 성명, 이메일, 전화번호</li>
+                    <li> 개인정보를 제공받는자의 개인정보 보유 및 이용 기간 :<br>제공 후 1년 동의를 거부할 수 있으며 Udemy, Coursera 서비스를 이용하실 수 없습니다.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- 신청 form e-->
 
@@ -1070,7 +1246,7 @@ button.invitation_submit:focus:not(:disabled){
             alert('이벤트에 참여해 주셔서 감사합니다 :)');
             location.href="/invitation-banner";
         % elif fail:
-            alert('입력한 값이 올바르지 않습니다. ');
+            alert('입력한 값이 올바르지 않습니다.');
             location.href="/invitation-banner";
         % elif duplicate_user:
             alert('이벤트 중복 참여는 불가합니다. ');
@@ -1111,7 +1287,7 @@ button.invitation_submit:focus:not(:disabled){
             return false;
         }
         if (input_phone.value.length !== 11) {
-            alert('연락처를 정확히 입력해 주세요.')
+            alert('연락처는 11자리 입니다.')
             return false;
         }
         if (!id_agree.checked) {
@@ -1191,6 +1367,10 @@ button.invitation_submit:focus:not(:disabled){
         popup.style.display = 'block';
     }
 
+    function onClosePopup() {
+        popup.style.display = 'none';
+    }
+
     popup.addEventListener('click', (e) => {
 
         if (e.target !== e.currentTarget) return
@@ -1202,5 +1382,28 @@ button.invitation_submit:focus:not(:disabled){
         popup.style.display = 'none';
     })
 
+    /* 22.11.16 - 상세보기 팝업 소스 추가 시작 */
+    // popup - 내용보기
 
+    const popupDetail = document.querySelector('.popupDetail');
+
+    function onShowDetail() {
+        // console.log(popupDetail);
+        popupDetail.style.display = 'block';
+    }
+
+    function onCloseDetail() {
+        // console.log(popupDetail);
+        popupDetail.style.display = 'none';
+    }
+
+
+    popupDetail.addEventListener('click', (e) => {
+
+        if (e.target !== e.currentTarget) return
+
+        popupDetail.style.display = 'none';
+    })
+
+    /* 22.11.16 - 상세보기 팝업 소스 추가 끝 */
 </script>

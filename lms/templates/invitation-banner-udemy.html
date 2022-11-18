@@ -1,0 +1,838 @@
+<%page expression_filter="h"/>
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.core.urlresolvers import reverse
+from microsite_configuration import microsite
+from openedx.core.djangolib.markup import HTML, Text
+%>
+
+<%block name="pagetitle">
+${("")}
+</%block>
+## ## coursera link s
+## <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+## <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css">
+## <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css">
+## ## coursera link e
+
+## udemy link s
+<!-- 공통 -->
+
+<!-- js -->
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<!-- <script src="../static/udemy/scripts/jquery.lazy.min.js"></script> -->
+<script defer src="../static/udemy/scripts/script.js"></script>
+<script defer src="../static/udemy/scripts/index.js"></script>
+<!-- css -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;500;700;900&display=swap"
+      rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100;300;500;600;700;900&display=swap"
+      rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+<link rel="stylesheet" href="../static/udemy/styles/style.css">
+<!-- <link rel="stylesheet" href="../resources/styles/index.css"> -->
+<!-- 위까지 공통 -->
+
+<!-- 해당 페이지 css -->
+<link rel="stylesheet" href="../static/udemy/styles/event.css">
+<script src="../static/udemy/scripts/event.js"></script>
+## udemy link e
+
+
+## % if user.is_authenticated:
+##         <div class="invitation_btn invitation_enroll" onclick="onShowEvent()">
+##             <img src="${STATIC_URL}/images/invitation_images2/enroll_btn.png" alt="구독권 신청"/>
+##         </div>
+## % else:
+## <!--    로그인이 필요합니다. 로그인 페이지로 리다이렉트 window.location.href = "/login"; -->
+##         <div class="invitation_btn invitation_enroll" onclick="onDirection()">
+##             <img src="${STATIC_URL}/images/invitation_images2/enroll_btn.png" alt="구독권 신청"/>
+##         </div>
+## % endif
+
+<style>
+    button:focus {
+        box-shadow: none !important;
+    }
+
+.content-wrapper .container {
+  background: none;
+}
+
+button:hover:not(:disabled),
+button:active:not(:disabled),
+button.event_btn:focus:not(:disabled){
+    box-shadow: none;
+    outline: none!important;
+}
+button.btn_close:hover:not(:disabled){
+    background: none;
+    box-shadow: none;
+    outline: none!important;
+}
+.btn_close {
+    box-shadow: none;
+}
+
+.slick-arrow.slick-next:hover,AKZPXLDA
+.slick-arrow.slick-next:focus,
+.slick-arrow.slick-prev:hover,
+.slick-arrow.slick-prev:focus {
+    opacity: 1;
+    box-shadow: none;
+    outline: none !important;
+}
+
+button {
+    box-shadow: none;
+}
+
+
+.marketing {
+    font-family: 'Noto Sans KR';
+    font-style: normal ;
+    font-size: 16px;
+    font-weight: 500;
+    color: #000000;
+}
+
+    .new-footer {
+        background-color: white;
+    }
+
+main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > div.button {
+    background: none;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    box-shadow: none;
+}
+
+main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > div.button:focus,
+main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > div.button:active,
+main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > div.buttonfocus-visible {
+    backgrond: none;
+    border: none;
+    outline: none;
+}
+
+main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > div.button > button {
+    margin: 0;
+}
+
+.id_agree_chck {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #e3f0fc;
+    border-radius: 50%;
+}
+    .id_agree_input:checked ~ .id_agree_chck {
+        background-color: #0036ce;
+    }
+</style>
+
+
+
+
+
+<!-- udemy start-->
+<body>
+<!-- 전체 페이지 공통 영역 -->
+<!-- 스킵네비게이션 -->
+<div class="skip_nav">
+    <a href="#">컨텐츠 바로가기</a>
+</div>
+<!-- 헤더 -->
+<!-- 헤더 끝 -->
+<!-- //전체 페이지 공통 영역 끝-->
+
+<main class="subpage subscription udemy">
+    <section class="intro">
+        <div class="container">
+            <div class="box_title">
+                <p class="subtitle"><span class="en">K-MOOC</span>의 특별혜택!</p>
+                <h2>
+                    글로벌 <strong class="mooc"><span class="hidden">mooc</span></strong><br>
+                    학습자 모집
+                </h2>
+            % if user.is_authenticated:
+                <button type="button" class="event_btn" onclick="openPopupKmooc('udemy')">구독권 신청<i class="arrow"></i>
+                </button>
+            % else:
+                <button type="button" class="event_btn" onclick="onDirection()">구독권 신청<i class="arrow"></i>
+                </button>
+            % endif
+            </div>
+        </div>
+    </section>
+    <section class="reason">
+        <div class="container">
+            <div class="box_title">
+                <p class="subtitle">K-MOOC x Udemy 구독권</p>
+                <h2><span class="color_purple">지금 신청</span>해야 하는<br> 이유!</h2>
+            </div>
+            <ul class="box_reasons">
+                <li class="step1">
+                    <div class="box_text">
+                        <span>01.</span>
+                        <p>
+                            실리콘밸리의<br>
+                            최신 기술과<br class="break">
+                            <span class="color_purple">글로벌 전문가</span>가<br>
+                            제공하는 강의
+                        </p>
+                    </div>
+                </li>
+                <li class="step2">
+                    <div class="box_text">
+                        <span>02.</span>
+                        <p>
+                            전 세계 트렌드를<br>
+                            <span class="color_purple">가장 빠르게!</span><br class="break">
+                            Skill-up 강의<br>
+                            17,000개 제공
+                        </p>
+                    </div>
+                </li>
+                <li class="step3">
+                    <div class="box_text">
+                        <span>03.</span>
+                        <p>
+                            글로벌<br>
+                            Best 강의를<br class="break">
+                            <span class="color_purple">한글 자막</span>으로!
+                        </p>
+                    </div>
+                </li>
+                <li class="step4">
+                    <div class="box_text">
+                        <span>04.</span>
+                        <p>
+                            학습 시작,<br>
+                            수료까지!<br class="break">
+                            <span class="color_purple">전문 도우미</span> 지원
+                        </p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+    <section class="info">
+        <div class="container">
+            <div class="box_title">
+                <p class="subtitle">실리콘밸리 최신 기술</p>
+                <h2>
+                    글로벌<br>
+                    전문가의<br>
+                    <span class="color_purple">퀄리티 높은 강의</span>
+                </h2>
+            </div>
+            <div class="box_content lectures">
+                <ul class="box_tags">
+                    <li class="tag selected" data-tag="programing">#프로그래밍</li>
+                    <li class="tag" data-tag="datascience">#데이터사이언스</li>
+                    <li class="tag" data-tag="game">#게임개발</li>
+                    <li class="tag" data-tag="it">#IT자격증</li>
+                    <li class="tag" data-tag="design">#디자인</li>
+                    <li class="tag" data-tag="marketing">#마케팅</li>
+                    <li class="tag" data-tag="management">#조직관리</li>
+                    <li class="tag" data-tag="communication">#커뮤니케이션</li>
+                </ul>
+                <div class="lecture_slides" data-slide="lecture">
+                    <div class="item" data-card="programing">
+                        <p class="item_head">프로그래밍</p>
+                        <div class="item_content">
+                            <div class="top">
+                                <span>#PROGRAMMING</span>
+                                <strong>프로그래밍<br>A-Z</strong>
+                                <p>#Java #React #Spring #Python</p>
+                            </div>
+                            <div class="bottom checklist">
+                                <p>단기간에 Java 완벽 정복</p>
+                                <p>React 완벽 가이드</p>
+                                <p>Google’s Go를 이용한 코딩</p>
+                                <p>Python 완벽 부트캠프 2022</p>
+                                <p>JavaScript 알고리즘 & 자료구조</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item" data-card="web">
+                        <p class="item_head">웹개발 실무</p>
+                        <div class="item_content">
+                            <div class="top">
+                                <span>#WEB DEVELOPMENT</span>
+                                <strong>웹개발 실무<br> 마스터</strong>
+                                <p>#TypeScript #Angular # Docker #Next.js</p>
+                            </div>
+                            <div class="bottom checklist">
+                                <p>TypeScript 마스터</p>
+                                <p>Docker & Kubernetes: 실전 가이드</p>
+                                <p>NodeJS 완벽 가이드</p>
+                                <p>Web Development 부트캠프</p>
+                                <p>Next.js & React - 완벽 정복</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item" data-card="datascience">
+                        <p class="item_head">데이터사이언스</p>
+                        <div class="item_content">
+                            <div class="top">
+                                <span>#DATA SCIENCE</span>
+                                <strong>데이터 분석<br> 프로그램 활용</strong>
+                                <p>#Python #Pandas # R프로그래밍 # Pyspark</p>
+                            </div>
+                            <div class="bottom checklist">
+                                <p>Python 을 사용한 데이터 시각화</p>
+                                <p>Pandas를 이용한 데이터 분석</p>
+                                <p>R 프로그래밍 A-Z™</p>
+                                <p>PySpark 로 빅데이터 분석하기</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item" data-card="marketing">
+                        <p class="item_head">마케팅</p>
+                        <div class="item_content">
+                            <div class="top">
+                                <span>#MARKETING</span>
+                                <strong>현업 마케터<br>필수 코스</strong>
+                                <p>#GoogleAds # SEO #Youtube #인바운드</p>
+                            </div>
+                            <div class="bottom checklist">
+                                <p>구글 애널리틱스 마스터하기</p>
+                                <p>SEO 트레이닝 마스터클래스</p>
+                                <p>5시간만에 인기 YouTube 만들기</p>
+                                <p>인바운드 마케팅</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item" data-card="it">
+                        <p class="item_head">IT자격증</p>
+                        <div class="item_content">
+                            <div class="top">
+                                <span>#IT CERTIFICATIONS</span>
+                                <strong>취업/이직 필수<br> IT 자격증</strong>
+                                <p># AWS # Cisco # ITIL # Azure #Salesforce</p>
+                            </div>
+                            <div class="bottom checklist">
+                                <p>AWS Certified Cloud 전문가 과정</p>
+                                <p>Cisco CCNA 200-301 완전 정복</p>
+                                <p>하루만에 AZ-900 : 시험합격!</p>
+                                <p>ITIL 4를 통한 서비스 관리</p>
+                                <p>Salesforce 관리자 자격증</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item" data-card="animation">
+                        <p class="item_head">3D & 애니메이션</p>
+                        <div class="item_content">
+                            <div class="top">
+                                <span>#3D & ANIMATION</span>
+                                <strong>게임부터<br> 메타버스까지</strong>
+                                <p>#Blender #Unreal Engine</p>
+                            </div>
+                            <div class="bottom checklist">
+                                <p>초보자를 위한 블렌더 스타일링</p>
+                                <p>블렌더 첫 3D 게임 모델 만들기</p>
+                                <p>언리얼 엔진 5를 위한 블렌더 가이드</p>
+                                <p>언리얼 엔진 5 : 3D 소품 완벽 가이드</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item" data-card="design">
+                        <p class="item_head">디자인</p>
+                        <div class="item_content">
+                            <div class="top">
+                                <span>#DESIGN</span>
+                                <strong>디자인 스킬<br>Level - up</strong>
+                                <p>#Photoshop #UX&UI #Adobe</p>
+                            </div>
+                            <div class="bottom checklist">
+                                <p>초보자를 위한 고급 Photoshop</p>
+                                <p>UX 리서치 & UI 디자인</p>
+                                <p>Photography 마스터클래스</p>
+                                <p>Adobe After Effects CC 마스터</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item" data-card="business_anaytics">
+                        <p class="item_head">비즈니스 분석</p>
+                        <div class="item_content">
+                            <div class="top">
+                                <span>#BUSINESS ANALYTICS</span>
+                                <strong>성공을 위한<br>비즈니스 분석</strong>
+                                <p>#Power BI #SQL # Tableau # Qlik Sence</p>
+                            </div>
+                            <div class="bottom checklist">
+                                <p>Power BI 완벽 부트캠프</p>
+                                <p>SQL 부트캠프 2022</p>
+                                <p>Tableau 고수되기</p>
+                                <p>BI 를 위한 Qlik Sense</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item" data-card="communication">
+                        <p class="item_head">커뮤니케이션</p>
+                        <div class="item_content">
+                            <div class="top">
+                                <span>#COMMUNICATION</span>
+                                <strong>신뢰를 높이는<br>비즈니스 언어</strong>
+                                <p>#이메일작성 #Presentation #영어소통</p>
+                            </div>
+                            <div class="bottom checklist">
+                                <p>목적을 달성하는 Presentation</P>
+                                <p>비즈니스 영어 이메일 에티켓</P>
+                                <p>커리어를 성장시키는 발표의 고수되기</P>
+                                <p>완벽한 Presentation 스킬</P>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item" data-card="ai">
+                        <p class="item_head">에이아이</p>
+                        <div class="item_content">
+                            <div class="top">
+                                <span>#AI</span>
+                                <strong>다양한 분야의<br> AI</strong>
+                                <p>#Machine Learning #TensorFlow</p>
+                            </div>
+                            <div class="bottom checklist">
+                                <p>AI : 인공 지능 마스터 클래스</p>
+                                <p>딥러닝의 모든 것</p>
+                                <p>머신러닝의 모든 것 with Python, R</p>
+                                <p>TensorFlow 2.0 : 딥러닝 모델 구현</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item" data-card="blockchain">
+                        <p class="item_head">블록체인</p>
+                        <div class="item_content">
+                            <div class="top">
+                                <span>#BLOCKCHAIN</span>
+                                <strong>블록체인의<br>핵심개념과 원리</strong>
+                                <p>#Machine Learning #TensorFlow</p>
+                            </div>
+                            <div class="bottom checklist">
+                                <p>NFT 기초 과정</p>
+                                <p>Blockchain A-Z™</p>
+                                <p>Cryptocurrency 완벽 강의</p>
+                                <p>블록체인 및 비트코인 기초 마스터</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item" data-card="game">
+                        <p class="item_head">게임개발</p>
+                        <div class="item_content">
+                            <div class="top">
+                                <span>#GAME DEVELOPMENT</span>
+                                <strong>실전!<br>게임 개발</strong>
+                                <p>#Unity #게임수학 #메타버스</p>
+                            </div>
+                            <div class="bottom checklist">
+                                <p>C#과 Unity로 3D 게임 개발하기</p>
+                                <p>메타버스 기초 과정</p>
+                                <p>언리얼 C++ 멀티플레이어 마스터</p>
+                                <p>게임 개발자가 알아야 할 핵심 수학</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item" data-card="management">
+                        <p class="item_head">조직관리</p>
+                        <div class="item_content">
+                            <div class="top">
+                                <span>#MANAGEMENT</span>
+                                <strong>성공으로 이끄는<br>조직 관리</strong>
+                                <p>#디자인씽킹 #동기부여 #리더십</p>
+                            </div>
+                            <div class="bottom checklist">
+                                <p>직원 동기 부여 방법 및 성공 방식</p>
+                                <p>업무 위임을 통해 조직 및 팀 관리하기</p>
+                                <p>초심자를 위한 디자인 씽킹</p>
+                                <p>성공적인 회의를 위한 모든 것</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item" data-card="software_development">
+                        <p class="item_head">소프트웨어  설계</p>
+                        <div class="item_content">
+                            <div class="top">
+                                <span>#SOFTWARE DEVELOPMENT</span>
+                                <strong>소프트웨어 설계의<br>모든 것</strong>
+                                <p>#DevOps #Github #AWS #Selenium</p>
+                            </div>
+                            <div class="bottom checklist">
+                                <p>DevOps 학습 : Jenkins 와의 CI/CD</p>
+                                <p>Git & Github 실무 활용 완벽 가이드</p>
+                                <p>쿠버네티스 실습: AWS 클라우드 활용</p>
+                                <p>Selenium WebDriver와 자바</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box_button">
+                <a href="../static/udemy/documents/kmooc_udemy_apply.pdf" class="event_btn" target="_blank"
+                   download="KMOOC_x_Udemy_수강안내서">전체 강의 브로슈어<i class="arrow"></i></a>
+            </div>
+        </div>
+    </section>
+    <section class="howto">
+        <div class="container">
+            <div class="horizontal">
+                <div class="box_title">
+                    <h2>
+                        구독권<br><span class="color_purple">신청방법</span>
+                    </h2>
+                    <p class="small">Udemy 구독권의<br>아주 간단한 신청방법</p>
+                </div>
+                <ul class="box_step">
+                    <li class="step step1">
+                        <span>STEP 1</span>
+                        <div class="box_info">
+                            <p class="info">
+                                <strong class="kmooc"><span class="hidden">kmooc</span></strong>회원 가입 후<br>로그인
+                            </p>
+                        </div>
+                    </li>
+                    <li class="step step2">
+                        <span>STEP 2</span>
+                        <div class="box_info">
+                            <p class="info">'구독권 신청'<br>버튼 클릭</p>
+                        </div>
+                    </li>
+                    <li class="step step3">
+                        <span>STEP 3</span>
+                        <div class="box_info">
+                            <p class="info">정보 입력<br>및 제출</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <section class="coupon">
+        <div class="container">
+            <div class="horizontal">
+                <div class="box_title">
+                    <h2>
+                        <strong class="udemy"><span class="hidden">udemy</span></strong>
+                        <span class="color_mint">무한수강권</span>
+                    </h2>
+                    <p class="small">Udemy 강좌 및 수료증을<br>추가 비용 없이 무제한 이용 가능</p>
+                </div>
+                <div class="box_ticket">
+                    <div class="ticket_side"><span class="hidden">udemy</span></div>
+                    <div class="ticket_content">
+                        <span class="title">구독권 혜택</span>
+                        <p class="subtitle"><strong class="udemy"><span class="hidden">udemy</span></strong>SUBSCRIPTION
+                        </p>
+                        <div class="check_list">
+                            <p>Udemy 17,000개+ 강의 수강 가능</p>
+                            <p>200개+ 한국어 번역 강좌 제공</p>
+                            <p>유료 수료증 무료 발급</p>
+                        </div>
+                        % if user.is_authenticated:
+                            <button type="button" class="apply_btn" onclick="openPopupKmooc('udemy')">Udemy 구독권 신청<i
+                                    class="arrow"></i>
+                            </button>
+                        % else:
+                            <button type="button" class="apply_btn" onclick="onDirection()">Udemy 구독권 신청<i class="arrow"></i>
+                            </button>
+                        % endif
+                    </div>
+                    <div class="ticket_barcode">
+                        <img src="../static/udemy/images/event_coupon_barcode.png" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="box_notice">
+                <strong class="title">구독권 지급안내</strong>
+                <div class="box_list">
+                    <p>구독권은 신청 순서대로 지급합니다.</p>
+                    <p>구독권은 신청하신 아이디(이메일)나 휴대폰으로 개별 연락 후 이메일로 발송됩니다.</p>
+                    <p>운영정책에 따라 학습부진 및 미용자는 구독권이 회수되며, 차순위 신청자에게 구독권이 지급됩니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="notice">
+        <div class="container">
+            <div class="horizontal">
+                <div class="box_title">
+                    <h2 class="notice">
+                        <span class="color_mint">유의사항</span>을 꼭<br>확인해 주세요!
+                    </h2>
+                </div>
+                <div class="box_list">
+                    <p class="dot">K-MOOC 로그인 시에만 참여 가능하며, 비회원은 가입 후 이용 부탁 드립니다.</p>
+                    <p class="dot">K-MOOC 로그인 시 자동으로 가입 정보가 연동됩니다.</p>
+                    <p class="dot">개인정보 제공 및 마케팅 활용에 동의하지 않을 시 구독권 신청 및 경품 수령 모두 참여 불가합니다.</p>
+                    <p class="dot">중복으로 제출하여도 1회만 인정됩니다.</p>
+                    <p class="dot">구독권 발급엔 정해진 기한이 없으며, TO 발생 시 순차적으로 발급됩니다.</p>
+                    <p class="dot">구독권 발급 시 제출하신 아이디(이메일)나 휴대폰 번호로 안내해 드릴 예정입니다.</p>
+                    <p class="dot">유의사항 미확인으로 인한 불이익은 참가자 본인에게 있습니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- //컨텐츠 영역 끝 -->
+
+    <!-- 팝업 -->
+    <div class="box_popup udemy" data-role="popup" data-type="udemy">
+        <form method="post" action="/invitation-confirm-udemy" onsubmit="return submitForm()">
+            <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
+            <input type="hidden" id="user_id" name="user_id">
+            <input type="hidden" id="org" name="org" value="udemy">
+
+        <div class="popup udemy">
+            <h2>Udemy 구독권 신청 안내
+                <button type="button" data-role="close" class="btn_close" onclick="onClosePopup();"><i class="xi xi-close"></i></button>
+            </h2>
+            <div class="popup_inner udemy subscription">
+                <div>
+                    <p class="text"><span>Udemy 구독권</span>을 신청해주셔서 감사합니다.</p>
+                    <p class="dot">배포 시 아래 기재해주신 연락처로 안내해 드릴 예정입니다.</p>
+
+                    <div class="content">
+                        <div class="box_input">
+                            <strong>성명</strong>
+                            <div class="input_name" data-role="input" data-type="input">
+                                <input type="text" id="input_name" name="username" title="성명" maxlength="20" readonly>
+                            </div>
+                        </div>
+                        <div class="box_input input_phone">
+                            <strong>연락처</strong>
+                            <div data-role="input" data-type="input">
+                                <input type="text" id="input_phone" name="phone" title="연락처" maxlength="11" placeholder="숫자만 입력하세요">
+                            </div>
+                        </div>
+                        <div class="box_input input_email">
+                            <strong>이메일</strong>
+                            <div data-role="input" data-type="input">
+                                <input type="text" id="input_email" name="email" title="이메일" maxlength="40" readonly>
+                            </div>
+                        </div>
+                        <div class="box_input input_job">
+                            <strong>직업</strong>
+                            <div data-role="input" data-type="select" data-name="job">
+                                <div class="custom-select" tabindex="0">
+                                    <span class="custom-select-text">학생</span>
+                                    <i class="xi xi-caret-down-min"></i>
+                                </div>
+                                <ul class="custom-select-list">
+                                    <li class="custom-select-option" data-value="학생">학생</li>
+                                    <li class="custom-select-option" data-value="직장인">직장인</li>
+                                    <li class="custom-select-option" data-value="교사">교사</li>
+                                    <li class="custom-select-option" data-value="공무원">공무원</li>
+                                    <li class="custom-select-option" data-value="기타">기타</li>
+                                </ul>
+                                <select class="job select-origin" name="job" id="id_job" title="직업">
+                                    <option value="학생">학생</option>
+                                    <option value="직장인">직장인</option>
+                                    <option value="교사">교사</option>
+                                    <option value="공무원">공무원</option>
+                                    <option value="기타">기타</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="box_input input_purpose">
+                            <strong>신청목적</strong>
+                            <div data-role="input" data-type="input">
+                                <input type="text" id="input_purpose" name="purpose" title="신청목적" maxlength="50">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="agree" data-name="marketing_agree2">
+                        <div data-role="check_search">
+                            <input type="checkbox" class="id_agree_input" name="agree" id="id_agree" style="display: none;" />
+                            <label for="id_agree" class="id_agree_chck" name="checkbox"><i class="xi-check xi"></i></label>
+                            <label for="id_agree"><span class="marketing">&nbsp;마케팅 정보 수신에 동의합니다.</span></label>
+                            <span class="privacy">
+                                <a onclick="openPopupKmooc('privacy')" style="font-size: 14px; color: #000;">내용보기</a>
+							</span>
+
+##                             old
+##                             <input type="checkbox" name="agree" id="id_agree">
+##                             <button type="button" name="checkbox"><i class="xi-check xi"></i></button>
+##                             <label for="id_agree"><span class="marketing">&nbsp;마케팅 정보 수신에 동의합니다.</span></label>
+##                             <span class="privacy">
+##                                 <a onclick="openPopupKmooc('privacy')">내용보기</a>
+## 							</span>
+
+##                             <input type="checkbox" name="marketing_agree2" id="id_agree" class="hidden" title="마케팅 정보 수신에 동의합니다." />
+##                             <label for="marketing_agree2" name="checkbox"><i class="xi-check xi"></i></label>
+##                              <label for="marketing_agree2">마케팅 정보 수신에 동의합니다.</label>
+##                             <span class="privacy">
+##                                 <a onclick="openPopupKmooc('privacy')">내용보기</a>
+## 							</span>
+                        </div>
+                    </div>
+                    <div class="line"></div>
+<!-- 구독권 신청 버튼 -->
+                <div class="button">
+                    <button type="button" data-role="close" onclick="onClosePopup();">취소</button>
+                    <button class="btn_submit" type="submit" onclick="submitForm()">
+                        구독권 신청
+                    </button>
+
+##                     <div class="button">
+##                         <button type="button" data-role="close">취소</button>
+##                         <button type="submit" class="btn_submit" type="submit">구독권 신청</button>
+##                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+    <!-- 개인정보처리방침 -->
+    <div class="box_popup privacy" data-role="popup" data-type="privacy">
+        <div class="popup privacy">
+            <h2>개인정보 제3자 제공에 대한 별도 동의
+                <button type="button" data-role="close" class="btn_close" onclick="onClosePopPrivacy();"><i class="xi xi-close"></i></button>
+            </h2>
+            <div class="popup_inner privacy">
+                <div>
+                    <p>
+                        별도의 회원가입 없이 K-MOOC 계정으로 강좌를 수강하실 수 있습니다.
+                        이를 위해 아래 내용을 확인해 주세요.
+                    </p>
+                    <div class="content">
+                        <strong>[개인정보 제3자 제공에 대한 별도 동의]</strong>
+                        <p class="dot">개인정보를 제공받는 자 : 웅진씽크빅</p>
+                        <p class="dot">개인정보를 제공받는 자의 개인정보 이용목적 : 학습 데이터 관리</p>
+                        <p class="dot">제공하는 개인정보의 항목 : 성명, 이메일,전화번호</p>
+                        <p class="dot">개인정보를 제공받는 자의 개인정보 보유 및 이용 기간 : 제공 후 1년</p>
+                        <p class="dot">동의를 거부할 수 있으며 Udemy, Coursera 서비스를 이용하실 수 없습니다.</p>
+                        <p class="dot">위 고유식별정보 수집 이용에 동의 여부에 따라 아래 버튼을 눌러주세요.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+
+
+<script>
+    $(document).ready(function () {
+
+        // TODO: 로그인 상태일 시 회원정보 (이름, 연락처, 이메일) 자동 입력 부분
+            document.getElementById('input_name').value = '${user.profile.name}';
+            document.getElementById('input_phone').value = '';
+            document.getElementById('input_email').value = '${user.email}';
+
+
+        % if success:
+            alert('이벤트에 참여해 주셔서 감사합니다 :)');
+            location.href="/invitation-banner-udemy";
+        % elif fail:
+            alert('입력한 값이 올바르지 않습니다.');
+            location.href="/invitation-banner-udemy";
+        % endif
+
+    })
+
+
+    function onDirection() {
+        alert('로그인이 필요합니다.')
+        window.location.href = "/login";
+    }
+
+    // popup 열기 닫기
+    const popup = document.querySelector('.box_popup');
+
+    function onClosePopup() {
+        popup.style.display = 'none';
+        document.querySelector(('html')).classList.remove('not_scroll');
+        document.querySelector(('body')).classList.remove('not_scroll');
+    }
+
+
+    function onClosePopPrivacy() {
+        document.querySelector('.box_popup.privacy').style.display = 'none';
+    }
+
+    //취소버튼
+    // popup 열기 닫기
+
+
+    /* 22.11.16 - 상세보기 팝업 소스 추가 시작 */
+    // popup - 내용보기
+
+    const popupDetail = document.querySelector('.popupDetail');
+
+    function onShowDetail() {
+        // console.log(popupDetail);
+        popupDetail.style.display = 'block';
+    }
+
+    function onCloseDetail() {
+        // console.log(popupDetail);
+        popupDetail.style.display = 'none';
+    }
+
+
+    popupDetail.addEventListener('click', (e) => {
+
+        if (e.target !== e.currentTarget) return
+
+        popupDetail.style.display = 'none';
+    })
+
+    /* 22.11.16 - 상세보기 팝업 소스 추가 끝 */
+
+
+    // 신청 제출하기
+    function submitForm() {
+        //TODO: 로그인 체크 부분
+        //로그인 여부를 체크해 로그인 상태일 때 아래 코드 실행
+        //앞단에서 막지만 혹시모를 상황을 대비해 로그인 하지 않으면 제출되지 않도록 처리 필요
+        ##  var iagree = document.getElementById("id_agree")
+        var num = /^[0-9]+$/;
+        var nameRegex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|]+$/;
+        var regex = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+        var regPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+
+        if (!regPhone.test(input_phone.value)) {
+            alert('연락처를 정확히 입력해 주세요.')
+            return false;
+        }
+        if (!input_phone.value) {
+            alert('연락처를 입력해 주세요.')
+            return false;
+        }
+        if (!num.test(input_phone.value)) {
+            alert('연락처는 숫자만 입력해 주세요.')
+            return false;
+        }
+        if (input_phone.value.length !== 11) {
+            alert('연락처는 11자리 입니다.')
+            return false;
+        }
+        if (!id_agree.checked) {
+            alert('마케팅 정보 수신에 동의해 주세요.')
+            return false;
+        }
+        if (!input_purpose.value) {
+            alert('신청 목적을 입력해 주세요.')
+            return false;
+        }
+    }
+
+
+
+
+</script>

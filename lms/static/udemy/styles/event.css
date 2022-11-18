@@ -1,0 +1,250 @@
+@import "font.css";
+
+/* 구독권 신청 공통 */
+main.subscription {font-family:"SUIT";}
+/* main.subscription {font-family:"Pretendard"; font-weight:600;} */
+main.subscription > section div.box_title {}
+main.subscription > section div.box_title > p.subtitle {font-size:22px; font-weight:600; color:#000;}
+main.subscription > section div.box_title > h2 {padding:13px 0 60px; font-size:50px; color:#000; font-weight:800; line-height:1.1; word-break: keep-all;}
+main.subscription > section div.box_title > p.small {font-family:"Pretendard"; font-weight:500; font-size:17px; color:#737373; line-height:1.3;}
+main.subscription button.event_btn,
+main.subscription a.event_btn {display:inline-block; height:60px; padding:0 40px 0 46px; background:#00ff78; border-radius:30px; font-size:22px; color:#000; font-weight:700; line-height:60px;}
+main.subscription a.event_btn {display:inline-block; height:60px; padding:0 40px 0 46px; background:#00ff78; border-radius:30px; font-size:22px; color:#000; font-weight:700; line-height:60px;}
+main.subscription button.event_btn > i.arrow,
+main.subscription a.event_btn > i.arrow {display:inline-block; width:18px; height:14px; margin-left:18px; background:url(../images/event_icon_arrow.png) no-repeat center; background-size:contain;}
+main.subscription span.color_purple {color:#5022c3;}
+main.subscription span.color_mint {color:#13fd86;}
+
+main.subscription > section.intro {position: relative; padding:130px 0 134px; background-image:url(../images/event_bg_about_shadow.png), url(../images/event_bg_about_title.png), url(../images/event_bg_about.png); background-size:contain, 1292px auto, cover; background-repeat:repeat-x, no-repeat, no-repeat; background-position:bottom center, bottom right 30%, center}
+main.subscription > section.intro div.box_title > p.subtitle {font-family:"Pretendard"; font-size:28px; font-weight:600; color:#fff;}
+main.subscription > section.intro div.box_title > p.subtitle > span.en {font-size:30px;}
+main.subscription > section.intro div.box_title > h2 {padding:20px 0 64px; font-size:68px; color:#fff; font-weight:800; line-height:1.2;}
+main.subscription > section.intro div.box_title > h2 > strong.mooc {position:relative; top:22px; display:inline-block; width:263px; height:77px; background:url(../images/event_title_mooc.png) no-repeat center; background-size:cover;}
+
+main.subscription > section.reason {padding:100px 0; background:#fff;}
+main.subscription > section.reason div.box_title > p.subtitle {font-size:22px; font-weight:600; color:#000;}
+main.subscription > section.reason div.box_title > p.subtitle > span.en {font-size:30px;}
+main.subscription > section.reason div.box_title > h2 {padding:13px 0 60px; word-break: keep-all;}
+main.subscription > section.reason ul.box_reasons {display:flex;}
+main.subscription > section.reason ul.box_reasons > li {width:calc(25% - 21px); padding:36px; padding-bottom:192px; margin-right:28px; background:url(../images/event_ico_reason1.png) no-repeat right 28px bottom 36px;  border:1px solid #5022c3; border-radius:12px; box-shadow:25px 25px 40px rgba(0,0,0,0.1); box-sizing:border-box;}
+main.subscription > section.reason ul.box_reasons > li.step2 {background-image:url(../images/event_ico_reason2.png); background-position:right 40px bottom 36px;}
+main.subscription > section.reason ul.box_reasons > li.step3 {background-image:url(../images/event_ico_reason3.png);}
+main.subscription > section.reason ul.box_reasons > li.step4 {background-image:url(../images/event_ico_reason4.png); background-position:right 20px bottom 36px;}
+main.subscription > section.reason ul.box_reasons > li:last-child {margin-right:0;}
+main.subscription > section.reason ul.box_reasons > li > div.box_text {position:relative;}
+main.subscription > section.reason ul.box_reasons > li > div.box_text > span {display:block; margin-bottom:16px; font-size:14px; color:#5022c3; font-weight:800;}
+main.subscription > section.reason ul.box_reasons > li > div.box_text > p {font-size:20px; color:#000; font-weight:600; line-height:1.1; word-break: keep-all;}
+
+main.subscription > section.info {padding:100px 0 130px; background:linear-gradient(-54deg, #e7def9 0, #e7def9 45%, #f8f3ff 45%, #f8f3ff 100%);}
+main.subscription > section.info > div.container {position:relative; }
+main.subscription > section.info div.box_title > h2 {padding-bottom:40px;}
+main.subscription > section.info div.box_content > ul.box_tags {display:flex; flex-wrap:wrap; max-width:518px; margin-bottom:114px;}
+main.subscription > section.info div.box_content > ul.box_tags > li.tag {height:40px; padding:0 20px; margin-right:6px; margin-bottom:10px; line-height:40px; font-size:16px; font-weight:600; color:#5022c3; border:1px solid #5022c3; border-radius:20px; box-sizing:border-box; transition:all 0.3s; cursor:pointer;}
+main.subscription > section.info div.box_content > ul.box_tags > li.tag:hover {background: #5022c3; color:#fff;}
+main.subscription > section.info div.box_content > ul.box_tags > li.tag.selected {background: #5022c3; color:#fff;}
+main.subscription > section.info div.box_content > div.lecture_slides {position:absolute; top:-30px; right:0; max-width:550px; padding: 0 30px;}
+main.subscription > section.info div.box_content > div.lecture_slides div.slick-list div.slick-track {display:flex;}
+main.subscription > section.info div.box_content > div.lecture_slides button.slick-arrow {position: absolute; top: 50%; transform:translateY(-50%); width: 25px; height: 48px; background: url(../images/event_ico_arrow2.png) no-repeat center; font-size: 0;}
+main.subscription > section.info div.box_content > div.lecture_slides button.slick-prev {left: 0;}
+main.subscription > section.info div.box_content > div.lecture_slides button.slick-next {right: 0; background-image:url(../images/event_ico_arrow2_right.png);}
+main.subscription > section.info div.box_content > div.lecture_slides div.item {width:380px; min-height:556px; height:auto; margin: 30px; border-radius:12px; border:1px solid #5022c3; background:#fff; overflow:hidden; box-sizing:border-box; box-shadow:0 0 25px rgba(0,0,0,0.2);}
+main.subscription > section.info div.box_content > div.lecture_slides div.item > p.item_head {padding:0 40px; line-height:60px; background:#5022c3; font-size:14px; color:rgba(255,255,255,0.5); text-align:right;}
+main.subscription > section.info div.box_content > div.lecture_slides div.item > div.item_content {padding:40px; box-sizing:border-box;}
+main.subscription > section.info div.box_content > div.lecture_slides div.item > div.item_content > div.top {padding-bottom:42px; border-bottom:1px solid #e5e5e5;}
+main.subscription > section.info div.box_content > div.lecture_slides div.item > div.item_content > div.top > span {display:inline-block; height:40px; line-height:40px; padding:0 20px; background:#5022c3; border-radius:20px; font-size:14px; color:#fff;}
+main.subscription > section.info div.box_content > div.lecture_slides div.item > div.item_content > div.top > strong {display:block; padding:24px 0 16px; font-size:42px; font-weight:900; word-break: keep-all;}
+main.subscription > section.info div.box_content > div.lecture_slides div.item > div.item_content > div.top > p {font-size:15px; color:#959595;}
+main.subscription > section.info div.box_content > div.lecture_slides div.item > div.item_content > div.bottom {padding-top:32px;}
+main.subscription > section.info div.box_content > div.lecture_slides div.item > div.item_content > div.bottom > p {position:relative; padding:8px 0; padding-left:30px; font-size:16px; color:#000; font-weight: 600; word-break: keep-all;}
+main.subscription > section.info div.box_content > div.lecture_slides div.item > div.item_content > div.bottom > p:before {content:''; position:absolute; top:8px; left:0; width:17px; height:17px; background:url(../images/event_ico_check2.png) no-repeat center; background-size:contain;}
+
+main.subscription > section.howto {padding:100px 0; background:#fff;}
+main.subscription > section.howto div.horizontal {display:flex;}
+main.subscription > section.howto div.box_title > p.subtitle {font-size:22px; font-weight:600; color:#000;}
+main.subscription > section.howto div.box_title > h2 {padding-top:0; padding-bottom:34px;}
+main.subscription > section.howto div.horizontal > div.box_title {width:270px;}
+main.subscription > section.howto div.horizontal > ul.box_step {display:flex; width:calc(100% - 270px);}
+main.subscription > section.howto div.horizontal > ul.box_step > li.step {position:relative; width:calc(33.3333% - 7px);margin-right:10px; border-radius:12px; box-sizing:border-box;}
+main.subscription > section.howto div.horizontal > ul.box_step > li:last-child {margin-right:0;}
+main.subscription > section.howto div.horizontal > ul.box_step > li.step:after {content:''; position:absolute; right:-37px; top:50%; transform:translateY(-50%); width:60px; height:60px; border:1px solid #5b30c6; background:#f8f3ff url(../images/event_ico_arrow3.png) no-repeat center left 26px; border-radius:50%; box-shadow:25px 25px 40px rgba(0,0,0,0.1); z-index:3;}
+main.subscription > section.howto div.horizontal > ul.box_step > li:last-child:after {display:none;}
+main.subscription > section.howto div.horizontal > ul.box_step > li.step > span {display:block; height:70px; background:#8e61fb; border:1px solid #8e61fb; border-radius:12px 12px 0 0; font-size:18px; color:#fff; font-weight:800; line-height:70px; text-align:center;}
+main.subscription > section.howto div.horizontal > ul.box_step > li.step2 > span {background:#6739d7;}
+main.subscription > section.howto div.horizontal > ul.box_step > li.step3 > span {background:#4818c2;}
+main.subscription > section.howto div.horizontal > ul.box_step > li.step > div.box_info {display:flex; flex-direction:column; border:1px solid #4b20b8; border-top:none; border-radius:0 0 12px 12px; font-size:22px; color:#000; line-height:1.1; font-weight:800; text-align:center;}
+main.subscription > section.howto div.horizontal > ul.box_step > li.step > div.box_info:before {content:''; display:block; height:144px; background:url(../images/event_ico_apply_step1.png) no-repeat bottom 7px center;}
+main.subscription > section.howto div.horizontal > ul.box_step > li.step2 > div.box_info:before {background:url(../images/event_ico_apply_step2.png) no-repeat bottom 7px center;}
+main.subscription > section.howto div.horizontal > ul.box_step > li.step3 > div.box_info:before {background:url(../images/event_ico_apply_step3.png) no-repeat bottom;}
+main.subscription > section.howto div.horizontal > ul.box_step > li.step > div.box_info > p.info {display:flex; flex-direction:column; height:176px;justify-content:center;}
+main.subscription > section.howto div.horizontal > ul.box_step > li.step > div.box_info > p.info > strong {display:block; width:100%; height:20px; margin-bottom:10px; background:url(../images/event_ico_apply_logo.png) no-repeat center;}
+
+main.subscription > section.coupon {padding:100px 0 70px; background:#5022c3 url(../images/event_bg_coupon.png) no-repeat bottom center; background-size:cover;}
+main.subscription > section.coupon div.horizontal {display:flex; margin-bottom:60px;}
+main.subscription > section.coupon div.box_title > h2 {padding:0; padding-bottom:34px;}
+main.subscription > section.coupon div.box_title > h2:before {content:''; display:block; width:143px; height:53px; margin-bottom:10px; background:url(../images/event_logo_udemy.png) no-repeat center;}
+main.subscription > section.coupon div.box_title > p.small {color:#aa9cde;}
+main.subscription > section.coupon div.horizontal div.box_title {width:470px;}
+main.subscription > section.coupon div.box_ticket {display:flex; width:calc(100% - 470px); font-family:"Pretendard"; box-shadow:20px 20px 30px rgba(0,0,0,0.2);}
+main.subscription > section.coupon div.box_ticket > div.ticket_side {position:relative; width:68px; background:#a435f0 url(../images/event_coupon_logo_udemy.png) no-repeat center; border-radius:10px 0 0 10px;}
+main.subscription > section.coupon div.box_ticket > div.ticket_content {position:relative; flex:1; padding:30px 24px 30px 40px; background:#fff; z-index:1;}
+main.subscription > section.coupon div.box_ticket > div.ticket_content > span.title {display:block; margin-bottom:30px; font-size:20px; color:#000; font-weight:700;}
+main.subscription > section.coupon div.box_ticket > div.ticket_content > p.subtitle {font-size:21px; color:#a435f0; font-weight:700;}
+main.subscription > section.coupon div.box_ticket > div.ticket_content > p.subtitle > strong.udemy {display:inline-block; width:94px; height:35px; margin-right:6px; background:url(../images/event_coupon_title_udemy.png) no-repeat center; background-size:contain; vertical-align:-8px;}
+main.subscription > section.coupon div.box_ticket > div.ticket_content > div.check_list {padding:20px 0;}
+main.subscription > section.coupon div.box_ticket > div.ticket_content > div.check_list > p {position:relative; padding:6px 20px; font-size:16px; font-weight:700; word-break: keep-all;}
+main.subscription > section.coupon div.box_ticket > div.ticket_content > div.check_list > p:before {content:''; position:absolute; left:0; top:5px; width:17px; height:17px; background:url(../images/event_ico_check2.png) no-repeat center; background-size:contain;}
+main.subscription > section.coupon div.box_ticket > div.ticket_content > button.apply_btn {display:block; width:100%; background:#13fd86; border-radius:5px; line-height:54px; font-size:18px; color:#000; font-weight:700; text-align:center;}
+main.subscription > section.coupon div.box_ticket > div.ticket_barcode {position:relative; font-size:0;}
+main.subscription > section.coupon div.box_ticket > div.ticket_barcode:after {content:''; position:absolute; top:0; left:0; width:100%; height:100%; background:url(../images/event_coupon_barcode1.png) no-repeat right 36px center;}
+main.subscription > section.coupon div.box_ticket > div.ticket_barcode > img {height:100%;}
+main.subscription > section.coupon div.box_notice {display:flex; align-items:center; padding:26px 0; background:#fff; border-radius:10px; font-family:"Pretendard"; box-shadow:20px 20px 30px rgba(0,0,0,0.2);}
+main.subscription > section.coupon div.box_notice > strong.title {display:block; padding:0 68px; font-size:20px; font-weight:700;}
+main.subscription > section.coupon div.box_notice > div.box_list > p {position:relative; padding:6px 28px; font-size:16px; font-weight:600; word-break:keep-all;}
+main.subscription > section.coupon div.box_notice > div.box_list > p:before {content:''; position:absolute; left:0; top:4px; width:15px; height:18px; background:url(../images/event_ico_check.png) no-repeat center;}
+
+
+main.subscription > section.notice {padding:100px 0; background:#282828;}
+main.subscription > section.notice div.horizontal {display:flex;}
+main.subscription > section.notice div.box_title > h2.notice {padding:0; color:#fff;}
+main.subscription > section.notice div.box_title > h2.notice:before {content:''; display:block; width:40px; height:40px; margin-bottom:10px; background:url(../images/event_ico_notice.png) no-repeat center;}
+main.subscription > section.notice div.horizontal > div.box_title {width:450px;}
+main.subscription > section.notice div.horizontal > div.box_list {margin-top:-10px;}
+main.subscription > section.notice div.horizontal > div.box_list > p.dot {position:relative; padding:9px 0 9px 18px; font-size:16px; color:#fff; line-height:1.3; word-break: keep-all;}
+main.subscription > section.notice div.horizontal > div.box_list > p.dot:before {content:''; position:absolute; left:0; top:16px; width:4px; height:4px; background:#06e871;}
+
+
+@media screen and (max-width:1200px) {
+	main.subscription > section.info {padding: 100px 0;}
+	main.subscription > section.info div.box_title > h2 > br {display: none;}
+	main.subscription > section.info div.box_content > ul.box_tags {max-width:initial; margin-bottom: 40px;}
+	main.subscription > section.info div.box_content > div.lecture_slides {position: relative; left:initial; right:initial; max-width:initial;}
+	
+	main.subscription > section.coupon div.horizontal div.box_title {width: 30%;}
+	main.subscription > section.coupon div.box_ticket {width: 70%;}
+}
+
+@media screen and (max-width:1020px) {
+	main.subscription > section.intro {background-size:contain, 100% auto, cover}
+	main.subscription > section div.box_title {position: relative; z-index:1;}
+	main.subscription > section.intro:after {content:''; position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.2);}
+	
+	main.subscription > section.reason div.box_title > h2 {padding-bottom: 40px;}
+	main.subscription > section.reason ul.box_reasons {flex-direction:column;}
+	main.subscription > section.reason ul.box_reasons > li {width: 100%; padding-bottom:68px; margin-bottom: 10px; margin-right: 0;}
+	main.subscription > section.reason ul.box_reasons > li > div.box_text > p > br {display:none;}
+	main.subscription > section.reason ul.box_reasons > li > div.box_text > p > br.break {display:block;}
+	
+	main.subscription > section.info div.box_button {width:100%; text-align: center;}
+	
+	main.subscription > section.coupon div.box_title > h2 {padding-bottom: 15px;}
+	main.subscription > section.coupon div.horizontal {flex-direction:column; margin-bottom: 40px;}
+	main.subscription > section.coupon div.horizontal div.box_title {width: 100%; margin-bottom: 40px;}
+	main.subscription > section.coupon div.box_ticket {width: 100%;}
+	main.subscription > section.coupon div.box_notice > strong.title {padding: 0 45px;}
+	
+}
+
+@media screen and (max-width:760px) {
+	main.subscription > section.info div.box_content > div.lecture_slides button.slick-prev {left: 10px;}
+	main.subscription > section.info div.box_content > div.lecture_slides button.slick-next {right: 10px;}
+	
+	main.subscription > section.howto div.horizontal {flex-direction:column;}
+	main.subscription > section.howto div.horizontal > div.box_title {width: 100%;}
+	main.subscription > section.howto div.horizontal > ul.box_step {width: 100%;}
+	main.subscription > section.howto div.box_title > h2 {padding-bottom: 15px;}
+	main.subscription > section.howto div.horizontal > div.box_title {margin-bottom: 40px;}
+	
+	main.subscription > section.notice div.horizontal {flex-direction: column;}
+	main.subscription > section.notice div.horizontal > div.box_title {width: 100%; margin-bottom: 40px;}
+	main.subscription > section.notice div.horizontal > div.box_list {width: 100%;}
+}
+
+@media screen and (max-width:560px) {
+	main.subscription > section.reason div.box_title > h2 > br {display: none;}
+	
+	main.subscription > section.coupon div.box_notice {flex-direction: column;}
+	main.subscription > section.coupon div.box_notice > div.box_list {padding: 0 20px;}
+	main.subscription > section.coupon div.box_notice > strong.title {margin-bottom: 20px;}
+	main.subscription > section.coupon div.box_notice > div.box_list > p {padding-right: 0;}
+}
+
+@media screen and (max-width:460px) {
+	main.subscription > section.reason ul.box_reasons > li {padding-bottom: 182px;}
+	
+	main.subscription > section.howto div.horizontal > ul.box_step {flex-direction:column;}
+	main.subscription > section.howto div.horizontal > ul.box_step > li.step {width: 100%; margin-right: 0; margin-bottom: 10px;}
+	main.subscription > section.howto div.horizontal > ul.box_step > li.step:after {right:initial; top:initial; bottom:-28px; left:50%; transform:translate(-50%,0) rotate(90deg);}
+	main.subscription > section.howto div.horizontal > ul.box_step > li.step > div.box_info:before {height: 100px;}
+	main.subscription > section.howto div.horizontal > ul.box_step > li.step > div.box_info > p.info {height: auto; padding: 20px 0 40px;}
+	
+	main.subscription > section.info div.box_content > div.lecture_slides {width: 100%; padding: 0; margin-bottom: 40px;}
+	main.subscription > section.info div.box_content > div.lecture_slides div.item {margin: 20px; box-shadow:0 0 20px rgba(0,0,0,0.2);}
+	main.subscription > section.info div.box_content > div.lecture_slides div.item > div.item_content {padding: 25px;}
+	main.subscription > section.info div.box_content > div.lecture_slides div.item > div.item_content > div.top {padding-bottom: 28px;}
+	main.subscription > section.info div.box_content > div.lecture_slides div.item > div.item_content > div.bottom {padding-top: 20px;}
+	main.subscription > section.info div.box_content > div.lecture_slides div.item > div.item_content > div.top > strong {padding: 20px 0 12px; font-size: 36px;}
+	main.subscription > section.info div.box_content > div.lecture_slides div.item > div.item_content > div.top > span {height: 30px; line-height:30px; padding: 0 15px; font-size: 11px; }
+	
+	main.subscription > section.coupon div.box_ticket > div.ticket_side {width:30px; background-size:20px;}
+	main.subscription > section.coupon div.box_ticket > div.ticket_content {padding-left:15px; padding-right:0px;}
+	main.subscription > section.coupon div.box_ticket > div.ticket_barcode {width: 105px;}
+	main.subscription > section.coupon div.box_ticket > div.ticket_barcode:after {background-position:right 20px center;}
+}
+
+@media screen and (max-width:360px) {
+	main.subscription > section.intro div.box_title > h2 {font-size: 55px; line-height:1.1;}
+	main.subscription > section.intro div.box_title > h2 > strong.mooc {top: 10px;}
+	
+	main.subscription > section.coupon div.box_ticket > div.ticket_content > button.apply_btn {font-size: 14px;}
+}
+
+/* 팝업 스타일 */
+main.subscription div.box_popup {font-family: "Noto Sans Kr";}
+main.subscription div.box_popup div.popup {width: 540px;}
+main.subscription div.box_popup div.popup > div.popup_inner > div {height:auto; max-height:calc(80vh - 208px); padding: 10px; box-sizing: border-box; overflow-y: auto;}
+main.subscription div.box_popup div.popup > div.popup_inner.subscription > div {border-bottom:0;}
+main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > p.text {margin-bottom:22px; font-size:22px; line-height:24px; word-break:keep-all;}
+main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > p.text > span {color:#0036ce;}
+main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > p.dot {word-break:keep-all;}
+main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > p.dot::before {top:6px;}
+main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > div.content {margin-top:25px; padding:30px; background:#e3f0fc; box-sizing:border-box;}
+main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > div.content > div.box_input {display:flex; flex-wrap:wrap; margin-bottom:10px;}
+main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > div.content > div.box_input:last-child {margin-bottom:0;}
+main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > div.content > div.box_input > strong {width:100px; font-size:15px; font-weight:bold; line-height:40px;}
+main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > div.content > div.box_input > div[data-role="input"] {width:calc(100% - 100px);}
+main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > div.content > div.box_input > div[data-role="input"] > input {border:none;}
+main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > div.content > div.box_input > div[data-role=input][data-type=select] > div {border:none;}
+main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > div[data-name=marketing_agree2] {padding-top:15px; border-bottom:0;}
+main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > div[data-name=marketing_agree2] div[data-role=check_search] > label {vertical-align:-1px;}
+main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > div[data-name=marketing_agree2] span.privacy {display: inline-block; margin-left: 3px; vertical-align:1px; text-decoration: underline;}
+main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > div[data-name=marketing_agree2] span.privacy > button {text-decoration: underline;}
+main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > div.line {margin:16px 0 24px; padding:0;}
+main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > div.button {padding:0; text-align:center;}
+main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > div.button > button {display:inline-block; width:150px; height:48px; font-size:15px; font-weight:600; line-height:48px; border-radius:4px; background:#ebebeb; text-align:center;}
+main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > div.button > button.btn_submit {margin-left:4px; background:#0036ce; color:#fff;}
+
+main.subscription div.box_popup div.popup.privacy {width: 480px;}
+main.subscription div.box_popup div.popup > div.popup_inner.privacy > div {border-bottom:0;}
+main.subscription div.box_popup div.popup > div.popup_inner.privacy > div > p {font-size:14px; line-height:24px; color:#333; word-break:keep-all;}
+main.subscription div.box_popup div.popup > div.popup_inner.privacy > div > div.content {margin-top:25px; padding:30px; background:#e3f0fc; box-sizing:border-box;}
+main.subscription div.box_popup div.popup > div.popup_inner.privacy > div > div.content > strong {display:inline-block; width:100%; margin-bottom:15px; font-size:15px; font-weight:bold; line-height:24px; color:#0036ce;}
+main.subscription div.box_popup div.popup > div.popup_inner.privacy > div > div.content > p.dot {font-size:14px; line-height:24px; color:#666; word-break: keep-all;}
+main.subscription div.box_popup div.popup > div.popup_inner.privacy > div > div.line {margin:24px 0; padding:0;}
+main.subscription div.box_popup div.popup > div.popup_inner.privacy > div > div.button {padding:0; text-align:center;}
+main.subscription div.box_popup div.popup > div.popup_inner.privacy > div > div.button > button {display:inline-block; width:150px; height:48px; font-size:15px; font-weight:600; line-height:48px; border-radius:4px; background:#ebebeb; text-align:center;}
+main.subscription div.box_popup div.popup > div.popup_inner.privacy > div > div.button > button.btn_submit {margin-left:4px; background:#0036ce; color:#fff;}
+
+@media screen and (max-width:991px) {
+	main.subscription div.box_popup div.popup {width: 90%;}
+	main.subscription div.box_popup div.popup.privacy {width: 90%;}
+}
+
+@media screen and (max-width:460px) {
+	main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > div.content > div.box_input > strong {width: 100%;}
+	main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > div.content > div.box_input > div[data-role="input"] {width: 100%;}
+	
+	main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > div.button > button {width: 100%; padding: 0;}
+	main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > div.button > button.btn_submit {margin-left: 0; margin-top: 4px;}
+	main.subscription div.box_popup div.popup.privacy > div.popup_inner > div > div.button > button {width: 100%; padding: 0;}
+	main.subscription div.box_popup div.popup.privacy > div.popup_inner > div > div.button > button.btn_submit {margin-left: 0; margin-top: 4px;}
+}
