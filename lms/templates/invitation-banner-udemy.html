@@ -730,10 +730,17 @@ main.subscription div.box_popup div.popup > div.popup_inner.subscription > div >
     $(document).ready(function () {
 
         // TODO: 로그인 상태일 시 회원정보 (이름, 연락처, 이메일) 자동 입력 부분
+
+        // TODO: 로그인 상태일 시 회원정보 (이름, 연락처, 이메일) 자동 입력 부분
+        % if user.is_authenticated:
             document.getElementById('input_name').value = '${user.profile.name}';
             document.getElementById('input_phone').value = '';
             document.getElementById('input_email').value = '${user.email}';
-
+        % else:
+            document.getElementById('input_name').value = '';
+            document.getElementById('input_phone').value = '';
+            document.getElementById('input_email').value = '';
+        % endif
 
         % if success:
             alert('이벤트에 참여해 주셔서 감사합니다 :)');

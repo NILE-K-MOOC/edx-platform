@@ -215,13 +215,13 @@ def matchup_info(request):
 def matchup_course(request):
     return render_to_response("matchup_course.html")
 
-
+from django.contrib.auth.decorators import login_required
 from .forms import InvitationForm
 from django.shortcuts import render
 from .models import Invitation
 from django.contrib import messages
 
-
+@login_required
 def invitation_confirm(request):
     # org = request.POST.get('org')
     if request.method == 'POST':
@@ -280,6 +280,7 @@ def invitation_confirm(request):
     return render(request, 'invitation-banner2.html', {'form': form})  # original
 
 # Udemy ----------------------------------------------------------------------------------------
+@login_required
 def invitation_confirm_udemy(request):
     if request.method == 'POST':
         # 폼 이니셜 값 user_id 할당
