@@ -373,6 +373,64 @@ from openedx.core.djangolib.markup import HTML, Text
         display: block;
     }
 
+@media all and (max-width: 450px) {
+
+    div.box_popup div.popup h2 {
+
+        min-height: 0;
+
+        height: 50px;
+
+        padding: 0 10px;
+
+        font-size: 16px;
+
+        line-height: 50px;
+
+    }
+
+
+
+    div.box_popup div.popup > div.popup_inner {
+
+        padding: 0;
+
+    }
+
+
+
+    main.subscription div.box_popup div.popup > div.popup_inner > div {
+
+        max-height: calc(95vh - 50px);
+
+        letter-spacing: -0.08em;
+
+    }
+
+
+
+    main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > p.text {
+
+        margin-bottom: 10px;
+
+        line-height: 1.3;
+
+        font-size: 17px;
+
+    }
+
+
+
+    main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > p.dot {
+
+        margin-top: 10px;
+
+        line-height: 1.3;
+
+    }
+
+
+
 </style>
 <main id="main" aria-label="Content" tabindex="-1" class="main-content">
 
@@ -382,7 +440,7 @@ from openedx.core.djangolib.markup import HTML, Text
         <div class="container-fluid">
             <div class="visual-row">
                 <div class="banner" style="visibility:hidden;opacity:0; height: 120px; overflow: hidden;">
-                    <!-- 코세라 2차 구독권 신청 -->
+##                     <!-- 코세라 2차 구독권 신청 -->
 ##                     <div><a href="/invitation-banner" target="_blank" style="display:block" title="코세라 구독권 신청 바로가기">
 ##                             <img src="${STATIC_URL}images/22nov_coursera.png" alt="코세라 구독권 신청 바로가기"
 ##                                  style="width: 100%"/></a></div>
@@ -392,7 +450,7 @@ from openedx.core.djangolib.markup import HTML, Text
                         <img src="${STATIC_URL}images/coursera-banner2209.png" alt="코세라 구독권 신청 바로가기"
                              style="width: 100%"/></a></div>
 
-##                     <!-- 유데미 구독권 신청 -->
+                    <!-- 유데미 구독권 신청 -->
 ##                     <div><a href="/invitation-banner-udemy" target="_blank" style="display:block" title="유데미 구독권 신청 바로가기">
 ##                         <img src="${STATIC_URL}images/22nov_udemy.png" alt="유데미 구독권 신청 바로가기"
 ##                              style="width: 100%"/></a></div>

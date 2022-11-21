@@ -104,9 +104,50 @@ button {
     color: #000000;
 }
 
-    .new-footer {
+/*    .new-footer {
         background-color: white;
     }
+   */
+.new-ff-bot.new-ff-blue,
+.new-ff-ttt.new-ff-blue{
+    color: #79a9ff;
+}
+
+
+#fam-move {
+    color: white;
+    border: white;
+    box-shadow: none;
+    height: 27px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius:5px
+
+}
+
+.new-ff-title {
+    color: white;
+}
+
+
+.new-ff-bot {
+    color: white;
+    line-height: 1.4;
+}
+
+
+.new-ff-ttt {
+    color: white;
+    line-height: 1.4;
+}
+
+
+.new-ff-select {
+    color: white;
+    height: 38px;
+}
 
 main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > div.button {
     background: none;
@@ -150,6 +191,97 @@ main.subscription div.box_popup div.popup > div.popup_inner.subscription > div >
    .new-login-my {
        line-height: 1.5;
    }
+
+@media all and (max-width: 450px) {
+
+    div.box_popup div.popup h2 {
+
+        min-height: 0;
+
+        height: 50px;
+
+        padding: 0 10px;
+
+        font-size: 16px;
+
+        line-height: 50px;
+
+    }
+
+
+
+    div.box_popup div.popup > div.popup_inner {
+
+        padding: 0;
+
+    }
+
+
+
+    main.subscription div.box_popup div.popup > div.popup_inner > div {
+
+        max-height: calc(95vh - 50px);
+
+        letter-spacing: -0.08em;
+
+    }
+
+
+
+    main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > p.text {
+
+        margin-bottom: 10px;
+
+        line-height: 1.3;
+
+        font-size: 17px;
+
+    }
+
+
+
+    main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > p.dot {
+
+        margin-top: 10px;
+
+        line-height: 1.3;
+
+    }
+    main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > div.content {
+
+        margin-top: 10px;
+
+        padding: 10px;
+
+    }
+
+
+
+    main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > div.content > div.box_input > strong {
+
+        margin-bottom: 5px;
+
+        line-height: 1.3;
+
+    }
+
+
+
+    main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > div[data-name=marketing_agree2] {
+
+        padding-top: 10px;
+
+    }
+
+
+
+    main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > div.line {
+
+        margin: 8px 0 10px;
+
+    }
+
+}
 
 </style>
 
@@ -278,23 +410,7 @@ main.subscription div.box_popup div.popup > div.popup_inner.subscription > div >
                             </div>
                         </div>
                     </div>
-                    <div class="item" data-card="web">
-                        <p class="item_head">웹개발 실무</p>
-                        <div class="item_content">
-                            <div class="top">
-                                <span>#WEB DEVELOPMENT</span>
-                                <strong>웹개발 실무<br> 마스터</strong>
-                                <p>#TypeScript #Angular # Docker #Next.js</p>
-                            </div>
-                            <div class="bottom checklist">
-                                <p>TypeScript 마스터</p>
-                                <p>Docker & Kubernetes: 실전 가이드</p>
-                                <p>NodeJS 완벽 가이드</p>
-                                <p>Web Development 부트캠프</p>
-                                <p>Next.js & React - 완벽 정복</p>
-                            </div>
-                        </div>
-                    </div>
+
                     <div class="item" data-card="datascience">
                         <p class="item_head">데이터사이언스</p>
                         <div class="item_content">
@@ -311,22 +427,24 @@ main.subscription div.box_popup div.popup > div.popup_inner.subscription > div >
                             </div>
                         </div>
                     </div>
-                    <div class="item" data-card="marketing">
-                        <p class="item_head">마케팅</p>
+
+                    <div class="item" data-card="game">
+                        <p class="item_head">게임개발</p>
                         <div class="item_content">
                             <div class="top">
-                                <span>#MARKETING</span>
-                                <strong>현업 마케터<br>필수 코스</strong>
-                                <p>#GoogleAds # SEO #Youtube #인바운드</p>
+                                <span>#GAME DEVELOPMENT</span>
+                                <strong>실전!<br>게임 개발</strong>
+                                <p>#Unity #게임수학 #메타버스</p>
                             </div>
                             <div class="bottom checklist">
-                                <p>구글 애널리틱스 마스터하기</p>
-                                <p>SEO 트레이닝 마스터클래스</p>
-                                <p>5시간만에 인기 YouTube 만들기</p>
-                                <p>인바운드 마케팅</p>
+                                <p>C#과 Unity로 3D 게임 개발하기</p>
+                                <p>메타버스 기초 과정</p>
+                                <p>언리얼 C++ 멀티플레이어 마스터</p>
+                                <p>게임 개발자가 알아야 할 핵심 수학</p>
                             </div>
                         </div>
                     </div>
+
                     <div class="item" data-card="it">
                         <p class="item_head">IT자격증</p>
                         <div class="item_content">
@@ -344,22 +462,7 @@ main.subscription div.box_popup div.popup > div.popup_inner.subscription > div >
                             </div>
                         </div>
                     </div>
-                    <div class="item" data-card="animation">
-                        <p class="item_head">3D & 애니메이션</p>
-                        <div class="item_content">
-                            <div class="top">
-                                <span>#3D & ANIMATION</span>
-                                <strong>게임부터<br> 메타버스까지</strong>
-                                <p>#Blender #Unreal Engine</p>
-                            </div>
-                            <div class="bottom checklist">
-                                <p>초보자를 위한 블렌더 스타일링</p>
-                                <p>블렌더 첫 3D 게임 모델 만들기</p>
-                                <p>언리얼 엔진 5를 위한 블렌더 가이드</p>
-                                <p>언리얼 엔진 5 : 3D 소품 완벽 가이드</p>
-                            </div>
-                        </div>
-                    </div>
+
                     <div class="item" data-card="design">
                         <p class="item_head">디자인</p>
                         <div class="item_content">
@@ -376,22 +479,41 @@ main.subscription div.box_popup div.popup > div.popup_inner.subscription > div >
                             </div>
                         </div>
                     </div>
-                    <div class="item" data-card="business_anaytics">
-                        <p class="item_head">비즈니스 분석</p>
+
+                    <div class="item" data-card="marketing">
+                        <p class="item_head">마케팅</p>
                         <div class="item_content">
                             <div class="top">
-                                <span>#BUSINESS ANALYTICS</span>
-                                <strong>성공을 위한<br>비즈니스 분석</strong>
-                                <p>#Power BI #SQL # Tableau # Qlik Sence</p>
+                                <span>#MARKETING</span>
+                                <strong>현업 마케터<br>필수 코스</strong>
+                                <p>#GoogleAds # SEO #Youtube #인바운드</p>
                             </div>
                             <div class="bottom checklist">
-                                <p>Power BI 완벽 부트캠프</p>
-                                <p>SQL 부트캠프 2022</p>
-                                <p>Tableau 고수되기</p>
-                                <p>BI 를 위한 Qlik Sense</p>
+                                <p>구글 애널리틱스 마스터하기</p>
+                                <p>SEO 트레이닝 마스터클래스</p>
+                                <p>5시간만에 인기 YouTube 만들기</p>
+                                <p>인바운드 마케팅</p>
                             </div>
                         </div>
                     </div>
+
+                    <div class="item" data-card="management">
+                        <p class="item_head">조직관리</p>
+                        <div class="item_content">
+                            <div class="top">
+                                <span>#MANAGEMENT</span>
+                                <strong>성공으로 이끄는<br>조직 관리</strong>
+                                <p>#디자인씽킹 #동기부여 #리더십</p>
+                            </div>
+                            <div class="bottom checklist">
+                                <p>직원 동기 부여 방법 및 성공 방식</p>
+                                <p>업무 위임을 통해 조직 및 팀 관리하기</p>
+                                <p>초심자를 위한 디자인 씽킹</p>
+                                <p>성공적인 회의를 위한 모든 것</p>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="item" data-card="communication">
                         <p class="item_head">커뮤니케이션</p>
                         <div class="item_content">
@@ -408,6 +530,62 @@ main.subscription div.box_popup div.popup > div.popup_inner.subscription > div >
                             </div>
                         </div>
                     </div>
+
+                    <div class="item" data-card="web">
+                        <p class="item_head">웹개발 실무</p>
+                        <div class="item_content">
+                            <div class="top">
+                                <span>#WEB DEVELOPMENT</span>
+                                <strong>웹개발 실무<br> 마스터</strong>
+                                <p>#TypeScript #Angular # Docker #Next.js</p>
+                            </div>
+                            <div class="bottom checklist">
+                                <p>TypeScript 마스터</p>
+                                <p>Docker & Kubernetes: 실전 가이드</p>
+                                <p>NodeJS 완벽 가이드</p>
+                                <p>Web Development 부트캠프</p>
+                                <p>Next.js & React - 완벽 정복</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="item" data-card="animation">
+                        <p class="item_head">3D & 애니메이션</p>
+                        <div class="item_content">
+                            <div class="top">
+                                <span>#3D & ANIMATION</span>
+                                <strong>게임부터<br> 메타버스까지</strong>
+                                <p>#Blender #Unreal Engine</p>
+                            </div>
+                            <div class="bottom checklist">
+                                <p>초보자를 위한 블렌더 스타일링</p>
+                                <p>블렌더 첫 3D 게임 모델 만들기</p>
+                                <p>언리얼 엔진 5를 위한 블렌더 가이드</p>
+                                <p>언리얼 엔진 5 : 3D 소품 완벽 가이드</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="item" data-card="business_anaytics">
+                        <p class="item_head">비즈니스 분석</p>
+                        <div class="item_content">
+                            <div class="top">
+                                <span>#BUSINESS ANALYTICS</span>
+                                <strong>성공을 위한<br>비즈니스 분석</strong>
+                                <p>#Power BI #SQL # Tableau # Qlik Sence</p>
+                            </div>
+                            <div class="bottom checklist">
+                                <p>Power BI 완벽 부트캠프</p>
+                                <p>SQL 부트캠프 2022</p>
+                                <p>Tableau 고수되기</p>
+                                <p>BI 를 위한 Qlik Sense</p>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="item" data-card="ai">
                         <p class="item_head">에이아이</p>
                         <div class="item_content">
@@ -440,38 +618,8 @@ main.subscription div.box_popup div.popup > div.popup_inner.subscription > div >
                             </div>
                         </div>
                     </div>
-                    <div class="item" data-card="game">
-                        <p class="item_head">게임개발</p>
-                        <div class="item_content">
-                            <div class="top">
-                                <span>#GAME DEVELOPMENT</span>
-                                <strong>실전!<br>게임 개발</strong>
-                                <p>#Unity #게임수학 #메타버스</p>
-                            </div>
-                            <div class="bottom checklist">
-                                <p>C#과 Unity로 3D 게임 개발하기</p>
-                                <p>메타버스 기초 과정</p>
-                                <p>언리얼 C++ 멀티플레이어 마스터</p>
-                                <p>게임 개발자가 알아야 할 핵심 수학</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item" data-card="management">
-                        <p class="item_head">조직관리</p>
-                        <div class="item_content">
-                            <div class="top">
-                                <span>#MANAGEMENT</span>
-                                <strong>성공으로 이끄는<br>조직 관리</strong>
-                                <p>#디자인씽킹 #동기부여 #리더십</p>
-                            </div>
-                            <div class="bottom checklist">
-                                <p>직원 동기 부여 방법 및 성공 방식</p>
-                                <p>업무 위임을 통해 조직 및 팀 관리하기</p>
-                                <p>초심자를 위한 디자인 씽킹</p>
-                                <p>성공적인 회의를 위한 모든 것</p>
-                            </div>
-                        </div>
-                    </div>
+
+
                     <div class="item" data-card="software_development">
                         <p class="item_head">소프트웨어  설계</p>
                         <div class="item_content">
@@ -491,7 +639,7 @@ main.subscription div.box_popup div.popup > div.popup_inner.subscription > div >
                 </div>
             </div>
             <div class="box_button">
-                <a href="../static/udemy/documents/kmooc_udemy_apply.pdf" class="event_btn" target="_blank"
+                <a href="../static/udemy/documents/kmooc_udemy_apply_1121.pdf" class="event_btn" target="_blank"
                    download="KMOOC_x_Udemy_수강안내서">전체 강의 브로슈어<i class="arrow"></i></a>
             </div>
         </div>
@@ -725,7 +873,6 @@ main.subscription div.box_popup div.popup > div.popup_inner.subscription > div >
                         <p class="dot">제공하는 개인정보의 항목 : 성명, 이메일,전화번호</p>
                         <p class="dot">개인정보를 제공받는 자의 개인정보 보유 및 이용 기간 : 제공 후 1년</p>
                         <p class="dot">동의를 거부할 수 있으며 Udemy, Coursera 서비스를 이용하실 수 없습니다.</p>
-                        <p class="dot">위 고유식별정보 수집 이용에 동의 여부에 따라 아래 버튼을 눌러주세요.</p>
                     </div>
                 </div>
             </div>
