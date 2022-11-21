@@ -29,4 +29,4 @@ button {cursor:pointer; outline:none;}
 header, footer, main, section, article, aside {display:block;}
 button { -webkit-appearance: none; -moz-appearance: none; appearance: none; margin:0; padding:0; border:0; background:none; cursor:pointer; cursor:pointer;}
 i {font-style:normal;}
-body {padding-top:84px;}
+/* body {padding-top:84px;}  */
