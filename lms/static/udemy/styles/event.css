@@ -176,6 +176,13 @@ main.subscription > section.notice div.horizontal > div.box_list > p.dot:before 
 	main.subscription > section.coupon div.box_notice > div.box_list > p {padding-right: 0;}
 }
 
+@media screen and (max-width: 460px) {
+	main.subscription section.intro a.event_btn.black {
+		margin-left: 0;
+		margin-top: 10px;
+	}
+}
+
 @media screen and (max-width:460px) {
 	main.subscription > section.reason ul.box_reasons > li {padding-bottom: 182px;}
 	
