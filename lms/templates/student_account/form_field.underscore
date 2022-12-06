@@ -1,55 +1,3 @@
-                <% // 테스트 start %>
-
-<% if ( type === 'select' && name == 'level_of_education' ) { %>
-<div class="form-field authentication">
-        <label for="register-authentication">
-            <span class="label-text">실명인증 *</span>
-            <span class="label-optional" id="register-authentication-optional-label"><%- optionalStr %></span>
-        </label>
-<% // 실명인증버튼 start %>
-
-
-    <div class="info_div" style="border:1px solid #ccc; padding: 20px; text-align:center"">
-
-         <button type="button" class="action action-primary identity" style="width: 40%; margin: 0 0 0 2%; padding:0; height: 32px; color:black;" title="실명 인증 버튼 및 새창 알림">
-             <%- gettext("Authentication") %>
-         </button>
-
-         <button type="button" class="action action-primary " id="kakao_identity_regist" style="width: 40%; margin: 0 0 0 2%; padding:0; height: 32px; box-shadow: none; background: #f1d900; color:black; font-weight: 500; font-size: 15px" title="카카오 페이 실명 인증 버튼">
-             <%- gettext("KaKao Authentication") %>
-         </button>
-
-    </div>
-    <span class="tip tip-input" id="register-name-desc">본인인증시 이메일 찾기의 기능을 이용할 수 있습니다.</span>
-</div>
- <% // 실명인증버튼 end %>
-
- <div class="form-field <%- type %>-<%- name %>">
-    <% if ( type !== 'checkbox' && type !== 'plaintext') { %>
-        <label for="<%- form %>-<%- name %>">
-            <span class="label-text"><%- label %></span>
-            <% if ( required && type !== 'hidden' ) { %>
-                <span id="<%- form %>-<%- name %>-required-label"
-                    class="label-required <% if ( !requiredStr ) { %>hidden<% } %>">
-                    <% if ( requiredStr ) { %><%- requiredStr %><% }%>
-                </span>
-                <span class="icon fa" id="<%- form %>-<%- name %>-validation-icon" aria-hidden="true"></span>
-            <% } %>
-            <% if ( !required && optionalStr && (type !== 'hidden') ) { %>
-                <span class="label-optional" id="<%- form %>-<%- name %>-optional-label"><%- optionalStr %></span>
-            <% } %>
-        </label>
-        <% if (supplementalLink && supplementalText) { %>
-            <div class="supplemental-link">
-                <a href="<%- supplementalLink %>" target="_blank"><%- supplementalText %></a>
-            </div>
-        <% } %>
-    <% } %>
- <% } else { %>
-
-
-<% // 테스트 end %>
-
 <div class="form-field <%- type %>-<%- name %>">
     <% if ( type !== 'checkbox' && type !== 'plaintext') { %>
         <label for="<%- form %>-<%- name %>">
@@ -72,11 +20,6 @@
         <% } %>
     <% } %>
 
-                <% // 테스트 end 시 아래 괄호 삭제필요 %>
-<% } %>
-
- <% // type, name 체크해 끼워넣음 --------------------------------------- %>
-
     <% if ( type === 'select' ) { %>
         <select id="<%- form %>-<%- name %>"
             name="<%- name %>"
@@ -91,9 +34,6 @@
             alt="출생연도 선택"
             <% } %>
 
-            <% if ( name == 'level_of_education') { %>
-            alt="교육"
-            <% } %>
 
             <% if ( instructions ) { %>
             aria-describedby="<%- form %>-<%- name %>-desc <%- form %>-<%- name %>-validation-error"
@@ -198,7 +138,7 @@
         <% } %>
 
         <% if ( form === 'register' && name === 'name' ) { %>
-            <% // 실명입력란은 실명인증버튼과 함께 배치 -> 22.11.28 실명인증 버튼 하단으로 이동 %>
+            <% // 실명입력란은 실명인증버튼과 함께 배치 %>
             <div style="margin-bottom: 5px;">
                 <input id="<%- form %>-<%- name %>"
                    type="<%- type %>"
@@ -225,20 +165,18 @@
                     } %>
                     <% if ( placeholder ) { %> placeholder="<%- placeholder %>"<% } %>
                     value="<%- defaultValue %>"
-                    <% //style="width: 38%; float: left; margin: 0;" %>
-                    style="width: 100%; float: left; margin: 0;"
+                    style="width: 38%; float: left; margin: 0;"
                 />
 
-            <% // 기존 실명인증버튼 start - 삭제필요 %>
-            <% //   <button type="button" class="action action-primary identity" style="width: 20%; margin: 0 0 0 2%; padding:0; height: 32px; color:black;" title="실명 인증 버튼 및 새창 알림"> %>
-            <% //        <%- gettext("Authentication") %>
-            <% //    </button> %>
-            <% //    <button type="button" class="action action-primary " id="kakao_identity_regist" style="width: 37%; margin: 0 0 0 2%; padding:0; height: 32px; box-shadow: none; background: #f1d900; color:black; font-weight: 500; font-size: 15px" title="카카오 페이 실명 인증 버튼"> %>
-            <% //        <%- gettext("KaKao Authentication") %>
-            <% //    </button> %>
-            <% // 기존 실명인증버튼 end %>
 
-           <% // 카카오 실명인증 팝업 start %>
+                <button type="button" class="action action-primary identity" style="width: 20%; margin: 0 0 0 2%; padding:0; height: 32px;" title="실명 인증 버튼 및 새창 알림">
+                    <%- gettext("Authentication") %>
+                </button>
+
+                <button type="button" class="action action-primary " id="kakao_identity_regist" style="width: 37%; margin: 0 0 0 2%; padding:0; height: 32px; box-shadow: none; background: #f1d900; color:black; font-weight: 500; font-size: 15px" title="카카오 페이 실명 인증 버튼">
+                    <%- gettext("KaKao Authentication") %>
+                </button>
+
             <div id="kakao_form" style="float: left; width: 100%;" hidden>
                 <div class="acbs-wrap"  id="">
                     <div class="acbs-group" >
@@ -282,7 +220,6 @@
                     </div>
                 </div>
             </div>
-           <% // 카카오 실명인증 팝업 end %>
 
             <div id="privacy_text_area" style="float: left;" hidden>
                 <div class="acbs-wrap"  id="" style="left: 109px; width: 56%; top: 100px; z-index: 9999">
