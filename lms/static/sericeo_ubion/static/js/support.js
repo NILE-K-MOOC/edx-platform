@@ -26,7 +26,7 @@ $(function(){
 		});
 	}support_tabmenu();
 
-	$.get('../static/sericeo_ubion/support.json').done(function(data){
+	$.get('../static/sericeo_ubion/support.txt').done(function(data){
 		data.forEach((a,i) => {
 			a.support.forEach((e,j) => {
 				let desc = e.desc.replace(/(\n|\r\n)/g, '<br>');
