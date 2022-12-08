@@ -184,6 +184,11 @@ def sericeo(request):
     return render_to_response("sericeo.html")
 
 
+@csrf_exempt
+def sericeo_ubion(request):
+    return render_to_response("sericeo_ubion.html")
+
+
 def invitation_banner_old1(request):
     return render_to_response("invitation-banner2back.html")
 

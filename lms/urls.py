@@ -103,7 +103,7 @@ urlpatterns = [
 
     # sericeo
     url(r'^sericeo$', branding_views.sericeo, name='sericeo'),
-
+    url(r'^sericeo-employment-support$', branding_views.sericeo_ubion, name='sericeo_ubion'),
 
     # Common
     # made by kotech system

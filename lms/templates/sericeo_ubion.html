@@ -1,0 +1,100 @@
+<%page expression_filter="h"/>
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.core.urlresolvers import reverse
+from microsite_configuration import microsite
+from openedx.core.djangolib.markup import HTML, Text
+%>
+
+<div class="window-wrap kr01-area">
+
+    <!-- 취업지원강좌 -->
+    <link rel="stylesheet" href="../static/sericeo_ubion/static/css/employment_support.css"/>
+    <main id="main" aria-label="Content" tabindex="-1" class="employment_support">
+
+        <!-- sec-support-top -->
+        <section class="sec-support-top">
+            <div class="container-fluid">
+                <div class="support-visual">
+                    <h2>
+                        <p>K-MOOC X 웅진씽크빅<br class="br-md"/> 취업역량 강화 강좌</p>
+                        <p>취업 성공의 길,<br/> <strong>K-MOOC</strong>에서<br class="br-md"/> 시작하세요!</p>
+                    </h2>
+                </div>
+                <div class="support-tabmenu">
+                    <div class="inner">
+                        <ul>
+                            <li>
+                                <button data-id="sec-support1">취업 성공을<br class="br-lg"/> 위한 스킬 UP!</button>
+                            </li>
+                            <li>
+                                <button data-id="sec-support2">데이터 분석,<br class="br-lg"/> 경제, 금융 지식 UP!</button>
+                            </li>
+                            <li>
+                                <button data-id="sec-support3">시사 상식과<br class="br-lg"/> 인문학적 소양 UP!</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- sec-support-top -->
+
+        <!-- sec-support1 -->
+        <section class="sec-support1">
+            <div class="container-fluid">
+                <h3 class="support-title">
+                    <p class="hashtag">
+                        <span>#취업</span><span>#면접</span><span>#직무분석</span>
+                    </p>
+                    <strong>최신 채용 트랜드,<br/> 취업 성공을 위한 스킬 UP!</strong>
+                </h3>
+                <div class="support-list-container">
+                    <ul id="support-list1"><!-- js/support.json --></ul>
+                </div>
+            </div>
+        </section>
+        <!-- //sec-support1 -->
+
+        <!-- sec-support2 -->
+        <section class="sec-support2">
+            <div class="container-fluid">
+                <h3 class="support-title">
+                    <p class="hashtag">
+                        <span>#데이터</span><span>#경제</span><span>#금융</span>
+                    </p>
+                    <strong>언제 어디서든 활용 가능한<br/> 데이터 분석, 경제, 금융 지식 UP!</strong>
+                </h3>
+                <div class="support-list-container">
+                    <ul id="support-list2"><!-- js/support.json --></ul>
+                </div>
+            </div>
+        </section>
+        <!-- //sec-support2 -->
+
+        <!-- sec-support3 -->
+        <section class="sec-support3">
+            <div class="container-fluid">
+                <h3 class="support-title">
+                    <p class="hashtag">
+                        <span>#시사상식</span><span>#인문학</span>
+                    </p>
+                    <strong>알아두면 무조건 도움 되는<br/> 시사 상식과 인문학적 소양 UP!</strong>
+                </h3>
+                <div class="support-list-container">
+                    <ul id="support-list3"><!-- js/support.json --></ul>
+                </div>
+            </div>
+            <p class="bg"><img src="../static/sericeo_ubion/static/image/support/support3_bg.png" alt="support"></p>
+        </section>
+
+        <!-- //sec-support3 -->
+
+    </main>
+    <!-- <script src="/static/js/support.js"></script> -->
+    <script src="../static/sericeo_ubion/static/js/support.js"></script>
+    <!-- //취업지원강좌 -->
+
+</div>
