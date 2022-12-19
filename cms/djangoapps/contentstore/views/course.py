@@ -1752,16 +1752,19 @@ def settings_handler(request, course_key_string):
     PUT
         json: update the Course and About xblocks through the CourseDetails model
     """
+    start_time = time.time()
 
     course_info_text = ""
 
     f = open("/edx/app/edxapp/edx-platform/common/static/courseinfo/CourseInfoPage.html", 'r')
+
+    log.info('--------------------> settings_handler checkt time 1 [%s]' % (time.time() - start_time))
     while True:
         line = f.readline()
         if not line: break
         course_info_text += str(line)
     f.close()
-
+    log.info('--------------------> settings_handler checkt time 2 [%s]' % (time.time() - start_time))
     course_key = CourseKey.from_string(course_key_string)
     credit_eligibility_enabled = settings.FEATURES.get('ENABLE_CREDIT_ELIGIBILITY', False)
     with modulestore().bulk_operations(course_key):
@@ -1809,6 +1812,8 @@ def settings_handler(request, course_key_string):
             teacher_name = ''
             preview_video = ''
 
+            log.info('--------------------> settings_handler checkt time 3 [%s]' % (time.time() - start_time))
+
             if cur.rowcount:
                 teacher_name = row[0]
                 course_module.teacher_name = row[0]
@@ -1831,7 +1836,11 @@ def settings_handler(request, course_key_string):
             else:
                 modi_over = False
 
+            log.info('--------------------> settings_handler checkt time 4 [%s]' % (time.time() - start_time))
+
             difficult_degree_list = course_difficult_degree(request, course_key_string)
+
+            log.info('--------------------> settings_handler checkt time 5 [%s]' % (time.time() - start_time))
 
             edit_check = 'Y'
             m_password = settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('password')
@@ -1856,10 +1865,14 @@ def settings_handler(request, course_key_string):
 
             blocks = structures_data.get('blocks')
 
+            log.info('--------------------> settings_handler checkt time 6 [%s]' % (time.time() - start_time))
+
             for block in blocks:
                 if block['block_type'] == 'course':
                     if 'user_edit' in block['fields']:
                         edit_check = block['fields']['user_edit']
+
+            log.info('--------------------> settings_handler checkt time 7 [%s]' % (time.time() - start_time))
 
             # 교수자명
             with connections['default'].cursor() as cur:
@@ -1874,6 +1887,8 @@ def settings_handler(request, course_key_string):
             structures_data = db.modulestore.structures.find_one({'_id': ObjectId(pb)})
 
             blocks = structures_data.get('blocks')
+
+            log.info('--------------------> settings_handler checkt time 8 [%s]' % (time.time() - start_time))
 
             for block in blocks:
                 if block['block_type'] == 'course':
@@ -1929,6 +1944,8 @@ def settings_handler(request, course_key_string):
             r = course_id.split('+')[2]
 
             active_versions = db.modulestore.active_versions.find({"org": o, "course": c, "run": r})
+
+            log.info('--------------------> settings_handler checkt time 9 [%s]' % (time.time() - start_time))
 
             temp_list = []
 
@@ -2029,6 +2046,8 @@ def settings_handler(request, course_key_string):
 
                                         temp_list.append(temp_dict)
 
+            log.info('--------------------> settings_handler checkt time 10 [%s]' % (time.time() - start_time))
+
             video_tree = {}
 
             _chapter_name1 = None
@@ -2127,6 +2146,8 @@ def settings_handler(request, course_key_string):
                         'sequential_list': sequential_list
                     })
 
+            log.info('--------------------> settings_handler checkt time 11 [%s]' % (time.time() - start_time))
+
             # 강좌의 영상목록 생성 --- e
 
             settings_context = {
@@ -2160,6 +2181,8 @@ def settings_handler(request, course_key_string):
                 'classfy': classfy
             }
 
+            log.info('--------------------> settings_handler checkt time 12 [%s]' % (time.time() - start_time))
+
             if is_prerequisite_courses_enabled():
                 courses, in_process_course_actions = get_courses_accessible_to_user(request)
                 # exclude current course from the list of available courses
@@ -2167,6 +2190,8 @@ def settings_handler(request, course_key_string):
                 if courses:
                     courses, __ = _process_courses_list(courses, in_process_course_actions)
                 settings_context.update({'possible_pre_requisite_courses': list(courses)})
+
+            log.info('--------------------> settings_handler checkt time 13 [%s]' % (time.time() - start_time))
 
             if credit_eligibility_enabled:
                 if is_credit_course(course_key):
@@ -2191,6 +2216,8 @@ def settings_handler(request, course_key_string):
 
             return render_to_response('settings.html', settings_context)
         elif 'application/json' in request.META.get('HTTP_ACCEPT', ''):
+
+            log.info('--------------------> settings_handler checkt time 14 [%s]' % (time.time() - start_time))
             if request.method == 'GET':
                 # 강좌 상세 내용 조회시 강좌 생성일 및 이수증 생성일을 조회하여 같이 전달
                 course_details = CourseDetails.fetch(course_key)
@@ -2210,6 +2237,8 @@ def settings_handler(request, course_key_string):
                 )
             # For every other possible method type submitted by the caller...
             else:
+
+                log.info('--------------------> settings_handler checkt time 15 [%s]' % (time.time() - start_time))
                 # if pre-requisite course feature is enabled set pre-requisite course
                 if is_prerequisite_courses_enabled():
                     prerequisite_course_keys = request.json.get('pre_requisite_courses', [])
@@ -2254,6 +2283,7 @@ def settings_handler(request, course_key_string):
                     elif not entrance_exam_enabled and course_entrance_exam_present:
                         delete_entrance_exam(request, course_key)
 
+                log.info('--------------------> settings_handler checkt time 16 [%s]' % (time.time() - start_time))
                 # Perform the normal update workflow for the CourseDetails model
                 return JsonResponse(
                     CourseDetails.update_from_json(course_key, request.json, request.user),
