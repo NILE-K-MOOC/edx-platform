@@ -34,7 +34,7 @@ $(function(){
 				$("#support-list"+a.id).append(`
 					<li>
 						<article>
-							<a href="${e.href}">
+							<a href="${e.href}" target="_blank">
 								<div class="over-view">
 									<p><strong>${title}</strong></p>
 									<p>${desc}</p>
