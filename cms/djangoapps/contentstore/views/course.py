@@ -838,6 +838,7 @@ def get_courses_accessible_to_user(request, org=None):
 
 
 def _process_courses_list(courses_iter, in_process_course_actions, split_archived=False, section=None):
+    start_time = time.time()
     """
     Iterates over the list of courses to be displayed to the user, and:
 
@@ -891,9 +892,13 @@ def _process_courses_list(courses_iter, in_process_course_actions, split_archive
             'run': course.location.run
         }
 
+    log.info('--------------------> settings_handler checkt time 12.2.1 [%s]' % (time.time() - start_time))
+
     in_process_action_course_keys = {uca.course_key for uca in in_process_course_actions}
     active_courses = []
     archived_courses = []
+
+    log.info('--------------------> settings_handler checkt time 12.2.2 [%s]' % (time.time() - start_time))
 
     for course in courses_iter:
         course_ended = course.has_ended()
@@ -912,6 +917,8 @@ def _process_courses_list(courses_iter, in_process_course_actions, split_archive
             archived_courses.append(formatted_course)
         else:
             active_courses.append(formatted_course)
+
+    log.info('--------------------> settings_handler checkt time 12.2.3 [%s]' % (time.time() - start_time))
 
     return active_courses, archived_courses
 
