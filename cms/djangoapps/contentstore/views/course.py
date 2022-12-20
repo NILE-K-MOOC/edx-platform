@@ -2185,11 +2185,17 @@ def settings_handler(request, course_key_string):
 
             if is_prerequisite_courses_enabled():
                 courses, in_process_course_actions = get_courses_accessible_to_user(request)
+                log.info('--------------------> settings_handler checkt time 12.1 [%s]' % (time.time() - start_time))
+
                 # exclude current course from the list of available courses
                 courses = (course for course in courses if course.id != course_key)
+                log.info('--------------------> settings_handler checkt time 12.2 [%s]' % (time.time() - start_time))
                 if courses:
                     courses, __ = _process_courses_list(courses, in_process_course_actions)
+                    log.info('--------------------> settings_handler checkt time 12.3 [%s]' % (time.time() - start_time))
+
                 settings_context.update({'possible_pre_requisite_courses': list(courses)})
+                log.info('--------------------> settings_handler checkt time 12.4 [%s]' % (time.time() - start_time))
 
             log.info('--------------------> settings_handler checkt time 13 [%s]' % (time.time() - start_time))
 
