@@ -16,7 +16,8 @@
 }
 .employment_support .sec-support-top{
 	position:relative;
-	z-index:5;
+	/*z-index:5;  사이드바 가리는 이슈로 5->0 변경 */
+	z-index:0;
 }
 .employment_support .support-visual{
 	height:350px;
@@ -95,7 +96,8 @@
 
 .employment_support .support-tabmenu{
 	position:relative;
-	z-index:1;
+	/* z-index:1; /* 사이드바 이슈로 변경 필요할 수 있음 원래 1 -> 0으로 변경 상태*/
+	z-index:0;
 	height:80px;
 }
 .employment_support .support-tabmenu .inner{
@@ -459,7 +461,8 @@
 /*sec-support3*/
 .sec-support3{
 	position:relative;
-	z-index:1;
+	/*z-index:1;  사이드바 가리는 이슈로 값 변경*/
+	z-index:0;
 	overflow:hidden;
 }
 .sec-support3 .bg{
