@@ -2,17 +2,17 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
         'js/models/uploads', 'js/views/uploads', 'js/views/license', 'js/models/license',
         'common/js/components/views/feedback_notification', 'jquery.timepicker', 'date', 'gettext',
         'js/views/learning_info', 'js/views/instructor_info', 'edx-ui-toolkit/js/utils/string-utils'],
-    function(ValidatingView, CodeMirror, _, $, ui, DateUtils, FileUploadModel,
-             FileUploadDialog, LicenseView, LicenseModel, NotificationView,
-             timepicker, date, gettext, LearningInfoView, InstructorInfoView, StringUtils) {
+    function (ValidatingView, CodeMirror, _, $, ui, DateUtils, FileUploadModel,
+              FileUploadDialog, LicenseView, LicenseModel, NotificationView,
+              timepicker, date, gettext, LearningInfoView, InstructorInfoView, StringUtils) {
         var DetailsView = ValidatingView.extend({
 
             wtf: '',
 
             // 이벤트 바인딩 명시
             events: {
-                "keypress input" : "submitDisable",
-                "keypress select" : "submitDisable",
+                "keypress input": "submitDisable",
+                "keypress select": "submitDisable",
                 'input input': 'updateModel',
                 'input textarea': 'updateModel',
                 'change input': 'updateModel',
@@ -63,41 +63,53 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 'click #preview_video_add': "preview_video_add",
                 'click #preview_video_cancel': "preview_video_cancel",
                 'click .video_regist': "video_regist",
-                'click #course_preview_video_save': "course_preview_video_save"
+                'click #course_preview_video_save': "course_preview_video_save",
+                'click #usePreCourses': "usePreCourses",
+
             },
-            add_vtt: function (){
-                var box = ''+
-                '<div id="vtt_box" class="vtt_box" style="padding: 10px; margin-top: 8px; border-radius: 5px;">'+
-                '    <div style="display: flex;">'+
-                '        <select id="vtt_sel" style="flex: 3;">'+
-                '            <option value="ko">한국어</option>'+
-                '            <option value="en">영어</option>'+
-                '            <option value="ja">일본어</option>'+
-                '            <option value="zh">중국어</option>'+
-                '        </select>'+
-                '        <div style="flex: 0.2; margin-left: 15px; font-size: 22px;">'+
-                '            <span id="del_vtt" style="color: #f44336; cursor: pointer;" class="icon fa fa-minus-circle" aria-hidden="true"></span>'+
-                '        </div>'+
-                '    </div>'+
-                '    <div style="margin-top: 5px;">'+
-                '       <input id="vtt_txt" type="text" placeholder="/asset-v1:KMOOC+exam+001+type@asset+block@chinese_subtitles.vtt">'+
-                '    </div>'+
-                '</div>';
+            usePreCourses: function () {
+                if (confirm("저장되지 않은 수정 내용은 사라집니다. 진행 하시겠습니까?")){
+                    //document.location.href = document.location + "?use_pre_courses=Y";
+                    var url = new URL(document.location);
+                    // If your expected result is "http://foo.bar/?x=1&y=2&x=42"
+                    url.searchParams.append('use_pre_courses', 'Y');
+                    console.log(url);
+                    document.location.href = url;
+                }
+            },
+            add_vtt: function () {
+                var box = '' +
+                    '<div id="vtt_box" class="vtt_box" style="padding: 10px; margin-top: 8px; border-radius: 5px;">' +
+                    '    <div style="display: flex;">' +
+                    '        <select id="vtt_sel" style="flex: 3;">' +
+                    '            <option value="ko">한국어</option>' +
+                    '            <option value="en">영어</option>' +
+                    '            <option value="ja">일본어</option>' +
+                    '            <option value="zh">중국어</option>' +
+                    '        </select>' +
+                    '        <div style="flex: 0.2; margin-left: 15px; font-size: 22px;">' +
+                    '            <span id="del_vtt" style="color: #f44336; cursor: pointer;" class="icon fa fa-minus-circle" aria-hidden="true"></span>' +
+                    '        </div>' +
+                    '    </div>' +
+                    '    <div style="margin-top: 5px;">' +
+                    '       <input id="vtt_txt" type="text" placeholder="/asset-v1:KMOOC+exam+001+type@asset+block@chinese_subtitles.vtt">' +
+                    '    </div>' +
+                    '</div>';
                 $('#vtt_list').append(box);
             },
 
-            del_vtt: function (e){
+            del_vtt: function (e) {
                 console.log('e -> ', e);
                 var x = $(event.target).parents('#vtt_box');
                 console.log('x -> ', x);
                 x.remove();
             },
 
-            course_editor_html: function(e){
+            course_editor_html: function (e) {
                 console.log('call trace -> course_editor_html');
                 swal({
-                    html: '<b>HTML 직접 입력</b>을 사용하시겠습니까?<br>'+
-                          '만약 <b>에디터 이용하기</b>를 다시 사용하려면 내용 초기화가 필요합니다<br>',
+                    html: '<b>HTML 직접 입력</b>을 사용하시겠습니까?<br>' +
+                        '만약 <b>에디터 이용하기</b>를 다시 사용하려면 내용 초기화가 필요합니다<br>',
                     title: '',
                     type: 'warning',
                     focusConfirm: false,
@@ -110,7 +122,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     //closeOnClickOutside: false,
                     //closeOnEsc: false,
                 }).then(function (check) {
-                    if(check.value == true){
+                    if (check.value == true) {
                         var addinfo_course_id = 'course-v1:' + $('#course-organization').val() + '+' + $('#course-number').val() + '+' + $('#course-name').val();
                         var addinfo_user_id = $('#addinfo_user_id').text();
                         $(".CodeMirror-scroll").css({'pointer-events': 'all', 'opacity': 1});
@@ -130,8 +142,8 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                             dataType: "json",
                             contentType: 'application/json; charset=utf-8',
                             data: JSON.stringify(json_data)
-                        }).done(function(data){
-                            if(data.user_edit.value == 'Y'){
+                        }).done(function (data) {
+                            if (data.user_edit.value == 'Y') {
                                 $("#course_edit_check").val("Y");
                                 $("#course_edit_check").trigger('change');
                                 $(".CodeMirror").prop('id', '');
@@ -147,11 +159,11 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 });
             },
 
-            course_editor_html_reverse: function(e){
+            course_editor_html_reverse: function (e) {
                 console.log('call trace -> course_editor_html_reverse');
                 swal({
-                    html: '<b>에디터 이용하기</b>를 사용하시겠습니까?<br>'+
-                          '<b>HTML 직접 입력</b>에서 작성한 내용은 초기화 됩니다<br>',
+                    html: '<b>에디터 이용하기</b>를 사용하시겠습니까?<br>' +
+                        '<b>HTML 직접 입력</b>에서 작성한 내용은 초기화 됩니다<br>',
                     title: '',
                     type: 'warning',
                     focusConfirm: false,
@@ -164,7 +176,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     //closeOnClickOutside: false,
                     //closeOnEsc: false,
                 }).then(function (check) {
-                    if(check.value == true){
+                    if (check.value == true) {
                         // 사용자가 동의할경우 기본 html 을 조회하여 셋팅
 
                         var addinfo_course_id = 'course-v1:' + $('#course-organization').val() + '+' + $('#course-number').val() + '+' + $('#course-name').val();
@@ -186,8 +198,8 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                             dataType: "json",
                             contentType: 'application/json; charset=utf-8',
                             data: JSON.stringify(json_data)
-                        }).done(function(data){
-                            if(data.user_edit.value == 'N'){
+                        }).done(function (data) {
+                            if (data.user_edit.value == 'N') {
                                 $("#course_edit_check").val("N");
                                 $("#course_edit_check").trigger('change');
                                 $(".CodeMirror").prop('id', '');
@@ -206,34 +218,34 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 });
             },
 
-            addStaffItem: function(event){
+            addStaffItem: function (event) {
                 console.log('call trace -> addStaffItem');
                 event.preventDefault();
                 // 교수자와 TA 분리하여 입력란 추가되도록 수정
-                if($("#course-ta").css('display') == 'none'){
+                if ($("#course-ta").css('display') == 'none') {
                     $("#course-instructor").append($(this.instructor_row_template).html());
                 } else {
                     $("#course-ta").append($(this.ta_row_template).html());
                 }
             },
 
-            delStaffItem: function(event){
+            delStaffItem: function (event) {
                 console.log('call trace -> delStaffItem');
                 event.preventDefault();
                 $(event.currentTarget).parent().parent().remove();
             },
 
-            addQuestionItem: function(event){
+            addQuestionItem: function (event) {
                 console.log('call trace -> addQuestionItem');
                 event.preventDefault();
                 $("#course-question").append($(this.question_row_template).html());
             },
 
-            delQuestionItem: function(event){
+            delQuestionItem: function (event) {
                 console.log('call trace -> delQuestionItem');
                 event.preventDefault();
                 var faq_len = $(event.currentTarget).parent().parent().parent().find('li').length;
-                if(faq_len > 1){
+                if (faq_len > 1) {
                     $(event.currentTarget).parent().parent().remove();
                 } else {
                     $(event.currentTarget).parent().parent().parent().find('li:eq(0) #faq-question').val('');
@@ -241,11 +253,11 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 }
             },
 
-            createOverview: function(event){
+            createOverview: function (event) {
                 console.log('call trace -> createOverview');
 
                 event.preventDefault();
-                if(!this.overviewLayerValidate()){
+                if (!this.overviewLayerValidate()) {
                     return;
                 }
 
@@ -259,12 +271,12 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
 
                 // 홍보영상 자막 추가
                 var source = $(ov).find(".video").html();
-                source = source.replace(/<(\/track|track)([^>]*)>/gi,"");
+                source = source.replace(/<(\/track|track)([^>]*)>/gi, "");
                 console.log('------------------------------------------');
                 console.log('source = ', source);
                 console.log('------------------------------------------');
                 var track_set = '';
-                $('.vtt_box').each(function(idx){
+                $('.vtt_box').each(function (idx) {
                     var vtt_name = $(this).find('option:selected').text();
                     var vtt_code = $(this).find("#vtt_sel").val();
                     var vtt_txt = $(this).find("#vtt_txt").val();
@@ -280,20 +292,20 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 const url_pattern = /^http/gi;
                 // 강좌운영진
                 var staff_templates = "";
-                $("#course-instructor li").each(function(index){
+                $("#course-instructor li").each(function (index) {
                     var staff_photo = $(this).find("#staff-photo").val();
-                    if(staff_photo.match(url_pattern) == null){
+                    if (staff_photo.match(url_pattern) == null) {
                         staff_photo = 'http://' + staff_photo;
                     }
                     var staff_name = $(this).find("#staff-name").val();
                     var careers = $(this).find("textarea").val().replace(regex, '\n').split(/\n/g);
                     var careers_text = "";
-                    for (var i=0; i<careers.length;i++){
-                        if(i != careers.length -1 && careers[i] != ''){
+                    for (var i = 0; i < careers.length; i++) {
+                        if (i != careers.length - 1 && careers[i] != '') {
                             careers_text += "<dd>" + careers[i] + "</dd>";
-                        } else if(i == careers.length -1 && careers[careers.length -1] != ''){
+                        } else if (i == careers.length - 1 && careers[careers.length - 1] != '') {
                             careers_text += "<dd>" + careers[i] + "</dd>";
-                        } else if(careers.length -1 == 0 && careers[careers.length -1] == ''){
+                        } else if (careers.length - 1 == 0 && careers[careers.length - 1] == '') {
                             careers_text += '';
                         } else {
                             careers_text += "<dd><br></dd>"
@@ -301,7 +313,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     }
                     var staff_template = "" +
                         "<article>";
-                    if(index == 0){
+                    if (index == 0) {
                         staff_template += "	<h3><i class='fa fa-user'></i>교수자</h3>";
                     }
                     staff_template += "" +
@@ -322,20 +334,20 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     staff_templates += staff_template;
                 });
 
-                $("#course-ta li").each(function(index){
+                $("#course-ta li").each(function (index) {
                     var staff_photo = $(this).find("#staff-photo").val();
                     var staff_name = $(this).find("#staff-name").val();
-                    if(staff_photo.match(url_pattern) == null){
+                    if (staff_photo.match(url_pattern) == null) {
                         staff_photo = 'http://' + staff_photo;
                     }
                     var careers = $(this).find("textarea").val().replace(regex, '\n').split(/\n/g);
                     var careers_text = "";
-                    for (var i=0; i<careers.length;i++){
-                        if(i != careers.length -1 && careers[i] != ''){
+                    for (var i = 0; i < careers.length; i++) {
+                        if (i != careers.length - 1 && careers[i] != '') {
                             careers_text += "<dd>" + careers[i] + "</dd>";
-                        } else if(i == careers.length -1 && careers[careers.length -1] != ''){
+                        } else if (i == careers.length - 1 && careers[careers.length - 1] != '') {
                             careers_text += "<dd>" + careers[i] + "</dd>";
-                        } else if(careers.length -1 == 0 && careers[careers.length -1] == ''){
+                        } else if (careers.length - 1 == 0 && careers[careers.length - 1] == '') {
                             careers_text += '';
                         } else {
                             careers_text += "<dd><br></dd>"
@@ -343,7 +355,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     }
                     var staff_template = "" +
                         "<article>";
-                    if(index == 0){
+                    if (index == 0) {
                         staff_template += "	<h3><i class='fa fa-user'></i>강좌지원팀</h3>";
                     }
                     staff_template += "" +
@@ -354,7 +366,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                         "		<div class='staff_descript'>" +
                         "			<dl>" +
                         "				<dt>" +
-                        "				 <i class='fa fa-angle-double-right'></i><i class='staff-name'>" + staff_name+ "</i>" +
+                        "				 <i class='fa fa-angle-double-right'></i><i class='staff-name'>" + staff_name + "</i>" +
                         "			  </dt>" +
                         "				" + careers_text +
                         "			</dl>" +
@@ -363,7 +375,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                         "</article>";
                     staff_templates += staff_template;
                 });
-                if(staff_templates){
+                if (staff_templates) {
                     $(ov).find(".course-staff:eq(0)").html("<h2><i class=\"fa fa-group (alias)\"></i>강좌운영팀 소개</h2>");
                     $(ov).find(".course-staff:eq(0)").append(staff_templates);
                 }
@@ -377,7 +389,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 $(ov).find("#course-reference:eq(0)").html($("#overview-tab4 textarea:eq(2)").val().replace(regex, "<br>"));
                 // FAQ
                 var faqs = "";
-                $("#course-question li").each(function(){
+                $("#course-question li").each(function () {
                     var question = $(this).find("#faq-question").val();
                     var answer = $(this).find("#faq-answer").val();
                     var faq = "" +
@@ -387,7 +399,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                         "</article>";
                     faqs += faq;
                 });
-                if(faqs){
+                if (faqs) {
                     $(ov).find(".faq:eq(0)").html("<h2><i class=\"fa fa-question-circle\"></i>자주 묻는 질문</h2>");
                     $(ov).find(".faq:eq(0)").append(faqs);
                 }
@@ -402,18 +414,18 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     // "indent":"yes",
                     // "indent-spaces":2,
                     // "wrap":80,
-                    "markup":true,
-                    "output-xml":false,
-                    "numeric-entities":false,
-                    "quote-marks":false,
-                    "quote-nbsp":false,
-                    "show-body-only":true,
-                    "quote-ampersand":false,
-                    "break-before-br":false,
-                    "uppercase-tags":false,
-                    "uppercase-attributes":false,
-                    "drop-font-tags":false,
-                    "tidy-mark":false,
+                    "markup": true,
+                    "output-xml": false,
+                    "numeric-entities": false,
+                    "quote-marks": false,
+                    "quote-nbsp": false,
+                    "show-body-only": true,
+                    "quote-ampersand": false,
+                    "break-before-br": false,
+                    "uppercase-tags": false,
+                    "uppercase-attributes": false,
+                    "drop-font-tags": false,
+                    "tidy-mark": false,
                     "drop-empty-elements": false
                 };
                 var html = $("<div>").attr("id", "course-info").append($(ov).clone()).html();
@@ -423,15 +435,15 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 this.render();
             },
 
-            textareaTrim: function(text){
+            textareaTrim: function (text) {
                 console.log('call tracef -> textareaTrim');
                 // textarea에서 공백 처리
                 var text_lines = text.split('\n');
                 var return_txt = 'text   first line';
-                for(var i = 0 ; i < text_lines.length; i++){
-                    if(text_lines[i].trim() != ''){
+                for (var i = 0; i < text_lines.length; i++) {
+                    if (text_lines[i].trim() != '') {
                         return_txt += text_lines[i].trim() + '\n';
-                    } else if(i == text_lines.length -1){
+                    } else if (i == text_lines.length - 1) {
                         return_txt += text_lines[i].trim();
                     } else {
                         return_txt += '\n';
@@ -475,24 +487,24 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 });
             },
 
-            overviewLayerValidate: function(){ // 에디터 내 유효성
+            overviewLayerValidate: function () { // 에디터 내 유효성
                 console.log('call trace -> overviewLayerValidate');
                 $(".overview-modal").find(".message-error").remove();
                 return true;
             },
 
-            toggleOverviewLayer: function(event){
+            toggleOverviewLayer: function (event) {
                 console.log('call trace -> toggleOverviewLayer');
                 event.preventDefault();
                 $("#overviewEditLayer").toggle();
-                if($("#overviewEditLayer").is(":visible")){
+                if ($("#overviewEditLayer").is(":visible")) {
                     var top = parseInt($(window).scrollTop());
                     $(".overview-modal").prop("style", "top: " + (top - 50) + "px;");
                     this.overviewLayerSetting();
                 }
             },
 
-            tabChange: function(event){
+            tabChange: function (event) {
                 console.log('call trace -> tabChange');
                 event.preventDefault();
                 var t = event.currentTarget.getAttribute('data-target');
@@ -502,7 +514,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 $("#" + t).show();
             },
 
-            initialize : function(options) {
+            initialize: function (options) {
                 wtf = this;
                 console.log('call trace -> initialize');
                 $(function () {
@@ -524,8 +536,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                             $('#info_del2').css("display", "none");
                             $('#info_div1').css("display", "inline-block");
                             $('#info_div2').css("display", "none");
-                        }
-                        else if ($(this).text() == '강좌지원팀') {
+                        } else if ($(this).text() == '강좌지원팀') {
                             $('#info_add1').css("display", "none");
                             $('#info_del1').css("display", "none");
                             $('#info_add2').css("display", "inline-block");
@@ -545,12 +556,12 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 this.$el.find("#course-organization").val(this.model.get('org'));
                 this.$el.find("#course-number").val(this.model.get('course_id'));
                 this.$el.find("#course-name").val(this.model.get('run'));
-                this.$el.find('.set-date').datepicker({ 'dateFormat': 'm/d/yy' });
+                this.$el.find('.set-date').datepicker({'dateFormat': 'm/d/yy'});
                 // Avoid showing broken image on mistyped/nonexistent image
-                this.$el.find('img').error(function() {
+                this.$el.find('img').error(function () {
                     $(this).hide();
                 });
-                this.$el.find('img').load(function() {
+                this.$el.find('img').load(function () {
                     $(this).show();
                 });
                 this.listenTo(this.model, 'invalid', this.handleValidationError);
@@ -579,11 +590,11 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     el: $(".course-instructor-details-fields"),
                     model: this.model
                 });
-                $("input:radio[name='staff-type']").click(function(){
-                    if($(this).val() == 'instructor'){
+                $("input:radio[name='staff-type']").click(function () {
+                    if ($(this).val() == 'instructor') {
                         $("#course-instructor").show();
                         $("#course-ta").hide();
-                    }else{
+                    } else {
                         $("#course-instructor").hide();
                         $("#course-ta").show();
                     }
@@ -594,7 +605,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 this.question_row_template = $("#course-question").clone();
             },
 
-            overviewLayerSetting: function(){
+            overviewLayerSetting: function () {
                 console.log('call trace -> overviewLayerSetting');
                 //overviewLayerEditor 상에 표시될 항목들을 셋팅한다.
                 var regex = /<br\s*[\/]?>/g;
@@ -613,7 +624,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 // 홍보영상 자막
                 $('#vtt_list').empty();
                 var vtt_list = $(ov).find(".video track");
-                $(vtt_list).each(function(idx){
+                $(vtt_list).each(function (idx) {
                     console.log('idx = ', idx);
                     var vtt_src = $(this).attr("src");
                     var vtt_srclang = $(this).attr("srclang");
@@ -622,30 +633,38 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     console.log('vtt_srclang = ', vtt_srclang);
                     console.log('vtt_label = ', vtt_label);
 
-                    var box = ''+
-                    '<div id="vtt_box" class="vtt_box" style="padding: 10px; margin-top: 8px; border-radius: 5px;">'+
-                    '    <div style="display: flex;">'+
-                    '        <select id="vtt_sel" style="flex: 3;">'+
-                    '            <option value="ko">한국어</option>'+
-                    '            <option value="en">영어</option>'+
-                    '            <option value="ja">일본어</option>'+
-                    '            <option value="zh">중국어</option>'+
-                    '        </select>'+
-                    '        <div style="flex: 0.2; margin-left: 15px; font-size: 22px;">'+
-                    '            <span id="del_vtt" style="color: #f44336; cursor: pointer;" class="icon fa fa-minus-circle" aria-hidden="true"></span>'+
-                    '        </div>'+
-                    '    </div>'+
-                    '    <div style="margin-top: 5px;">'+
-                    '       <input placeholder="/asset-v1:KMOOC+exam+001+type@asset+block@chinese_subtitles.vtt" id="vtt_txt" type="text" value="' + vtt_src + '">'+
-                    '    </div>'+
-                    '</div>';
+                    var box = '' +
+                        '<div id="vtt_box" class="vtt_box" style="padding: 10px; margin-top: 8px; border-radius: 5px;">' +
+                        '    <div style="display: flex;">' +
+                        '        <select id="vtt_sel" style="flex: 3;">' +
+                        '            <option value="ko">한국어</option>' +
+                        '            <option value="en">영어</option>' +
+                        '            <option value="ja">일본어</option>' +
+                        '            <option value="zh">중국어</option>' +
+                        '        </select>' +
+                        '        <div style="flex: 0.2; margin-left: 15px; font-size: 22px;">' +
+                        '            <span id="del_vtt" style="color: #f44336; cursor: pointer;" class="icon fa fa-minus-circle" aria-hidden="true"></span>' +
+                        '        </div>' +
+                        '    </div>' +
+                        '    <div style="margin-top: 5px;">' +
+                        '       <input placeholder="/asset-v1:KMOOC+exam+001+type@asset+block@chinese_subtitles.vtt" id="vtt_txt" type="text" value="' + vtt_src + '">' +
+                        '    </div>' +
+                        '</div>';
 
                     console.log('before box = ', box);
 
-                    if (vtt_srclang == 'ko') { box = box.replace('<option value="ko">', '<option selected value="ko">'); }
-                    if (vtt_srclang == 'en') { box = box.replace('<option value="en">', '<option selected value="en">'); }
-                    if (vtt_srclang == 'ja') { box = box.replace('<option value="ja">', '<option selected value="ja">'); }
-                    if (vtt_srclang == 'zh') { box = box.replace('<option value="zh">', '<option selected value="zh">'); }
+                    if (vtt_srclang == 'ko') {
+                        box = box.replace('<option value="ko">', '<option selected value="ko">');
+                    }
+                    if (vtt_srclang == 'en') {
+                        box = box.replace('<option value="en">', '<option selected value="en">');
+                    }
+                    if (vtt_srclang == 'ja') {
+                        box = box.replace('<option value="ja">', '<option selected value="ja">');
+                    }
+                    if (vtt_srclang == 'zh') {
+                        box = box.replace('<option value="zh">', '<option selected value="zh">');
+                    }
 
                     console.log('after box = ', box);
 
@@ -654,91 +673,91 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
 
                 var professor_len = $(ov).find("article.professor");
                 var professor_html = '';
-                for(var j = 0 ; j < professor_len.length ; j++){
-                    var staff1 = $(ov).find("article.professor:eq("+j+") img").attr('src');
-                    var staff2 = $(ov).find("article.professor:eq("+j+") .staff_descript i.staff-name").text();
+                for (var j = 0; j < professor_len.length; j++) {
+                    var staff1 = $(ov).find("article.professor:eq(" + j + ") img").attr('src');
+                    var staff2 = $(ov).find("article.professor:eq(" + j + ") .staff_descript i.staff-name").text();
                     var staff3 = '';
-                    var row_len =  $(ov).find("article.professor:eq("+j+") .staff_descript dd").length;
-                    $(ov).find("article.professor:eq("+j+") .staff_descript dd").each(function(idx) {
+                    var row_len = $(ov).find("article.professor:eq(" + j + ") .staff_descript dd").length;
+                    $(ov).find("article.professor:eq(" + j + ") .staff_descript dd").each(function (idx) {
                         let prof_row = $(this).html().replace(regex, '');
-                        if(idx != row_len -1)
+                        if (idx != row_len - 1)
                             staff3 += prof_row.trim() + '\n';
-                        else if(idx == row_len -1){
+                        else if (idx == row_len - 1) {
                             staff3 += prof_row.trim();
                         }
                     });
                     professor_html += '' +
-                            '<li class="field-group course-grading-assignment-list-item">' +
-                            '<div style="width: 34%; float: left;">' +
-                            '<div class="field text" id="field-course-grading-assignment-name" style="width: 100%;">' +
-                            '<label for="staff-photo">사진 URL</label>' +
-                            '<input type="text" class="long" id="staff-photo" value="'+ staff1 +'" placeholder="http://example.com/photo.jpg">' +
-                            '<span class="tip tip-stacked">웹 에서 접근 가능한 주소</span>' +
-                            '</div>' +
-                            '<br>' +
-                            '<div class="field text" id="field-course-grading-assignment-shortname" style="width: 100%;">' +
-                            '<label for="staff-name">성명</label>' +
-                            '<input type="text" class="short" id="staff-name" value="'+ staff2 +'" placeholder="교수">' +
-                            '<span class="tip tip-stacked">표시될 이름</span>' +
-                            '</div>' +
-                            '</div>' +
-                            '<div style="width: 64%; float: right;">'+
-                            '<div style="width: 100%;">'+
-                            '<label for="staff-career">약력</label>'+
-                            '<textarea id="staff-career" style="width: 96%; height: 135px;">'+ staff3 +'</textarea>'+
-                            '<span class="tip tip-stacked">화면에 표시될 경력 사항</span>'+
-                            '</div>'+
-                            '</div>'+
-                            '<div class="actions">'+
-                            '<a href="#" class="button delete-button standard remove-item"><span class="delete-icon"></span>삭제</a>'+
-                            '</div>'+
-                            '</li>';
+                        '<li class="field-group course-grading-assignment-list-item">' +
+                        '<div style="width: 34%; float: left;">' +
+                        '<div class="field text" id="field-course-grading-assignment-name" style="width: 100%;">' +
+                        '<label for="staff-photo">사진 URL</label>' +
+                        '<input type="text" class="long" id="staff-photo" value="' + staff1 + '" placeholder="http://example.com/photo.jpg">' +
+                        '<span class="tip tip-stacked">웹 에서 접근 가능한 주소</span>' +
+                        '</div>' +
+                        '<br>' +
+                        '<div class="field text" id="field-course-grading-assignment-shortname" style="width: 100%;">' +
+                        '<label for="staff-name">성명</label>' +
+                        '<input type="text" class="short" id="staff-name" value="' + staff2 + '" placeholder="교수">' +
+                        '<span class="tip tip-stacked">표시될 이름</span>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div style="width: 64%; float: right;">' +
+                        '<div style="width: 100%;">' +
+                        '<label for="staff-career">약력</label>' +
+                        '<textarea id="staff-career" style="width: 96%; height: 135px;">' + staff3 + '</textarea>' +
+                        '<span class="tip tip-stacked">화면에 표시될 경력 사항</span>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="actions">' +
+                        '<a href="#" class="button delete-button standard remove-item"><span class="delete-icon"></span>삭제</a>' +
+                        '</div>' +
+                        '</li>';
 
                 }
-                if(professor_len.length != 0)
+                if (professor_len.length != 0)
                     $("#course-instructor").html(professor_html);
                 var staff_len = $(ov).find("article.staff");
                 var staff_html = '';
-                for(var j = 0 ; j < staff_len.length ; j++){
-                    var staff1 = $(ov).find("article.staff:eq("+j+") img").attr('src');
-                    var staff2 = $(ov).find("article.staff:eq("+j+") .staff_descript i.staff-name").text();
+                for (var j = 0; j < staff_len.length; j++) {
+                    var staff1 = $(ov).find("article.staff:eq(" + j + ") img").attr('src');
+                    var staff2 = $(ov).find("article.staff:eq(" + j + ") .staff_descript i.staff-name").text();
                     var staff3 = '';
-                    var staff_row_len =  $(ov).find("article.staff:eq("+j+") .staff_descript dd").length;
-                    $(ov).find("article.staff:eq("+j+") .staff_descript dd").each(function(idx) {
+                    var staff_row_len = $(ov).find("article.staff:eq(" + j + ") .staff_descript dd").length;
+                    $(ov).find("article.staff:eq(" + j + ") .staff_descript dd").each(function (idx) {
                         let staff_row = $(this).html().replace(regex, '');
-                        if(idx != staff_row_len -1)
+                        if (idx != staff_row_len - 1)
                             staff3 += staff_row.trim() + '\n';
-                        else if(idx == staff_row_len -1)
+                        else if (idx == staff_row_len - 1)
                             staff3 += staff_row.trim();
                     });
                     staff_html += '' +
-                            '<li class="field-group course-grading-assignment-list-item">' +
-                            '<div style="width: 34%; float: left;">' +
-                            '<div class="field text" id="field-course-grading-assignment-name" style="width: 100%;">' +
-                            '<label for="staff-photo">사진 URL</label>' +
-                            '<input type="text" class="long" id="staff-photo" value="'+ staff1 +'" placeholder="http://example.com/photo.jpg">' +
-                            '<span class="tip tip-stacked">웹 에서 접근 가능한 주소</span>' +
-                            '</div>' +
-                            '<br>' +
-                            '<div class="field text" id="field-course-grading-assignment-shortname" style="width: 100%;">' +
-                            '<label for="staff-name">성명</label>' +
-                            '<input type="text" class="short" id="staff-name" value="'+ staff2 +'" placeholder="조교">' +
-                            '<span class="tip tip-stacked">표시될 이름</span>' +
-                            '</div>' +
-                            '</div>' +
-                            '<div style="width: 64%; float: right;">'+
-                            '<div style="width: 100%;">'+
-                            '<label for="staff-career">약력</label>'+
-                            '<textarea id="staff-career" style="width: 96%; height: 135px;">'+ staff3 +'</textarea>'+
-                            '<span class="tip tip-stacked">화면에 표시될 경력 사항</span>'+
-                            '</div>'+
-                            '</div>'+
-                            '<div class="actions">'+
-                            '<a href="#" class="button delete-button standard remove-item"><span class="delete-icon"></span>삭제</a>'+
-                            '</div>'+
-                            '</li>';
+                        '<li class="field-group course-grading-assignment-list-item">' +
+                        '<div style="width: 34%; float: left;">' +
+                        '<div class="field text" id="field-course-grading-assignment-name" style="width: 100%;">' +
+                        '<label for="staff-photo">사진 URL</label>' +
+                        '<input type="text" class="long" id="staff-photo" value="' + staff1 + '" placeholder="http://example.com/photo.jpg">' +
+                        '<span class="tip tip-stacked">웹 에서 접근 가능한 주소</span>' +
+                        '</div>' +
+                        '<br>' +
+                        '<div class="field text" id="field-course-grading-assignment-shortname" style="width: 100%;">' +
+                        '<label for="staff-name">성명</label>' +
+                        '<input type="text" class="short" id="staff-name" value="' + staff2 + '" placeholder="조교">' +
+                        '<span class="tip tip-stacked">표시될 이름</span>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div style="width: 64%; float: right;">' +
+                        '<div style="width: 100%;">' +
+                        '<label for="staff-career">약력</label>' +
+                        '<textarea id="staff-career" style="width: 96%; height: 135px;">' + staff3 + '</textarea>' +
+                        '<span class="tip tip-stacked">화면에 표시될 경력 사항</span>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="actions">' +
+                        '<a href="#" class="button delete-button standard remove-item"><span class="delete-icon"></span>삭제</a>' +
+                        '</div>' +
+                        '</li>';
                 }
-                if(staff_len.length != 0)
+                if (staff_len.length != 0)
                     $("#course-ta").html(staff_html);
                 // 이수/평가정보
                 var evaluation = $(ov).find(".grade_table:eq(0)");
@@ -750,27 +769,27 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 var faq = $(ov).find(".faq article");
                 var faq_form = '';
                 // FAQ 데이터 출력
-                $(faq).each(function(){
+                $(faq).each(function () {
                     var question = $(this).find("h4").text().trim();
                     var answer = $(this).find("p").text().trim();
-                    faq_form +=  '' +
-                            '<li class="field-group course-grading-assignment-list-item">' +
-                            '<div>' +
-                            '<div class="field text" id="field-course-grading-assignment-name" style="width: 100%;">' +
-                            '<label for="faq-question">질문</label>' +
-                            '<input type="text" class="long" id="faq-question" value="' + question + '" placeholder="강좌 교재가 따로 있나요?">' +
-                            '</div>' +
-                            '<div class="field text" id="field-course-grading-assignment-shortname" style="width: 100%;">' +
-                            '<label for="faq-answer">답변</label>' +
-                            '<input type="text" class="short" id="faq-answer" value="' + answer + '" placeholder="네. 있습니다.">' +
-                            '</div>' +
-                            '</div>' +
-                            '<div class="actions">' +
-                            '<a href="#" class="button delete-button standard remove-item"><span class="delete-icon"></span>삭제</a>' +
-                            '</div>' +
-                            '</li>';
+                    faq_form += '' +
+                        '<li class="field-group course-grading-assignment-list-item">' +
+                        '<div>' +
+                        '<div class="field text" id="field-course-grading-assignment-name" style="width: 100%;">' +
+                        '<label for="faq-question">질문</label>' +
+                        '<input type="text" class="long" id="faq-question" value="' + question + '" placeholder="강좌 교재가 따로 있나요?">' +
+                        '</div>' +
+                        '<div class="field text" id="field-course-grading-assignment-shortname" style="width: 100%;">' +
+                        '<label for="faq-answer">답변</label>' +
+                        '<input type="text" class="short" id="faq-answer" value="' + answer + '" placeholder="네. 있습니다.">' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="actions">' +
+                        '<a href="#" class="button delete-button standard remove-item"><span class="delete-icon"></span>삭제</a>' +
+                        '</div>' +
+                        '</li>';
                 });
-                if(faq.length != 0){
+                if (faq.length != 0) {
                     $("#overview-tab5 ol#course-question").html(faq_form);
                 }
                 // 사용자 추가 내용
@@ -791,7 +810,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 $("#overview-tab1 textarea").val(goal.trim());
                 try {
                     $("#course-sample-video-url").val(vurl.trim());
-                } catch(e) {
+                } catch (e) {
                     $("#course-sample-video-url").val(vurl);
                 }
                 $("#course_plan").val(syllabus.html());
@@ -838,7 +857,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 });
             },
 
-            setEffort:function(){
+            setEffort: function () {
                 console.log('call trace -> setEffort');
                 var hh = $("#course-effort-hh").val();
                 var mm = $("#course-effort-mm").val();
@@ -856,59 +875,58 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     $("#Calculated_mm").val('');
                     return false;
                 }
-                if(Calculated>50 && Calculated_mm < 60){
+                if (Calculated > 50 && Calculated_mm < 60) {
                     alert("학습인정시간은 50시간 이내만 입력 가능합니다");
                     $("#Calculated").val('');
                     $("#Calculated_mm").val('');
                     return false;
                 }
-                if(Calculated == 50){
+                if (Calculated == 50) {
                     $("#Calculated_mm").val('00');
                     Calculated_mm = $("#Calculated_mm").val();
                     $("#Calculated_mm").attr('disabled', 'disabled');
                     // return false;
-                }
-                else {
+                } else {
                     $("#Calculated_mm").removeAttr('disabled');
                 }
-                if (Calculated>50){
+                if (Calculated > 50) {
                     alert("학습인정시간은 50시간 이내만 입력 가능합니다");
                     $("#Calculated").val('');
                     return false;
                 }
                 $('#Calculated').keyup(function () {
-                    this.value = this.value.replace(/[^0-9]/g,'');
+                    this.value = this.value.replace(/[^0-9]/g, '');
                 });
                 $('#Calculated_mm').keyup(function () {
-                    this.value = this.value.replace(/[^0-9]/g,'');
+                    this.value = this.value.replace(/[^0-9]/g, '');
                 });
-                if(hh && hh.length == 1)
+                if (hh && hh.length == 1)
                     hh = "0" + hh;
-                if(mm && mm.length == 1)
+                if (mm && mm.length == 1)
                     mm = "0" + mm;
-                if(week && week.length == 1)
+                if (week && week.length == 1)
                     week = "0" + week;
-                if(video_hh && video_hh.length == 1)
+                if (video_hh && video_hh.length == 1)
                     video_hh = "0" + video_hh;
-                if(video_mm && video_mm.length == 1)
+                if (video_mm && video_mm.length == 1)
                     video_mm = "0" + video_mm;
-                if(Calculated && Calculated.length == 1)
+                if (Calculated && Calculated.length == 1)
                     Calculated = "0" + Calculated;
-                if(Calculated_mm && Calculated_mm.length == 1)
+                if (Calculated_mm && Calculated_mm.length == 1)
                     Calculated_mm = "0" + Calculated_mm;
-                if(hh)
+                if (hh)
                     $("#course-effort-hh").val(hh);
-                if(mm)
+                if (mm)
                     $("#course-effort-mm").val(mm);
-                if(week)
+                if (week)
                     $("#course-effort-week").val(week);
-                if(video_hh)
+                if (video_hh)
                     $("#course-video-hh").val(video_hh);
-                if(video_mm)
+                if (video_mm)
                     $("#course-video-mm").val(video_mm);
-                if(Calculated)
+                if (Calculated)
                     $("#Calculated").val(Calculated);
-                if(Calculated_mm){
+                if (Calculated_mm) {
                     $("#Calculated_mm").val(Calculated_mm);
                 }
                 var video = video_hh + ":" + video_mm;
@@ -930,11 +948,11 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 //    }
                 //}
                 var val = hh + ":" + mm;
-                if(week && week != "")
+                if (week && week != "")
                     val = val + "@" + week;
-                if(video && video != "")
+                if (video && video != "")
                     val = val + "#" + video;
-                if(calculated_total && calculated_total != ""){
+                if (calculated_total && calculated_total != "") {
                     val = val + "$" + calculated_total;
                 }
                 $("#course-effort").val(val);
@@ -943,25 +961,24 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 var addinfo_user_id = $('#addinfo_user_id').text();
                 var course_period = $("#course-effort-week").val();
                 var Calculated_mmm = '';
-                if ($("#Calculated_mm").val()==''){
+                if ($("#Calculated_mm").val() == '') {
                     Calculated_mmm = '00';
-                }
-                else{
+                } else {
                     Calculated_mmm = $("#Calculated_mm").val();
                 }
             },
 
             submitDisable: function (e) {
                 console.log('call trace -> submitDisable');
-                if(e.keyCode == 13){
+                if (e.keyCode == 13) {
                     e.preventDefault();
                 }
             },
 
-            modi_course_language: function (e){
+            modi_course_language: function (e) {
                 console.log('call trace -> modi_course_language');
                 // this.model.set('course-language', $('#course-language').val());
-                $('.action-primary').click(function() {
+                $('.action-primary').click(function () {
                     var addinfo_course_id = 'course-v1:' + $('#course-organization').val() + '+' + $('#course-number').val() + '+' + $('#course-name').val();
                     var addinfo_user_id = $('#addinfo_user_id').text();
                     var course_language = $('#course-language option:selected').text();
@@ -974,10 +991,10 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 });
             },
 
-            modi_course_level: function (e){
+            modi_course_level: function (e) {
                 console.log('call trace -> modi_course_level');
                 this.model.set('course_level', $('#selectfixid').val());
-                $('.action-primary').click(function() {
+                $('.action-primary').click(function () {
                     var addinfo_course_id = 'course-v1:' + $('#course-organization').val() + '+' + $('#course-number').val() + '+' + $('#course-name').val();
                     var addinfo_user_id = $('#addinfo_user_id').text();
                     var course_level = $('#selectfixid').val();
@@ -1006,21 +1023,21 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                             $('#subtitle_box').val(subtitle_box);
                         }
                         this.model.set('subtitle_box', $('#subtitle_box').val());
-                        $('.action-primary').click(function() {
+                        $('.action-primary').click(function () {
                             var addinfo_course_id = 'course-v1:' + $('#course-organization').val() + '+' + $('#course-number').val() + '+' + $('#course-name').val();
                             var addinfo_user_id = $('#addinfo_user_id').text();
-                            $.post( "/modi_subtitle", {
+                            $.post("/modi_subtitle", {
                                 subtitle: subtitle_box,
                                 addinfo_course_id: addinfo_course_id,
                                 addinfo_user_id: addinfo_user_id
                             })
-                            .done(function( data ) {
-                                if (data.result == 200) {
-                                    // success
-                                } else {
-                                    alert(data.msg);
-                                }
-                            });
+                                .done(function (data) {
+                                    if (data.result == 200) {
+                                        // success
+                                    } else {
+                                        alert(data.msg);
+                                    }
+                                });
 
                         });
                     } else {
@@ -1053,19 +1070,19 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                         $('#subtitle_box').val(subtitle_box);
                     }
                     this.model.set('subtitle_box', $('#subtitle_box').val());
-                    $('.action-primary').click(function() {
-                        $.post( "/modi_subtitle", {
+                    $('.action-primary').click(function () {
+                        $.post("/modi_subtitle", {
                             subtitle: subtitle_box,
                             addinfo_course_id: addinfo_course_id,
                             addinfo_user_id: addinfo_user_id
                         })
-                        .done(function( data ) {
-                            if (data.result == 200) {
-                                // success
-                            } else {
-                                alert(data.msg);
-                            }
-                        });
+                            .done(function (data) {
+                                if (data.result == 200) {
+                                    // success
+                                } else {
+                                    alert(data.msg);
+                                }
+                            });
                     });
                 } else {
                     alert('등록되지 않은 강좌 자막 언어는 지울 수 없습니다');
@@ -1075,7 +1092,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             modi_teacher_name: function (e) {
                 console.log('call trace -> modi_teacher_name');
                 this.model.set('modi_teacher_name', 'modi_teacher_name');
-                $('.action-primary').click(function() {
+                $('.action-primary').click(function () {
                     var addinfo_course_id = 'course-v1:' + $('#course-organization').val() + '+' + $('#course-number').val() + '+' + $('#course-name').val();
                     var addinfo_user_id = $('#addinfo_user_id').text();
                     var teacher_name = $('#teacher_name').val();
@@ -1085,7 +1102,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                         addinfo_course_id: addinfo_course_id,
                         addinfo_user_id: addinfo_user_id,
                         teacher_name: teacher_name,
-                        method : 'addinfo',
+                        method: 'addinfo',
                     });
                 });
             },
@@ -1093,7 +1110,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
             modi_preview_video: function (e) {
                 console.log('call trace -> modi_preview_video');
                 this.model.set('modi_preview_video', 'modi_preview_video');
-                $('.action-primary').click(function() {
+                $('.action-primary').click(function () {
                     var addinfo_course_id = 'course-v1:' + $('#course-organization').val() + '+' + $('#course-number').val() + '+' + $('#course-name').val();
                     var addinfo_user_id = $('#addinfo_user_id').text();
                     var teacher_name = $('#teacher_name').val();
@@ -1106,12 +1123,12 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                         addinfo_user_id: addinfo_user_id,
                         teacher_name: teacher_name,
                         video_url: video_url,
-                        method : 'addinfo',
+                        method: 'addinfo',
                     });
                 });
             },
 
-            render: function() {
+            render: function () {
                 console.log('call trace -> render');
                 clearTimeout(this.imageTimer);
                 DateUtils.setupDatePicker('start_date', this);
@@ -1142,8 +1159,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 this.$el.find('#' + this.fieldToSelectorMap['intro_video']).val(this.model.get('intro_video') || '');
                 if (this.model.has('intro_video')) {
                     this.$el.find('.remove-course-introduction-video').show();
-                }
-                else this.$el.find('.remove-course-introduction-video').hide();
+                } else this.$el.find('.remove-course-introduction-video').hide();
                 this.$el.find('#' + this.fieldToSelectorMap['effort']).val(this.model.get('effort'));
                 var courseImageURL = this.model.get('course_image_asset_path');
                 this.$el.find('#course-image-url').val(courseImageURL);
@@ -1160,8 +1176,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 if (this.model.get('entrance_exam_enabled') == 'true') {
                     this.$('#' + this.fieldToSelectorMap['entrance_exam_enabled']).attr('checked', this.model.get('entrance_exam_enabled'));
                     this.$('.div-grade-requirements').show();
-                }
-                else {
+                } else {
                     this.$('#' + this.fieldToSelectorMap['entrance_exam_enabled']).removeAttr('checked');
                     this.$('.div-grade-requirements').hide();
                 }
@@ -1174,8 +1189,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     selfPacedButton.removeAttr('disabled');
                     instructorPacedButton.removeAttr('disabled');
                     paceToggleTip.text('');
-                }
-                else {
+                } else {
                     selfPacedButton.attr('disabled', true);
                     instructorPacedButton.attr('disabled', true);
                     paceToggleTip.text(gettext('Course pacing cannot be changed once a course has started.'));
@@ -1184,7 +1198,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 this.learning_info_view.render();
                 this.instructor_info_view.render();
                 var time = $("#course-effort").val();
-                if(time){
+                if (time) {
                     if (time.indexOf("@") > 0 && time.indexOf("#") > 0 && time.indexOf("$") > 0) {
                         var arr1 = time.split("@");
                         var arr2 = arr1[0].split(":");
@@ -1198,7 +1212,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                         $("#course-video-mm").val(arr3[1]);
                         $("#Calculated").val(arr4[0]);
                         $("#Calculated_mm").val(arr4[1]);
-                    } else if(time.indexOf("@") > 0 && time.indexOf("#") > 0) {
+                    } else if (time.indexOf("@") > 0 && time.indexOf("#") > 0) {
                         var arr1 = time.split("@");
                         var arr2 = arr1[0].split(":");
                         var week = arr1[1].split("#")[0];
@@ -1208,14 +1222,14 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                         $("#course-effort-week").val(week);
                         $("#course-video-hh").val(arr3[0]);
                         $("#course-video-mm").val(arr3[1]);
-                    } else if(time.indexOf("@") > 0) {
+                    } else if (time.indexOf("@") > 0) {
                         var arr1 = time.split("@");
                         var arr2 = arr1[0].split(":");
                         var week = arr1[1];
                         $("#course-effort-hh").val(arr2[0]);
                         $("#course-effort-mm").val(arr2[1]);
                         $("#course-effort-week").val(week);
-                    } else if(time.indexOf("#") > 0) {
+                    } else if (time.indexOf("#") > 0) {
                         var arr1 = time.split("#");
                         var arr2 = arr1[0].split(":");
                         var arr3 = arr1[1].split(":");
@@ -1231,9 +1245,9 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 var hh = $("#course-effort-hh").val();
                 var mm = $("#course-effort-mm").val();
                 var week = $("#course-effort-week").val();
-                if(hh && mm && week){
+                if (hh && mm && week) {
                     // 총 이수시간 계산 및 표시
-                    var total_time = (Number(hh) * Number(week)) + (Number(mm)/60 * Number(week));
+                    var total_time = (Number(hh) * Number(week)) + (Number(mm) / 60 * Number(week));
                     if (total_time.toString().indexOf(".") > 0) {
                         var arr = total_time.toString().split(".");
                         var hour = arr[0];
@@ -1245,7 +1259,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
 
                 // 현재 날짜 기준 (UTC) 과 강좌 일정을 비교하여 수정이 안되도록 수정
                 var now = new Date();
-                var now_utc = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),  now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+                var now_utc = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
                 var start_date_value = $("#course-start-date").val() + " " + $("#course-start-time").val();
                 var end_date_value = $("#course-end-date").val() + " " + $("#course-end-time").val();
                 var enroll_start_date_value = $("#course-enrollment-start-date").val() + " " + $("#course-enrollment-start-time").val();
@@ -1254,7 +1268,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 var end_date = new Date(end_date_value);
                 var enroll_start_date = new Date(enroll_start_date_value);
                 var enroll_end_date = new Date(enroll_end_date_value);
-                if(this.model.get('need_lock') == 1){
+                if (this.model.get('need_lock') == 1) {
                     /*
                         -수업주차,주간학습권장시간,총동영상 재생시간
                         -수강신청시작일/마감일, 개강일/종강일
@@ -1323,7 +1337,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 user_edit: 'course_edit_check',
             },
 
-            addLearningFields: function() {
+            addLearningFields: function () {
                 console.log('call trace -> addLearningFields');
                 /*
                 * Add new course learning fields.
@@ -1333,7 +1347,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 this.model.set('learning_info', existingInfo);
             },
 
-            addInstructorFields: function() {
+            addInstructorFields: function () {
                 console.log('call trace -> addInstructorFields');
                 /*
                 * Add new course instructor fields.
@@ -1349,7 +1363,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 this.model.set('instructor_info', {instructors: instructors});
             },
 
-            updateTime: function(e) {
+            updateTime: function (e) {
                 console.log('call trace -> updateTime');
                 var now = new Date(),
                     hours = now.getUTCHours(),
@@ -1364,7 +1378,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 $(e.currentTarget).attr('title', currentTimeText);
             },
 
-            updateModel: function(event) {
+            updateModel: function (event) {
                 console.log('call trace -> updateModel');
                 var value;
                 var index = event.currentTarget.getAttribute('data-index');
@@ -1430,7 +1444,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                         this.clearValidationErrors();
                         var previewsource = this.model.set_videosource($(event.currentTarget).val());
                         clearTimeout(this.videoTimer);
-                        this.videoTimer = setTimeout(_.bind(function() {
+                        this.videoTimer = setTimeout(_.bind(function () {
                             this.$el.find('.current-course-introduction-video iframe').attr('src', previewsource);
                             if (this.model.has('intro_video')) {
                                 this.$el.find('.remove-course-introduction-video').show();
@@ -1461,7 +1475,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 }
             },
 
-            updateImageField: function(event, image_field, selector) {
+            updateImageField: function (event, image_field, selector) {
                 console.log('call trace -> updateImageField');
                 this.setField(event);
                 var url = $(event.currentTarget).val();
@@ -1472,16 +1486,16 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 this.updateImagePreview(event.currentTarget, selector);
             },
 
-            updateImagePreview: function(imagePathInputElement, previewSelector) {
+            updateImagePreview: function (imagePathInputElement, previewSelector) {
                 console.log('call trace -> updateImagePreview');
                 // Wait to set the image src until the user stops typing
                 clearTimeout(this.imageTimer);
-                this.imageTimer = setTimeout(function() {
+                this.imageTimer = setTimeout(function () {
                     $(previewSelector).attr('src', $(imagePathInputElement).val());
                 }, 1000);
             },
 
-            removeVideo: function(event) {
+            removeVideo: function (event) {
                 console.log('call trace -> removeVideo');
                 event.preventDefault();
                 if (this.model.has('intro_video')) {
@@ -1494,7 +1508,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
 
             codeMirrors: {},
 
-            codeMirrorize: function(e, forcedTarget) {
+            codeMirrorize: function (e, forcedTarget) {
                 console.log('call trace -> codeMirrorize');
                 var thisTarget, cachethis, field, cmTextArea;
                 if (forcedTarget) {
@@ -1514,8 +1528,9 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     cachethis = this;
                     field = this.selectorToField[thisTarget.id];
                     this.codeMirrors[thisTarget.id] = CodeMirror.fromTextArea(thisTarget, {
-                        mode: 'text/html', lineNumbers: true, lineWrapping: true});
-                    this.codeMirrors[thisTarget.id].on('change', function(mirror) {
+                        mode: 'text/html', lineNumbers: true, lineWrapping: true
+                    });
+                    this.codeMirrors[thisTarget.id].on('change', function (mirror) {
                         mirror.save();
                         cachethis.clearValidationErrors();
                         var newVal = mirror.getValue();
@@ -1528,15 +1543,15 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 }
             },
 
-            revertView: function() {
+            revertView: function () {
                 console.log('call trace -> revertView');
                 // Make sure that the CodeMirror instance has the correct
                 // data from its corresponding textarea
                 var self = this;
                 this.model.fetch({
-                    success: function() {
+                    success: function () {
                         self.render();
-                        _.each(self.codeMirrors, function(mirror) {
+                        _.each(self.codeMirrors, function (mirror) {
                             var ele = mirror.getTextArea();
                             var field = self.selectorToField[ele.id];
                             mirror.setValue(self.model.get(field));
@@ -1545,10 +1560,11 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                         self.licenseView.render();
                     },
                     reset: true,
-                    silent: true});
+                    silent: true
+                });
             },
 
-            setAndValidate: function(attr, value) {
+            setAndValidate: function (attr, value) {
                 console.log('call trace -> setAndValidate');
                 // If we call model.set() with {validate: true}, model fields
                 // will not be set if validation fails. This puts the UI and
@@ -1560,7 +1576,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 this.model.isValid();
             },
 
-            showNotificationBar: function() {
+            showNotificationBar: function () {
                 console.log('call trace -> showNotificationBar');
                 // We always call showNotificationBar with the same args, just
                 // delegate to superclass
@@ -1570,7 +1586,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     _.bind(this.revertView, this));
             },
 
-            uploadImage: function(event) {
+            uploadImage: function (event) {
                 console.log('call trace -> uploadImage');
                 event.preventDefault();
                 var title = '',
@@ -1605,7 +1621,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 var self = this;
                 var modal = new FileUploadDialog({
                     model: upload,
-                    onSuccess: function(response) {
+                    onSuccess: function (response) {
                         var options = {};
                         options[image_key] = response.asset.display_name;
                         options[image_path_key] = response.asset.url;
@@ -1617,24 +1633,24 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 modal.show();
             },
 
-            handleLicenseChange: function() {
+            handleLicenseChange: function () {
                 console.log('call trace -> handleLicenseChange');
                 this.showNotificationBar();
                 this.model.set('license', this.licenseModel.toString());
             },
-            preview_video_add: function(){
+            preview_video_add: function () {
                 var addinfo_course_id = 'course-v1:' + $('#course-organization').val() + '+' + $('#course-number').val() + '+' + $('#course-name').val();
 
                 $(".video_regist").each(function () {
-                    if($("#course-preview-video-url").val() == $(this).data('video-url')){
+                    if ($("#course-preview-video-url").val() == $(this).data('video-url')) {
                         $(this).attr('disabled', true);
-                    }else{
+                    } else {
                         $(this).attr('disabled', false);
                     }
                 })
 
                 $("#previewCourseEditLayer").toggle();
-                if($("#previewCourseEditLayer").is(":visible")){
+                if ($("#previewCourseEditLayer").is(":visible")) {
                     var top = parseInt($(window).scrollTop());
                     $(".overview-modal").prop("style", "top: " + (top - 50) + "px;");
                 }
@@ -1665,7 +1681,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
 
                 this.model.set('modi_preview_video', 'modi_preview_video');
 
-                $('.action-primary').click(function() {
+                $('.action-primary').click(function () {
                     var addinfo_course_id = 'course-v1:' + $('#course-organization').val() + '+' + $('#course-number').val() + '+' + $('#course-name').val();
                     var addinfo_user_id = $('#addinfo_user_id').text();
                     var teacher_name = $('#teacher_name').val();
@@ -1676,7 +1692,7 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                         addinfo_user_id: addinfo_user_id,
                         teacher_name: teacher_name,
                         video_url: video_url,
-                        method : 'addinfo',
+                        method: 'addinfo',
                     });
                 });
             }

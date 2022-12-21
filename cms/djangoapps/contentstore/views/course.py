@@ -1761,6 +1761,10 @@ def settings_handler(request, course_key_string):
     """
     start_time = time.time()
 
+    use_pre_courses = request.GET.get("use_pre_courses", "N")
+
+    print '-----> use_pre_courses:', use_pre_courses
+
     course_info_text = ""
 
     f = open("/edx/app/edxapp/edx-platform/common/static/courseinfo/CourseInfoPage.html", 'r')
@@ -1901,7 +1905,6 @@ def settings_handler(request, course_key_string):
                 if block['block_type'] == 'course':
                     if 'user_edit' in block['fields']:
                         edit_check = block['fields']['user_edit']
-
 
             course_lang = settings.ALL_LANGUAGES
 
@@ -2185,12 +2188,14 @@ def settings_handler(request, course_key_string):
                 'teacher_name': teacher_name,
                 'preview_video': preview_video,
                 'user_edit': edit_check,
-                'classfy': classfy
+                'classfy': classfy,
+                'use_pre_courses': use_pre_courses
             }
 
             log.info('--------------------> settings_handler checkt time 12 [%s]' % (time.time() - start_time))
 
-            if is_prerequisite_courses_enabled():
+            # staff 계정의 경우는 선수강좌에 대한 정보를 조회하지 않도록 수정
+            if is_prerequisite_courses_enabled() and (not request.user.is_staff or use_pre_courses == "Y"):
                 courses, in_process_course_actions = get_courses_accessible_to_user(request)
                 log.info('--------------------> settings_handler checkt time 12.1 [%s]' % (time.time() - start_time))
 
@@ -2203,6 +2208,8 @@ def settings_handler(request, course_key_string):
 
                 settings_context.update({'possible_pre_requisite_courses': list(courses)})
                 log.info('--------------------> settings_handler checkt time 12.4 [%s]' % (time.time() - start_time))
+            else:
+                settings_context.update({'possible_pre_requisite_courses': list()})
 
             log.info('--------------------> settings_handler checkt time 13 [%s]' % (time.time() - start_time))
 
@@ -2423,7 +2430,6 @@ def _refresh_course_tabs(request, course_module):
             old_middle_classfy = old_classfy_data[0][1]
             old_classfy_plus = old_classfy_data[0][2]
             old_course_period = old_classfy_data[0][3]
-
 
     with connections['default'].cursor() as cur:
         if classfy != old_classfy or middle_classfy != old_middle_classfy or classfy_plus != old_classfy_plus or course_period != old_course_period:

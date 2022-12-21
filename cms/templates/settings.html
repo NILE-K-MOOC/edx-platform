@@ -32,6 +32,8 @@ from openedx.core.djangolib.markup import HTML, Text
     window.CMS = window.CMS || {};
     CMS.URL = CMS.URL || {};
     CMS.URL.UPLOAD_ASSET = '${upload_asset_url | n, js_escaped_string}'
+
+
 </script>
 </%block>
 
@@ -371,13 +373,38 @@ ${can_show_certificate_available_date_field(context_course) | n, dump_js_escaped
             % if is_prerequisite_courses_enabled:
             <li class="field field-select" id="field-pre-requisite-course">
               <label for="pre-requisite-course">${_("Prerequisite Course")}</label>
-              <select style="width: 300px;" class="input" id="pre-requisite-course">
-                <option value="">${_("None")}</option>
-                % for course_info in sorted(possible_pre_requisite_courses, key=lambda s: s['display_name'].lower() if s['display_name'] is not None else ''):
-                <option value="${course_info['course_key']}">${course_info['display_name']}</option>
-                % endfor
-              </select>
-              <div style="font-size: 12px;">${_("Course that students must complete before beginning this course")}</div>
+                % if use_pre_courses == 'Y':
+                  <select style="width: 300px;" class="input" id="pre-requisite-course">
+                    <option value="">${_("None")}</option>
+                    % for course_info in sorted(possible_pre_requisite_courses, key=lambda s: s['display_name'].lower() if s['display_name'] is not None else ''):
+                    <option value="${course_info['course_key']}">${course_info['display_name']}</option>
+                    % endfor
+                  </select>
+                  <div style="font-size: 12px;">${_("Course that students must complete before beginning this course")}</div>
+                % else:
+
+                <script>
+                    /*
+                    function usePreCourses(){
+                        if(confirm("저장되지 않은 수정 내용은 사라집니다. 진행 하시겠습니까?"){
+                            //document.location.href = document.location + "?use_pre_courses=Y";
+                            var url = new URL(document.location);
+                            // If your expected result is "http://foo.bar/?x=1&y=2&x=42"
+                            url.searchParams.append('use_pre_courses', 'Y');
+                            console.log(url);
+                            document.location.href = url;
+                        })
+                    }
+
+                    $(document).ready(function(){
+                        console.log('settings details ready.');
+                    });
+                    */
+                </script>
+
+                <button type="button" id="usePreCourses">선수 강좌 지정 기능 활성화</button>
+
+                % endif
               <button type="submit" class="sr" name="submit" value="submit">${_("set pre-requisite course")}</button>
             </li>
             % endif
