@@ -1649,6 +1649,7 @@ def settings_handler(request, course_key_string):
     """
 
     course_info_text = ""
+    use_pre_courses = request.GET.get("use_pre_courses", "N")
 
     f = open("/edx/app/edxapp/edx-platform/common/static/courseinfo/CourseInfoPage.html", 'r')
     while True:
@@ -2075,16 +2076,19 @@ def settings_handler(request, course_key_string):
                 'teacher_name': teacher_name,
                 'preview_video': preview_video,
                 'user_edit': edit_check,
-                'classfy': classfy
+                'classfy': classfy,
+                'use_pre_courses': use_pre_courses
             }
 
-            if is_prerequisite_courses_enabled():
+            if is_prerequisite_courses_enabled() and (not request.user.is_staff or use_pre_courses == "Y"):
                 courses, in_process_course_actions = get_courses_accessible_to_user(request)
                 # exclude current course from the list of available courses
                 courses = (course for course in courses if course.id != course_key)
                 if courses:
                     courses, __ = _process_courses_list(courses, in_process_course_actions)
                 settings_context.update({'possible_pre_requisite_courses': list(courses)})
+            else:
+                settings_context.update({'possible_pre_requisite_courses': list()})
 
             if credit_eligibility_enabled:
                 if is_credit_course(course_key):

@@ -63,7 +63,18 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 'click #preview_video_add': "preview_video_add",
                 'click #preview_video_cancel': "preview_video_cancel",
                 'click .video_regist': "video_regist",
-                'click #course_preview_video_save': "course_preview_video_save"
+                'click #course_preview_video_save': "course_preview_video_save",
+                'click #usePreCourses': "usePreCourses",
+            },
+            usePreCourses: function () {
+                if (confirm("저장되지 않은 수정 내용은 사라집니다. 진행 하시겠습니까?")){
+                    //document.location.href = document.location + "?use_pre_courses=Y";
+                    var url = new URL(document.location);
+                    // If your expected result is "http://foo.bar/?x=1&y=2&x=42"
+                    url.searchParams.append('use_pre_courses', 'Y');
+                    console.log(url);
+                    document.location.href = url;
+                }
             },
             add_vtt: function (){
                 var box = ''+
