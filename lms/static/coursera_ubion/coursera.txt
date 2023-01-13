@@ -1,0 +1,358 @@
+[
+	{
+		"id" : 1,
+		"coursera" : [
+			{
+				"title" : "데이터 과학자의 도구 상자",
+				"desc" : "Johns Hopkins University",
+				"href" : "#."
+			},
+			{
+				"title" : "Python에서 데이터베이스\n 사용하기",
+				"desc" : "University of Michigan",
+				"href" : "#."
+			},
+			{
+				"title" : "파이썬의 응용 소셜 네트워크 분석",
+				"desc" : "University of Michigan",
+				"href" : "#."
+			},
+			{
+				"title" : "파이썬의 데이터 과학 소개",
+				"desc" : "University of Michigan",
+				"href" : "#."
+			}
+		]
+	},
+	{
+		"id" : 2,
+		"coursera" : [
+			{
+				"title" : "R 프로그래밍",
+				"desc" : "Johns Hopkins University",
+				"href" : "#."
+			},
+			{
+				"title" : "파이썬 단기 집중 과정",
+				"desc" : "Google",
+				"href" : "#."
+			},
+			{
+				"title" : "MATLAB을 사용한 프로그래밍 소개",
+				"desc" : "Vanderbilt University",
+				"href" : "#."
+			}
+			
+		]
+	},
+	{
+		"id" : 3,
+		"coursera" : [
+			{
+				"title" : "컨볼루션 신경망",
+				"desc" : "Deep Learning AI",
+				"href" : "#."
+			},
+			{
+				"title" : "심층 신경망 개선 : 하이퍼 파라미터 튜닝, 정규화 및 최적화",
+				"desc" : "Deep Learning AI",
+				"href" : "#."
+			},
+			{
+				"title" : "신경망 및 딥 러닝",
+				"desc" : "Deep Learning AI",
+				"href" : "#."
+			},
+			{
+				"title" : "시퀀스 모델",
+				"desc" : "Deep Learning AI",
+				"href" : "#."
+			},
+			{
+				"title" : "머신러닝 프로젝트 구조화",
+				"desc" : "Deep Learning AI",
+				"href" : "#."
+			}
+		]
+	},
+	{
+		"id" : 4,
+		"coursera" : [
+			{
+				"title" : "머신 러닝 기초 : 사례연구 접근 방식",
+				"desc" : "University of Washington",
+				"href" : "#."
+			},
+			{
+				"title" : "의사 결정을 위한 비즈니스 분석",
+				"desc" : "University of Colorado Boulder",
+				"href" : "#."
+			},
+			{
+				"title" : "데이터 중심 기업을 위한 비즈니스 지표",
+				"desc" : "Duke University",
+				"href" : "#."
+			},
+			{
+				"title" : "R을 사용한 확률 및 데이터 소개",
+				"desc" : "Duke University",
+				"href" : "#."
+			},
+			{
+				"title" : "TensorFlow2 시작하기",
+				"desc" : "Imperial College London",
+				"href" : "#."
+			},
+			{
+				"title" : "클라우드 컴퓨팅 기초(Cloud 101)",
+				"desc" : "Learn Quest",
+				"href" : "#."
+			},
+			{
+				"title" : "산업용 IoT 시장 및 보안",
+				"desc" : "University of Colorado Boulder",
+				"href" : "#."
+			}
+		]
+	},
+	{
+		"id" : 5,
+		"coursera" : [
+			{
+				"title" : "Introduction to Psychology",
+				"desc" : "Yale University",
+				"href" : "#."
+			},
+			{
+				"title" : "Positive Psychology",
+				"desc" : "The University of North Carolina at Chapel Hill",
+				"href" : "#."
+			},
+			{
+				"title" : "Psychological First Aid",
+				"desc" : "Johns Hopkins University",
+				"href" : "#."
+			},
+			{
+				"title" : "English for Business and Entrepreneurship",
+				"desc" : "University of Pennsylvania",
+				"href" : "#."
+			},
+			{
+				"title" : "English for Career Development",
+				"desc" : "University of Pennsylvania",
+				"href" : "#."
+			},
+			{
+				"title" : "The Modern World, Part One: Global History from 1760 to 1910",
+				"desc" : "University of Virginia",
+				"href" : "#."
+			},
+			{
+				"title" : "The Modern World, Part Two: Global History since 1910",
+				"desc" : "University of Virginia",
+				"href" : "#."
+			},
+			{
+				"title" : "Understanding Medical Research: Your Facebook Friend is Wrong",
+				"desc" : "Yale University",
+				"href" : "#."
+			},
+			{
+				"title" : "How Things Work: An Introduction to Physics",
+				"desc" : "University of Virginia",
+				"href" : "#."
+			},
+			{
+				"title" : "Moral Foundations of Politics",
+				"desc" : "Yale University",
+				"href" : "#."
+			},
+			{
+				"title" : "Introductory Human Physiology",
+				"desc" : "Duke University",
+				"href" : "#."
+			},
+			{
+				"title" : "Synapses, Neurons and Brains",
+				"desc" : "Hebrew University of Jerusalem",
+				"href" : "#."
+			},
+			{
+				"title" : "Learning How to Learn: Powerful mental tools to help you master tough subjects",
+				"desc" : "Deep Theaching Solutions",
+				"href" : "#."
+			},
+			{
+				"title" : "Mindshift: Break Through Obstacles to Learning and Discover Your Hidden Potential",
+				"desc" : "McMaster University",
+				"href" : "#."
+			}
+		]
+	},
+	{
+		"id" : 6,
+		"coursera" : [
+			{
+				"title" : "Introduction to Financial Engineering and Risk Management",
+				"desc" : "Columbia University",
+				"href" : "#."
+			},
+			{
+				"title" : "Financial Markets",
+				"desc" : "Yale University",
+				"href" : "#."
+			},
+			{
+				"title" : "A Strategic Playbook for Becoming a Principled and Persuasive Negotiator",
+				"desc" : "Yale University",
+				"href" : "#."
+			},
+			{
+				"title" : "Successful Negotiation: Essential Strategies and Skills",
+				"desc" : "University of Michigan",
+				"href" : "#."
+			},
+			{
+				"title" : "Marketing Analytics",
+				"desc" : "University of Virginia",
+				"href" : "#."
+			},
+			{
+				"title" : "Managing the Company of the Future",
+				"desc" : "University of London, London Business School",
+				"href" : "#."
+			},
+			{
+				"title" : "Communication Strategies for a Virtual Age",
+				"desc" : "University of Toronto",
+				"href" : "#."
+			},
+			{
+				"title" : "Mindware: Critical Thinking for the Information Age",
+				"desc" : "University of Michigan",
+				"href" : "#."
+			},
+			{
+				"title" : "Transmedia Storytelling: Narrative worlds, emerging technologies",
+				"desc" : "UNSW Sydney",
+				"href" : "#."
+			}
+		]
+	},
+	{
+		"id" : 7,
+		"coursera" : [
+			{
+				"title" : "Nutrition and Lifestyle in Pregnancy",
+				"desc" : "Ludwig-Maximilians-Universitat Munchen (LMU)",
+				"href" : "#."
+			},
+			{
+				"title" : "Science of Exercise",
+				"desc" : "University of Colorado Boulder",
+				"href" : "#."
+			},
+			{
+				"title" : "Vital Signs: Understanding What the Body Is Telling Us",
+				"desc" : "University of Pennsylvania",
+				"href" : "#."
+			},
+			{
+				"title" : "The Science of Well-Being",
+				"desc" : "Yale University",
+				"href" : "#."
+			},
+			{
+				"title" : "A Life of Happiness and Fulfillment",
+				"desc" : "Indian School of Business",
+				"href" : "#."
+			},
+			{
+				"title" : "COVID-19 Contact Tracing",
+				"desc" : "Johns Hopkins University",
+				"href" : "#."
+			}
+		]
+	},
+	{
+		"id" : 8,
+		"coursera" : [
+			{
+				"title" : "AI For Everyone",
+				"desc" : "DeepLearning AI",
+				"href" : "#."
+			},
+			{
+				"title" : "Data Science Math Skills",
+				"desc" : "Duke University",
+				"href" : "#."
+			},
+			{
+				"title" : "Bitcoin and Cryptocurrency Technologies",
+				"desc" : "Princeton University",
+				"href" : "#."
+			},
+			{
+				"title" : "Algorithms, Part l",
+				"desc" : "Princeton University",
+				"href" : "#."
+			},
+			{
+				"title" : "Algorithms, Part ll",
+				"desc" : "Princeton University",
+				"href" : "#."
+			},
+			{
+				"title" : "HTML, CSS, and Javascript for Web Developers",
+				"desc" : "Johns Hopkins University",
+				"href" : "#."
+			},
+			{
+				"title" : "Learn to Program: The Fundamentals",
+				"desc" : "University of Toronto",
+				"href" : "#."
+			},
+			{
+				"title" : "Build Your First Android App (Project-Centered Course)",
+				"desc" : "CentraleSupelec",
+				"href" : "#."
+			},
+			{
+				"title" : "Digital Systems: From Logic Gates to Processors",
+				"desc" : "Universitat Autonoma de Barcelona",
+				"href" : "#."
+			},
+			{
+				"title" : "The Age of Sustainable Development",
+				"desc" : "Columbia University",
+				"href" : "#."
+			}
+		]
+	},
+	{
+		"id" : 9,
+		"coursera" : [
+			{
+				"title" : "Fundamentals of Music Theory",
+				"desc" : "The University of Edinburgh",
+				"href" : "#."
+			},
+			{
+				"title" : "Introduction to Classical Music",
+				"desc" : "Yale University",
+				"href" : "#."
+			},
+			{
+				"title" : "In the Studio: Postwar Abstract Painting",
+				"desc" : "The Museum of Modern Art",
+				"href" : "#."
+			},
+			{
+				"title" : "Introduction to Philosophy",
+				"desc" : "The University of Edinburgh",
+				"href" : "#."
+			}
+		]
+	}
+]

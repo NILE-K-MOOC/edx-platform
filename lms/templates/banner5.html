@@ -1,0 +1,204 @@
+<%page expression_filter="h"/>
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.core.urlresolvers import reverse
+from microsite_configuration import microsite
+from openedx.core.djangolib.markup import HTML, Text
+%>
+
+<%block name="pagetitle">
+${("")}
+</%block>
+
+<style>
+
+</style>
+
+
+<body>
+
+<div class="window-wrap kr01-area">
+
+    <!-- 취업지원강좌 -->
+    <link rel="stylesheet" href="../static/coursera_ubion/static/css/coursera.css"/>
+    <main id="main" aria-label="Content" tabindex="-1" class="coursera">
+
+        <!-- sec-coursera-top -->
+        <section class="sec-coursera-top">
+            <div class="container-fluid">
+                <div class="coursera-visual">
+                    <h2>
+                        <p>K-MOOC <span>X</span> COURSERA<br class="br-md"/> GLOBAL TOP COURSE</p>
+                        <p>Global MOOC<br/> <strong>K-MOOC</strong>에서<br class="br-md"/> 시작하세요!</p>
+                    </h2>
+                    <p class="logo"><img src="../static/coursera_ubion/static/image/coursera/logo.png" alt=""></p>
+                </div>
+                <div class="coursera-tabmenu">
+                    <div class="inner">
+                        <ul>
+                            <li>
+                                <button data-id="sec-coursera1"># DATA SCIENCE</button>
+                            </li>
+                            <li>
+                                <button data-id="sec-coursera2"># PROGRAMMING</button>
+                            </li>
+                            <li>
+                                <button data-id="sec-coursera3"># DEEP LEARNING</button>
+                            </li>
+                            <li>
+                                <button data-id="sec-coursera4"># IT/SW TOP COURSE</button>
+                            </li>
+                            <li>
+                                <button data-id="sec-coursera5"># 인문학</button>
+                            </li>
+                            <li>
+                                <button data-id="sec-coursera6"># 업무</button>
+                            </li>
+                            <li>
+                                <button data-id="sec-coursera7"># 웰빙/건강</button>
+                            </li>
+                            <li>
+                                <button data-id="sec-coursera8"># IT/SW</button>
+                            </li>
+                            <li>
+                                <button data-id="sec-coursera9"># 예술/철학</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- sec-coursera-top -->
+
+        <!-- sec-coursera1 -->
+        <section class="sec-coursera1">
+            <div class="container-fluid">
+                <h3 class="coursera-title">
+                    <strong>DATA SCIENCE</strong>
+                </h3>
+                <div class="coursera-list-container">
+                    <ul id="coursera-list1"><!-- js/coursera.json --></ul>
+                </div>
+            </div>
+        </section>
+        <!-- //sec-coursera1 -->
+
+        <!-- sec-coursera2 -->
+        <section class="sec-coursera2">
+            <div class="container-fluid">
+                <h3 class="coursera-title">
+                    <strong>PROGRAMMING</strong>
+                </h3>
+                <div class="coursera-list-container">
+                    <ul id="coursera-list2"><!-- js/coursera.json --></ul>
+                </div>
+            </div>
+        </section>
+        <!-- //sec-coursera2 -->
+
+        <!-- sec-coursera3 -->
+        <section class="sec-coursera3">
+            <div class="container-fluid">
+                <h3 class="coursera-title">
+                    <strong>DEEP LEARNING</strong>
+                </h3>
+                <div class="coursera-list-container">
+                    <ul id="coursera-list3"><!-- js/coursera.json --></ul>
+                </div>
+            </div>
+        </section>
+        <!-- //sec-coursera3 -->
+
+        <!-- sec-coursera4 -->
+        <section class="sec-coursera4">
+            <div class="container-fluid">
+                <h3 class="coursera-title">
+                    <strong>IT/SW TOP COURSE</strong>
+                </h3>
+                <div class="coursera-list-container">
+                    <ul id="coursera-list4"><!-- js/coursera.json --></ul>
+                </div>
+            </div>
+        </section>
+        <!-- //sec-coursera4 -->
+
+        <!-- sec-coursera5 -->
+        <section class="sec-coursera5">
+            <div class="container-fluid">
+                <h3 class="coursera-title">
+                    <strong>인문학</strong>
+                </h3>
+                <div class="coursera-list-container">
+                    <ul id="coursera-list5"><!-- js/coursera.json --></ul>
+                </div>
+            </div>
+        </section>
+        <!-- //sec-coursera5 -->
+
+        <!-- sec-coursera6 -->
+        <section class="sec-coursera6">
+            <div class="container-fluid">
+                <h3 class="coursera-title">
+                    <strong>업무</strong>
+                </h3>
+                <div class="coursera-list-container">
+                    <ul id="coursera-list6"><!-- js/coursera.json --></ul>
+                </div>
+            </div>
+        </section>
+        <!-- //sec-coursera6 -->
+
+        <!-- sec-coursera7 -->
+        <section class="sec-coursera7">
+            <div class="container-fluid">
+                <h3 class="coursera-title">
+                    <strong>웰빙/건강</strong>
+                </h3>
+                <div class="coursera-list-container">
+                    <ul id="coursera-list7"><!-- js/coursera.json --></ul>
+                </div>
+            </div>
+        </section>
+        <!-- //sec-coursera7 -->
+
+        <!-- sec-coursera8 -->
+        <section class="sec-coursera8">
+            <div class="container-fluid">
+                <h3 class="coursera-title">
+                    <strong>IT/SW</strong>
+                </h3>
+                <div class="coursera-list-container">
+                    <ul id="coursera-list8"><!-- js/coursera.json --></ul>
+                </div>
+            </div>
+        </section>
+        <!-- //sec-coursera8 -->
+
+        <!-- sec-coursera9 -->
+        <section class="sec-coursera9">
+            <div class="container-fluid">
+                <h3 class="coursera-title">
+                    <strong>예술/철학</strong>
+                </h3>
+                <div class="coursera-list-container">
+                    <ul id="coursera-list9"><!-- js/coursera.json --></ul>
+                </div>
+            </div>
+        </section>
+        <!-- //sec-coursera9 -->
+
+        <div class="all_more_btn container-fluid">
+            <a href="#.">전체 강좌 리스트 확인하기</a>
+        </div>
+
+    </main>
+    <script src="../static/coursera_ubion/static/js/coursera.js"></script>
+    <!-- //취업지원강좌 -->
+
+</div>
+
+
+</body>
+</html>

@@ -208,6 +208,8 @@ def prev_coursera_course(request):
 def coursera_course(request):
     return render_to_response("banner4.html")
 
+def coursera_course_ubion(request):
+    return render_to_response("banner5.html")
 
 def matchup(request):
     return render_to_response("matchup_update.html")

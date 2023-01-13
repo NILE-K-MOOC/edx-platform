@@ -94,6 +94,7 @@ urlpatterns = [
     url(r'^invitation-confirm-udemy$', branding_views.invitation_confirm_udemy, name='invitation_confirm_udemy'),
     url(r'^prevcoursera$', branding_views.prev_coursera_course, name='prev_coursera_course'),
     url(r'^coursera$', branding_views.coursera_course, name='coursera_course'),
+    url(r'^coursera_kmooc$', branding_views.coursera_course_ubion, name='coursera_kmooc'),
     url(r'^get_index_courses$', student_views.get_index_courses, name='get_index_courses'),
 
     # matchup
