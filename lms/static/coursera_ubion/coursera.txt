@@ -5,22 +5,22 @@
 			{
 				"title" : "데이터 과학자의 도구 상자",
 				"desc" : "Johns Hopkins University",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=PEuG9jNsEeyTERK47a9PLQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "Python에서 데이터베이스\n 사용하기",
 				"desc" : "University of Michigan",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=2JKwh15BEeyERRLkmvBkJQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "파이썬의 응용 소셜 네트워크 분석",
 				"desc" : "University of Michigan",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=GME9gTNqEeyTERK47a9PLQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "파이썬의 데이터 과학 소개",
 				"desc" : "University of Michigan",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=XsunS18GEeyZagoqNR88tQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			}
 		]
 	},
@@ -30,17 +30,17 @@
 			{
 				"title" : "R 프로그래밍",
 				"desc" : "Johns Hopkins University",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=4wJvgF8HEeyGyBIIdSsL5w&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "파이썬 단기 집중 과정",
 				"desc" : "Google",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=xPSGpl8EEeyIUg4Qv2RsBQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "MATLAB을 사용한 프로그래밍 소개",
 				"desc" : "Vanderbilt University",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=vuhMUF8GEeyIUg4Qv2RsBQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			}
 			
 		]
@@ -51,27 +51,27 @@
 			{
 				"title" : "컨볼루션 신경망",
 				"desc" : "Deep Learning AI",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=EoeAsjNrEeyZlQoNyXy15Q&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "심층 신경망 개선 : 하이퍼 파라미터 튜닝, 정규화 및 최적화",
 				"desc" : "Deep Learning AI",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=RAfGejNrEeyZlQoNyXy15Q&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "신경망 및 딥 러닝",
 				"desc" : "Deep Learning AI",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=dpd_vjNrEeyeYA42DXbPkQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "시퀀스 모델",
 				"desc" : "Deep Learning AI",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=mM9q3zNrEeyTERK47a9PLQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "머신러닝 프로젝트 구조화",
 				"desc" : "Deep Learning AI",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=FTogwWgMEeyxLxJK4mLviw&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			}
 		]
 	},
@@ -81,37 +81,37 @@
 			{
 				"title" : "머신 러닝 기초 : 사례연구 접근 방식",
 				"desc" : "University of Washington",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=GPz8hjNsEeyZlQoNyXy15Q&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "의사 결정을 위한 비즈니스 분석",
 				"desc" : "University of Colorado Boulder",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=zVT2pDNqEeyZlQoNyXy15Q&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "데이터 중심 기업을 위한 비즈니스 지표",
 				"desc" : "Duke University",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=l9gheVmMEeyoJwrNG9Tzyw&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "R을 사용한 확률 및 데이터 소개",
 				"desc" : "Duke University",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=c_qKCWQWEeyQuAqyaULE4w&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "TensorFlow2 시작하기",
 				"desc" : "Imperial College London",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=zIOH5WgFEeyQuAqyaULE4w&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "클라우드 컴퓨팅 기초(Cloud 101)",
 				"desc" : "Learn Quest",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=1gaYYFmNEey35BJ4ISJ4-Q&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "산업용 IoT 시장 및 보안",
 				"desc" : "University of Colorado Boulder",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=-HG-ZWh8EeyIUg4Qv2RsBQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			}
 		]
 	},
@@ -121,72 +121,72 @@
 			{
 				"title" : "Introduction to Psychology",
 				"desc" : "Yale University",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=jJ6ZxPrdEee5DBIdFhoH_A&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "Positive Psychology",
 				"desc" : "The University of North Carolina at Chapel Hill",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=rNpCSyQbEeWXzxJxfIL00w&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "Psychological First Aid",
 				"desc" : "Johns Hopkins University",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=hbvvfJLaEeWBSw79YYA_8Q&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "English for Business and Entrepreneurship",
 				"desc" : "University of Pennsylvania",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=bT0Wwd7yEeWlNQ4GEaPmcw&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "English for Career Development",
 				"desc" : "University of Pennsylvania",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=dScDad8bEeWNrAqe1RXmgw&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "The Modern World, Part One: Global History from 1760 to 1910",
 				"desc" : "University of Virginia",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=3UY0FCmGEeWFggqB2SRvtQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "The Modern World, Part Two: Global History since 1910",
 				"desc" : "University of Virginia",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=s4CUmzCqEeWPngoW78wA_Q&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "Understanding Medical Research: Your Facebook Friend is Wrong",
 				"desc" : "Yale University",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=5afSO-9VEem5hAoTk7uzWg&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "How Things Work: An Introduction to Physics",
 				"desc" : "University of Virginia",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=5TWYj6aKEeSKZCIACymNCQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "Moral Foundations of Politics",
 				"desc" : "Yale University",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=CN4C2CQnEeW5Rwo0txKkgQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "Introductory Human Physiology",
 				"desc" : "Duke University",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=Tr9rK6JtEeSwKiIACiONVg&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "Synapses, Neurons and Brains",
 				"desc" : "Hebrew University of Jerusalem",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=ujDaYENhEeSfwCIACxeXRw&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "Learning How to Learn: Powerful mental tools to help you master tough subjects",
 				"desc" : "Deep Theaching Solutions",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=GdeNrll1EeSROyIACtiVvg&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "Mindshift: Break Through Obstacles to Learning and Discover Your Hidden Potential",
 				"desc" : "McMaster University",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=XDJWC7ZqEeaa7BLnmaLUtg&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			}
 		]
 	},
@@ -196,47 +196,47 @@
 			{
 				"title" : "Introduction to Financial Engineering and Risk Management",
 				"desc" : "Columbia University",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=MzfG3f9QEei65w7Gl4XZlA&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "Financial Markets",
 				"desc" : "Yale University",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=SgcGB0YOEeemlQrrzf9X-A&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "A Strategic Playbook for Becoming a Principled and Persuasive Negotiator",
 				"desc" : "Yale University",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=tGbJuel4EeSnMSIACzuFJw&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "Successful Negotiation: Essential Strategies and Skills",
 				"desc" : "University of Michigan",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=v0l76HmGEeSi3yIACzSGcw&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "Marketing Analytics",
 				"desc" : "University of Virginia",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=y20FTlDPEeWMlwoziUhyxQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "Managing the Company of the Future",
 				"desc" : "University of London, London Business School",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=bzhAuJ9sEeWJORITtzkPnQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "Communication Strategies for a Virtual Age",
 				"desc" : "University of Toronto",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=piI3I3igEeeogw6Liqr3Tg&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "Mindware: Critical Thinking for the Information Age",
 				"desc" : "University of Michigan",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=2e_l18MBEea6CwrxGAW0VA&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "Transmedia Storytelling: Narrative worlds, emerging technologies",
 				"desc" : "UNSW Sydney",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=0QsUTZowEeWOGRJpcxIcbQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			}
 		]
 	},
@@ -246,32 +246,32 @@
 			{
 				"title" : "Nutrition and Lifestyle in Pregnancy",
 				"desc" : "Ludwig-Maximilians-Universitat Munchen (LMU)",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=EtEAgQeUEea_hRLvvwwU3Q&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "Science of Exercise",
 				"desc" : "University of Colorado Boulder",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=KC6DzQqDEeenAhJZe8ktbg&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "Vital Signs: Understanding What the Body Is Telling Us",
 				"desc" : "University of Pennsylvania",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=5zjIsJq-EeW_wArffOXkOw&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "The Science of Well-Being",
 				"desc" : "Yale University",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=rUHfSakHEeeQ3gpuC4Fs_g&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "A Life of Happiness and Fulfillment",
 				"desc" : "Indian School of Business",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=QEXoJRBmEeWhsgqB1eduww&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "COVID-19 Contact Tracing",
 				"desc" : "Johns Hopkins University",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=xxP3poDiEeq4zBKgTIm8gQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			}
 		]
 	},
@@ -281,52 +281,52 @@
 			{
 				"title" : "AI For Everyone",
 				"desc" : "DeepLearning AI",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=daG-a-O1EeijKBISCWxf6g&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "Data Science Math Skills",
 				"desc" : "Duke University",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=2RGeY3RDEeatvg5z1JaMJw&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "Bitcoin and Cryptocurrency Technologies",
 				"desc" : "Princeton University",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=k9LPPi_EEeWv_w7cMMH1Uw&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "Algorithms, Part l",
 				"desc" : "Princeton University",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=yQcuJCOcEeagwg7hVay0BQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "Algorithms, Part ll",
 				"desc" : "Princeton University",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=fEHS45vFEeaF3g7NeAQepg&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "HTML, CSS, and Javascript for Web Developers",
 				"desc" : "Johns Hopkins University",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=vhLVVTe9EeWnxw5wP_KHTw&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "Learn to Program: The Fundamentals",
 				"desc" : "University of Toronto",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=o4yIjxxHEeWo5g5SXpDA8Q&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "Build Your First Android App (Project-Centered Course)",
 				"desc" : "CentraleSupelec",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=mKzzYp5YEeWVBgpelZA5Jw&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "Digital Systems: From Logic Gates to Processors",
 				"desc" : "Universitat Autonoma de Barcelona",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=yO1M0Hj6EeWX2xK7ROQidQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "The Age of Sustainable Development",
 				"desc" : "Columbia University",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=T_hpstgKEeSA2iIAC22KLw&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			}
 		]
 	},
@@ -336,22 +336,22 @@
 			{
 				"title" : "Fundamentals of Music Theory",
 				"desc" : "The University of Edinburgh",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=bu-bs9_HEeSNQCIAC2-J5Q&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "Introduction to Classical Music",
 				"desc" : "Yale University",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=eV-OTCTuEeWCGRL6mLoB5w&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "In the Studio: Postwar Abstract Painting",
 				"desc" : "The Museum of Modern Art",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=mCHpGhCGEearKQowajWNkQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			},
 			{
 				"title" : "Introduction to Philosophy",
 				"desc" : "The University of Edinburgh",
-				"href" : "#."
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=Auue1KA-EeS9VCIACyUcdg&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
 			}
 		]
 	}
