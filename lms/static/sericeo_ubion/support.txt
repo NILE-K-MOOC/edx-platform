@@ -5,32 +5,32 @@
 			{
 				"title" : "채용 트렌드의 이해",
 				"desc" : "최신 채용 트렌드 반영!\n 취업 성공을 위한 트렌드 완벽 분석",
-				"href" : "#."
+				"href" : "http://www.kmooc.kr/courses/course-v1:WJTB+WJTB11+2023_01/about"
 			},
 			{
 				"title" : "면접 스피치 전략",
 				"desc" : "최신 채용 트렌드 반영!\n 면접에서 승리하는 스피치 전략",
-				"href" : "#."
+				"href" : "http://www.kmooc.kr/courses/course-v1:WJTB+WJTB16+2023_01/about"
 			},
 			{
 				"title" : "주요 산업 분석을 통한\n 내게 맞는 산업군 설정하기",
 				"desc" : "최신 채용 트렌드 반영!\n 주요 산업군 분석 및 내게 알맞은 산업군 설정",
-				"href" : "#."
+				"href" : "http://www.kmooc.kr/courses/course-v1:WJTB+WJTB12+2023_01/about"
 			},
 			{
 				"title" : "공공기관, NCS\n 블라인드 채용의 이해",
 				"desc" : "최신 채용 트렌드 반영! 공공기관 취업 준비생들을 위한 NCS 블라인드 채용 완벽 분석",
-				"href" : "#."
+				"href" : "http://www.kmooc.kr/courses/course-v1:WJTB+WJTB15+2023_01/about"
 			},
 			{
 				"title" : "인문상경계열 직무분석",
 				"desc" : "최신 채용 트렌드 반영!\n 인문상경계열 취업\n 준비생들을 위한 직무 분석",
-				"href" : "#."
+				"href" : "http://www.kmooc.kr/courses/course-v1:WJTB+WJTB14+2023_01/about"
 			},
 			{
 				"title" : "이공계열 직무분석",
 				"desc" : "최신 채용 트렌드 반영!\n 이공계열 취업 준비생 들을 위한 직무 분석",
-				"href" : "#."
+				"href" : "http://www.kmooc.kr/courses/course-v1:WJTB+WJTB13+2023_01/about"
 			}
 		]
 	},
@@ -40,77 +40,77 @@
 			{
 				"title" : "마케팅 데이터 사이언스\n -파이썬편",
 				"desc" : "마케팅 전문가에게 필요한\n 데이터 분석 기법을 습득하는\n 마케팅 전략 필수 과정",
-				"href" : "#."
+				"href" : "http://www.kmooc.kr/courses/course-v1:WJTB+WJTB18+2023_01/about"
 			},
 			{
 				"title" : "R머신러닝",
 				"desc" : "엄청난 크기의 데이터를 다루기\n 위한 머신러닝 알고리즘 학습 및\n 데이터 분석 방법 습득",
-				"href" : "#."
+				"href" : "http://www.kmooc.kr/courses/course-v1:WJTB+WJTB17+2023_01/about"
 			},
 			{
 				"title" : "파이썬 머신러닝",
 				"desc" : "파이썬으로 프로그래밍해서\n 디자인하고, 데이터 분석을\n 쉽게 학습할 수 있는 과정",
-				"href" : "#."
+				"href" : "http://www.kmooc.kr/courses/course-v1:WJTB+WJTB19+2023_01/about"
 			},
 			{
 				"title" : "데이터 분석과 비즈니스를 위한\n 기초 통계학_상",
 				"desc" : "데이터 또는 숫자를 다뤄야\n 하는 사람이 꼭 알아야 하는\n 통계학 필수 과정",
-				"href" : "#."
+				"href" : "http://www.kmooc.kr/courses/course-v1:WJTB+WJTB20+2023_01/about"
 			},
 			{
 				"title" : "데이터 분석과 비즈니스를 위한\n 기초 통계학_하",
 				"desc" : "데이터 또는 숫자를 다뤄야\n 하는 사람이 꼭 알아야 하는\n 통계학 필수 과정",
-				"href" : "#."
+				"href" : "http://www.kmooc.kr/courses/course-v1:WJTB+WJTB21+2023_01/about"
 			},
 			{
 				"title" : "투자를 위한 거시경제",
 				"desc" : "거시경제 핵심 개념과 원리를\n 제대로 배우는 거시경제 입문 강의",
-				"href" : "#."
+				"href" : "http://www.kmooc.kr/courses/course-v1:WJTB+WJTB22+2023_01/about"
 			},
 			{
-				"title" : "Everyday Finance",
+				"title" : "금융전문가에게 배우는 부자되는 가장 확실한 방법",
 				"desc" : "경제생활의 첫걸음에 필요한\n 필수 경제금융 지식과 현명한\n 자산관리 방법 학습",
-				"href" : "#."
+				"href" : "http://www.kmooc.kr/courses/course-v1:WJTB+WJTB23+2023_01/about"
 			},
 			{
-				"title" : "Reading Global Economy",
+				"title" : "금융전문가에게 배우는 글로벌 경제분석과 주식 투자 전략",
 				"desc" : "개인 경제활동 및 투자에 대한\n 의사결정을 도와주는 경제금융 기본과정",
-				"href" : "#."
+				"href" : "http://www.kmooc.kr/courses/course-v1:WJTB+WJTB24+2023_01/about"
 			},
 			{
-				"title" : "Essential Investment_상",
+				"title" : "금융전문가에게 배우는 주식과 채권, 펀드를 이해하고 투자하기_상",
 				"desc" : "개인의 합리적인 자산관리\n 역량을 키워주는 자산관리 패키지",
-				"href" : "#."
+				"href" : "http://www.kmooc.kr/courses/course-v1:WJTB+WJTB25+2023_01/about"
 			},
 			{
-				"title" : "Essential Investment_하",
+				"title" : "금융전문가에게 배우는 주식과 채권, 펀드를 이해하고 투자하기_하",
 				"desc" : "개인의 합리적인 자산관리\n 역량을 키워주는 자산관리 패키지",
-				"href" : "#."
+				"href" : "http://www.kmooc.kr/courses/course-v1:WJTB+WJTB26+2023_01/about"
 			},
 			{
 				"title" : "R을 이용한 데이터 분석",
 				"desc" : "비싼 통계 패키지를 사용하지\n 않아도 다양한 분야에서\n 빅데이터를 원하는 형태로 활용",
-				"href" : "#."
+				"href" : "http://www.kmooc.kr/courses/course-v1:WJTB+WJTB27+2023_01/about"
 			},
 			{
 				"title" : "R을 이용한 금융데이터 분석",
 				"desc" : "투자포트폴리오 구성\n 및 성과 분석에 가장 효과적인 R프로그래밍",
-				"href" : "#."
+				"href" : "http://www.kmooc.kr/courses/course-v1:WJTB+WJTB28+2023_01/about"
 			},
 			{
 				"title" : "파이썬을 이용한 데이터 분석",
 				"desc" : "최신 채용 트렌드 반영!\n 취업 성공을 위한 트렌드 완벽 분석",
-				"href" : "#."
+				"href" : "http://www.kmooc.kr/courses/course-v1:WJTB+WJTB29+2023_01/about"
 			},
 			{
 				"title" : "차근차근 부자가 되는 첫걸음,\n 자산배분",
 				"desc" : "안정적인 수익을 낼 수 있는\n 자산배분 포트폴리오를 만들\n 수 있는 전략적 자산관리 과정",
-				"href" : "#."
+				"href" : "http://www.kmooc.kr/courses/course-v1:WJTB+WJTB30+2023_01/about"
 			},
 			{
 				"title" : "중간관리자가 알아야하는\n 머신러닝과 빅데이터 기법",
 				"desc" : "프로그래밍 없이 엑셀로\n 풀어가는 데이터 사이언스",
-				"href" : "#."
+				"href" : "http://www.kmooc.kr/courses/course-v1:WJTB+WJTB31+2023_01/about"
 			}
 			
 		]
