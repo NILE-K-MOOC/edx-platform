@@ -7,7 +7,9 @@ from django.core.urlresolvers import reverse
 from microsite_configuration import microsite
 from openedx.core.djangolib.markup import HTML, Text
 %>
-
+<style>
+.gnb .quick-menu {z-index: 6;}
+</style>
 <div class="window-wrap kr01-area">
 
     <!-- 취업지원강좌 -->
@@ -26,21 +28,21 @@ from openedx.core.djangolib.markup import HTML, Text
 
 
         <!-- tab menu -->
-##                 <div class="support-tabmenu">
-##                     <div class="inner">
-##                         <ul>
-##                             <li>
-##                                 <button data-id="sec-support1">취업 성공을<br class="br-lg"/> 위한 스킬 UP!</button>
-##                             </li>
-##                             <li>
-##                                 <button data-id="sec-support2">데이터 분석,<br class="br-lg"/> 경제, 금융 지식 UP!</button>
-##                             </li>
-##                             <li>
-##                                 <button data-id="sec-support3">시사 상식과<br class="br-lg"/> 인문학적 소양 UP!</button>
-##                             </li>
-##                         </ul>
-##                     </div>
-##                 </div>
+                <div class="support-tabmenu">
+                    <div class="inner">
+                        <ul>
+                            <li>
+                                <button data-id="sec-support1">취업 성공을<br class="br-lg"/> 위한 스킬 UP!</button>
+                            </li>
+                            <li>
+                                <button data-id="sec-support2">데이터 분석,<br class="br-lg"/> 경제, 금융 지식 UP!</button>
+                            </li>
+                            <li>
+                                <button data-id="sec-support3">시사 상식과<br class="br-lg"/> 인문학적 소양 UP!</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </section>
         <!-- sec-support-top -->
