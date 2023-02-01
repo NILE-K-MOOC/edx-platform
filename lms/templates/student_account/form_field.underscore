@@ -1,4 +1,4 @@
-<% // 변경 전 버젼 %>
+<% // 변경 후 버젼 %>
 <div class="form-field <%- type %>-<%- name %>">
     <% if ( type !== 'checkbox' && type !== 'plaintext') { %>
         <label for="<%- form %>-<%- name %>">
@@ -166,18 +166,13 @@
                     } %>
                     <% if ( placeholder ) { %> placeholder="<%- placeholder %>"<% } %>
                     value="<%- defaultValue %>"
-                    style="width: 38%; float: left; margin: 0;"
+                    style="width: 100%; float: left; margin: 0;"
+                   <% // style="width: 38%; float: left; margin: 0;" %>
                 />
 
+<% // 기존 실명인증 버튼 s %>
 
-                <button type="button" class="action action-primary identity" style="width: 20%; margin: 0 0 0 2%; padding:0; height: 32px;" title="실명 인증 버튼 및 새창 알림">
-                    <%- gettext("Authentication") %>
-                </button>
-
-                <button type="button" class="action action-primary " id="kakao_identity_regist" style="width: 37%; margin: 0 0 0 2%; padding:0; height: 32px; box-shadow: none; background: #f1d900; color:black; font-weight: 500; font-size: 15px" title="카카오 페이 실명 인증 버튼">
-                    <%- gettext("KaKao Authentication") %>
-                </button>
-
+<% // 기존 실명인증 버튼 e %>
             <div id="kakao_form" style="float: left; width: 100%;" hidden>
                 <div class="acbs-wrap"  id="">
                     <div class="acbs-group" >
@@ -392,3 +387,34 @@
         <span class="tip tip-input" id="register-subemail-desc"><%- gettext("This email is for find primary email.") %></span>
     </div>
 <% } %>
+
+
+<% // 실명인증 버튼을 성별 및 출생연도 및으로 이동  %>
+<% if ( form === 'register' && name === 'year_of_birth' ) { %>
+    <div class="form-field authentication">
+        <label for="register-authentication">
+            <span class="label-text">실명인증 *</span>
+            <span class="label-optional" id="register-authentication-optional-label"><%- optionalStr %></span>
+        </label>
+<% // 실명인증버튼 start %>
+
+
+    <div class="info_div" style="border:1px solid #ccc; padding: 20px; text-align:center"">
+
+         <button type="button" class="action action-primary identity" style="width: 40%; margin: 0 0 0 2%; padding:0; height: 32px; color:#fff;" title="실명 인증 버튼 및 새창 알림">
+             <%- gettext("Authentication") %>
+         </button>
+
+         <button type="button" class="action action-primary " id="kakao_identity_regist" style="width: 40%; margin: 0 0 0 2%; padding:0; height: 32px; box-shadow: none; background: #f1d900; color:black; font-weight: 500; font-size: 16px" title="카카오 페이 실명 인증 버튼">
+             <%- gettext("KaKao Authentication") %>
+         </button>
+
+    </div>
+    <span class="tip tip-input" id="register-name-desc">본인인증시 이메일 찾기의 기능을 이용할 수 있습니다.</span>
+</div>
+<% } %>
+
+ <% // 실명인증버튼 end %>
+
+
+
