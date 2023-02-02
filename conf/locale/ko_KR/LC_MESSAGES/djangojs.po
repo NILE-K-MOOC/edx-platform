@@ -8670,6 +8670,9 @@ msgstr "오류가 발생했습니다. 페이지를 다시 열어주세요."
 msgid "Forgot password?"
 msgstr "비밀번호를 잊어버리셨나요?"
 
+msgid "Name Authentication"
+msgstr "실명 인증"
+
 #: lms/templates/student_account/hinted_login.underscore
 #, python-format
 msgid "Would you like to sign in using your %(providerName)s credentials?"
