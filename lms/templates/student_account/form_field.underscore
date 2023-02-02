@@ -399,7 +399,7 @@
 <% // 실명인증버튼 start %>
 
 
-    <div class="info_div" style="border:1px solid #ccc; padding: 20px; text-align:center"">
+    <div class="info_div2" style="border:1px solid #ccc; padding: 20px; text-align:center"">
 
          <button type="button" class="action action-primary identity" style="width: 40%; margin: 0 0 0 2%; padding:0; height: 32px; color:#fff;" title="실명 인증 버튼 및 새창 알림">
              <%- gettext("Authentication") %>
