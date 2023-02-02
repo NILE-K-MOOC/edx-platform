@@ -1509,7 +1509,7 @@ input:focus, button:focus, textarea:focus {
 /* For ie */
 button.button-primary.login-provider{
 	padding: 0 0 0 33px;
-	width: 115px;
+	width: 130px;
 	margin: 3px 0;
 }
 
