@@ -1992,6 +1992,7 @@
         "Chapters must have value": "\uc8fc\ucc28\ub294 \ud544\uc218 \uc785\ub825 \uc785\ub2c8\ub2e4\u002e",
         "Calculated must have value": "\uD559\uC2B5\uC778\uC815\uC2DC\uAC04\uC740 \uD544\uC218 \uC785\uB825 \uC785\uB2C8\uB2E4",
         "Authentication": "\uC2E4\uBA85\uC778\uC99D",
+        "Name Authentication": "\uc2e4\uba85 \uc778\uc99d",
         "Authenticationed": "\u0028\uc73c\u0029\ub85c \uc2e4\uba85\uc778\uc99d \ub418\uc5c8\uc2b5\ub2c8\ub2e4\u002e",
         "KaKao Authentication": "\uCE74\uCE74\uC624\uD398\uC774 \uBCF8\uC778\uC778\uC99D",
         "Authentication complete": "\uC778\uC99D \uC644\uB8CC",
