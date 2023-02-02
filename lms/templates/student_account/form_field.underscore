@@ -393,7 +393,7 @@
 <% if ( form === 'register' && name === 'year_of_birth' ) { %>
     <div class="form-field authentication">
         <label for="register-authentication">
-            <span class="label-text">실명인증 *</span>
+            <span class="label-text"> <%- gettext("Name Authentication") %> </span>
             <span class="label-optional" id="register-authentication-optional-label"><%- optionalStr %></span>
         </label>
 <% // 실명인증버튼 start %>
@@ -410,7 +410,6 @@
          </button>
 
     </div>
-    <span class="tip tip-input" id="register-name-desc">본인인증시 이메일 찾기의 기능을 이용할 수 있습니다.</span>
 </div>
 <% } %>
 

@@ -28229,3 +28229,6 @@ msgstr "본 강좌는 콘텐츠 제공기관(EBS)의 운영 정책상 해당 국
 
 msgid "Match UP"
 msgstr "매치업 과정"
+
+msgid "Name Authentication"
+msgstr "실명 인증"
