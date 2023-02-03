@@ -175,7 +175,7 @@
     $(".register").click(function(event) {
         % if not user.is_authenticated():
             alert('${_("You need to register to enrollment.")}');
-            location.href = "/login";
+            window.location.href = "/login";
         % else:
             $("#class_enroll_form").submit();
         % endif
