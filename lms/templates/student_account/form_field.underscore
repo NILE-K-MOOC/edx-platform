@@ -1,5 +1,4 @@
 <% // 변경 후 버젼 %>
-<% // 23.02.03 optionalStr 을 gettext 번역으로 변경하면 "실명인증, 최종학력, 관심갖은 이유"에 변경되어 잘 작동함. 번역 파일 djangojs.js lms, cms 모두 등록 필요. 보조이메일의 optional 은 이 페이지에서 수정이 불가. 찾아야함 %>
 
 <div class="form-field <%- type %>-<%- name %>">
     <% if ( type !== 'checkbox' && type !== 'plaintext') { %>
