@@ -49,6 +49,7 @@ from util.json_request import JsonResponse
 from django.db import connections
 from pymongo import MongoClient
 from bson import ObjectId
+from django.shortcuts import redirect
 
 log = logging.getLogger(__name__)
 
@@ -167,11 +168,19 @@ def check_course_access(course, user, action, check_if_enrolled=False, check_sur
     if not access_response:
         # Redirect if StartDateError
         if isinstance(access_response, StartDateError):
+            # old login 화면으로 리다이렉트되는 것을 막고, new login 화면으로 연결하기 위함.
+            # 이 redirect 처리로 대시보드에서 '본 강좌 학습을 위해서는 로그인을 하시거나 회원가입을 해주세요' 메세지 표출됨. 대신 아래 코드처럼 대시보드의 개강예정 날짜 보여주는 메세지는 표출안됨.
+            # 링크 클릭하여 로그인 후엔 등록되어 '강의 영상 탭' 이 보여짐
+            return redirect('/login')
+
+            #old
             start_date = strftime_localized(course.start, 'SHORT_DATE')
             params = QueryDict(mutable=True)
             params['notlive'] = start_date
-            raise CourseAccessRedirect('{dashboard_url}?{params}'.format(
-                dashboard_url=reverse('dashboard'),
+            raise CourseAccessRedirect('{dashboard_url}?{params}'.format( # /, %2F 등을 {dashboard_url} 앞에 붙이면 로그인이아니라 courses로 리다이렉트 e.g. 'http://0.0.0.0:18000/courses/course-v1:edX+DemoX+Demo_Course/%2F/dashboard?notlive=2024%EB%85%841%EC%9B%9401%EC%9D%BC'
+                                                                          #http://0.0.0.0:18000/login?next=/dashboard%3Fnotlive%3D2024%25EB%2585%25841%25EC%259B%259401%25EC%259D%25BC -> 개강날짜 인코딩 2024년1월01일 쿼리로 보내준 것
+                                                                          #http://0.0.0.0:18000/dashboard?notlive=2024%EB%85%841%EC%9B%9401%EC%9D%BC 대시보드로 이동하여 '이 강좌는 2024년 1월01일일부터 개강됩니다 ' 메세지 표출
+                dashboard_url=reverse('dashboard'), # dashboard 앞에 문자등을 붙이면 error
                 params=params.urlencode()
             ), access_response)
 
