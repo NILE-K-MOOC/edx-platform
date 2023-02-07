@@ -25074,6 +25074,12 @@ msgstr "전체 동의하지 않음"
 msgid "Privacy policy (or Personal information processing policy)"
 msgstr "개인정보 수집 및 이용 동의"
 
+msgid "Collection and Use of Personal Information"
+msgstr "개인정보 수집 및 이용 동의"
+
+msgid "Receiving Information related to Public relations and Surveys"
+msgstr "홍보·설문 관련 정보 수신 동의"
+
 # templates/student_account/registration_gubn.html
 
 msgid "Choose your subscription type."
