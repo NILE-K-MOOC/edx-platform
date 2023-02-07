@@ -1031,6 +1031,7 @@
         "organization": "\uae30\uad00",
         "Other": "\uae30\ud0c0",
         "Others": "\uae30\ud0c0",
+        "optional": "\uc120\ud0dd",
         "Page break": "\ucabd \ub098\ub204\uae30",
         "Page number": "\ud398\uc774\uc9c0 \uc22b\uc790",
         "Pagination": "\ud398\uc774\uc9c0\ubc88\ud638",

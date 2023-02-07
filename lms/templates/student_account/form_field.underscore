@@ -1,4 +1,6 @@
 <% // 변경 후 버젼 %>
+<% // 23.02.03 optionalStr 을 gettext 번역으로 변경하면 "실명인증, 최종학력, 관심갖은 이유"에 변경되어 잘 작동함. 번역 파일 djangojs.js lms, cms 모두 등록 필요. 보조이메일의 optional 은 이 페이지에서 수정이 불가. 찾아야함 %>
+
 <div class="form-field <%- type %>-<%- name %>">
     <% if ( type !== 'checkbox' && type !== 'plaintext') { %>
         <label for="<%- form %>-<%- name %>">
@@ -11,7 +13,7 @@
                 <span class="icon fa" id="<%- form %>-<%- name %>-validation-icon" aria-hidden="true"></span>
             <% } %>
             <% if ( !required && optionalStr && (type !== 'hidden') ) { %>
-                <span class="label-optional" id="<%- form %>-<%- name %>-optional-label"><%- optionalStr %></span>
+                <span class="label-optional" id="<%- form %>-<%- name %>-optional-label">(<%- gettext("optional") %>)</span>
             <% } %>
         </label>
         <% if (supplementalLink && supplementalText) { %>
@@ -333,7 +335,7 @@
                     <span class="icon fa" id="<%- form %>-<%- name %>-validation-icon" aria-hidden="true"></span>
                 <% } %>
                 <% if ( !required && optionalStr ) { %>
-                    <span class="label-optional" id="<%- form %>-<%- name %>-optional-label"><%- optionalStr %></span>
+                    <span class="label-optional" id="<%- form %>-<%- name %>-optional-label">(<%- gettext("optional") %>)</span>
                 <% } %>
             </label>
         <% } %>
@@ -361,7 +363,7 @@
     <div class="form-field email-subemail">
         <label for="register-subemail">
             <span class="label-text"><%- gettext("Secondary email") %></span>
-            <span class="label-optional" id="register-subemail-optional-label">(optional)</span>
+            <span class="label-optional" id="register-subemail-optional-label">(<%- gettext("optional") %>)</span>
         </label>
 
         <input id="register-subemail"
@@ -394,7 +396,7 @@
     <div class="form-field authentication">
         <label for="register-authentication">
             <span class="label-text"> <%- gettext("Name Authentication") %> </span>
-            <span class="label-optional" id="register-authentication-optional-label"><%- optionalStr %></span>
+            <span class="label-optional" id="register-authentication-optional-label">(<%- gettext("optional") %>)</span>
         </label>
 <% // 실명인증버튼 start %>
 
