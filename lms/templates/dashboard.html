@@ -31,7 +31,7 @@ from student.models import CourseEnrollment
 
 <style>
     .faq-tab {
-        max-width: 700px;
+        max-width: 800px;
         margin-bottom: 0px;
     }
 
@@ -124,7 +124,7 @@ from student.models import CourseEnrollment
                             '    <section class="details">'+
                             '      <div class="kr01_dashArea">'+
                             '        <h2 class="hd hd-2 sr">강좌 세부사항</h2>'+
-                            '        <div class="kr01_dashImg" aria-hidden="true">'+
+                            '        <div class="탭" aria-hidden="true">'+
                             '          <a href="#" class="cover" tabindex="0">'+
                             '            <img src="' + course_image + '" class="course-image" onerror="this.src=\'/static/images/blank.png\'">'+
                             '          </a>'+
@@ -541,6 +541,10 @@ from student.models import CourseEnrollment
                     % else:
                     <a href="#" class="${'on' if status_flag == 'ing' or not status_flag else ''}  dash-link" data-status="ing" title="${_("ing course")} ${'현재탭' if status_flag == 'ing' or not status_flag else ''}" aria-label="${_("ing course")} ${'현재탭' if status_flag == 'ing' or not status_flag else ''}"><span>${_("ing course")}</span>
                     </a>
+                    <a href="#" data-status="matchup" class="${'on' if status_flag == 'matchup' else ''} dash-link"
+                       title="${_("MatchUP")} ${'현재탭' if status_flag == 'matchup' else ''}"
+                       aria-label="${_("MatchUP")} ${'현재탭' if status_flag == 'matchup' else ''}"><span>${_("MatchUP")}</span>
+                    </a>
                     <a href="#" data-status="audit" class="${'on' if status_flag == 'audit' else ''} dash-link"  title="${_("Audit Course")} ${'현재탭' if status_flag == 'audit' else ''}" aria-label="${_("Audit Course")} ${'현재탭' if status_flag == 'audit' else ''}"><span>${_("Audit Course")}</span>
                     </a>
                     % endif
@@ -548,6 +552,7 @@ from student.models import CourseEnrollment
                     </a>
                     <a href="#" data-status="interest" class="${'on' if status_flag == 'interest' else ''} dash-link"  title="${_("interest")} ${'현재탭' if status_flag == 'interest' else ''}" aria-label="${_("interest")} ${'현재탭' if status_flag == 'interest' else ''}"><span>${_("interest")}</span>
                     </a>
+
                 </nav>
                 <div class="sub-end">
                     <a href="javascript:focusTo(1);">이수강좌</a> | <a href="javascript:focusTo(2);">미이수강좌</a>
@@ -850,5 +855,25 @@ from student.models import CourseEnrollment
     $('.close-modal').click(function () {
         $('#' + course_index).next().addClass('is-visible');
     });
+
+
+
+    var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+
+    if (viewportWidth <= 640) {
+        var tab = document.querySelector("#myClassTab");
+
+        var mobileTabString = '<a href="#" data-status="interest" class="${'on' if status_flag == 'interest' else ''} dash-link"  title="${_("interest")} ${'현재탭' if status_flag == 'interest' else ''}" aria-label="${_("interest")} ${'현재탭' if status_flag == 'interest' else ''}"> ' +
+                              '<span>${_("interest")}</span>' +
+                              '</a>';
+
+        ##  var newTabElement =  document.createElement("div");
+        ##      newTabElement.innerHTML = "This is a new element";
+
+        ##  tab.appendChild(newTabElement);
+
+        tab.innerHTML += mobileTabString;
+
+    }
 
 </script>

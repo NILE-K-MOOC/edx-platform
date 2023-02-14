@@ -2507,6 +2507,14 @@ article.course.none .kr01-courInfo-bar {
     z-index: 100;
 }
 
+/* 대시보드 매치업 */
+.kr01-matchupArea.dashboard {
+    position: absolute;
+    left: 115px;
+    top: 25px;
+    z-index: 100;
+}
+
 .kr01-ribbonArea img {
     /*max-height: 56px;*/
 }

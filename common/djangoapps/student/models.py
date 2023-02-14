@@ -1729,6 +1729,7 @@ class CourseEnrollment(models.Model):
                 SELECT a.*
                   FROM student_courseenrollment a, course_overviews_courseoverview b
                  WHERE     a.course_id = b.id
+                       AND a.course_id not like '%%MATCHUP%%'
                        AND now() <= adddate(b.end, INTERVAL 9 HOUR)
                        and a.is_active = 1
                        AND a.user_id = %s
@@ -1828,6 +1829,22 @@ class CourseEnrollment(models.Model):
                          FROM tb_recommend_course
                         WHERE user_id = {user_id});
                 '''.format(user_id=user.id))
+
+
+    @classmethod
+    def enrollments_for_user_matchup(cls, user):
+        return cls.objects.raw('''
+                SELECT a.*
+                  FROM student_courseenrollment a, course_overviews_courseoverview b
+                 WHERE     a.course_id = b.id
+                       AND a.course_id like '%%MATCHUP%%'
+                       AND now() <= adddate(b.end, INTERVAL 9 HOUR)
+                       and a.is_active = 1
+                       AND a.user_id = %s
+
+                ORDER BY b.start DESC;
+            ''', [user.id])
+
 
     @classmethod
     def enrollments_for_user_with_overviews_preload(cls, user):  # pylint: disable=invalid-name

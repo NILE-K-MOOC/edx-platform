@@ -250,6 +250,8 @@ def get_course_enrollments(user, org_to_include, orgs_to_exclude, status=None, s
         enrollments = CourseEnrollment.enrollments_for_user_interest(user)
     elif status == 'propose':
         enrollments = CourseEnrollment.enrollments_for_user_propose(user)
+    elif status == 'matchup':
+        enrollments = CourseEnrollment.enrollments_for_user_matchup(user)
     elif status == 'cb':
         enrollments = []
     else:
@@ -706,6 +708,12 @@ def student_dashboard(request):
 
     status = request.GET.get('status')
     status_ = request.POST.get('status_')
+
+    print('-----------------------------dashabord request ----s--------------------------')
+    print(status)
+    print(status_)
+    print('-----------------------------dashabord request ----e--------------------------')
+
 
     # 이수/종료강좌 분기
     if status_ == 'end':
