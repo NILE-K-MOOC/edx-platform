@@ -39,6 +39,20 @@ from student.models import CourseEnrollment
         padding: 15px 0 0 0;
     }
 
+    .faq-tab > a.dash-link.interest-tab {
+        display: table-cell;
+        padding: 15px 0;
+        color: #fff;
+        background: #51575a;
+        text-align: center;
+        border-left: solid 2px #fff;
+        vertical-align: middle;
+        line-height: 1.1em;
+        font-weight: 700;
+        font-size: 17px;
+        width: 100%;
+    }
+
     .progress {
         margin-top: 13px;
         height: 2px;
@@ -857,23 +871,13 @@ from student.models import CourseEnrollment
     });
 
 
+     var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+## 화면이 작아졌을 때, 마지막 자식요소에 클래스를 넣어줌. -> interest-tab , css 가 적용되면서 관심강좌가 전체를 차지하도록 함.
+     if (viewportWidth <= 640) {
+         var tab = document.querySelector('#myClassTab');
+         var lastChild = tab.lastElementChild;
+         lastChild.classList.add('interest-tab');
+     }
 
-    var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
-
-    if (viewportWidth <= 640) {
-        var tab = document.querySelector("#myClassTab");
-
-        var mobileTabString = '<a href="#" data-status="interest" class="${'on' if status_flag == 'interest' else ''} dash-link"  title="${_("interest")} ${'현재탭' if status_flag == 'interest' else ''}" aria-label="${_("interest")} ${'현재탭' if status_flag == 'interest' else ''}"> ' +
-                              '<span>${_("interest")}</span>' +
-                              '</a>';
-
-        ##  var newTabElement =  document.createElement("div");
-        ##      newTabElement.innerHTML = "This is a new element";
-
-        ##  tab.appendChild(newTabElement);
-
-        tab.innerHTML += mobileTabString;
-
-    }
 
 </script>
