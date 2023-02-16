@@ -359,9 +359,9 @@ main.subscription a.event_btn.black {
 }
 
 .info-reapply {
-    color: #000000;
+    color: #ffffff;
     font-size: 22px;
-    font-weight: 300;
+    font-weight: 500;
     padding: 15px 40px;
 }
 
@@ -374,12 +374,27 @@ main.subscription a.event_btn.black {
 }
 
 @media only screen and (max-width: 480px) {
-.info-reapply {
-    color: #000000;
-    font-size: 18px;
-    font-weight: 300;
-    padding: 10px 40px;
-}
+    .info-reapply-bottom {
+        color: #000000;
+        font-size: 18px;
+        font-weight: 500;
+        padding: 10px;
+        text-align: left;
+
+    }
+
+    .info-reapply {
+         position: absolute;
+         top: 60px;
+         left: 0;
+         color: white;
+         font-size: 18px;
+         padding: 10px;
+         color: white;
+         font-weight: 300;
+
+    }
+
 }
 
 
@@ -410,8 +425,11 @@ main.subscription a.event_btn.black {
                     글로벌 <strong class="mooc"><span class="hidden">mooc</span></strong><br>
                     학습자 모집
                 </h2>
+                <div style="position: relative;">
                     <button type="button"  class="event_btn" id="btnMobile" style="background: #909090" onclick="alert('구독권 모집이 모두 마감되었습니다. \n2기 모집은 5/22(월)부터 시작됩니다.')">1기 모집 마감<i class="arrow"></i></button>
                     <a href="https://kmooc.udemy.com/" target="_blank" class="event_btn black" >학습하기<i class="arrow"></i></a>
+                    <div class="info-reapply"> *5/22(월) 2기 재모집 </div>
+                </div>
 ## 구독권 신청 기간
 ##             % if user.is_authenticated:
 ##                 <button type="button" class="event_btn" onclick="openPopupKmooc('udemy')">구독권 신청<i class="arrow"></i>
@@ -1115,26 +1133,5 @@ main.subscription a.event_btn.black {
         }
     }
 
-
-</script>
-
-<script>
-    var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
-
-    if (viewportWidth <= 640) {
-        var tab = document.querySelector("#btnMobile");
-
-        var mobileTabString = '<div class="info-reapply"> *5/22(월) 2기 재모집 </div>';
-
-        tab.innerHTML += mobileTabString;
-
-    } else {
-        var tab = document.querySelector("#btnPC");
-
-        var mobileTabString = '<div class="info-reapply"> *5/22(월) 2기 재모집 </div>';
-
-        tab.innerHTML += mobileTabString;
-    }
-btnMobile
 
 </script>
