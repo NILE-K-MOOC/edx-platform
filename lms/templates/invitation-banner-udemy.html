@@ -356,6 +356,33 @@ main.subscription a.event_btn.black {
     margin-left: 10px;
     background: #000;
     color: #fff;
+}
+
+.info-reapply {
+    color: #000000;
+    font-size: 22px;
+    font-weight: 300;
+    padding: 15px 40px;
+}
+
+.info-reapply-bottom {
+    color: #000000;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 10px;
+    text-align: center;
+}
+
+@media only screen and (max-width: 480px) {
+.info-reapply {
+    color: #000000;
+    font-size: 18px;
+    font-weight: 300;
+    padding: 10px 40px;
+}
+}
+
+
 
 </style>
 
@@ -377,14 +404,14 @@ main.subscription a.event_btn.black {
 <main class="subpage subscription udemy">
     <section class="intro">
         <div class="container">
-            <div class="box_title">
+            <div class="box_title" id="btnPC">
                 <p class="subtitle"><span class="en">K-MOOC</span>의 특별혜택!</p>
                 <h2>
                     글로벌 <strong class="mooc"><span class="hidden">mooc</span></strong><br>
                     학습자 모집
                 </h2>
-                    <button type="button" class="event_btn" style="background: #909090" onclick="alert('구독권 모집이 모두 마감되었습니다. \n2기 모집은 5/22(월)부터 시작됩니다.')">1기 모집 마감<i class="arrow"></i></button>
-                    <a href="https://kmooc.udemy.com/" target="_blank" class="event_btn black">학습하기<i class="arrow"></i></a>
+                    <button type="button"  class="event_btn" id="btnMobile" style="background: #909090" onclick="alert('구독권 모집이 모두 마감되었습니다. \n2기 모집은 5/22(월)부터 시작됩니다.')">1기 모집 마감<i class="arrow"></i></button>
+                    <a href="https://kmooc.udemy.com/" target="_blank" class="event_btn black" >학습하기<i class="arrow"></i></a>
 ## 구독권 신청 기간
 ##             % if user.is_authenticated:
 ##                 <button type="button" class="event_btn" onclick="openPopupKmooc('udemy')">구독권 신청<i class="arrow"></i>
@@ -780,7 +807,9 @@ main.subscription a.event_btn.black {
 ## 구독권 마감
                             <button type="button" class="apply_btn" style="background: #808080"
                                     onclick="alert('구독권 모집이 모두 마감되었습니다. \n2기 모집은 5/22(월)부터 시작됩니다.')">1기 구독권 모집 마감<i class="arrow"></i></button>
-
+                        <div class="info-reapply-bottom">
+                            *5/22(월) 2기 재모집 예정
+                        </div>
 
 ## 구독권 신청 기간
 ##                         % if user.is_authenticated:
@@ -1087,6 +1116,25 @@ main.subscription a.event_btn.black {
     }
 
 
+</script>
 
+<script>
+    var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+
+    if (viewportWidth <= 640) {
+        var tab = document.querySelector("#btnMobile");
+
+        var mobileTabString = '<div class="info-reapply"> *5/22(월) 2기 재모집 </div>';
+
+        tab.innerHTML += mobileTabString;
+
+    } else {
+        var tab = document.querySelector("#btnPC");
+
+        var mobileTabString = '<div class="info-reapply"> *5/22(월) 2기 재모집 </div>';
+
+        tab.innerHTML += mobileTabString;
+    }
+btnMobile
 
 </script>

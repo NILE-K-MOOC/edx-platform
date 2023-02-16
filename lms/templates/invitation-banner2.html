@@ -987,6 +987,48 @@ button.invitation_submit:focus:not(:disabled){
     background-color: #002c90 !important;
 }
 
+/* 신청 마감시 버튼 하단 재모집 일자 표시 */
+
+.info-reapply {
+    color: #000000;
+    font-size: 30px;
+    font-weight: 700;
+    margin: 20px;
+}
+
+.info-reapply-bottom {
+    bottom: 1080px;
+    color: #000000;
+    font-size: 25px;
+    font-weight: 700;
+    position: absolute;
+    width: 100%;
+}
+
+.rec_sec04 .inner {
+    position: relative;
+}
+
+@media only screen and (max-width: 480px) {
+    .info-reapply {
+        font-size: 20px;
+        padding: 10px 0;
+        width: 325px;
+        margin: 0 auto;
+        display: block;
+    }
+
+/*높이가 화면에 따라 달라짐 ㅜㅜ 이미지로 박는게 나을까?*/
+    .info-reapply-bottom {
+        bottom: 645px;
+        color: #000000;
+        font-size: 20px;
+        font-weight: 700;
+        position: absolute;
+        width: 100%;
+    }
+}
+
 
 
 </style>
@@ -1010,16 +1052,26 @@ button.invitation_submit:focus:not(:disabled){
         <img class="sec01_bg" src="${STATIC_URL}/images/invitation220830/bg_visual_01_2.gif" alt="bg_visual_01">
         <div class="itemWrap">
             <img src="${STATIC_URL}/images/invitation220830/sec01_item.png" alt="sec01_item">
-            % if user.is_authenticated:
-                <div class="invitation_btn invitation_enroll" onclick="onShowEvent()">
-                            <img src="${STATIC_URL}/images/invitation220830/btn_01.png" alt="btn_01">
+## 구독권 마감
+                <div class="invitation_btn invitation_enroll" onclick="alert('구독권 모집이 모두 마감되었습니다. \n2기 모집은 5/22(월)부터 시작됩니다.')">
+                    <img src="${STATIC_URL}/images/invitation220830/btn_01_end.png" alt="btn_01">
                 </div>
-            % else:
-                <!--    로그인이 필요합니다. 로그인 페이지로 리다이렉트 window.location.href = "/login"; -->
-                <div class="invitation_btn invitation_enroll" onclick="onDirection()">
-                    <img src="${STATIC_URL}/images/invitation220830/btn_01.png" alt="btn_01">
-                </div>
-            % endif
+
+            <div class="info-reapply">
+                *5/22(월) 2기 재모집 예정
+            </div>
+
+            ## 구독권 신청
+            ##             % if user.is_authenticated:
+            ##                 <div class="invitation_btn invitation_enroll" onclick="onShowEvent()">
+            ##                             <img src="${STATIC_URL}/images/invitation220830/btn_01.png" alt="btn_01">
+            ##                 </div>
+            ##             % else:
+            ##                 <!--    로그인이 필요합니다. 로그인 페이지로 리다이렉트 window.location.href = "/login"; -->
+            ##                 <div class="invitation_btn invitation_enroll" onclick="onDirection()">
+            ##                     <img src="${STATIC_URL}/images/invitation220830/btn_01.png" alt="btn_01">
+            ##                 </div>
+            ##             % endif
         </div>
     </div>
 </section>
@@ -1073,19 +1125,35 @@ button.invitation_submit:focus:not(:disabled){
             <!-- <img src="./img/bg_02.png" alt="bg_02"> -->
         </div>
     <!--  <a class="btn03" href="#"><img src="${STATIC_URL}/images/invitation220830/btn_03.png" alt="btn_03"></a> -->
-
-        % if user.is_authenticated:
-            <div class="invitation_btn invitation_enroll" onclick="onShowEvent()">
-                 <img src="${STATIC_URL}/images/invitation220830/btn_03.png" alt="btn_03">
+## 구독권 마감
+            <div class="invitation_btn invitation_enroll" onclick="alert('구독권 모집이 모두 마감되었습니다. \n2기 모집은 5/22(월)부터 시작됩니다.')">
+                 <img src="${STATIC_URL}/images/invitation220830/btn_03_end.png" alt="btn_03">
             </div>
-        % else:
-            <!--    로그인이 필요합니다. 로그인 페이지로 리다이렉트 window.location.href = "/login"; -->
-            <div class="invitation_btn invitation_enroll" onclick="onDirection()">
-                <img src="${STATIC_URL}/images/invitation220830/btn_03.png" alt="btn_03">
-            </div>
-        % endif
 
-        <img src="${STATIC_URL}/images/invitation220830/sec_04.png" alt="sec_04">
+
+
+## 구독권 신청
+##         % if user.is_authenticated:
+##             <div class="invitation_btn invitation_enroll" onclick="onShowEvent()">
+##                  <img src="${STATIC_URL}/images/invitation220830/btn_03.png" alt="btn_03">
+##             </div>
+##         % else:
+##             <!--    로그인이 필요합니다. 로그인 페이지로 리다이렉트 window.location.href = "/login"; -->
+##             <div class="invitation_btn invitation_enroll" onclick="onDirection()">
+##                 <img src="${STATIC_URL}/images/invitation220830/btn_03.png" alt="btn_03">
+##             </div>
+##         % endif
+##
+
+## 구독권 마감
+        <img src="${STATIC_URL}/images/invitation220830/sec_04_end.png" alt="sec_04">
+<div >
+        <div class="info-reapply-bottom">
+##             *5/22(월) 2기 재모집 예정
+        </div>
+
+##구독권 신청시 안내문구
+##         <img src="${STATIC_URL}/images/invitation220830/sec_04.png" alt="sec_04">
     </div>
 </section>
 
