@@ -74,6 +74,7 @@ import random
 import hashlib
 import base64
 from django.contrib.auth.hashers import make_password, check_password
+import time
 
 try:
     import cStringIO as StringIO
@@ -592,6 +593,7 @@ def _get_urls_for_resume_buttons(user, enrollments):
 # @ensure_csrf_cookie
 @add_maintenance_banner
 def student_dashboard(request):
+    start_time = time.time()
     show_only_org_course = True
     multisite_org = None
 
@@ -679,6 +681,8 @@ def student_dashboard(request):
     # 개강예정, 진행중, 종료 로 구분하여 대시보드 로딩 속도를 개선한다.
     # 종료강좌 대상으로 전체갯수조회
 
+    log.info('dashboard check step 01 - %s' % (time.time() - start_time))
+
     try:
         with connections['default'].cursor() as cur:
             query = """
@@ -714,6 +718,9 @@ def student_dashboard(request):
     print(status_)
     print('-----------------------------dashabord request ----e--------------------------')
 
+    log.info('status [%s]' % status)
+    log.info('status_ [%s]' % status_)
+
 
     # 이수/종료강좌 분기
     if status_ == 'end':
@@ -722,6 +729,7 @@ def student_dashboard(request):
         course_enrollments = list(get_course_enrollments(user, course_org_filter, org_filter_out_set, status))
 
     # 멀티사이트 이용중에는 기관의 강좌만 표시되도록 함.
+    log.info('dashboard check step 02 - %s' % (time.time() - start_time))
 
     print 'course_enrollments check 1 : ', len(course_enrollments)
     if show_only_org_course and multisite_org:
@@ -750,6 +758,8 @@ def student_dashboard(request):
 
     print 'course_enrollments check 2 : ', len(course_enrollments)
 
+    log.info('dashboard check step 03 - %s' % (time.time() - start_time))
+
     # Retrieve the course modes for each course
     enrolled_course_ids = [enrollment.course_id for enrollment in course_enrollments]
     __, unexpired_course_modes = CourseMode.all_and_unexpired_modes_for_courses(enrolled_course_ids)
@@ -775,6 +785,9 @@ def student_dashboard(request):
 
     # 수정필요. https://github.com/kmoocdev2/edx-platform/commit/8da64778a4c8e758c5a9b012624c39846f100084#diff-55b798ee23a7fde8d1103408afcd0f16
     # timezone update
+
+    log.info('dashboard check step 03 - %s' % (time.time() - start_time))
+
     import crum
     from courseware.context_processor import user_timezone_locale_prefs
     from pytz import timezone
@@ -784,6 +797,8 @@ def student_dashboard(request):
         user_tz = timezone(user_timezone)
     except:
         user_tz = timezone('Asia/Seoul')
+
+    log.info('dashboard check step 04 - %s' % (time.time() - start_time))
 
     for c in course_enrollments:
         if c.course.enrollment_start:
@@ -797,6 +812,8 @@ def student_dashboard(request):
 
         if c.course.end:
             c.course.end = c.course.end.astimezone(user_tz)
+
+    log.info('dashboard check step 05 - %s' % (time.time() - start_time))
 
     for c in course_enrollments:
         # 이수증 생성 여부: c.course.has_any_active_web_certificate
@@ -831,6 +848,8 @@ def student_dashboard(request):
     course_type2.sort(key=lambda x: x.created, reverse=True)
     # course_type3.sort(key=lambda x: x.created, reverse=True)
     # course_type4.sort(key=lambda x: x.created, reverse=True)
+
+    log.info('dashboard check step 07 - %s' % (time.time() - start_time))
 
     course_enrollments = course_type1 + course_type2 + course_type3 + course_type4
 
@@ -981,6 +1000,8 @@ def student_dashboard(request):
                 print 'registration_flag_history error.'
                 print e
 
+    log.info('dashboard check step 09 - %s' % (time.time() - start_time))
+
     enterprise_message = get_dashboard_consent_notification(request, user, course_enrollments)
 
     # Disable lookup of Enterprise consent_required_course due to ENT-727
@@ -1009,6 +1030,9 @@ def student_dashboard(request):
     # Find programs associated with course runs being displayed. This information
     # is passed in the template context to allow rendering of program-related
     # information on the dashboard.
+
+    log.info('dashboard check step 10 - %s' % (time.time() - start_time))
+
     meter = ProgramProgressMeter(request.site, user, enrollments=course_enrollments)
     ecommerce_service = EcommerceService()
     inverted_programs = meter.invert_programs()
@@ -1056,11 +1080,16 @@ def student_dashboard(request):
     #
     # If a course is not included in this dictionary,
     # there is no verification messaging to display.
+
+    log.info('dashboard check step 11 - %s' % (time.time() - start_time))
+
     verify_status_by_course = check_verify_status_by_course(user, course_enrollments)
     cert_statuses = {
         enrollment.course_id: cert_info(request.user, enrollment.course_overview)
         for enrollment in course_enrollments
     }
+
+    log.info('dashboard check step 12 - %s' % (time.time() - start_time))
 
     # only show email settings for Mongo course and when bulk email is turned on
     show_email_settings_for = frozenset(
@@ -1078,6 +1107,8 @@ def student_dashboard(request):
     statuses = ["approved", "denied", "pending", "must_reverify"]
     reverifications = reverification_info(statuses)
 
+    log.info('dashboard check step 13 - %s' % (time.time() - start_time))
+
     block_courses = frozenset(
         enrollment.course_id for enrollment in course_enrollments
         if is_course_blocked(
@@ -1089,6 +1120,8 @@ def student_dashboard(request):
             enrollment.course_id
         )
     )
+
+    log.info('dashboard check step 14 - %s' % (time.time() - start_time))
 
     enrolled_courses_either_paid = frozenset(
         enrollment.course_id for enrollment in course_enrollments
@@ -1105,6 +1138,8 @@ def student_dashboard(request):
         course_org_filter=site_org_whitelist,
         org_filter_out_set=site_org_blacklist
     )
+
+    log.info('dashboard check step 15 - %s' % (time.time() - start_time))
 
     # get list of courses having pre-requisites yet to be completed
     courses_having_prerequisites = frozenset(
@@ -1139,6 +1174,8 @@ def student_dashboard(request):
     org_names = CodeDetail.objects.filter(group_code='003', use_yn='Y', delete_yn='N')
     org_dict = {org.detail_code: {'ko-kr': org.detail_name, 'en': org.detail_ename} for org in org_names}
 
+    log.info('dashboard check step 16 - %s' % (time.time() - start_time))
+
     sys.setdefaultencoding('utf-8')
     con = mdb.connect(settings.DATABASES.get('default').get('HOST'),
                       settings.DATABASES.get('default').get('USER'),
@@ -1170,6 +1207,9 @@ def student_dashboard(request):
         c.survey_valid = dashboard_survey_valid(c) if c.is_active is True and c.mode == 'honor' else {5, '응답시기가 아닙니다.'}
 
     con.close()
+
+    log.info('dashboard check step 17 - %s' % (time.time() - start_time))
+
     context = {
         'urls': urls,
         'programs_data': programs_data,
@@ -1240,6 +1280,8 @@ def student_dashboard(request):
     if not context.get('save_path'):
         context.update(save_path=None)
 
+    log.info('dashboard check step 18 - %s' % (time.time() - start_time))
+
     if request.POST:
         append_response = render_to_response('dashboard_append.html', context)
         return append_response
@@ -1249,6 +1291,9 @@ def student_dashboard(request):
     #     return render_to_response('dashboard_ajax.html', context)
     response = render_to_response('dashboard.html', context)
     set_user_info_cookie(response, request)
+
+    log.info('dashboard check step 19 - %s' % (time.time() - start_time))
+
     return response
 
 
