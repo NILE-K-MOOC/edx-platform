@@ -718,6 +718,6 @@ body.match__modal-open {
 
 @media (max-width: 441px) {
     .match__btn_list li a {
-        font-size: 16px;
+        font-size: 11px;
     }
 }
