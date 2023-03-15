@@ -665,7 +665,7 @@ def multi_index_count(request, org):
                         AND LOWER(id) NOT LIKE '%test%'
                         AND a.enrollment_start < now()
                         AND a.catalog_visibility != 'none'
-                        AND now() BETWEEN a.START AND a.END
+                        -- AND now() BETWEEN a.START AND a.END
                         AND a.display_name like '%{search_word}%'
                         ORDER BY
                             enrollment_start DESC
