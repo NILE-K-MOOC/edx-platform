@@ -673,7 +673,6 @@ def multi_index_count(request, org):
                         , enrollment_end DESC
                         , `END` DESC
                         , display_name
-                        limit {now_length},10
                     '''.format(site_id=site_id, search_word=search_word)
 
         cur.execute(query)
