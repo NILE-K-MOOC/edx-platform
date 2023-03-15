@@ -747,10 +747,11 @@ def student_dashboard(request):
             cur.execute(query)
             org_courses = cur.fetchall()
 
-            course_select_type = org_courses[0][0]
-
-            # tuple to list
-            org_courses = [course_id[1] for course_id in org_courses]
+            if org_courses:
+                course_select_type = org_courses[0][0]
+                org_courses = [course_id[1] for course_id in org_courses]
+            else:
+                org_courses = []
 
         # 멀티사이트의 강좌를 선택으로 이용할 경우 필터링
         if course_select_type == 'C':

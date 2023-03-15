@@ -640,56 +640,41 @@ def multi_index_count(request, org):
 
     with connections['default'].cursor() as cur:
         query = '''
-            SELECT  course_id, audit_yn, ribbon_yn, ifnull(teacher_name, '') teacher_name, start, end
-                FROM (
-                        SELECT  a.course_id,
-                                c.audit_yn,
-                                IFNULL(c.ribbon_yn, 'N') AS ribbon_yn,
-                                IFNULL(
-                                    CASE
-                                    WHEN INSTR(c.teacher_name, ',') = 0 
-                                    THEN c.teacher_name
-                                    ELSE CONCAT(SUBSTRING_INDEX(c.teacher_name, ',', 1), ' 외 ', LENGTH(c.teacher_name) - LENGTH(REPLACE(c.teacher_name, ',', '')), '명')
-                                    END, ''
-                                ) AS teacher_name,
-                                CASE
-                                WHEN NOW() BETWEEN ADDDATE(enrollment_start, INTERVAL 9 HOUR) AND ADDDATE(enrollment_end, INTERVAL 9 HOUR) 
-                                THEN 1
-                                WHEN NOW() BETWEEN ADDDATE(start, INTERVAL 9 HOUR) AND ADDDATE(end, INTERVAL 9 HOUR) 
-                                THEN 2
-                                WHEN ADDDATE(end, INTERVAL 9 HOUR) < NOW() AND c.audit_yn = 'Y'
-                                THEN 3
-                                ELSE 4
-                                END AS order1,
-                                id,
-                                org,
-                                display_number_with_default,
-                                created,
-                                display_name,
-                                start,
-                                end,
-                                enrollment_start,
-                                enrollment_end
-                        FROM multisite_course a
-                        JOIN (
-                            SELECT  *
-                            FROM course_overviews_courseoverview
-                            WHERE LOWER(id) NOT LIKE '%demo%'
-                            AND LOWER(id) NOT LIKE '%nile%'
-                            AND LOWER(id) NOT LIKE '%test%'
-                        ) b 
-                        ON b.id = a.course_id
-                        JOIN course_overview_addinfo c ON a.course_id = c.course_id
-                        WHERE 1=1
-                        and start < date('2030/01/01') 
-                        and site_id = '{site_id}'
-                        and catalog_visibility !='none'
-                        and display_name like '%{search_word}%'
-                        ORDER BY created DESC
-                ) mc
-                GROUP BY org , display_number_with_default
-                ORDER BY order1 , enrollment_start DESC , start DESC , enrollment_end DESC , end DESC , display_name
-            '''.format(site_id=site_id, search_word=search_word)
+                        SELECT
+                            a.id course_id
+                            , b.audit_yn
+                            , b.ribbon_yn
+                            , CASE WHEN INSTR(b.teacher_name, ',') = 0 
+                                   THEN b.teacher_name
+                                ELSE CONCAT(SUBSTRING_INDEX(b.teacher_name, ',', 1), ' 외 ', LENGTH(b.teacher_name) - LENGTH(REPLACE(b.teacher_name, ',', '')), '명')
+                              END teacher_name
+                            , START
+                            ,
+                        END
+                        FROM
+                            course_overviews_courseoverview a
+                        , course_overview_addinfo b
+                        , multisite_course c
+                        WHERE
+                            a.id = b.course_id
+                        AND b.course_id = c.course_id
+                        AND START < date('2030/01/01')
+                        AND c.site_id = '{site_id}'
+                        AND LOWER(id) NOT LIKE '%demo%'
+                        AND LOWER(id) NOT LIKE '%nile%'
+                        AND LOWER(id) NOT LIKE '%test%'
+                        AND a.enrollment_start < now()
+                        AND a.catalog_visibility != 'none'
+                        AND now() BETWEEN a.START AND a.END
+                        AND a.display_name like '%{search_word}%'
+                        ORDER BY
+                            enrollment_start DESC
+                        , `START` DESC
+                        , enrollment_end DESC
+                        , `END` DESC
+                        , display_name
+                        limit {now_length},10
+                    '''.format(site_id=site_id, search_word=search_word)
 
         cur.execute(query)
         result_table = cur.fetchall()
