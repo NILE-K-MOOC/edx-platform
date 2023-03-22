@@ -1776,36 +1776,24 @@ class CourseEnrollment(models.Model):
     @classmethod
     def enrollments_for_user_interest(cls, user):
         return cls.objects.raw('''
-                      SELECT b.interest_id          id,
-                             b.user_id,
-                             a.id                   course_id,
-                             b.created,
-                             if(b.use_yn = 'Y', 1, 0) is_active,
-                             'honor'                mode,
-                             c.created
-                        FROM (SELECT org,
-                                     display_number_with_default,
-                                     id,
-                                     effort,
-                                     (SELECT Count(*)
-                                        FROM edxapp.course_overviews_courseoverview bb
-                                       WHERE     aa.org = bb.org
-                                             AND aa.display_number_with_default =
-                                                    bb.display_number_with_default
-                                             AND aa.start <= bb.start)
-                                        AS rank,
-                                        start
-                                FROM edxapp.course_overviews_courseoverview aa) a
-                             JOIN interest_course b
-                                ON     a.org = b.org
-                                   AND a.display_number_with_default =
-                                          b.display_number_with_default
-                                   AND b.use_yn = 'Y'
-                                   AND b.user_id = %s
-                             LEFT JOIN student_courseenrollment c
-                                ON a.id = c.course_id AND b.user_id = c.user_id
-                       WHERE a.rank = 1
-                    ORDER BY a.start DESC;
+                                SELECT c.interest_id id, c.user_id, c.id course_id, c.created, if (c.use_yn = 'Y', 1, 0) is_active, 'honor' mode, d.created
+                                FROM (select a.interest_id, a.user_id, a.use_yn, b.id, 'honor' mode, a.created, b.start
+                                from (select * from interest_course where user_id = %s and use_yn = 'Y') a JOIN
+                                (select cc.id, cc.start, cc.display_number_with_default, cc.created
+                                FROM
+                                (select cid1, max(start) start from
+                                (select substring_index(id, '+', 2) cid1, start from course_overviews_courseoverview
+                                where
+                                lower(id) not like '%%nile%%'
+                                and lower(id) not like '%%test%%'
+                                and lower(id) not like '%%demo%%'
+                                and lower(id) not like '%%ed%%') aa
+                                group by cid1 ) bb JOIN
+                                course_overviews_courseoverview cc on substring_index(cc.id, '+', 2) = cid1
+                                and cc.start = bb.start) b
+                                on a.display_number_with_default = b.display_number_with_default) c LEFT JOIN 
+                                student_courseenrollment d
+                                ON c.user_id =d.user_id and substring_index(c.id, '+', 2) = substring_index(d.course_id, '+', 2) order by c.start desc;
             ''', [user.id])
 
     @classmethod
