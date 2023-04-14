@@ -812,13 +812,13 @@ $("#audit_mode").click(function(event) {
                             <br/>
                             <br/>
                             %if user.is_active ==True :
-                                <div style="float: right; right: 0; position: absolute; margin-right: 20px; margin-top: -30px;width:28%;height: 46px;color: white;box-shadow: inset 0 1px 0 0 white;background-image: linear-gradient(to bottom,lightgray 0%,gray 50%,gray 50%,#999 100%);display: flex;justify-content: center;align-items: center;border: 1px solid #000663;border-bottom: 1px solid #00003a;border-radius: 5px;text-decoration: none;text-shadow: 0 -1px 1px #000042;" id="interest_star" class="">
+                                <div style="float: right; right: 0; position: absolute; margin-right:3rem; margin-top: -30px;width:28%;height: 46px;color: white;box-shadow: inset 0 1px 0 0 white;background-image: linear-gradient(to bottom,lightgray 0%,gray 50%,gray 50%,#999 100%);display: flex;justify-content: center;align-items: center;border: 1px solid #000663;border-bottom: 1px solid #00003a;border-radius: 5px;text-decoration: none;text-shadow: 0 -1px 1px #000042;" id="interest_star" class="">
                                     % if (flag == 1):
-                                        <a id="interest_btn_d" tabindex="0" onclick="modi()" title="관심강좌 등록 취소하기" alt="관심강좌 삭제" style="display:flex;align-items:center;text-decoration: none">
-                                            <i style="color:#3e7bc0;font-size:26px;cursor:pointer;" onclick="change_i('nomal')" id ="nomal" class="fa fa-star fa-4x"  aria-hidden="true">
+                                        <a id="interest_btn_d" tabindex="0" onclick="modi()" title="관심강좌 등록 취소하기" alt="관심강좌 삭제" style="display:flex;align-items:center;text-decoration:none">
+                                            <i style="color:#3e7bc0;font-size:26px;cursor:pointer; display: contents;" onclick="change_i('nomal')" id ="nomal" class="fa fa-star fa-4x"  aria-hidden="true">
                                                 <span style="text-decoration: none;text-shadow: 0 -1px 1px #000042;font-size: 17px;margin-left: 10px;">관심강좌 등록취소</span>
                                             </i>
-                                        </a><p class="arrow_box" style="background: none;">심</p>
+                                        </a><p class="arrow_box" style="background: none;"></p>
                                         <a id="interest_btn_i" tabindex="0" onclick="add()" title="관심강좌 등록하기" alt="관심강좌 추가" style="display:flex;align-items:center;text-decoration: none">
                                             <i style="display:none;color:#eee;font-size:26px;cursor:pointer;"
                                                onclick="change_i('empty')" id="empty" class="fa fa-star fa-4x"
@@ -827,8 +827,18 @@ $("#audit_mode").click(function(event) {
                                             </i>
                                         </a><p class="arrow_box" style="background: none;"></p>
                                     % else :
-                                        <a id="interest_btn_d" tabindex="0" onclick="modi()" title="관심강좌 등록 취소하기" alt="관심강좌 삭제"><i style="display:none; color:#3e7bc0; font-size:36px; cursor:pointer; " onclick="change_i('nomal')" id ="nomal" class="fa fa-star fa-4x"  aria-hidden="true"></i></a><p class="arrow_box" style="background: none;"></p>
-                                        <a id="interest_btn_i" tabindex="0" onclick="add()" title="관심강좌 등록하기" alt="관심강좌 추가"><i style="color:#eee; font-size:36px; cursor:pointer;" onclick="change_i('empty')" id ="empty" class="fa fa-star fa-4x"  aria-hidden="true"></i></a><p class="arrow_box" style="background: none;"></p>
+                                        <a id="interest_btn_d" tabindex="0" onclick="modi()" title="관심강좌 등록 취소하기" alt="관심강좌 삭제" style="display:flex;align-items:center;text-decoration:none">
+                                            <i style="color:#3e7bc0;font-size:26px;cursor:pointer; display:none;" onclick="change_i('nomal')" id ="nomal" class="fa fa-star fa-4x"  aria-hidden="true">
+                                                <span style="text-decoration: none;text-shadow: 0 -1px 1px #000042;font-size: 17px;margin-left: 10px;">관심강좌 등록취소</span>
+                                            </i>
+                                        </a><p class="arrow_box" style="background: none;"></p>
+                                        <a id="interest_btn_i" tabindex="0" onclick="add()" title="관심강좌 등록하기" alt="관심강좌 추가" style="display:flex;align-items:center;text-decoration: none">
+                                            <i style="display:contents;color:#eee;font-size:26px;cursor:pointer;"
+                                               onclick="change_i('empty')" id="empty" class="fa fa-star fa-4x"
+                                               aria-hidden="true">
+                                                <span style="text-decoration: none;text-shadow: 0 -1px 1px #000042;font-size: 17px;margin-left: 10px;">관심강좌 등록</span>
+                                            </i>
+                                        </a><p class="arrow_box" style="background: none;"></p>
                                     % endif
                                 </div>
                             %endif
