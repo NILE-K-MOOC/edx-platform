@@ -1449,8 +1449,8 @@ ${("")}
 <div class="match__modal fade" id="match-modal">
     <div class="match__modal-dialog">
         <div class="match__modal-content">
-            <div class="match__modal-header">
-                <h2 class="title">드론</h2>
+            <input type="text" name="mttmp" id="mttmp" value="" style="border:0px;width:1px;height:1px;background:transparent;outline:0px;padding:0px;margin:0px;">
+            <div class="match__modal-header"><h2 class="title">드론</h2>
                 <button type="button" class="match__modal-close" tabindex="0">
                     <img src="${STATIC_URL}/new_index/images/matchup-img/btn-close-xl.png">
                 </button>
@@ -1694,9 +1694,9 @@ ${("")}
         modal.css({"display": "block", "padding-right": "15px"});
         modalShow = "true";
         setTimeout(function(){
-            console.log("match-modal focus");
-            $("#match-modal").focus();
-        },1200);
+            $("#mttmp").focus();
+        },300);
+
     }
 
     //모달창 열기
@@ -1738,6 +1738,7 @@ ${("")}
             + "    <p>" + element.text + "</p>";
 
         $(".match__modal-body").append(modalContent);
+        $(this).blur();
     });
 
 </script>
