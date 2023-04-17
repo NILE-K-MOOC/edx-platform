@@ -1674,7 +1674,7 @@ ${("")}
     modalCloseBtn.on('click', modalClose);
 
     $(document).on('click', function (e) {
-        if (modal.is(e.target)) {f
+        if (modal.is(e.target)) {
             modalClose();
         }
     });
@@ -1694,8 +1694,9 @@ ${("")}
         modal.css({"display": "block", "padding-right": "15px"});
         modalShow = "true";
         setTimeout(function(){
-            modal.focus();
-        },800);
+            console.log("safsafsadfsadfsadf");
+            $(".match__modal").focus();
+        },1200);
     }
 
     //모달창 열기
