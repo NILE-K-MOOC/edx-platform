@@ -213,13 +213,16 @@ from third_party_auth import provider, pipeline
     % for package in packages:
     <div class="package-course-card">
 
-      <div class="package-course-img-container">
         % if package['save_path'] == None:
-        <img onclick="package_move(&#34;${package["series_seq"]}&#34;)" class="package-course-img" src="/static/images/blank.png">
+        <a href="javascript:package_move(&#34;${package["series_seq"]}&#34;)" class="package-course-img-container">
+            <img class="package-course-img" src="/static/images/blank.png">
+        </a>
         % else:
-        <img onclick="package_move(&#34;${package["series_seq"]}&#34;)" class="package-course-img" src="${package['save_path']}">
+        <a href="javascript:package_move(&#34;${package["series_seq"]}&#34;)" class="package-course-img-container">
+            <img class="package-course-img" src="${package['save_path']}">
+        </a>
         % endif
-      </div>
+      </a>
 
       <div class="package-course-content">
         <div onclick="package_move(&#34;${package["series_seq"]}&#34;)" class="pc-title">
@@ -244,13 +247,13 @@ from third_party_auth import provider, pipeline
       </div>
 
       <div class="package-course-side-button">
-        <div class="package-btn-cancel" onclick="package_cancel(&#34;${package["series_id"]}&#34, this)">
+        <a class="package-btn-cancel" href="javascript:package_cancel(&#34;${package["series_id"]}&#34, this)" style="display:block">
           취소
-        </div>
+        </a>
         % if package['is_total'] == package['is_cert']:
-        <div class="package-btn-cert" onclick="package_cert(&#34;${package["series_seq"]}&#34)">
+        <a class="package-btn-cert" href="javascript:package_cert(&#34;${package["series_seq"]}&#34)" style="display:block">
           이수증
-        </div>
+        </a>
         % endif
       </div>
     </div>
