@@ -448,7 +448,8 @@ from openedx.core.djangolib.markup import HTML, Text
                              style="width: 100%"/></a></div>
 
                     <!-- 코세라 2차 구독권 신청 -->
-                    <div><a href="/invitation-banner" target="_blank" style="display:block" title="코세라 구독권 신청 바로가기">
+                    <div>
+                        <a href="/invitation-banner" target="_blank" style="display:block" title="코세라 구독권 신청 바로가기">
                             <img src="${STATIC_URL}images/22nov_coursera.png" alt="코세라 구독권 신청 바로가기"
                                  style="width: 100%"/></a></div>
 
@@ -494,6 +495,19 @@ from openedx.core.djangolib.markup import HTML, Text
 ##                              style="width: 100%"/></a></div>
 
                 </div>
+            </div>
+
+            <div style="position:absolute;">
+                <span class="bannerstop" style="position:relative;width:40px;height:40px;top:-34px;left:-17px;">
+                    <svg id="bannerpause" style="color:#FFFFFF" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pause-circle" viewBox="0 0 16 16" tabindex="0" alt="정지">
+                      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                      <path d="M5 6.25a1.25 1.25 0 1 1 2.5 0v3.5a1.25 1.25 0 1 1-2.5 0v-3.5zm3.5 0a1.25 1.25 0 1 1 2.5 0v3.5a1.25 1.25 0 1 1-2.5 0v-3.5z"/>
+                    </svg>
+                    <svg id="bannerplay" style="display:none;color:#FFFFFF" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-play-circle" viewBox="0 0 16 16" tabindex="0" alt="재생">
+                      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                      <path d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445z"/>
+                    </svg>
+                </span>
             </div>
         </div>
     </div>
@@ -800,13 +814,21 @@ from openedx.core.djangolib.markup import HTML, Text
 <script type="text/javascript">
     $(window).load(function () {
         $('#signup_action').trigger("click");
-
     });
 </script>
 % endif
 
 <script>
-
+    $(function() {
+        $("#bannerpause").on("click",function(){
+            $(this).hide();
+            $("#bannerplay").show();
+        });
+        $("#bannerplay").on("click",function(){
+            $(this).hide();
+            $("#bannerpause").show();
+        });
+    })
     $(document).ready(function () {
         setTimeout(function () {
             console.log('페이지가 시작되었습니다.')
@@ -821,6 +843,9 @@ from openedx.core.djangolib.markup import HTML, Text
                 controls: true,
                 //autoControls: true,
                 touchEnabled: false,
+                autoControls: true,
+                autoControlsCombine: true, //stop,start bind
+                autoControlsSelector: '.bannerstop',
                 onSliderLoad: function () {
                     $(".banner").css("visibility", "visible").animate({opacity: 1});
                 }
