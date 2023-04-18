@@ -202,22 +202,22 @@
 
                             % if 'multisite_org' not in request.session:
                                 % if LANGUAGE_CODE == 'ko-kr':
-                                    <a href="#"  title="한국어로 보기"onclick="return false;" for="ko-kr" class="language-btn new-lang-kor" style="font-size: 17px; font-weight: 700; color: #111; text-decoration: underline; ">
+                                    <a href="#"  alt="한국어로 보기 선택됨"  title="한국어로 보기"onclick="return false;" for="ko-kr" class="language-btn new-lang-kor" style="font-size: 17px; font-weight: 700; color: #111; text-decoration: underline; ">
                                         <input id="ko-kr" class="toggle toggle-left" name="toggle" value="ko-kr" type="radio" />
                                         Kor
                                     </a>
 
-                                    <a href="#" title="영어로 보기" onclick="return false;" for="en" class="language-btn new-lang-eng new-gray" style="font-size: 17px; font-weight: 700; color: #6f6f6f; ">
+                                    <a href="#"  alt="영어로 보기"  title="영어로 보기" onclick="return false;" for="en" class="language-btn new-lang-eng new-gray" style="font-size: 17px; font-weight: 700; color: #6f6f6f; ">
                                         <input id="en" class="toggle toggle-right" name="toggle" value="en" type="radio"  >
                                         Eng
                                     </a>
                                 % else:
-                                    <a href="#" title="한국어로 보기" onclick="return false;" for="ko-kr" class="language-btn new-lang-kor new-gray" style="font-size: 17px; font-weight: 700; color: #6f6f6f;">
+                                    <a href="#" alt="한국어로 보기" title="한국어로 보기" onclick="return false;" for="ko-kr" class="language-btn new-lang-kor new-gray" style="font-size: 17px; font-weight: 700; color: #6f6f6f;">
                                         <input id="ko-kr" class="toggle toggle-left" name="toggle" value="ko-kr" type="radio"  >
                                         Kor
                                     </a>
 
-                                    <a href="#"  title="영어로 보기"onclick="return false;" for="en" class="language-btn new-lang-eng" style="font-size: 17px; font-weight: 700;  color: #111; text-decoration: underline;">
+                                    <a href="#" alt="영어로 보기 선택됨" title="영어로 보기"onclick="return false;" for="en" class="language-btn new-lang-eng" style="font-size: 17px; font-weight: 700;  color: #111; text-decoration: underline;">
                                         <input id="en" class="toggle toggle-right" name="toggle" value="en" type="radio" >
                                         Eng
                                     </a>
