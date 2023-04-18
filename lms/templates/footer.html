@@ -8,7 +8,10 @@ from branding.api import get_footer
 <% footer = get_footer(is_secure=is_secure) %>
 <%namespace name='static' file='static_content.html'/>
 
-
+<style>
+table caption {height:0px;}
+table caption span {visibility:hidden;}
+</style>
 <footer class="new-footer">
     <div class="new-footer-col">
 

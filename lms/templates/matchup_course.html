@@ -122,7 +122,7 @@ from openedx.core.djangolib.markup import HTML, Text
                 <div class="match__list_wrap" style="margin-left: 0;">
                     <div class="match__overflow-scroll">
                         <table class="match__table" style="margin-top: 40px; min-width: 858px;">
-                            <caption style="height:0px;"><span style="visibility:hidden">분야별 교육강좌</span></caption>
+                            <caption><span>분야별 교육강좌</span></caption>
                             <colgroup>
                                 <col>
                                 <col width="23%">
@@ -1452,6 +1452,7 @@ from openedx.core.djangolib.markup import HTML, Text
             <div class="match__modal-body match__overflow-scroll" tabindex="-1">
                 <h5>드론 분야 소개</h5>
                 <table class="match__table">
+                    <caption><span>드론 분야 소개</span></caption>
                     <colgroup>
                         <col width="50%">
                         <col width="50%">
@@ -1712,6 +1713,7 @@ from openedx.core.djangolib.markup import HTML, Text
         var modalContent = ""
             + "<h5>" + element.title + " 분야 소개</h5>"
             + "    <table class='match__table'>"
+            + "     <caption><span>" + element.title + " 분야 소개</span></caption>"
             + "        <colgroup>"
             + "            <col width='50%'>"
             + "            <col width='50%'>"
