@@ -1736,7 +1736,12 @@ from openedx.core.djangolib.markup import HTML, Text
         $(".match__modal-body").append(modalContent);
         $(this).blur();
     });
-
+    $(function() {
+       $(".match__btn_list a").on("click",function(){
+          $(".match__btn_list a").removeClass("active");
+          $(this).addClass("active");
+       });
+    });
 </script>
 
 
