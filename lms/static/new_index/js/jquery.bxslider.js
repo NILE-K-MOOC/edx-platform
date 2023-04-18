@@ -60,8 +60,8 @@
     nextSelector: null,
     prevSelector: null,
     autoControls: false,
-    startText: 'Start',
-    stopText: 'Stop',
+    startText: '<svg id="bannerplay" style="color:#FFFFFF" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-play-circle" viewBox="0 0 16 16" tabindex="0" alt="재생"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/><path d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445z"/></svg>',
+    stopText: '<svg id="bannerpause" style="color:#FFFFFF" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pause-circle" viewBox="0 0 16 16" tabindex="0" alt="정지"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/><path d="M5 6.25a1.25 1.25 0 1 1 2.5 0v3.5a1.25 1.25 0 1 1-2.5 0v-3.5zm3.5 0a1.25 1.25 0 1 1 2.5 0v3.5a1.25 1.25 0 1 1-2.5 0v-3.5z"/></svg>',
     autoControlsCombine: false,
     autoControlsSelector: null,
 
@@ -726,7 +726,7 @@
         slider.controls.el.addClass('bx-has-controls-auto').append(slider.controls.autoEl);
       }
       // update the auto controls
-      updateAutoControls(slider.settings.autoStart ? 'stop' : 'start');
+      updateAutoControls(slider.settings.autoStart ? 'stop' : '▷');
     };
 
     /**
@@ -874,6 +874,7 @@
      *  - the new state of the auto show
      */
     var updateAutoControls = function(state) {
+      state = (state=="▷")?"start":"stop";
       // if autoControlsCombine is true, replace the current control with the new state
       if (slider.settings.autoControlsCombine) {
         slider.controls.autoEl.html(slider.controls[state]);
@@ -1542,7 +1543,7 @@
 	  //allback for when the auto rotate status changes
 	  slider.settings.onAutoChange.call(el, false);
       // if auto controls are displayed and preventControlUpdate is not true
-      if (slider.settings.autoControls && preventControlUpdate !== true) { updateAutoControls('start'); }
+      if (slider.settings.autoControls && preventControlUpdate !== true) { updateAutoControls('▷'); }
     };
 
     /**
