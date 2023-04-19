@@ -44,23 +44,26 @@ from six import text_type
         ).replace(u" ", u"%20")
       %>
       <a href="${tweet_action}" target="_blank" class="share">
-        <span class="icon fa fa-twitter" aria-hidden="true"></span><span class="sr">${_("Tweet that you've enrolled in this course")}</span>
+        <span class="icon icon-twitter" aria-hidden="true" style="width:30px;height:30px;"></span>
+          <span class="sr">${_("Tweet that you've enrolled in this course")}</span>
         <span class="hidden_head share-text">트위터를 이용하여 친구 및 가족과 공유</span>
       </a>
       <a href="${facebook_link}" target="_blank" class="share">
-        <span class="icon fa fa-facebook" aria-hidden="true"></span><span class="sr">${_("Post a Facebook message to say you've enrolled in this course")}</span>
+        <span class="icon icon-facebook" aria-hidden="true" style="width:30px;height:30px;"></span>
+          <span class="sr">${_("Post a Facebook message to say you've enrolled in this course")}</span>
         <span class="hidden_head share-text">페이스북을 이용하여 친구 및 가족과 공유</span>
       </a>
       <a href="${email_subject}" class="share">
-        <span class="icon fa fa-envelope" aria-hidden="true"></span><span class="sr">${_("Email someone to say you've enrolled in this course")}</span>
+        <span class="icon icon-envelope" aria-hidden="true" style="width:30px;height:30px;"></span>
+          <span class="sr">${_("Email someone to say you've enrolled in this course")}</span>
         <span class="hidden_head share-text">이메일을 이용하여 친구 및 가족과 공유</span>
       </a>
       <a href="${line_link}" target="_blank" class="share">
-        <img alt="naver" src="/static/images/fa-naver.png" style="width: 28px;margin-top: -8px;">
+        <span class="icon icon-naver" aria-hidden="true" style="width:30px;height:30px;"></span>
         <span class="hidden_head share-text">네이버를 이용하여 친구 및 가족과 공유</span>
       </a>
       <a href="${kakao_link}" target="_blank" class="share">
-        <img alt="kakao" src="/static/images/fa-cs.png" style="width: 28px;margin-top: -8px;">
+        <span class="icon icon-kakao" aria-hidden="true" style="width:30px;height:30px;"></span>
         <span class="hidden_head share-text">카카오를 이용하여 친구 및 가족과 공유</span>
       </a>
       <a href="#" class="share" onclick="myFunction(); return false;" style="cursor: pointer">
@@ -88,6 +91,16 @@ from six import text_type
     width: 280px !important;
     left: 45% !important;
   }
+    .icon-twitter {backgroud:url('/static/images/fa-twitter.png');width:30px;height:30px;background-position:center;background-size:contain;background-repeat:no-repeat;}
+    .icon-twitter:hover {backgroud:url('/static/images/fa-twitter-over.png');}
+    .icon-facebook {backgroud:url('/static/images/fa-facebook.png');width:30px;height:30px;background-position:center;background-size:contain;background-repeat:no-repeat;}
+    .icon-facebook:hover {backgroud:url('/static/images/fa-facebook-over.png');}
+    .icon-envelope {backgroud:url('/static/images/fa-envelope.png');width:30px;height:30px;background-position:center;background-size:contain;background-repeat:no-repeat;}
+    .icon-envelope:hover {backgroud:url('/static/images/fa-envelope-over.png');}
+    .icon-naver {backgroud:url('/static/images/fa-naver.png');width:30px;height:30px;background-position:center;background-size:contain;background-repeat:no-repeat;}
+    .icon-naver:hover {backgroud:url('/static/images/fa-naver-over.png');}
+    .icon-kakao {backgroud:url('/static/images/fa-kakao.png');width:30px;height:30px;background-position:center;background-size:contain;background-repeat:no-repeat;}
+    .icon-kakao:hover {backgroud:url('/static/images/fa-kakao-over.png');}
 </style>
 <label class="hidden_head" for="clipboard-temp">${_('Clipboard-copy')}</label>
 <input type="text" value="${url}" id="clipboard-temp">
