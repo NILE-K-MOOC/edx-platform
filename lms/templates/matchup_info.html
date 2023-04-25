@@ -45,7 +45,8 @@ from openedx.core.djangolib.markup import HTML, Text
     .match__btn-border, .match__btn-border:hover, .btn__match-more {
         color: white !important;
     }
-
+    .matchup-tab li.on > a {color:#FFFFFF !important;}
+    .matchup-tab li > a {color:#000000 !important;}
 </style>
 
 
@@ -141,8 +142,8 @@ from openedx.core.djangolib.markup import HTML, Text
             </section>
             <!-- 기대효과 -->
             <section id="sec05">
-                <img src="${STATIC_URL}/new_index/images/matchup-img/section5.png" alt="기대효과" style="width:100%" class="pc-view">
-                <img src="${STATIC_URL}/new_index/images/matchup-img/section5-m.png" alt="기대효과" style="width:100%" class="mobile-view">
+                <img src="${STATIC_URL}/new_index/images/matchup-img/section5.png" alt="기대효과 학습자>미래유망 산업분야 관련 다양한 교육 선택권 보장, 교육기관>교육과정 개발운영 자율성보장, 대표기업>기업.산업체가 핵심직무 개발 및 인증평가 개발에 직접 참여하여 직무.교육 미스매치 해소" style="width:100%" class="pc-view">
+                <img src="${STATIC_URL}/new_index/images/matchup-img/section5-m.png" alt="기대효과 학습자>미래유망 산업분야 관련 다양한 교육 선택권 보장, 교육기관>교육과정 개발운영 자율성보장, 대표기업>기업.산업체가 핵심직무 개발 및 인증평가 개발에 직접 참여하여 직무.교육 미스매치 해소" style="width:100%" class="mobile-view">
             </section>
             <!-- 매치업과 함께하기 -->
             <section id="sec06">
@@ -152,27 +153,27 @@ from openedx.core.djangolib.markup import HTML, Text
                 </h2>
                 <div class="matchup-tab">
                     <ul>
-                        <li class="on">학습자</li>
-                        <li>대표기업</li>
-                        <li>교육기관</li>
+                        <li class="on"><a href="javascript:;" alt="학습자 선택됨">학습자</a></li>
+                        <li><a href="javascript:;" alt="대표기업">대표기업</a></li>
+                        <li><a href="javascript:;" alt="교육기관">교육기관</a></li>
                     </ul>
                 </div>
                 <!-- 탭내용 -->
                 <div class="matchup-tab-content">
-                    <div class="on">
+                    <div class="on" title="학습자 내용">
                         <h3 style="display:none">학습자</h3>
-                        <img src="${STATIC_URL}/new_index/images/matchup-img/section6-1.png" alt="학습자" style="width:100%" class="pc-view">
-                        <img src="${STATIC_URL}/new_index/images/matchup-img/section6-1-m.png" alt="학습자" style="width:100%" class="mobile-view">
+                        <img src="${STATIC_URL}/new_index/images/matchup-img/section6-1.png" alt="학습자 참여대상>대학생,구직자,재직자 등 신산업 분야 직무능력 향상을 희망하는 학습자, 교육내용>신산업 분야-교육내용은 해당 분야 대표기업이 제시한 핵심직무 및 세부직무능력 포함, 교육과정 신청 및 이수-직무능력 향상을 희망하는 분야의 교육과정 신청 및 이수, 직무인증-케이무크 매치업 과정 이수 시 온라인으로 참여-합격자의 경우 교육기관/대표기업 명의 직무능력 인증서 발급, 결과활용-재직자의 경우 해당 기업의 교육훈련 실적으로 활용-대표기업 및 관련 상업체 동일 산업분야 취업 시 인증서 활용" style="width:100%" class="pc-view">
+                        <img src="${STATIC_URL}/new_index/images/matchup-img/section6-1-m.png" alt="학습자 참여대상>대학생,구직자,재직자 등 신산업 분야 직무능력 향상을 희망하는 학습자, 교육내용>신산업 분야-교육내용은 해당 분야 대표기업이 제시한 핵심직무 및 세부직무능력 포함, 교육과정 신청 및 이수-직무능력 향상을 희망하는 분야의 교육과정 신청 및 이수, 직무인증-케이무크 매치업 과정 이수 시 온라인으로 참여-합격자의 경우 교육기관/대표기업 명의 직무능력 인증서 발급, 결과활용-재직자의 경우 해당 기업의 교육훈련 실적으로 활용-대표기업 및 관련 상업체 동일 산업분야 취업 시 인증서 활용" style="width:100%" class="mobile-view">
                     </div>
-                    <div>
+                    <div title="대표기업 내용">
                         <h3 style="display:none">대표기업</h3>
-                        <img src="${STATIC_URL}/new_index/images/matchup-img/section6-2.png" alt="대표기업" style="width:100%" class="pc-view">
-                        <img src="${STATIC_URL}/new_index/images/matchup-img/section6-2-m.png" alt="대표기업" style="width:100%" class="mobile-view">
+                        <img src="${STATIC_URL}/new_index/images/matchup-img/section6-2.png" alt="대표기업 참여자격-신산업 분야을 대표하며 부실위험 시용평가등급 법 위반 사항등에 대해 결격 사유가 없는 기업-신산업 산업혁명 분야 대표기업-교육기관 컨소시엄 외 대표기업 단독 또는 기업 간 컨소사엄 지자체-대표기업-교육기관 컨소시엄을 구성하여 참여 가능, 매치업 운영분야 예시 가상현실/증강현실,대체에너지,드론,로보틱스,바이오 플라스틱, 바이오헬스,사물인터넷,선업별 빅데이터 분석,스마트 시티,스마트 팩토리,스마트 헬스케어,엣지 컴퓨팅,웨어러블 기기,정보보안 지능형 자동차,차세대 반도체.디스플레이,친환경 선박,클라우드,하이테크섬유,3D프린팅,5G,인공지능,빅데이터,스마트무류 등 핵심직무 발굴 및 체지-기업 자체 연구소 등을 활용하여 해당 산업분야에서 필요한 핵심직무 및 세부직무능력 발굴 직무능력 인증평가 개발 및 실시-제시한 직무능력을 평가할 수 있는 인증평가 개발 참여방법 참여를 희망하는 기업은 matchup@nile.or.kr로 문의해 주시기 바랍니다." style="width:100%" class="pc-view">
+                        <img src="${STATIC_URL}/new_index/images/matchup-img/section6-2-m.png" alt="대표기업 참여자격-신산업 분야을 대표하며 부실위험 시용평가등급 법 위반 사항등에 대해 결격 사유가 없는 기업-신산업 산업혁명 분야 대표기업-교육기관 컨소시엄 외 대표기업 단독 또는 기업 간 컨소사엄 지자체-대표기업-교육기관 컨소시엄을 구성하여 참여 가능, 매치업 운영분야 예시 가상현실/증강현실,대체에너지,드론,로보틱스,바이오 플라스틱, 바이오헬스,사물인터넷,선업별 빅데이터 분석,스마트 시티,스마트 팩토리,스마트 헬스케어,엣지 컴퓨팅,웨어러블 기기,정보보안 지능형 자동차,차세대 반도체.디스플레이,친환경 선박,클라우드,하이테크섬유,3D프린팅,5G,인공지능,빅데이터,스마트무류 등 핵심직무 발굴 및 체지-기업 자체 연구소 등을 활용하여 해당 산업분야에서 필요한 핵심직무 및 세부직무능력 발굴 직무능력 인증평가 개발 및 실시-제시한 직무능력을 평가할 수 있는 인증평가 개발 참여방법 참여를 희망하는 기업은 matchup@nile.or.kr로 문의해 주시기 바랍니다." style="width:100%" class="mobile-view">
                     </div>
-                    <div>
+                    <div title="교육기관 내용">
                         <h3 style="display:none">교육기관</h3>
-                        <img src="${STATIC_URL}/new_index/images/matchup-img/section6-3.png" alt="교육기관" style="width:100%" class="pc-view">
-                        <img src="${STATIC_URL}/new_index/images/matchup-img/section6-3-m.png" alt="교육기관" style="width:100%" class="mobile-view">
+                        <img src="${STATIC_URL}/new_index/images/matchup-img/section6-3.png" alt="교육기관 참여자격-운영 교육 강좌 개발.운영이 가능한 교육기관-대학,전문대학,기능대학,학점은행제 교육훈련기관,직업훈련시설,정부출연연구소,공공기관,지방자치단체 교육강좌 개발-교육기관이 보유한 인프라를 활용하여 대표기업에서 제시한 직무를 바탕으로 교육강좌개발 교육강좌 운영-시.공간적 제약을 최소화하고 성인학습자의 특성을 반영한 유연한 교육강좌 운영 상업협의체 구성 및 운영-대표기업과 함께 매치업 강좌 설계,인증평가 실시 및 결과 활용 등 논의 참여방법-참여를 희망하는 기관은 matchup@nile.or.kr로 문의해주시기 바랍니다." style="width:100%" class="pc-view">
+                        <img src="${STATIC_URL}/new_index/images/matchup-img/section6-3-m.png" alt="교육기관 참여자격-운영 교육 강좌 개발.운영이 가능한 교육기관-대학,전문대학,기능대학,학점은행제 교육훈련기관,직업훈련시설,정부출연연구소,공공기관,지방자치단체 교육강좌 개발-교육기관이 보유한 인프라를 활용하여 대표기업에서 제시한 직무를 바탕으로 교육강좌개발 교육강좌 운영-시.공간적 제약을 최소화하고 성인학습자의 특성을 반영한 유연한 교육강좌 운영 상업협의체 구성 및 운영-대표기업과 함께 매치업 강좌 설계,인증평가 실시 및 결과 활용 등 논의 참여방법-참여를 희망하는 기관은 matchup@nile.or.kr로 문의해주시기 바랍니다." style="width:100%" class="mobile-view">
                     </div>
                 </div>
             </section>
@@ -190,12 +191,18 @@ from openedx.core.djangolib.markup import HTML, Text
         var mcuTabLi = $('.matchup-tab li');
         var mcuTabCont = $('.matchup-tab-content > div');
         mcuTabLi.click(function () {
+            $.each($('.matchup-tab li'), function (key, obj) {
+                var oritext = $(this).find("a").text().replace(" 선택됨", "");
+                $(this).find("a").attr("alt", oritext);
+            });
             var idx = $(this).index();
             mcuTabLi.removeClass('on');
             mcuTabLi.eq(idx).addClass('on');
+            mcuTabLi.eq(idx).find("a").attr('alt',$(this).find("a").text()+" 선택됨");
             mcuTabCont.hide();
             mcuTabCont.eq(idx).show();
         });
+
     });
 
 </script>

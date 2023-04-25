@@ -172,49 +172,6 @@
 <% // 기존 실명인증 버튼 s %>
 
 <% // 기존 실명인증 버튼 e %>
-            <div id="kakao_form" style="float: left; width: 100%;" hidden>
-                <div class="acbs-wrap"  id="">
-                    <div class="acbs-group" >
-                        <div class="form-group">
-                            <span class="label-control"><%- gettext('Full Name') %></span>
-                            <input type="text" class="form-control kakao_name_text" placeholder="<%- gettext('Jane Doe') %>"
-                                   id="register_kakao_name"alt="이름 입력">
-                        </div>
-                        <div class="form-group">
-                            <span class="label-control"><%- gettext('Year of Birth') %>/<%- gettext('Gender') %></span>
-                            <input type="text" class="form-control kakao_year_text" placeholder="19951009" id="register_kakao_year" style="width:27% !important" maxlength="8" alt="출생년도 네자리 포함 주민번호 여덟자리 입력"> -
-                            <input type="text" class="form-control kakao_gender_text" placeholder="1" id="register_kakao_gender" style="width:8% !important" maxlength="1" alt="주민번호 뒷자리 첫번째 성별 입력">
-                            <span style="display:inline-flex">
-                                <i class="i_tag"></i>
-                                <i class="i_tag"></i>
-                                <i class="i_tag"></i>
-                                <i class="i_tag"></i>
-                                <i class="i_tag"></i>
-                                <i class="i_tag"></i>
-                            </span>
-                        </div>
-                        <div class="form-group">
-                            <span class="label-control"><%- gettext('Phone') %></span>
-                            <input class="form-control kakao_phone_text" type="text" class="form-control" placeholder="'-'없이 숫자만 입력" maxlength="11" id="register_kakao_phone" alt="핸드폰 번호 입력 숫자만 입력">
-                        </div>
-                        <div class="pa-group">
-                            <p class="pa-text">간편인증서비스 이용에 대한 동의</p>
-
-                            <table style="width:102%">
-                            <button id="all_agree_regist" type="button" style="float: right; margin-bottom: 20px; float: right; margin-bottom: 20px; background: white; box-shadow: none; border: 1px solid gray;" title="전체 동의 버튼">전체동의</button>
-
-                            <tr>
-                                <td style=""><input type="checkbox" name="kakao_agree_regist" alt="개인정보 이용 동의 필수 사항"> <label style="font-size:12px; display:inline-block; float: left;" class="agree_text_regist" id="privacy_text_button">개인정보 이용 동의(필수)</label></td>
-                                <td style=""><input type="checkbox" name="kakao_agree_regist" alt="제3자 정보제공 동의 필수 사항"><label style="font-size:12px; display:inline-block; float: left;" id="third_party_text_button" class="agree_text_regist">제3자 정보제공 동의(필수)</label></td>
-                            </tr>
-
-                            </table>
-                        </div>
-                        <button style="width:39%; background:gray" type="button" class="acbs-btn kakao_close_regist" title="닫기 버튼"><%- gettext('Close') %></button>
-                        <button style="width:60%" type="button" class="acbs-btn" id="kakao_form_submit_regist" title="확인 버튼"><%- gettext('Confirm') %></button>
-                    </div>
-                </div>
-            </div>
 
             <div id="privacy_text_area" style="float: left;" hidden>
                 <div class="acbs-wrap"  id="" style="left: 109px; width: 56%; top: 100px; z-index: 9999">
@@ -353,6 +310,53 @@
     <% if( form === 'login' && name === 'password' ) { %>
         <button type="button" class="forgot-password field-link"><%- gettext("Find Password") %></button>
     <% } %>
+</div>
+
+<div id="kakao_form" style="width:100%;display:block;position:fixed;z-index:997;background:#c9c9c9;left:0px;height:100%;top:0px;justify-content:center;align-items:center;display:none;opacity:0.95" hidden>
+    <div class="acbs-wrap"  id="" style="position:unset;margin:0 auto;padding-top:15%;">
+        <div class="acbs-group" >
+            <div class="form-group">
+                <span class="label-control"><%- gettext('Full Name') %></span>
+                <input type="text" class="form-control kakao_name_text" placeholder="<%- gettext('Jane Doe') %>"
+                       id="register_kakao_name" alt="이름 입력">
+                <span class="tip tip-input" id="register-country-desc" style="float:right;margin-right:0.7rem;">인증을 원하시면 본인의 이름을 입력해 주세요.</span>
+            </div>
+            <div class="form-group">
+                <span class="label-control"><%- gettext('Year of Birth') %>/<%- gettext('Gender') %></span>
+                <input type="text" class="form-control kakao_year_text" placeholder="19951009" id="register_kakao_year" style="width:27% !important" maxlength="8" alt="출생년도 네자리 포함 주민번호 여덟자리 입력"> -
+                <input type="text" class="form-control kakao_gender_text" placeholder="1" id="register_kakao_gender" style="width:8% !important" maxlength="1" alt="주민번호 뒷자리 첫번째 성별 입력">
+                <span style="display:inline-flex">
+                    <i class="i_tag"></i>
+                    <i class="i_tag"></i>
+                    <i class="i_tag"></i>
+                    <i class="i_tag"></i>
+                    <i class="i_tag"></i>
+                    <i class="i_tag"></i>
+                </span>
+                <span class="tip tip-input" id="register-country-desc" style="float:right;margin-right:0.7rem;">인증을 원하시면 본인의 출생연월일과 성을 입력해 주세요.</span>
+            </div>
+            <div class="form-group">
+                <span class="label-control"><%- gettext('Phone') %></span>
+                <input class="form-control kakao_phone_text" type="text" class="form-control" placeholder="'-'없이 숫자만 입력" maxlength="11" id="register_kakao_phone" alt="핸드폰 번호 입력 숫자만 입력">
+                <span class="tip tip-input" id="register-country-desc" style="float:right;margin-right:0.7rem;">인증을 원하시면 본인의 핸드폰 번호를 번호만 입력해 주세요.</span>
+            </div>
+            <div class="pa-group">
+                <p class="pa-text">간편인증서비스 이용에 대한 동의</p>
+
+                <table style="width:102%">
+                <button id="all_agree_regist" type="button" style="float: right; margin-bottom: 20px; float: right; margin-bottom: 20px; background: white; box-shadow: none; border: 1px solid gray;" title="전체 동의 버튼">전체동의</button>
+
+                <tr>
+                    <td style=""><input type="checkbox" name="kakao_agree_regist" alt="개인정보 이용 동의 필수 사항"> <label style="font-size:12px; display:inline-block; float: left;" class="agree_text_regist" id="privacy_text_button">개인정보 이용 동의(필수)</label></td>
+                    <td style=""><input type="checkbox" name="kakao_agree_regist" alt="제3자 정보제공 동의 필수 사항"><label style="font-size:12px; display:inline-block; float: left;" id="third_party_text_button" class="agree_text_regist">제3자 정보제공 동의(필수)</label></td>
+                </tr>
+
+                </table>
+            </div>
+            <button style="width:39%; background:gray" type="button" class="acbs-btn kakao_close_regist" title="닫기 버튼"><%- gettext('Close') %></button>
+            <button style="width:60%" type="button" class="acbs-btn" id="kakao_form_submit_regist" title="확인 버튼"><%- gettext('Confirm') %></button>
+        </div>
+    </div>
 </div>
 
 <% // 이메일 입력란 다음에 서브이메일을 입력 받는다. %>
