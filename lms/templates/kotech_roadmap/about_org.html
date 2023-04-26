@@ -5,7 +5,9 @@
 <%block name="header_extras"></%block>
 
 <link rel="stylesheet" href="/static/images/kotech_roadmap/about_org.css"/>
-
+<style>
+.org-item .item .item-img a {position:relative;z-index:997;}
+</style>
 <div id="container">
     <section class="page-title agency-title">
         <div class="container-fluid">
@@ -171,11 +173,14 @@ function org_search_send(){
 
             if (check_intro == 'Y') {
                 var template = ''+
-                '<div class="org-item" onclick="window.location.href = \t&#39;/school/'+org_id+'/\t&#39;" data-org_id=' + org_id + '>'+
+                '<div class="org-item" data-org_id=' + org_id + '>'+
                 //'<div class="org-item" onclick="window.location.href = \t&#39;/school/'+org_id+'/\t&#39;" data-org_id=' + org_id + 'title="'+ 학교이름 +'기관 소개 및 강좌 보기">'+
-                '    <div class="item" tabindex="0">'+
+                '    <div class="item">'+
+                '        <div style="text-decoration: none;" class="item-hover">'+
+                '            <span>'+part_b+'ㆍ'+part_c+'</span>'+
+                '        </div>'+
                 '        <div class="item-img">'+
-                '            <img onerror="this.src=\'/static/images/blank.png\'" src="'+logo_img+'" alt="'+ univ_name +'">'+
+                '            <a href="/school/'+org_id+'" alt="'+ univ_name +'" data-org_id=' + org_id + '><img onerror="this.src=\'/static/images/blank.png\'" src="'+logo_img+'" alt="'+ univ_name +'"></a>'+
                 '        </div>'+
                 '        <div class="item-subj">'+
                 '            <span>'+org_type+'</span>'+
@@ -185,15 +190,14 @@ function org_search_send(){
                 '            <div class="org" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">'+univ_name+'</div>'+
                 '            <div class="tel">'+org_phone+'</div>'+
                 '        </div>'+
-                '        <a style="text-decoration: none;" class="item-hover">'+
-                '            <span>'+part_b+'ㆍ'+part_c+'</span>'+
-                '        </a>'+
                 '    </div>'+
                 '</div>';
             } else {
                 var template = ''+
                 '<div class="org-item">'+
-                '    <div class="item" tabindex="0">'+
+                '    <div class="item">'+
+                '        <div style="text-decoration: none;" >'+
+                '        </div>'+
                 '        <div class="item-img">'+
                 '            <img onerror="this.src=\'/static/images/blank.png\'" src="'+logo_img+'" alt="'+ univ_name +'">'+
                 '        </div>'+
@@ -205,8 +209,6 @@ function org_search_send(){
                 '            <div class="org" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">'+univ_name+'</div>'+
                 '            <div class="tel">'+org_phone+'</div>'+
                 '        </div>'+
-                '        <a style="text-decoration: none;" >'+
-                '        </a>'+
                 '    </div>'+
                 '</div>';
             }
@@ -253,18 +255,18 @@ $(document).ready(function(){
 
 });
 
-$(document).on('keydown','.org-item',function (event) {
-
-    if(event.keyCode == 13){
-
-        let org_id = $(this).data('org_id')
-
-        if (org_id != undefined){
-            let url = '/school/'+org_id
-            window.location = url
-        }
-    }
-})
+// $(document).on('keydown','.org-item',function (event) {
+//
+//     if(event.keyCode == 13){
+//
+//         let org_id = $(this).data('org_id')
+//
+//         if (org_id != undefined){
+//             let url = '/school/'+org_id
+//             window.location = url
+//         }
+//     }
+// })
 
 </script>
 

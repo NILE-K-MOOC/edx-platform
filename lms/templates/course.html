@@ -7,11 +7,11 @@
 <%page args="course" expression_filter="h"/>
 
 % if course.audit_yn == 'Y':
-    <article class="course ${course.status} audit main-course-card" tabindex="0" id="${course.id}" role="region" aria-label="${course.display_name_with_default}"  style="" >
+    <article class="course ${course.status} audit main-course-card" id="${course.id}" role="region" aria-label="${course.display_name_with_default}"  style="" >
 % elif course.audit_yn == 'N':
-    <article class="course ${course.status} main-course-card" tabindex="0" id="${course.id}" role="region" aria-label="${course.display_name_with_default}"  style="" >
+    <article class="course ${course.status} main-course-card" id="${course.id}" role="region" aria-label="${course.display_name_with_default}"  style="" >
 % endif
-    <a class="main-course-card-link" tabindex="-1" style="text-decoration: none;" href="${reverse('about_course', args=[course.id.to_deprecated_string()])}" alt="${course.display_name_with_default}" title="${course.display_name_with_default} 개강일 ${course.start.strftime("%Y-%m-%d") if course.start else ''} 종강일 ${course.end.strftime("%Y-%m-%d") if course.end else ''} 강좌상태 ${_(course.status)}">
+    <a class="main-course-card-link" tabindex="0" style="text-decoration: none;" href="${reverse('about_course', args=[course.id.to_deprecated_string()])}" alt="${course.display_name_with_default}" title="${course.display_name_with_default} 개강일 ${course.start.strftime("%Y-%m-%d") if course.start else ''} 종강일 ${course.end.strftime("%Y-%m-%d") if course.end else ''} 강좌상태 ${_(course.status)}">
         <header class="course-image">
                 % if course.ribbon_yn == 'Y':
                 <i class="kr01-ribbonArea"><img alt="" src="/static/images/main/ribbon.png">
