@@ -108,6 +108,12 @@ $(document).ready(function(){
     $(".share").on("focusin",function(){
         var share_text = $(this).children('span.share-text').text();
         $('.sharing-message').text(share_text);
+        $('.sharing-message').animate({opacity: "1"}, 300);
+    });
+
+    $(".share").on("focusout", function () {
+        $('.sharing-message').text("");
+        $('.sharing-message').animate({opacity: "0"}, 300);
     });
 });
 </script>
