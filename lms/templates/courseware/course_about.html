@@ -877,13 +877,13 @@ $("#audit_mode").click(function(event) {
                                 <span class="register disabled">${_("Enrollment is Closed")}</span>
                             % elif not is_shib_course and not can_enroll and audit_flag == 'Y':
                             <div class="box1" style="width: 50%;">
-                                <a class="register" id="audit_mode" style="width: 90%; background-image: linear-gradient(to bottom,#29941cc9 0%,#39bd2f82 50%,#2bb1359e 50%,#071b03a6 100%);">${_("Audit Enrollment")}</a>
+                                <a class="register" id="audit_mode" style="width: 90%; background-image: linear-gradient(to bottom,#29941cc9 0%,#39bd2f82 50%,#2bb1359e 50%,#071b03a6 100%);" tabindex="0">${_("Audit Enrollment")}</a>
                             </div>
 
                             <div class="box2" style="float: left; width: 50%;" id="enroll_0" data-check="3">
-                                    <button class="type-btn"  style="width: 90%; height: 46px; color: white; box-shadow: inset 0 1px 0 0 white; background-image: linear-gradient(to bottom,lightgray 0%,gray 50%,gray 50%,#999 100%);" onClick="window.location.href='video'">
-                                        ${_("Course View")}
-                                    </button>
+                                <button class="type-btn"  style="width: 90%; height: 46px; color: white; box-shadow: inset 0 1px 0 0 white; background-image: linear-gradient(to bottom,lightgray 0%,gray 50%,gray 50%,#999 100%);" onClick="window.location.href='video'">
+                                    ${_("Course View")}
+                                </button>
                             </div>
 
                             <!--
