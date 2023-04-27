@@ -1,4 +1,4 @@
-<div class="filters-inner">
+<div class="filters-inner" style="border-top:0px;">
     <ul class="active-filters facet-list"></ul>
-    <button id="clear-all-filters" class="clear-filters flt-right discovery-button"><%- gettext('Clear All') %></button>
+    <button id="clear-all-filters" class="clear-filters flt-right discovery-button" style="line-height: 20px;color:#005e90;"><%- gettext('Clear All') %></button>
 </div>

@@ -319,7 +319,7 @@
                 <span class="label-control"><%- gettext('Full Name') %></span>
                 <input type="text" class="form-control kakao_name_text" placeholder="<%- gettext('Jane Doe') %>"
                        id="register_kakao_name" alt="이름 입력">
-                <span class="tip tip-input" id="register-country-desc" style="float:right;margin-right:0.7rem;">인증을 원하시면 본인의 이름을 입력해 주세요.</span>
+                <span class="tip tip-input" id="register-country-desc" style="float:right;padding-right:0.7rem;font-size:0.8rem;width:100%;text-align:right;background:#f6f6f6;">인증을 원하시면 본인의 이름을 입력해 주세요.</span>
             </div>
             <div class="form-group">
                 <span class="label-control"><%- gettext('Year of Birth') %>/<%- gettext('Gender') %></span>
@@ -333,12 +333,12 @@
                     <i class="i_tag"></i>
                     <i class="i_tag"></i>
                 </span>
-                <span class="tip tip-input" id="register-country-desc" style="float:right;margin-right:0.7rem;">인증을 원하시면 본인의 출생연월일과 성을 입력해 주세요.</span>
+                <span class="tip tip-input" id="register-country-desc" style="float:right;padding-right:0.7rem;font-size:0.8rem;width:100%;text-align:right;background:#f6f6f6;">인증을 원하시면 본인의 출생연월일과 성을 입력해 주세요.</span>
             </div>
             <div class="form-group">
                 <span class="label-control"><%- gettext('Phone') %></span>
                 <input class="form-control kakao_phone_text" type="text" class="form-control" placeholder="'-'없이 숫자만 입력" maxlength="11" id="register_kakao_phone" alt="핸드폰 번호 입력 숫자만 입력">
-                <span class="tip tip-input" id="register-country-desc" style="float:right;margin-right:0.7rem;">인증을 원하시면 본인의 핸드폰 번호를 번호만 입력해 주세요.</span>
+                <span class="tip tip-input" id="register-country-desc" style="float:right;padding-right:0.7rem;font-size:0.8rem;width:100%;text-align:right;background:#f6f6f6;">인증을 원하시면 본인의 핸드폰 번호를 번호만 입력해 주세요.</span>
             </div>
             <div class="pa-group">
                 <p class="pa-text">간편인증서비스 이용에 대한 동의</p>

@@ -1487,7 +1487,7 @@ from openedx.core.djangolib.markup import HTML, Text
 </div>
 
 <script>
-
+    var OPENPOPNUM = "";
     //매치업 상세정보 데이터
     var matchupData = [{
         "id": "1",
@@ -1680,6 +1680,16 @@ from openedx.core.djangolib.markup import HTML, Text
         modalShow = "false";
         modal.css({"display": "none", "padding-right": "0"});
         modal.removeClass('in');
+
+        if (OPENPOPNUM) {
+            $.each($(".match__btn-border-pink"), function (key, obj) {
+                if (OPENPOPNUM == $(this).attr("data")) {
+                    console.log("asdfasdfsadfasdf");
+                    $(this).focus();
+                }
+            });
+            OPENPOPNUM = "";
+        }
     }
 
     function modalOpen() {
@@ -1696,7 +1706,7 @@ from openedx.core.djangolib.markup import HTML, Text
 
     //모달창 열기
     $(".modal__open").on('click', function () {
-
+        OPENPOPNUM = $(this).attr("data");
         if (modalShow != "true") {
             modalOpen();
         } else {

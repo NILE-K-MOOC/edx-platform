@@ -29,7 +29,7 @@
         <nav class="gnb" style="padding-bottom: 0px;">
             <div class="container-fluid">
                 <div class="one-depth">
-                    <a href="#" class="inject-h">${_("About K-MOOC")}</a>
+                    <a href="#none" class="inject-h">${_("About K-MOOC")}</a>
                     <ul class="two-depth">
                         <li>
                             <a href="/about_intro">${_("About Us")}</a>
@@ -43,7 +43,7 @@
                     </ul>
                 </div>
                 <div class="one-depth">
-                    <a href="#" class="inject-h">${_("Courses")}</a>
+                    <a href="#none" class="inject-h">${_("Courses")}</a>
                     <ul class="two-depth link_to_courses">
                         <li>
                             <a href="/courses">${_("Departmental Courses")}</a>
@@ -64,14 +64,12 @@
                         <li>
                             <a href="/matchup_info">${_("Match UP")}</a>
                         </li>
-
-
                     </ul>
                 </div>
 
                 % if LANGUAGE_CODE == 'ko-kr':
                 <div class="one-depth">
-                    <a href="#" class="inject-h">${_("Community")}</a>
+                    <a href="#none" class="inject-h">${_("Community")}</a>
                     <ul class="two-depth">
                         <li>
                             <a href="/comm_list/N">${_("Notices")}</a>
