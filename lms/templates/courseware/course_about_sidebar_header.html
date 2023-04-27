@@ -105,5 +105,9 @@ $(document).ready(function(){
         var share_text = $(this).children('span.share-text').text();
         $('.sharing-message').text(share_text);
     });
+    $('.share').focus(function(){
+        var share_text = $(this).children('span.share-text').text();
+        $('.sharing-message').text(share_text);
+    });
 });
 </script>
