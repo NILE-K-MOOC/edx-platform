@@ -1439,6 +1439,7 @@ $("#audit_mode").click(function(event) {
 </section>
 <script>
 var videomodalchk = false;
+var parOBJ = "";
 (function ($) {
     $.each(['show', 'hide', 'remove'], function (i, ev) {
         var el = $.fn[ev]; $.fn[ev] = function () {
@@ -1451,6 +1452,7 @@ var videomodalchk = false;
 $(document).on("show", "#modal_clone", function (e) {
     console.log(".modal.video-modal show!!!!");
     videomodalchk = true;
+    parOBJ = this;
 });
 
 $(document).on("remove", "#modal_clone", function (e) {
@@ -1458,17 +1460,15 @@ $(document).on("remove", "#modal_clone", function (e) {
     videomodalchk = false;
     setTimeout(function() {
         $("a.media").focus();
+        parOBJ = "";
     },300);
 });
 $(window).on("keyup",function(e) {
     console.log("keyup====>"+e.keyCode);
     if (videomodalchk && e.keyCode == "9" || e.keyCode === TAB_KEY) {
-        console.log("videomodalchk keyup====>"+e.keyCode);
-        e.preventDefault();
-        e.stopPropagation();
-        // var eventobj = e.currentTarget;
-        // $(eventobj).blur();
-        // $(parOBJ).focus();
+        var eventobj = e.currentTarget;
+        $(eventobj).blur();
+        $(parOBJ).focus();
     }
 });
 
