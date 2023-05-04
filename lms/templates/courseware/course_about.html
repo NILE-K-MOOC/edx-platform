@@ -1453,7 +1453,7 @@ $(document).on("show", "#modal_clone", function (e) {
     videomodalchk = true;
 });
 
-$(".modal.video-modal").on("hide",function(e,key){
+$(document).on("hide", "#modal_clone", function (e) {
     console.log(".modal.video-modal hide!!!!");
     videomodalchk = false;
     setTimeout(function() {
@@ -1461,7 +1461,9 @@ $(".modal.video-modal").on("hide",function(e,key){
     },500);
 });
 $(window).on("keyup",function(e) {
+    console.log("keyup====>"+e.keyCode);
     if (videomodalchk && e.keyCode == "9") {
+        console.log("videomodalchk keyup====>"+e.keyCode);
         e.preventDefault();
         return false;
     }
