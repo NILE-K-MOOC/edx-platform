@@ -1440,7 +1440,7 @@ $("#audit_mode").click(function(event) {
 <script>
 var videomodalchk = false;
 (function ($) {
-    $.each(['show', 'hide'], function (i, ev) {
+    $.each(['show', 'hide', 'remove'], function (i, ev) {
         var el = $.fn[ev]; $.fn[ev] = function () {
             this.trigger(ev);
             return el.apply(this, arguments);
@@ -1458,13 +1458,28 @@ $(document).on("remove", "#modal_clone", function (e) {
     videomodalchk = false;
     setTimeout(function() {
         $("a.media").focus();
-    },500);
+    },800);
 });
 $(window).on("keyup",function(e) {
     console.log("keyup====>"+e.keyCode);
     if (videomodalchk && e.keyCode == "9") {
         console.log("videomodalchk keyup====>"+e.keyCode);
-        setTimeout(function(){$(".inner-wrapper").focus()},300);
+        setTimeout(function(){
+            $("#modal_clone").focus()
+        },800);
+
+/*
+        if (OPENPOPNUM) {
+            $.each($(".match__btn-border-pink"), function (key, obj) {
+                if (OPENPOPNUM == $(this).attr("data")) {
+                    console.log("asdfasdfsadfasdf");
+                    $(this).focus();
+                }
+            });
+            OPENPOPNUM = "";
+        }
+        */
+ */
     }
 })
 </script>
