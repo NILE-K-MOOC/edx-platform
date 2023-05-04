@@ -1439,10 +1439,26 @@ $("#audit_mode").click(function(event) {
 </section>
 <script>
 var videomodalchk = false;
-$(document).on("show", "#modal_clone", function (e) {
-    console.log(".modal.video-modal show!!!!");
-    videomodalchk = true;
+// $(document).on("show", "#modal_clone", function (e) {
+//     console.log(".modal.video-modal show!!!!");
+//     videomodalchk = true;
+// });
+
+jQuery(function($) {
+  $('#modal_clone')
+    .bind('beforeShow', function() {
+      alert('beforeShow');
+    })
+    .bind('afterShow', function() {
+      alert('afterShow');
+    })
+    .show(1000, function() {
+      alert('in show callback');
+    })
+    .show();
 });
+
+
 $(".modal.video-modal").on("hide",function(e,key){
     console.log(".modal.video-modal hide!!!!");
     videomodalchk = false;
