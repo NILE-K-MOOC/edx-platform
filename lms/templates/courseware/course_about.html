@@ -1461,13 +1461,14 @@ $(document).on("remove", "#modal_clone", function (e) {
     setTimeout(function() {
         $("a.media").focus();
         parOBJ = "";
-    },800);
+    },300);
 });
 $(window).on("keyup",function(e) {
     console.log("keyup====>"+e.keyCode);
     if (videomodalchk && e.keyCode == "9" || e.keyCode === TAB_KEY) {
         console.log("videomodalchk keyup====>"+e.keyCode);
-        e.preventDefault();
+        // e.preventDefault();
+        // e.stopPropagation();
         var eventobj = e.currentTarget;
         $(eventobj).blur();
         $(parOBJ).focus();
