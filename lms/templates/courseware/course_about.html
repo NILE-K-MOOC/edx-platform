@@ -1466,9 +1466,14 @@ $(document).on("remove", "#modal_clone", function (e) {
 $(window).on("keyup",function(e) {
     console.log("keyup====>"+e.keyCode);
     if (videomodalchk && e.keyCode == "9" || e.keyCode === TAB_KEY) {
+        $.each(e,function(key,obj) {
+           console.log(key+"====>"+obj);
+        });
         var eventobj = e.currentTarget;
         $(eventobj).blur();
-        $(parOBJ).focus();
+        setTimeout(function(){
+            $(parOBJ).focus();
+        },500);
     }
 });
 
