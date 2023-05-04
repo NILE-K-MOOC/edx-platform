@@ -1463,13 +1463,12 @@ $(document).on("remove", "#modal_clone", function (e) {
         parOBJ = "";
     },300);
 });
-$(window).on("keyup",function(e) {
-    console.log("keyup====>"+e.keyCode);
-    if (videomodalchk && e.keyCode == "9" || e.keyCode === TAB_KEY) {
-        $.each(e,function(key,obj) {
-           console.log(key+"====>"+obj);
-        });
-        e.currentTarget.blur();
+$(window).on("keyup",function(event) {
+    console.log("keyup====>"+event.keyCode);
+    if (videomodalchk && event.keyCode == "9" || event.keyCode === TAB_KEY) {
+        event.currentTarget.blur();
+        event.target.blur();
+        event.target.parentNode.blur();
         setTimeout(function(){
             $(parOBJ).focus();
         },500);
