@@ -1437,7 +1437,24 @@ $("#audit_mode").click(function(event) {
         </div>
     </div>
 </section>
-
+<script>
+var videomodalchk = false;
+$(".modal.video-modal").on("show",function(e,key) {
+    videomodalchk = true;
+});
+$(".modal.video-modal").on("hide",function(e,key){
+    videomodalchk = false;
+    setTimeout(function() {
+        $("a.media").focus();
+    },500);
+});
+$(window).on("keyup",function(e) {
+    if (videomodalchk && e.keyCode == "9") {
+        e.preventDefault();
+        return false;
+    }
+})
+</script>
 %if active_reg_button or is_shib_course:
 
 <div style="display: none;">

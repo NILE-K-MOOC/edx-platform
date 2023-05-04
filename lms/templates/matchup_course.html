@@ -1449,7 +1449,7 @@ from openedx.core.djangolib.markup import HTML, Text
                     <img src="${STATIC_URL}/new_index/images/matchup-img/btn-close-xl.png">
                 </button>
             </div>
-            <div class="match__modal-body match__overflow-scroll" tabindex="-1">
+            <div class="match__modal-body match__overflow-scroll">
                 <h5>드론 분야 소개</h5>
                 <table class="match__table">
                     <caption><span>드론 분야 소개</span></caption>
@@ -1744,6 +1744,15 @@ from openedx.core.djangolib.markup import HTML, Text
             + "    <p>" + element.text + "</p>";
 
         $(".match__modal-body").append(modalContent);
+        $(window).on("keyup",function(e) {
+                var $el = $(".match__modal-body.match__overflow-scroll");
+            if (e.keyCode=="38") {
+                $el.scrollTop($el.scrollTop() - 10);
+            } else if (e.keyCode=="40") {
+                $el.scrollTop($el.scrollTop() + 10);
+            }
+        });
+
         $(this).blur();
     });
     $(function() {
