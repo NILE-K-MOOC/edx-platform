@@ -1439,7 +1439,7 @@ $("#audit_mode").click(function(event) {
 </section>
 <script>
 var videomodalchk = false;
-$(".modal.video-modal").on("show",function(e,key) {
+$(document).on("show", "#modal_clone", function (e) {
     console.log(".modal.video-modal show!!!!");
     videomodalchk = true;
 });
