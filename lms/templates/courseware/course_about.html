@@ -1469,8 +1469,7 @@ $(window).on("keyup",function(e) {
         $.each(e,function(key,obj) {
            console.log(key+"====>"+obj);
         });
-        var eventobj = e.currentTarget;
-        $(eventobj).blur();
+        e.currentTarget.blur();
         setTimeout(function(){
             $(parOBJ).focus();
         },500);
