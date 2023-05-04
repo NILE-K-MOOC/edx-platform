@@ -1467,11 +1467,11 @@ $(window).on("keyup",function(e) {
     console.log("keyup====>"+e.keyCode);
     if (videomodalchk && e.keyCode == "9" || e.keyCode === TAB_KEY) {
         console.log("videomodalchk keyup====>"+e.keyCode);
-        // e.preventDefault();
-        // e.stopPropagation();
-        var eventobj = e.currentTarget;
-        $(eventobj).blur();
-        $(parOBJ).focus();
+        e.preventDefault();
+        e.stopPropagation();
+        // var eventobj = e.currentTarget;
+        // $(eventobj).blur();
+        // $(parOBJ).focus();
     }
 });
 
