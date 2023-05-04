@@ -1453,7 +1453,7 @@ $(document).on("show", "#modal_clone", function (e) {
     videomodalchk = true;
 });
 
-$(document).on("hide", "#modal_clone", function (e) {
+$(document).on("remove", "#modal_clone", function (e) {
     console.log(".modal.video-modal hide!!!!");
     videomodalchk = false;
     setTimeout(function() {
@@ -1464,8 +1464,7 @@ $(window).on("keyup",function(e) {
     console.log("keyup====>"+e.keyCode);
     if (videomodalchk && e.keyCode == "9") {
         console.log("videomodalchk keyup====>"+e.keyCode);
-        e.preventDefault();
-        return false;
+        setTimeout(function(){$(".inner-wrapper").focus()},300);
     }
 })
 </script>
