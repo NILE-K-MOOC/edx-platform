@@ -1462,10 +1462,11 @@ $(document).on("remove", "#modal_clone", function (e) {
 });
 $(window).on("keyup",function(e) {
     console.log("keyup====>"+e.keyCode);
-    if (videomodalchk && e.keyCode == "9") {
+    if (videomodalchk && e.keyCode == "9" || e.keyCode === TAB_KEY) {
         console.log("videomodalchk keyup====>"+e.keyCode);
+        e.preventDefault();
         setTimeout(function(){
-            $("#modal_clone").focus()
+            $(".ytp-watch-later-button.ytp-button.ytp-show-watch-later-title").focus()
         },800);
     }
 });
