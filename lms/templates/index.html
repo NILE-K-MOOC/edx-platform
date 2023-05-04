@@ -833,7 +833,7 @@ from openedx.core.djangolib.markup import HTML, Text
         setTimeout(function () {
             console.log('페이지가 시작되었습니다.')
             //배너 스와이프
-            $('.banner').bxSlider({
+            var mainSlider = $('.banner').bxSlider({
                 auto: true,
                 autoHover: true,
                 speed: 600,
@@ -850,6 +850,12 @@ from openedx.core.djangolib.markup import HTML, Text
                     $(".banner").css("visibility", "visible").animate({opacity: 1});
                 }
             });
+
+            $('.banner a').focusin(function () {
+                mainSlider.stopAuto();
+            });
+
+
         }, 100); // setTimeout
     }) // ready
 

@@ -484,7 +484,7 @@ table {
 }
 .brochure_item img {
     display: inline-block;
-    width: calc(50% - 4px);
+    width: calc(100% - 4px);
     margin: 0 2px;
 }
 .brochure_item.brochure01 {
@@ -1163,23 +1163,63 @@ button.invitation_submit:focus:not(:disabled){
         <div class="brochure_next" onclick="onChangeBrochure('next')">
         </div>
         <div class="brochure_item brochure01">
-            <img src="${STATIC_URL}/images/invitation_images2/brochure01.jpg" alt="브로슈어 01장">
-            <img src="${STATIC_URL}/images/invitation_images2/brochure02.jpg" alt="브로슈어 02장">
+            <img src="${STATIC_URL}/images/invitation_images2/KMOOC-x-coursera1.jpg" alt="브로슈어 01장">
             <span class="brochure_guide">넘기려면 페이지를 클릭하세요</span>
         </div>
         <div class="brochure_item brochure02">
-            <img src="${STATIC_URL}/images/invitation_images2/brochure03.jpg" alt="브로슈어 03장">
-            <img src="${STATIC_URL}/images/invitation_images2/brochure04.jpg" alt="브로슈어 04장">
+            <img src="${STATIC_URL}/images/invitation_images2/KMOOC-x-coursera2.jpg" alt="브로슈어 02장">
             <span class="brochure_guide">넘기려면 페이지를 클릭하세요</span>
         </div>
         <div class="brochure_item brochure03">
-            <img src="${STATIC_URL}/images/invitation_images2/brochure05.jpg" alt="브로슈어 05장">
-            <img src="${STATIC_URL}/images/invitation_images2/brochure06.jpg" alt="브로슈어 06장">
+            <img src="${STATIC_URL}/images/invitation_images2/KMOOC-x-coursera3.jpg" alt="브로슈어 03장">
             <span class="brochure_guide">넘기려면 페이지를 클릭하세요</span>
         </div>
         <div class="brochure_item brochure04">
-            <img src="${STATIC_URL}/images/invitation_images2/brochure07.jpg" alt="브로슈어 07장">
-            <img src="${STATIC_URL}/images/invitation_images2/brochure08.jpg" alt="브로슈어 08장">
+            <img src="${STATIC_URL}/images/invitation_images2/KMOOC-x-coursera4.jpg" alt="브로슈어 04장">
+            <span class="brochure_guide">넘기려면 페이지를 클릭하세요</span>
+        </div>
+        <div class="brochure_item brochure05">
+            <img src="${STATIC_URL}/images/invitation_images2/KMOOC-x-coursera5.jpg" alt="브로슈어 05장">
+            <span class="brochure_guide">넘기려면 페이지를 클릭하세요</span>
+        </div>
+        <div class="brochure_item brochure06">
+            <img src="${STATIC_URL}/images/invitation_images2/KMOOC-x-coursera6.jpg" alt="브로슈어 06장">
+            <span class="brochure_guide">넘기려면 페이지를 클릭하세요</span>
+        </div>
+        <div class="brochure_item brochure07">
+            <img src="${STATIC_URL}/images/invitation_images2/KMOOC-x-coursera7.jpg" alt="브로슈어 07장">
+            <span class="brochure_guide">넘기려면 페이지를 클릭하세요</span>
+        </div>
+        <div class="brochure_item brochure08">
+            <img src="${STATIC_URL}/images/invitation_images2/KMOOC-x-coursera8.jpg" alt="브로슈어 08장">
+            <span class="brochure_guide">넘기려면 페이지를 클릭하세요</span>
+        </div>
+        <div class="brochure_item brochure09">
+            <img src="${STATIC_URL}/images/invitation_images2/KMOOC-x-coursera9.jpg" alt="브로슈어 09장">
+            <span class="brochure_guide">넘기려면 페이지를 클릭하세요</span>
+        </div>
+        <div class="brochure_item brochure10">
+            <img src="${STATIC_URL}/images/invitation_images2/KMOOC-x-coursera10.jpg" alt="브로슈어 10장">
+            <span class="brochure_guide">넘기려면 페이지를 클릭하세요</span>
+        </div>
+        <div class="brochure_item brochure11">
+            <img src="${STATIC_URL}/images/invitation_images2/KMOOC-x-coursera11.jpg" alt="브로슈어 11장">
+            <span class="brochure_guide">넘기려면 페이지를 클릭하세요</span>
+        </div>
+        <div class="brochure_item brochure12">
+            <img src="${STATIC_URL}/images/invitation_images2/KMOOC-x-coursera12.jpg" alt="브로슈어 12장">
+            <span class="brochure_guide">넘기려면 페이지를 클릭하세요</span>
+        </div>
+        <div class="brochure_item brochure13">
+            <img src="${STATIC_URL}/images/invitation_images2/KMOOC-x-coursera13.jpg" alt="브로슈어 13장">
+            <span class="brochure_guide">넘기려면 페이지를 클릭하세요</span>
+        </div>
+        <div class="brochure_item brochure14">
+            <img src="${STATIC_URL}/images/invitation_images2/KMOOC-x-coursera14.jpg" alt="브로슈어 14장">
+            <span class="brochure_guide">넘기려면 페이지를 클릭하세요</span>
+        </div>
+        <div class="brochure_item brochure15">
+            <img src="${STATIC_URL}/images/invitation_images2/KMOOC-x-coursera15.jpg" alt="브로슈어 15장">
             <span class="brochure_guide">마지막 페이지입니다. 클릭시 첫페이지로 이동합니다.</span>
         </div>
     </div>
@@ -1407,8 +1447,8 @@ button.invitation_submit:focus:not(:disabled){
             } else currentBrochure++;
         }
 
-        let brochurePage = '.brochure0' + (Number(currentBrochure) + 1);
-        // console.log(brochurePage)
+        let brochurePage = (Number(currentBrochure) < 9)?'.brochure0' + (Number(currentBrochure) + 1):'.brochure' + (Number(currentBrochure) + 1);
+        console.log(brochurePage)
 
         let page = document.querySelector(brochurePage)
         for (let i = 0; i < items.length; i++) {
