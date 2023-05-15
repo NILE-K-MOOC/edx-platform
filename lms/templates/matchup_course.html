@@ -9,7 +9,7 @@ from openedx.core.djangolib.markup import HTML, Text
 %>
 
 <%block name="pagetitle">
-매치업 (Match業)
+매치업 (Match業) 강좌소개
 </%block>
 
 
@@ -1745,7 +1745,7 @@ from openedx.core.djangolib.markup import HTML, Text
 
         $(".match__modal-body").append(modalContent);
         $(window).on("keyup",function(e) {
-                var $el = $(".match__modal-body.match__overflow-scroll");
+            var $el = $(".match__modal-body.match__overflow-scroll");
             if (e.keyCode=="38") {
                 $el.scrollTop($el.scrollTop() - 10);
             } else if (e.keyCode=="40") {
@@ -1760,6 +1760,21 @@ from openedx.core.djangolib.markup import HTML, Text
           $(".match__btn_list a").removeClass("active");
           $(this).addClass("active");
        });
+    });
+
+    $(window).on("keyup",function(event) {
+        if (modalShow && event.keyCode == "9" || event.keyCode === TAB_KEY) {
+            if ($(event.target).attr("class")!="match__modal-close") {
+                event.currentTarget.blur();
+                event.target.blur();
+                event.target.parentNode.blur();
+                $.each($(".match__btn-border-pink"), function (key, obj) {
+                    if (OPENPOPNUM == $(this).attr("data")) {
+                        $(this).focus();
+                    }
+                });
+            }
+        }
     });
 </script>
 

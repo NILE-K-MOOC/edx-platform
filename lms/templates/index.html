@@ -839,7 +839,7 @@ from openedx.core.djangolib.markup import HTML, Text
                 speed: 600,
                 pause: 3000,
                 captions: false,
-                pager: false,
+                pager: true,
                 controls: true,
                 //autoControls: true,
                 touchEnabled: false,
@@ -853,10 +853,12 @@ from openedx.core.djangolib.markup import HTML, Text
 
             $('.banner a').focusin(function () {
                 mainSlider.stopAuto();
+                var nowindex = $(".bx-pager bx-default-pager .bx-pager-item a.active").data("slide-index");
+                mainSlider.goToSlide(nowindex);
+                setTimeout(function(){
+                    $(this).focus();
+                },500);
             });
-
-
         }, 100); // setTimeout
     }) // ready
-
 </script>
