@@ -189,8 +189,6 @@ from openedx.core.djangolib.markup import HTML, Text
         if ($("#" + check).is(":checked")) {
             setCookie(id, "done", hidden_day);
         }
-
-    ##
         setCookie(id, "done", hidden_day);
 
         $("#" + id).css("display", "none");
@@ -225,8 +223,6 @@ from openedx.core.djangolib.markup import HTML, Text
         if ($("#" + check).is(":checked")) {
             setCookie(id, "done", hidden_day);
         }
-    ##
-    ##
         setCookie1(id, "done", hidden_day);
 
         $("#" + id).css("display", "none");
@@ -442,57 +438,47 @@ from openedx.core.djangolib.markup import HTML, Text
                 <div class="banner" style="visibility:hidden;opacity:0; height: 120px; overflow: hidden;">
 
                     <!-- 유데미 구독권 신청 -->
-                    <div><a href="/invitation-banner-udemy" target="_blank" style="display:block"
-                            title="유데미 구독권 신청 바로가기">
-                        <img src="${STATIC_URL}images/22nov_udemy.png" alt="유데미 구독권 신청 바로가기"
-                             style="width: 100%"/></a></div>
+                    <div>
+                        <a href="/invitation-banner-udemy" target="_blank" style="display:block" class="mainbanner" title="유데미 구독권 신청 바로가기">
+                            <img src="${STATIC_URL}images/22nov_udemy.png" alt="유데미 구독권 신청 바로가기" style="width: 100%"/>
+                        </a>
+                    </div>
 
                     <!-- 코세라 2차 구독권 신청 -->
                     <div>
-                        <a href="/invitation-banner" target="_blank" style="display:block" title="코세라 구독권 신청 바로가기">
-                            <img src="${STATIC_URL}images/22nov_coursera.png" alt="코세라 구독권 신청 바로가기"
-                                 style="width: 100%"/></a></div>
-
-##                     <!-- 코세라 2차 구독권 신청 old-->
-##                     <div><a href="/invitation-banner" target="_blank" style="display:block" title="코세라 구독권 신청 바로가기">
-##                         <img src="${STATIC_URL}images/coursera-banner2209.png" alt="코세라 구독권 신청 바로가기"
-##                              style="width: 100%"/></a></div>
-
-##                     <!--  코세라 강좌 소개 old -->
-##                     <div><a href="/coursera" target="_blank" style="display:block" title="코세라 강좌 바로가기"><img
-##                             src="${STATIC_URL}images/banner3.jpg" alt="코세라 강좌 바로가기" style="width: 100%"></a></div>
+                        <a href="/invitation-banner" target="_blank" style="display:block" class="mainbanner" title="코세라 구독권 신청 바로가기">
+                            <img src="${STATIC_URL}images/22nov_coursera.png" alt="코세라 구독권 신청 바로가기" style="width: 100%"/>
+                        </a>
+                    </div>
 
                     <!--  코세라 강좌 소개 ubion-->
-                    <div><a href="/coursera_kmooc" target="_blank" style="display:block" title="코세라 강좌 바로가기"><img
-                            src="${STATIC_URL}images/coursera_ubion_banner.png" alt="코세라 강좌 바로가기" style="width: 100%"></a></div>
+                    <div>
+                        <a href="/coursera_kmooc" target="_blank" style="display:block" class="mainbanner" title="코세라 강좌 바로가기">
+                            <img src="${STATIC_URL}images/coursera_ubion_banner.png" alt="코세라 강좌 바로가기" style="width: 100%">
+                        </a>
+                    </div>
 
                     <!-- 교양강좌 -->
-                    <div><a href="/banner" target="_blank" style="display:block" title="교양강좌 바로가기"><img
-                            src="${STATIC_URL}images/ebsjtbc_s2_220826_2.jpg" alt="교양강좌 바로가기" style="width: 100%"></a></div>
-
-##                     <!--  매치업 이벤트 소개 -->
-##                     <div>
-##                         <a href="https://matchup-event.com/"
-##                            target="_blank" style="display:block" title="매치업 이벤트 바로가기">
-##                             <img src="${STATIC_URL}images/matchup_images/matchup_event.png" alt="매치업 이벤트 바로가기"
-##                                  style="width: 100%"/></a></div>
-
-##                     <!-- sericeo old -->
-##                     <div><a href="/sericeo" target="_blank" style="display:block" title="취업지원 바로가기">
-##                             <img src="${STATIC_URL}images/sericeo.png" alt="취업지원 바로가기" style="width: 100%"/></a></div>
+                    <div>
+                        <a href="/banner" target="_blank" style="display:block" class="mainbanner" title="교양강좌 바로가기">
+                            <img src="${STATIC_URL}images/ebsjtbc_s2_220826_2.jpg" alt="교양강좌 바로가기" style="width: 100%">
+                        </a>
+                    </div>
 
                     <!-- sericeo-ubion -->
-                    <div><a href="/sericeo-employment-support" target="_blank" style="display:block" title="취업지원강좌 바로가기">
-                        <img src="${STATIC_URL}images/sericeo_ubion_banner_230119.png" alt="취업지원강좌 바로가기" style="width: 100%"/></a></div>
+                    <div>
+                        <a href="/sericeo-employment-support" target="_blank" class="mainbanner" style="display:block" title="취업지원강좌 바로가기">
+                            <img src="${STATIC_URL}images/sericeo_ubion_banner_230119.png" alt="취업지원강좌 바로가기" style="width: 100%"/>
+                        </a>
+                    </div>
 
                     <!--  매치업 소개 -->
-                    <div><a href="/matchup_info" target="_blank" style="display:block" title="매치 바로가기">
-                            <img src="${STATIC_URL}images/matchup_images/banner4.png" alt="매치업 바로가기" style="width: 100%"/></a></div>
+                    <div>
+                        <a href="/matchup_info" target="_blank" style="display:block" class="mainbanner" title="매치 바로가기">
+                            <img src="${STATIC_URL}images/matchup_images/banner4.png" alt="매치업 바로가기" style="width: 100%"/>
+                        </a>
+                    </div>
 
-##                     <!--  매치업 공모전 소개 -->
-##                     <div><a href="https://www.matchup.kr/cop/bbs/selectBoardArticle.do?menuNo=8510000&nttId=1429&bbsId=BBSMSTR_000000000001" target="_blank" style="display:block" title="매치업 공모전 바로가기">
-##                         <img src="${STATIC_URL}images/matchup_images/matchup_award.png" alt="매치업 공모전 바로가기"
-##                              style="width: 100%"/></a></div>
 
                 </div>
             </div>
@@ -514,23 +500,14 @@ from openedx.core.djangolib.markup import HTML, Text
     <!-- // 캐러셀 배너자리 -->
 
 
-    ##     <!-- 새로운 도전 (기존) 띠배너  -->
-    ##
-    <div class="sec-visual" style="margin: 5px 0;">
-        ##
+    <!-- 새로운 도전 (기존) 띠배너  -->
+    <!--div class="sec-visual" style="margin: 5px 0;">
         <div class="container-fluid">
-            ##
             <div class="visual-row">
-                ## <a href="/banner" target="_blank"><img src="${STATIC_URL}images/banner1.png" alt="위대한수업 바로가기" style="width: 100%"></a>
-                ##
+                <a href="/banner" target="_blank"><img src="${STATIC_URL}images/banner1.png" alt="위대한수업 바로가기" style="width: 100%"></a>
             </div>
-            ##
         </div>
-        ##
-    </div>
-    ##
-    ##     <!-- 새로운 도전 (기존) 띠배너  -->
-
+    </div-->
 
     <section class="sec-visual about">
         <div class="container-fluid">
@@ -819,44 +796,68 @@ from openedx.core.djangolib.markup import HTML, Text
 % endif
 
 <script>
-    $(function() {
-        $("#bannerpause").on("click",function(){
-            $(this).hide();
-            $("#bannerplay").show();
-        });
-        $("#bannerplay").on("click",function(){
-            $(this).hide();
-            $("#bannerpause").show();
-        });
-    })
-    $(document).ready(function () {
-        setTimeout(function () {
-            console.log('페이지가 시작되었습니다.')
-            //배너 스와이프
-            var mainSlider = $('.banner').bxSlider({
-                auto: true,
-                autoHover: true,
-                speed: 600,
-                pause: 3000,
-                captions: false,
-                pager: false,
-                controls: true,
-                //autoControls: true,
-                touchEnabled: false,
-                autoControls: true,
-                autoControlsCombine: true, //stop,start bind
-                autoControlsSelector: '.bannerstop',
-                onSliderLoad: function () {
-                    $(".banner").css("visibility", "visible").animate({opacity: 1});
-                }
-            });
+var mainSlider = "";
+var tabKeyCheck = false;
+$(function() {
+    $("#bannerpause").on("click",function(){
+        $(this).hide();
+        $("#bannerplay").show();
+    });
+    $("#bannerplay").on("click",function(){
+        $(this).hide();
+        $("#bannerpause").show();
+    });
+})
+$(window).on("keyup",function(e) {
+    console.log("======>"+e.keyCode);
+    if (e.keyCode=="9") {
+        var focusclass = $(':focus').attr("class");
+        if (!tabKeyCheck) {
+            tabKeyCheck = true;
+            mainSlider.goToSlide(0);
+            mainSlider.stopAuto();
+            $("#bannerpause").click();
+        }
+    }
+});
+$(document).ready(function () {
+    console.log('페이지가 시작되었습니다.')
+    //배너 스와이프
+    mainSlider = $('.banner').bxSlider({
+        auto: true,
+        autoHover: true,
+        speed: 600,
+        pause: 3000,
+        captions: false,
+        pager: true,
+        controls: true,
+        touchEnabled: false,
+        autoControls: true,
+        autoControlsCombine: true, //stop,start bind
+        autoControlsSelector: '.bannerstop',
+        onSliderLoad: function () {
+            $(".banner").css("visibility", "visible").animate({opacity: 1});
+        }
+    });
 
-            $('.banner a').focusin(function () {
-                mainSlider.stopAuto();
-            });
-
-
-        }, 100); // setTimeout
-    }) // ready
-
+    $('body').on('focusin', '.banner a', function(e) {
+        // mainSlider.stopAuto();
+        // tabKeyCheck = true;
+        // console.log("mainSlider focusin ====>" + tabKeyCheck);
+    });
+    $('body').on('click', '.bx-controls-direction .bx-prev', function (e) {
+        if (tabKeyCheck) {
+            tabKeyCheck = false;
+            mainSlider.reloadSlider();
+            setTimeout(function() {mainSlider.goToPrevSlide();},500);
+        }
+    });
+    $('body').on('click', '.bx-controls-direction .bx-next', function(e){
+        if (tabKeyCheck) {
+            tabKeyCheck = false;
+            mainSlider.reloadSlider();
+            setTimeout(function() {mainSlider.goToNextSlide();},500);
+        }
+    });
+}) // ready
 </script>

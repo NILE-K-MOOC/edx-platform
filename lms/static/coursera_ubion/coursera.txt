@@ -3,6 +3,306 @@
 		"id" : 1,
 		"coursera" : [
 			{
+				"title" : "빅 데이터 모델링 및 관리 시스템",
+				"desc" : "University of California San Diego",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=XxptUnTFEe2Jhw516RtnyQ&productType=course&query=%EB%B9%85+%EB%8D%B0%EC%9D%B4%ED%84%B0+%EB%AA%A8%EB%8D%B8%EB%A7%81+%EB%B0%8F+%EA%B4%80%EB%A6%AC+%EC%8B%9C%EC%8A%A4%ED%85%9C&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "AI 프라이버시 및 편의성",
+				"desc" : "LearnQuest",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=9K9rlqlTEe2yFg4WCBwN8w&productType=course&query=AI+%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98+%EB%AA%A8%EB%8D%B8%EA%B3%BC+%ED%95%9C%EA%B3%84%EC%A0%90&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "머신 러닝: 회귀 모델",
+				"desc" : "University of Washington",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=c3RHEHTGEe2VIApoVgQg-Q&productType=course&query=%EB%A8%B8%EC%8B%A0+%EB%9F%AC%EB%8B%9D%3A+%ED%9A%8C%EA%B7%80+%EB%AA%A8%EB%8D%B8&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "컴퓨터 비전 분야에서의 딥 러닝 응용 사례",
+				"desc" : "University of Colorado Boulder",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=jvQ5nHTGEe2Jhw516RtnyQ&productType=course&query=%EC%BB%B4%ED%93%A8%ED%84%B0+%EB%B9%84%EC%A0%84+%EB%B6%84%EC%95%BC%EC%97%90%EC%84%9C%EC%9D%98+%EB%94%A5+%EB%9F%AC%EB%8B%9D+%EC%9D%91%EC%9A%A9+%EC%82%AC%EB%A1%80&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "AI 프라이버시 및 편의성",
+				"desc" : "LearnQuest",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=udqV5XTGEe2VIApoVgQg-Q&productType=course&query=AI+%ED%94%84%EB%9D%BC%EC%9D%B4%EB%B2%84%EC%8B%9C+%EB%B0%8F+%ED%8E%B8%EC%9D%98%EC%84%B1&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "인공 지능 데이터 공정성 및 편향",
+				"desc" : "LearnQuest",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=xKnD03TGEe2nHxIe8XiEZw&productType=course&query=%EC%9D%B8%EA%B3%B5+%EC%A7%80%EB%8A%A5+%EB%8D%B0%EC%9D%B4%ED%84%B0+%EA%B3%B5%EC%A0%95%EC%84%B1+%EB%B0%8F+%ED%8E%B8%ED%96%A5&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "실용 머신 러닝 소개",
+				"desc" : "Alberta Machine Intelligence Institute",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=3O3F03TGEe2Jhw516RtnyQ&productType=course&query=%EC%8B%A4%EC%9A%A9+%EB%A8%B8%EC%8B%A0+%EB%9F%AC%EB%8B%9D+%EC%86%8C%EA%B0%9C&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "머신 러닝 자세히 알아보기 기술적 팁, 요령, 그리고 함정",
+				"desc" : "SAS",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=G6kw7H--Ee2QHRL3YiV0EQ&productType=course&query=%EB%A8%B8%EC%8B%A0+%EB%9F%AC%EB%8B%9D+%EC%9E%90%EC%84%B8%ED%9E%88+%EC%95%8C%EC%95%84%EB%B3%B4%EA%B8%B0+%EA%B8%B0%EC%88%A0%EC%A0%81+%ED%8C%81%2C+%EC%9A%94%EB%A0%B9%2C+%EA%B7%B8%EB%A6%AC%EA%B3%A0+%ED%95%A8%EC%A0%95&showMiniModal=true&source=search"
+			}
+		]
+	},
+	{
+		"id" : 2,
+		"coursera" : [
+			{
+				"title" : "핀테크 법률 및 정책",
+				"desc" : "Duke University",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=HtKXrXvdEe2afg6uQWXoiw&productType=course&query=%ED%95%80%ED%85%8C%ED%81%AC+%EB%B2%95%EB%A5%A0+%EB%B0%8F+%EC%A0%95%EC%B1%85&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "핀테크 기초 및 개요",
+				"desc" : "The Hong Kong University of Science of Technology",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=HtKXrXvdEe2afg6uQWXoiw&productType=course&query=%ED%95%80%ED%85%8C%ED%81%AC+%EB%B2%95%EB%A5%A0+%EB%B0%8F+%EC%A0%95%EC%B1%85&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "투자 기술의 혁신: AI",
+				"desc" : "University of Michigan",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=vWfmEH--Ee2MDA4NmZ7FXQ&productType=course&query=%ED%88%AC%EC%9E%90+%EA%B8%B0%EC%88%A0%EC%9D%98+%ED%98%81%EC%8B%A0%3A+AI&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "핀테크 위험 관리",
+				"desc" : "The Hong Kong University of Science of Technology",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=n0t3Cn--Ee2MDA4NmZ7FXQ&productType=course&query=%ED%95%80%ED%85%8C%ED%81%AC+%EC%9C%84%ED%97%98+%EA%B4%80%EB%A6%AC&showMiniModal=true&source=search"
+			}
+		]
+	},
+	{
+		"id" : 3,
+		"coursera" : [
+			{
+				"title" : "블록체인의 기초",
+				"desc" : "University of New York & University at Buffalo",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=huee3n_DEe2MDA4NmZ7FXQ&productType=course&query=%EB%B8%94%EB%A1%9D%EC%B2%B4%EC%9D%B8%EC%9D%98+%EA%B8%B0%EC%B4%88&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "블록체인 트랜잭션",
+				"desc" : "INSEAD",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=g0gJ1X_DEe2MDA4NmZ7FXQ&productType=course&query=%EB%B8%94%EB%A1%9D%EC%B2%B4%EC%9D%B8+%ED%8A%B8%EB%9E%9C%EC%9E%AD%EC%85%98&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "비트코인 및 암호화폐 기술",
+				"desc" : "Princeton University",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=l2NJlX_DEe2MDA4NmZ7FXQ&productType=course&query=%EB%B9%84%ED%8A%B8%EC%BD%94%EC%9D%B8+%EB%B0%8F+%EC%95%94%ED%98%B8%ED%99%94%ED%8F%90+%EA%B8%B0%EC%88%A0&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "공급망금융의 주요 성공 요소",
+				"desc" : "New York Institute of Finance",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=qSOo1n_DEe2QHRL3YiV0EQ&productType=course&query=%EA%B3%B5%EA%B8%89%EB%A7%9D%EA%B8%88%EC%9C%B5%EC%9D%98+%EC%A3%BC%EC%9A%94+%EC%84%B1%EA%B3%B5+%EC%9A%94%EC%86%8C&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "공급망금융 시장 및 핀테크 생태계",
+				"desc" : "New York Institute of Finance",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=wL38Tn_DEe2MDA4NmZ7FXQ&productType=course&query=%EA%B3%B5%EA%B8%89%EB%A7%9D%EA%B8%88%EC%9C%B5+%EC%8B%9C%EC%9E%A5+%EB%B0%8F+%ED%95%80%ED%85%8C%ED%81%AC+%EC%83%9D%ED%83%9C%EA%B3%84&showMiniModal=true&source=search"
+			}
+		]
+	},
+	{
+		"id" : 4,
+		"coursera" : [
+			{
+				"title" : "현대 로봇공학, 강좌 1: 로봇 동작의 기초",
+				"desc" : "Northwestern University",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=E5Pjgn_EEe2Mpgp0AbG6VQ&productType=course&query=%ED%98%84%EB%8C%80+%EB%A1%9C%EB%B4%87%EA%B3%B5%ED%95%99%2C+%EA%B0%95%EC%A2%8C+1%3A+%EB%A1%9C%EB%B4%87+%EB%8F%99%EC%9E%91%EC%9D%98+%EA%B8%B0%EC%B4%88&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "현대 로봇공학, 강좌 2: 로봇 기구학",
+				"desc" : "Northwestern University",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=J0mDFX_EEe2QHRL3YiV0EQ&productType=course&query=%ED%98%84%EB%8C%80+%EB%A1%9C%EB%B4%87%EA%B3%B5%ED%95%99%2C+%EA%B0%95%EC%A2%8C+2%3A+%EB%A1%9C%EB%B4%87+%EA%B8%B0%EA%B5%AC%ED%95%99&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "현대 로봇공학, 강좌 3: 로봇 동역학",
+				"desc" : "Northwestern University",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=NeapV3_EEe2Mpgp0AbG6VQ&productType=course&query=%ED%98%84%EB%8C%80+%EB%A1%9C%EB%B4%87%EA%B3%B5%ED%95%99%2C+%EA%B0%95%EC%A2%8C+3%3A+%EB%A1%9C%EB%B4%87+%EB%8F%99%EC%97%AD%ED%95%99&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "현대 로봇공학, 강좌 4: 로봇 동작 계획 및 제어",
+				"desc" : "Northwestern University",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=SdFizX_EEe2QHRL3YiV0EQ&productType=course&query=%ED%98%84%EB%8C%80+%EB%A1%9C%EB%B4%87%EA%B3%B5%ED%95%99%2C+%EA%B0%95%EC%A2%8C+4%3A+%EB%A1%9C%EB%B4%87+%EB%8F%99%EC%9E%91+%EA%B3%84%ED%9A%8D+%EB%B0%8F+%EC%A0%9C%EC%96%B4&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "현대 로봇공학, 강좌 5: 로봇 매니퓰레이션 및 차륜형 이동 로봇",
+				"desc" : "Northwestern University",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=Xq8ur3_EEe2Mpgp0AbG6VQ&productType=course&query=%ED%98%84%EB%8C%80+%EB%A1%9C%EB%B4%87%EA%B3%B5%ED%95%99%2C+%EA%B0%95%EC%A2%8C+5%3A+%EB%A1"
+			},
+			{
+				"title" : "현대 로봇공학, 강좌 6: 캡스톤 프로젝트, 모바일 매니퓰레이션",
+				"desc" : "Northwestern University",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=ceU-3H_EEe2MDA4NmZ7FXQ&productType=course&query=%ED%98%84%EB%8C%80+%EB%A1%9C%EB%B4%87%EA%B3%B5%ED%95%99%2C+%EA%B0%95%EC%A2%8C+6%3A+%EC%BA"
+			}
+		]
+	},
+	{
+		"id" : 5,
+		"coursera" : [
+			{
+				"title" : "의료 서비스를 위한 시스템공학의 기초",
+				"desc" : "Johns Hopkins University",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=kqg8z3_EEe2MDA4NmZ7FXQ&productType=course&query=%EC%9D%98%EB%A3%8C+%EC%84%9C%EB%B9%84%EC%8A%A4%EB%A5%BC+%EC%9C%84%ED%95%9C+%EC%8B%9C%EC%8A%A4%ED%85%9C%EA%B3%B5%ED%95%99%EC%9D%98+%EA%B8%B0%EC%B4%88&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "의료기술 및 의료기술평가",
+				"desc" : "University of Minnesota",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=wRntt3_FEe2Mpgp0AbG6VQ&productType=course&query=%EC%9D%98%EB%A3%8C%EA%B8%B0%EC%88%A0+%EB%B0%8F+%EC%9D%98%EB%A3%8C%EA%B8%B0%EC%88%A0%ED%8F%89%EA%B0%80&showMiniModal=true&source=search"
+			}
+		]
+	},
+	{
+		"id" : 6,
+		"coursera" : [
+			{
+				"title" : "재생 에너지: 기본 원리 및 일자리 창출",
+				"desc" : "University at Buffalo",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=3Fbjo3_FEe2MDA4NmZ7FXQ&productType=course&query=%EC%9E%AC%EC%83%9D+%EC%97%90%EB%84%88%EC%A7%80%3A+%EA%B8%B0%EB%B3%B8+%EC%9B%90%EB%A6%AC+%EB%B0%8F+%EC%9D%BC%EC%9E%90%EB%A6%AC+%EC%B0%BD%EC%B6%9C&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "신재생 에너지 기술의 기초",
+				"desc" : "University of Colorado Boulder",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=CgR2N3_GEe2QHRL3YiV0EQ&productType=course&query=%EC%8B%A0%EC%9E%AC%EC%83%9D+%EC%97%90%EB%84%88%EC%A7%80+%EA%B8%B0%EC%88%A0%EC%9D%98+%EA%B8%B0%EC%B4%88&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "녹색 경제: 지속가능한 도시",
+				"desc" : "Lund University",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=GiaO2n_GEe2Mpgp0AbG6VQ&productType=course&query=%EB%85%B9%EC%83%89+%EA%B2%BD%EC%A0%9C%3A+%EC%A7%80%EC%86%8D%EA%B0%80%EB%8A%A5%ED%95%9C+%EB%8F%84%EC%8B%9C&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "신재생 에너지와 녹색기업가 정신",
+				"desc" : "Duke University",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=PpZBk3_GEe2MDA4NmZ7FXQ&productType=course&query=%EC%8B%A0%EC%9E%AC%EC%83%9D+%EC%97%90%EB%84%88%EC%A7%80%EC%99%80+%EB%85%B9%EC%83%89%EA%B8%B0%EC%97%85%EA%B0%80+%EC%A0%95%EC%8B%A0&showMiniModal=true&source=search"
+			}
+		]
+	},
+	{
+		"id" : 7,
+		"coursera" : [
+			{
+				"title" : "영업 잠재 고객에게 다가가는 법",
+				"desc" : "Northwestern University",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=PiBN13_GEe2Mpgp0AbG6VQ&productType=course&query=%EC%98%81%EC%97%85+%EC%9E%A0%EC%9E%AC+%EA%B3%A0%EA%B0%9D%EC%97%90%EA%B2%8C+%EB%8B%A4%EA%B0%80%EA%B0%80%EB%8A%94+%EB%B2%95&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "공급망 관리 전략 세우기",
+				"desc" : "Rutgers the State University of New Jersey",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=U8QByH_GEe2MDA4NmZ7FXQ&productType=course&query=%EA%B3%B5%EA%B8%89%EB%A7%9D+%EA%B4%80%EB%A6%AC+%EC%A0%84%EB%9E%B5+%EC%84%B8%EC%9A%B0%EA%B8%B0&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "혁신적인 비즈니스 모델 만들기",
+				"desc" : "HEC Paris",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=ipw7Fn_GEe2QHRL3YiV0EQ&productType=course&query=%ED%98%81%EC%8B%A0%EC%A0%81%EC%9D%B8+%EB%B9%84%EC%A6%88%EB%8B%88%EC%8A%A4+%EB%AA%A8%EB%8D%B8+%EB%A7%8C%EB%93%A4%EA%B8%B0&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "공급망 관리: 세계로 진출하라",
+				"desc" : "Macquarie University",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=2iOTlX_GEe2MDA4NmZ7FXQ&productType=course&query=%EA%B3%B5%EA%B8%89%EB%A7%9D+%EA%B4%80%EB%A6%AC%3A+%EC%84%B8%EA%B3%84%EB%A1%9C+%EC%A7%84%EC%B6%9C%ED%95%98%EB%9D%BC&showMiniModal=true&source=search"
+			}
+		]
+	},
+	{
+		"id" : 8,
+		"coursera" : [
+			{
+				"title" : "캡스톤 : 소프트웨어 제품 관리 실전 프로젝트",
+				"desc" : "University of Alberta",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=4cscE3_GEe2Mpgp0AbG6VQ&productType=course&query=%EC%BA%A1%EC%8A%A4%ED%86%A4+%3A+%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4+%EC%A0%9C%ED%92%88+%EA%B4%80%EB%A6%AC+%EC%8B%A4%EC%A0%84+%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "경영 및 전략기획의 본질",
+				"desc" : "University of California, Irvine",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=OtKXWalUEe2txRJ4UFoCeQ&productType=course&query=%EA%B2%BD%EC%98%81+%EB%B0%8F+%EC%A0%84%EB%9E%B5%EA%B8%B0%ED%9A%8D%EC%9D%98+%EB%B3%B8%EC%A7%88&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "전략적 경영으로 경쟁우위 선점하기",
+				"desc" : "Macquarie University",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=-hblr3_GEe2QHRL3YiV0EQ&productType=course&query=%EC%A0%84%EB%9E%B5%EC%A0%81+%EA%B2%BD%EC%98%81%EC%9C%BC%EB%A1%9C+%EA%B2%BD%EC%9F%81%EC%9A%B0%EC%9C%84+%EC%84%A0%EC%A0%90%ED%95%98%EA%B8%B0&showMiniModal=true&source=search"
+			}
+		]
+	},
+	{
+		"id" : 9,
+		"coursera" : [
+			{
+				"title" : "디지털 전환에 따른 변화: 완전 강좌",
+				"desc" : "EIT Digital",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=Wllrg6lUEe2lXQoOScv4nw&productType=course&query=%EB%94%94%EC%A7%80%ED%84%B8+%EC%A0%84%ED%99%98%EC%97%90+%EB%94%B0%EB%A5%B8+%EB%B3%80%ED%99%94%3A+%EC%99%84%EC%A0%84+%EA%B0%95%EC%A2%8C&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "디지털 전환 입문과정 [파트 1]",
+				"desc" : "University of Virginia Darden School Foundation",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=UauNQX_HEe2Mpgp0AbG6VQ&productType=course&query=%EB%94%94%EC%A7%80%ED%84%B8+%EC%A0%84%ED%99%98+%EC%9E%85%EB%AC%B8%EA%B3%BC%EC%A0%95+%5B%ED%8C%8C%ED%8A%B8+1%5D&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "디지털 전환 입문과정 [파트 2]",
+				"desc" : "University of Virginia Darden School Foundation",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=YHgn5X_HEe2QHRL3YiV0EQ&productType=course&query=%EB%94%94%EC%A7%80%ED%84%B8+%EC%A0%84%ED%99%98+%EC%9E%85%EB%AC%B8%EA%B3%BC%EC%A0%95+%5B%ED%8C%8C%ED%8A%B8+2%5D&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "VMware NSX를 활용한 네트워킹 및 보안 아키텍처",
+				"desc" : "VMware",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=cTRm9alUEe2txRJ4UFoCeQ&productType=course&query=VMware+NSX%EB%A5%BC+%ED%99%9C%EC%9A%A9%ED%95%9C+%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%82%B9+%EB%B0%8F+%EB%B3%B4%EC%95%88+%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "혁신을 위한 디자인 씽킹",
+				"desc" : "University of Virginia",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=e3SSEn_HEe2QHRL3YiV0EQ&productType=course&query=%ED%98%81%EC%8B%A0%EC%9D%84+%EC%9C%84%ED%95%9C+%EB%94%94%EC%9E%90%EC%9D%B8+%EC%94%BD%ED%82%B9&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "디지털 제품 경영: 현대적 기본 원칙",
+				"desc" : "University of Virginia",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=ZZ17J3_eEe2Mpgp0AbG6VQ&productType=course&query=%EB%94%94%EC%A7%80%ED%84%B8+%EC%A0%9C%ED%92%88+%EA%B2%BD%EC%98%81%3A+%ED%98%84%EB%8C%80%EC%A0%81+%EA%B8%B0%EB%B3%B8+%EC%9B%90%EC%B9%99&showMiniModal=true&source=search"
+			}
+		]
+	},
+	{
+		"id" : 10,
+		"coursera" : [
+			{
+				"title" : "Tableau를 사용한 대시보드 및 스토리텔링 작성",
+				"desc" : "University of California, Davis",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=qbA0gH_HEe2MDA4NmZ7FXQ&productType=course&query=Tableau%EB%A5%BC+%EC%82%AC%EC%9A%A9%ED%95%9C+%EB%8C%80%EC%8B%9C%EB%B3%B4%EB%93%9C+%EB%B0%8F+%EC%8A%A4%ED%86%A0%EB%A6%AC%ED%85%94%EB%A7%81+%EC%9E%91%EC%84%B1&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "데이터 스토리텔링",
+				"desc" : "University of California, Irvine",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=zHVr3n_HEe2Mpgp0AbG6VQ&productType=course&query=%EB%8D%B0%EC%9D%B4%ED%84%B0+%EC%8A%A4%ED%86%A0%EB%A6%AC%ED%85%94%EB%A7%81&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "스토리텔링과 영향력: 임팩트 있게 소통하라",
+				"desc" : "Macquarie University",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=0aIwAH_HEe2MDA4NmZ7FXQ&productType=course&query=%EC%8A%A4%ED%86%A0%EB%A6%AC%ED%85%94%EB%A7%81%EA%B3%BC+%EC%98%81%ED%96%A5%EB%A0%A5%3A+%EC%9E%84%ED%8C%A9%ED%8A%B8+%EC%9E%88%EA%B2%8C+%EC%86%8C%ED%86%B5%ED%95%98%EB%9D%BC&showMiniModal=true&source=search"
+			}
+		]
+	},
+	{
+		"id" : 11,
+		"coursera" : [
+			{
+				"title" : "디지털 거버넌스",
+				"desc" : "Erasmus University Rotterdam, University of Leeds",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=82bmwH_HEe2QHRL3YiV0EQ&productType=course&query=%EB%94%94%EC%A7%80%ED%84%B8+%EA%B1%B0%EB%B2%84%EB%84%8C%EC%8A%A4&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "사이버 보안 인식 높이기",
+				"desc" : "(ISC)²",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=bLrtsX_IEe2QHRL3YiV0EQ&productType=course&query=%EC%82%AC%EC%9D%B4%EB%B2%84+%EB%B3%B4%EC%95%88+%EC%9D%B8%EC%8B%9D+%EB%86%92%EC%9D%B4%EA%B8%B0&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "세계화 시대의 보안 및 안전 문제",
+				"desc" : "University of Leiden",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=fD6j0n_IEe2QHRL3YiV0EQ&productType=course&query=%EC%84%B8%EA%B3%84%ED%99%94+%EC%8B%9C%EB%8C%80%EC%9D%98+%EB%B3%B4%EC%95%88+%EB%B0%8F+%EC%95%88%EC%A0%84+%EB%AC%B8%EC%A0%9C&showMiniModal=true&source=search"
+			},
+			{
+				"title" : "디지털 민주주의의 명암",
+				"desc" : "University of Michigan",
+				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo/browse?authProvider=kmooc&collectionId=&productId=k1tjq3_IEe2MDA4NmZ7FXQ&productType=course&query=%EB%94%94%EC%A7%80%ED%84%B8+%EB%AF%BC%EC%A3%BC%EC%A3%BC%EC%9D%98%EC%9D%98+%EB%AA%85%EC%95%94&showMiniModal=true&source=search"
+			}
+		]
+	},
+	{
+		"id" : 12,
+		"coursera" : [
+			{
 				"title" : "데이터 과학자의 도구 상자",
 				"desc" : "Johns Hopkins University",
 				"href" : "https://www.coursera.org/programs/kmooc-coursera-learning-hub-rreuo?productId=PEuG9jNsEeyTERK47a9PLQ&productType=course&showMiniModal=true&authMode=login&authProvider=kmooc"
@@ -25,7 +325,7 @@
 		]
 	},
 	{
-		"id" : 2,
+		"id" : 13,
 		"coursera" : [
 			{
 				"title" : "R 프로그래밍",
@@ -46,7 +346,7 @@
 		]
 	},
 	{
-		"id" : 3,
+		"id" : 14,
 		"coursera" : [
 			{
 				"title" : "컨볼루션 신경망",
@@ -76,7 +376,7 @@
 		]
 	},
 	{
-		"id" : 4,
+		"id" : 15,
 		"coursera" : [
 			{
 				"title" : "머신 러닝 기초 : 사례연구 접근 방식",
@@ -116,7 +416,7 @@
 		]
 	},
 	{
-		"id" : 5,
+		"id" : 16,
 		"coursera" : [
 			{
 				"title" : "Introduction to Psychology",
@@ -191,7 +491,7 @@
 		]
 	},
 	{
-		"id" : 6,
+		"id" : 17,
 		"coursera" : [
 			{
 				"title" : "Introduction to Financial Engineering and Risk Management",
@@ -241,7 +541,7 @@
 		]
 	},
 	{
-		"id" : 7,
+		"id" : 18,
 		"coursera" : [
 			{
 				"title" : "Nutrition and Lifestyle in Pregnancy",
@@ -276,7 +576,7 @@
 		]
 	},
 	{
-		"id" : 8,
+		"id" : 19,
 		"coursera" : [
 			{
 				"title" : "AI For Everyone",
@@ -331,7 +631,7 @@
 		]
 	},
 	{
-		"id" : 9,
+		"id" : 20,
 		"coursera" : [
 			{
 				"title" : "Fundamentals of Music Theory",
