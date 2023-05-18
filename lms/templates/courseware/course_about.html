@@ -1462,12 +1462,12 @@ $(document).on("remove", "#modal_clone", function (e) {
 });
 $(window).on("keyup",function(event) {
     console.log("keyup====>"+event.keyCode);
-    if (videomodalchk && event.keyCode == "9" || event.keyCode === TAB_KEY) {
+    if (videomodalchk && event.keyCode == "9") {
         event.currentTarget.blur();
         event.target.blur();
         event.target.parentNode.blur();
         setTimeout(function(){
-            $("a.media").focus();
+            $(".match__modal-close").focus();
         },500);
     }
 });
