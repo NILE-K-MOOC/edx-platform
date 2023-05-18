@@ -152,9 +152,9 @@ from openedx.core.djangolib.markup import HTML, Text
                 </h2>
                 <div class="matchup-tab">
                     <ul>
-                        <li class="on"><a href="javascript:;" alt="학습자 선택됨">학습자</a></li>
-                        <li><a href="javascript:;" alt="대표기업">대표기업</a></li>
-                        <li><a href="javascript:;" alt="교육기관">교육기관</a></li>
+                        <li class="on"><a href="javascript:;" title="선택됨">학습자</a></li>
+                        <li><a href="javascript:;" title="">대표기업</a></li>
+                        <li><a href="javascript:;" title="">교육기관</a></li>
                     </ul>
                 </div>
                 <!-- 탭내용 -->
@@ -190,13 +190,12 @@ from openedx.core.djangolib.markup import HTML, Text
         var mcuTabCont = $('.matchup-tab-content > div');
         mcuTabLi.click(function () {
             $.each($('.matchup-tab li'), function (key, obj) {
-                var oritext = $(this).find("a").text().replace(" 선택됨", "");
-                $(this).find("a").attr("alt", oritext);
+                $(this).find("a").attr("title", "");
             });
             var idx = $(this).index();
             mcuTabLi.removeClass('on');
             mcuTabLi.eq(idx).addClass('on');
-            mcuTabLi.eq(idx).find("a").attr('alt',$(this).find("a").text()+" 선택됨");
+            mcuTabLi.eq(idx).find("a").attr('title',"선택됨");
             mcuTabCont.hide();
             mcuTabCont.eq(idx).show();
         });
