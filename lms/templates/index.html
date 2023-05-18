@@ -768,11 +768,6 @@ from openedx.core.djangolib.markup import HTML, Text
 % if show_homepage_promo_video:
 <section id="video-modal" class="modal home-page-video-modal video-modal">
     <div class="inner-wrapper">
-        <div class="match__modal-header">
-            <button type="button" class="match__modal-close" tabindex="0">
-                <img src="/static//new_index/images/matchup-img/btn-close-xl.png" alt="닫기">
-            </button>
-        </div>
         <iframe title="YouTube Video" width="640" height="360"
                 src="//www.youtube.com/embed/${homepage_promo_video_youtube_id}?showinfo=0" frameborder="0"
                 allowfullscreen></iframe>
