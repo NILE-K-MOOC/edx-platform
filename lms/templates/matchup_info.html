@@ -46,6 +46,15 @@ from openedx.core.djangolib.markup import HTML, Text
     }
     .matchup-tab li.on > a {color:#FFFFFF !important;}
     .matchup-tab li > a {color:#000000 !important;}
+
+    .h5hidden{
+      overflow: hidden;
+      position: absolute;
+      border: 0;
+      width: 1px;
+      height: 1px;
+      clip: rect(1px, 1px, 1px, 1px);
+    }
 </style>
 
 
@@ -154,15 +163,15 @@ from openedx.core.djangolib.markup import HTML, Text
                     <ul>
                         <li class="on">
                             <a href="javascript:;" title="선택됨">학습자</a>
-                            <h5 style="display:none">학습자 내용보기</h5>
+                            <h5 class="h5hidden">학습자 내용보기</h5>
                         </li>
                         <li>
                             <a href="javascript:;" title="">대표기업</a>
-                            <h5 style="display:none">대표기업 내용보기</h5>
+                            <h5 class="h5hidden">대표기업 내용보기</h5>
                         </li>
                         <li>
                             <a href="javascript:;" title="">교육기관</a>
-                            <h5 style="display:none">교육기관 내용보기</h5>
+                            <h5 class="h5hidden">교육기관 내용보기</h5>
                         </li>
                     </ul>
                 </div>
