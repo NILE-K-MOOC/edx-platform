@@ -799,6 +799,9 @@
 
                     if ($("#kakao_form").css('display') == 'none') {
                         $("#kakao_form").show();
+                        setTimeout(function(){
+                            $(".form-control.kakao_name_text").focus();
+                        },500);
                     } else {
                         $("#kakao_form").hide();
                     }
