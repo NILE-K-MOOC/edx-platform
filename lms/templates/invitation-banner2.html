@@ -1065,25 +1065,25 @@ button.invitation_submit:focus:not(:disabled){
         <div class="itemWrap">
             <img src="${STATIC_URL}/images/invitation220830/sec01_item.png" alt="sec01_item">
 ## 구독권 마감
-                <div class="invitation_btn invitation_enroll" onclick="alert('구독권 모집이 모두 마감되었습니다. \n2기 모집은 5/22(월)부터 시작됩니다.')">
-                    <img src="${STATIC_URL}/images/invitation220830/btn_01_end.png" alt="btn_01">
-                </div>
+            <!--div class="invitation_btn invitation_enroll" onclick="alert('구독권 모집이 모두 마감되었습니다. \n2기 모집은 5/22(월)부터 시작됩니다.')">
+                <img src="${STATIC_URL}/images/invitation220830/btn_01_end.png" alt="btn_01">
+            </div>
 
             <div class="info-reapply">
                 *5/22(월) 2기 재모집 예정
-            </div>
+            </div-->
 
             ## 구독권 신청
-            ##             % if user.is_authenticated:
-            ##                 <div class="invitation_btn invitation_enroll" onclick="onShowEvent()">
-            ##                             <img src="${STATIC_URL}/images/invitation220830/btn_01.png" alt="btn_01">
-            ##                 </div>
-            ##             % else:
-            ##                 <!--    로그인이 필요합니다. 로그인 페이지로 리다이렉트 window.location.href = "/login"; -->
-            ##                 <div class="invitation_btn invitation_enroll" onclick="onDirection()">
-            ##                     <img src="${STATIC_URL}/images/invitation220830/btn_01.png" alt="btn_01">
-            ##                 </div>
-            ##             % endif
+        % if user.is_authenticated:
+            <div class="invitation_btn invitation_enroll" onclick="onShowEvent()">
+                <img src="${STATIC_URL}/images/invitation220830/btn_01.png" alt="btn_01">
+            </div>
+        % else:
+        <!--    로그인이 필요합니다. 로그인 페이지로 리다이렉트 window.location.href = "/login"; -->
+            <div class="invitation_btn invitation_enroll" onclick="onDirection()">
+                <img src="${STATIC_URL}/images/invitation220830/btn_01.png" alt="btn_01">
+            </div>
+        % endif
         </div>
     </div>
 </section>
@@ -1138,27 +1138,27 @@ button.invitation_submit:focus:not(:disabled){
         </div>
     <!--  <a class="btn03" href="#"><img src="${STATIC_URL}/images/invitation220830/btn_03.png" alt="btn_03"></a> -->
 ## 구독권 마감
-            <div class="invitation_btn invitation_enroll" onclick="alert('구독권 모집이 모두 마감되었습니다. \n2기 모집은 5/22(월)부터 시작됩니다.')">
+            <!--div class="invitation_btn invitation_enroll" onclick="alert('구독권 모집이 모두 마감되었습니다. \n2기 모집은 5/22(월)부터 시작됩니다.')">
                  <img src="${STATIC_URL}/images/invitation220830/btn_03_end.png" alt="btn_03">
-            </div>
+            </div-->
 
 
 
 ## 구독권 신청
-##         % if user.is_authenticated:
-##             <div class="invitation_btn invitation_enroll" onclick="onShowEvent()">
-##                  <img src="${STATIC_URL}/images/invitation220830/btn_03.png" alt="btn_03">
-##             </div>
-##         % else:
-##             <!--    로그인이 필요합니다. 로그인 페이지로 리다이렉트 window.location.href = "/login"; -->
-##             <div class="invitation_btn invitation_enroll" onclick="onDirection()">
-##                 <img src="${STATIC_URL}/images/invitation220830/btn_03.png" alt="btn_03">
-##             </div>
-##         % endif
-##
+     % if user.is_authenticated:
+         <div class="invitation_btn invitation_enroll" onclick="onShowEvent()">
+              <img src="${STATIC_URL}/images/invitation220830/btn_03.png" alt="btn_03">
+         </div>
+     % else:
+         <!--    로그인이 필요합니다. 로그인 페이지로 리다이렉트 window.location.href = "/login"; -->
+         <div class="invitation_btn invitation_enroll" onclick="onDirection()">
+             <img src="${STATIC_URL}/images/invitation220830/btn_03.png" alt="btn_03">
+         </div>
+     % endif
+
 
 ## 구독권 마감
-        <img src="${STATIC_URL}/images/invitation220830/sec_04_end_reapply.png" alt="sec_04">
+        <img src="${STATIC_URL}/images/invitation220830/sec_04_end_reapply2.png" alt="sec_04">
 <div >
         <div class="info-reapply-bottom">
 ##             *5/22(월) 2기 재모집 예정
