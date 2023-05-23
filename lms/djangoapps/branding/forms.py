@@ -7,7 +7,7 @@ from django.core.validators import MinLengthValidator, EmailValidator, RegexVali
 class InvitationForm(forms.ModelForm):
 
     user_id = forms.IntegerField()#widget=forms.HiddenInput()
-    username = forms.CharField(max_length=20, required=True)
+    username = forms.CharField(max_length=30, required=True)
     phone = forms.CharField(max_length=100,required=True)
     email = forms.EmailField(max_length=40, required=True)
     job = forms.CharField(max_length=10, widget=forms.Select, required=True)
