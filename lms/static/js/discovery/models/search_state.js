@@ -13,6 +13,7 @@
             page: 0,
             pageSize: 20,
             searchTerm: '',
+            sort: "start:desc",
             terms: {},
             jqhxr: null,
 
@@ -91,10 +92,11 @@
                 var data = {
                     search_string: this.searchTerm,
                     page_size: this.pageSize,
-                    page_index: pageIndex
+                    page_index: pageIndex,
+                    sort: this.sort
                 };
                 // console.log('buildQuery --- s');
-                // console.log(this.terms);
+                // console.log("this terms:"+ this.terms);
                 // console.log('buildQuery --- e');
                 _.extend(data, this.terms);
 
@@ -205,7 +207,8 @@
                         data: {
                             search_string: '',
                             page_size: this.pageSize,
-                            page_index: 0
+                            page_index: 0,
+                            sort: this.sort
                         },
                         success: function (model, response, options) {
                             deferred.resolveWith(self, [model]);
