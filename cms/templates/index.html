@@ -194,7 +194,7 @@ from openedx.core.djangolib.js_utils import (
        </div>
   </div>
 </div>
-<!--script src="${static.url('js/script/paginathing.js')}" charset="utf-8"></script-->
+<script src="${static.url('js/script/paginathing.js')}" charset="utf-8"></script>
 <script>
   var popupDate = new Date();
   // 월은 0부터 계산되므로 해당월 - 1 한 값으로 지정
@@ -225,7 +225,6 @@ from openedx.core.djangolib.js_utils import (
     $(window).resize(function(){
       setIframeHeight("frame_1");
     });
-/*
     $('.list-courses').paginathing({
       perPage: 20,
       limitPagination: 9,
@@ -233,7 +232,7 @@ from openedx.core.djangolib.js_utils import (
       pageNumbers: false,
       ulClass: 'pagination flex-wrap justify-content-center',
     });
-*/
+
   });
 
     function setIframeHeight(id) {

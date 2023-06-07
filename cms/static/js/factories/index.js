@@ -58,6 +58,7 @@ define(['jquery.form', 'js/index'], function () {
             "archived_tab": courses_list($('.archived-courses .course-title')),
             "libraries_tab": courses_list($('.libraries .course-title'))
         };
+
         // 검색 자동 완성
 
         // let title_list = $(".course-title:visible").map(function(){return this.innerText});
@@ -88,9 +89,10 @@ define(['jquery.form', 'js/index'], function () {
         $('#course-index-tabs li').click(function () {
             // 탭 아이디
             var clickId = $(this).attr('id');
+
             // 이전탭 검색 초기화
             $("#cms_text").val('');
-            studio_search();
+            studio_search(clickId);
             // search_data에 탭 아이디로 값을 가져와 변경
             if ($(this).hasClass('active')) {
                 $("#cms_text").autocomplete(
@@ -118,38 +120,53 @@ define(['jquery.form', 'js/index'], function () {
         });
 
         // 강좌 검색 핵심 함수
-        function studio_search() {
+        function studio_search(clickId) {
             console.time('studio_search');
 
             var cms_text = $('#cms_text').val();
             var cms_search_radio = $('input:radio[name="search_radio"]:checked').val();
+            var $tab_id = ""
+            if(clickId == 'course_tab')
+                $tab_id = '#react-course-listing';
+            else if(clickId == 'archived_tab')
+                $tab_id = '#react-archived-course-listing';
+            else if(clickId == 'libraries_tab')
+                $tab_id = '#react-library-listing';
 
             // var cnt = $('.course-item').length;
             if(cms_search_radio == 'course_name') {
                 if (cms_text) {
                     $(".course-title:visible").parents('.course-item').hide();
-                    $(".course-title:contains(" + cms_text + ")").parents('.course-item').show();
+                    var search_paging = $(".course-title:contains(" + cms_text + ")").parents($tab_id + ' '+ '.course-item');
+                    search_paging.wrapAll($("<ul class='list-courses'></ul>"));
+                    search_paging.show();
                 } else {
-                    $(".course-title").parents('.course-item').show();
+                    // $(".course-title").parents('.course-item').show();
+                    var search_paging_all = $(".course-title").parents($tab_id + ' '+ '.course-item');
+                    search_paging_all.show();
+
+                    search_paging_all.wrapAll($("<ul class='list-courses'></ul>"));
                 }
                 setTimeout(function () {
                     $("#cms_text").focus();
                 }, 100);
             }else if(cms_search_radio == 'university_name'){
                 if (cms_text) {
-                    $(".course-org-name>.value:visible").parents('.course-item').hide();
-                    $(".course-org>.value:visible").parents('.course-item').hide();
-                    $(".course-org-name>.value:contains(" + cms_text + ")").parents('.course-item').show();
-                    $(".course-org>.value:contains(" + cms_text + ")").parents('.course-item').show();
+                    $(".course-org-name>.value:visible").parents($tab_id + ' '+ '.course-item').hide();
+                    $(".course-org>.value:visible").parents($tab_id + ' '+ '.course-item').hide();
+                    var org_name_search = $(".course-org-name>.value:contains(" + cms_text + "), .course-org>.value:contains(" + cms_text + ")").parents($tab_id + ' ' +
+                        '.course-item');
+                    org_name_search.show();
+                    org_name_search.wrapAll($("<ul class='list-courses'></ul>"));
                 } else {
-                    $(".course-org-name").parents('.course-item').show();
-                    $(".course-org").parents('.course-item').show();
+                    var org_name_search_all = $(".course-org-name, .course-org").parents($tab_id + ' '+ '.course-item');
+                    org_name_search_all.show();
+                    org_name_search_all.wrapAll($("<ul class='list-courses'></ul>"));
                 }
                 setTimeout(function () {
                     $("#cms_text").focus();
                 }, 100);
             }
-
             /*
             for (var i = 0; i < cnt; i++) {
                 $('.course-item').eq(i).show();
@@ -176,21 +193,42 @@ define(['jquery.form', 'js/index'], function () {
         $("#cms_text").keydown(function (event) {
             if (event.which === 13 && $("#cms_text").is(":focus") == true) {
                 console.log("event call start");
-                studio_search();
+                var clickId = $('#course-index-tabs > .active').attr('id');
+                $('.list-courses').contents().unwrap();
+                studio_search(clickId);
                 console.log("event call end");
                 $("#cms_text").blur();
+                $('.pagination').empty();
+                $('.list-courses').paginathing({
+                    perPage: 20,
+                    limitPagination: 9,
+                    containerClass: 'panel-footer mt-4',
+                    pageNumbers: false,
+                    ulClass: 'pagination flex-wrap justify-content-center',
+                });
             }
         });
 
         // 강좌 클릭 시 검색 이벤트
         $('#cms_search').click(function (event) {
-            studio_search();
+            $('.list-courses').contents().unwrap();
+            var clickId = $('#course-index-tabs > .active').attr('id');
+            studio_search(clickId);
+            $('.pagination').empty();
+            $('.list-courses').paginathing({
+                perPage: 20,
+                limitPagination: 9,
+                containerClass: 'panel-footer mt-4',
+                pageNumbers: false,
+                ulClass: 'pagination flex-wrap justify-content-center',
+            });
         });
 
         $("#cms_text").on('autocompleteselect', function (e, ui) {
             $("#cms_text").val(ui.item.value);
+            var clickId = $('#course-index-tabs > .active').attr('id');
             console.log($("#cms_text").val(ui.item.value))
-            studio_search();
+            studio_search(clickId);
             console.log('You selected: ' + ui.item.value);
         });
 
