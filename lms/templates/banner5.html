@@ -14,6 +14,60 @@ ${("")}
 
 <style>
 button:focus{background:#000000 !important;}
+.coursera .coursera-visual > h2 .large-info {
+    font-size: 48px;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-top: 20px;
+    .coursera br.br-md {
+        display: none !important;
+    }
+}
+.coursera .coursera-visual > h2 .large-info strong {
+    color: #10BEFF;
+}
+.global_btn_group {padding-top:50px;}
+a.global_btn {background:#ffffff;color:#000;padding:10px 20px 10px 20px;}
+a.global_btn :not(.btn), a.global_btn :visited:not(.btn) {color: #000000;}
+@media(max-width:991.98px){
+	.coursera .coursera-visual > h2 p{
+		font-size:22px;
+	}
+	.coursera .coursera-visual > h2 .large-info {
+		font-size:38px;
+	}
+    .coursera br.br-xg {
+        display: none !important;
+    }
+    .global_btn_group {padding-top:20px;}
+}
+@media(max-width:767.98px){
+	.coursera .coursera-visual > h2 p{
+		font-size:20px;
+	}
+	.coursera .coursera-visual > h2 .large-info {
+		font-size:30px;
+		font-weight:300;
+	}
+    .coursera br.br-xg {
+        display: none !important;
+    }
+    .global_btn_group {padding-top:20px;}
+}
+@media(max-width:576.98px){
+	.coursera .coursera-visual > h2 p{
+		font-size:16px;
+	}
+	.coursera .coursera-visual > h2 .large-info {
+		font-size:23px;
+		line-height:1.2;
+	}
+    .coursera br.br-xg {
+        display: none !important;
+    }
+    .global_btn_group {padding-top:20px;}
+}
+
 </style>
 
 
@@ -30,8 +84,14 @@ button:focus{background:#000000 !important;}
             <div class="container-fluid">
                 <div class="coursera-visual">
                     <h2>
-                        <p>K-MOOC <span>X</span> COURSERA<br class="br-md"/> GLOBAL TOP COURSE</p>
-                        <p>Global MOOC<br/> <strong>K-MOOC</strong>에서<br class="br-md"/> 시작하세요!</p>
+                        <!--p>K-MOOC <span>X</span> COURSERA<br class="br-md"/> GLOBAL TOP COURSE</p-->
+                        <p class="large-info">Global MOOC<br/> <strong>K-MOOC</strong>에서<br class="br-md"/> 시작하세요!</p>
+                        <div>국가평생교육진흥원과 coursera가<br class="br-md"/> 인증하는<br class="br-xg"/>디지털 배지(digital badge)를<br class="br-md"/> 취득하고 학습 이력을 공유하세요.</div>
+                        <div class="global_btn_group">
+                            <a href="https://admin.kmooc.kr/common/file_download?id=5011" class="global_btn">
+                               수강안내서 <i class="fa fa-download"></i>
+                            </a>
+                        </div>
                     </h2>
                     <p class="logo"><img src="../static/coursera_ubion/static/image/coursera/logo.png" alt=""></p>
                 </div>
