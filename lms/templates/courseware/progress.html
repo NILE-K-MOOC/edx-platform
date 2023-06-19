@@ -167,7 +167,7 @@ username = get_enterprise_learner_generic_name(request) or student.username
                     %for chapter in courseware_summary:
                         %if not chapter['display_name'] == "hidden":
                         <section aria-labelledby="chapter_${loop.index}">
-                            <h3 class="hd hd-3" id="chapter_${loop.index}">${ chapter['display_name']}</h3>
+                            <h3 class="hd hd-3" id="chapter_${loop.index}">${ chapter['display_name'].replace("&lt","<").replace("&gt;",">")}</h3>
                             <div class="sections">
                                 %for section in chapter['sections']:
                                     <div>
