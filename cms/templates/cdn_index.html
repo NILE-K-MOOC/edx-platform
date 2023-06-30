@@ -158,7 +158,7 @@ is-signedin course uploads view-uploads-cdn
     var mme_hostname = window.location.hostname.replace(/^[^.]*/, 'mme');
     //
     var mme_host = 'http://'+mme_hostname;
-    console.log(mme_hostname);
+    console.log("mme_hostname===>"+mme_hostname);
 
     var file_name = "";
     var playtime = "";
@@ -305,7 +305,7 @@ is-signedin course uploads view-uploads-cdn
                     $("#refresh-btn").show();
 
                 }
-                // console.log('FileUploaded:', file, info);
+                console.log('FileUploaded:', file, info);
                 $("#zfp-thumbnail-progress").hide();
             }
         }
@@ -368,13 +368,14 @@ is-signedin course uploads view-uploads-cdn
             type: 'PUT',
             headers: {'X-CSRFToken': '${ csrf_token }'},
         });
+        var ajaxURL = '${asset_callback_url}'+get_params;
         $.ajax({
             //url: '${asset_callback_url}?file_name='+file_name+'&cdn_url='+cdn_url+'&file_type='+file_type+'&thumbnail_url='+thumbnail_url+'&uuid='+uuid+'&state='+state+'&playtime='+playtime,
-            url: '${asset_callback_url}'+get_params,
+            url: ajaxURL,
             crossDomain: true,
             success: function (res) {
                 if (res.result == 'success') {
-
+                    console.log("ajaxPutEdX===>"+ajaxURL);
                     ajaxGetEdX();
                 }
             },
@@ -383,7 +384,7 @@ is-signedin course uploads view-uploads-cdn
                 + ', thumbnail_url: ' + thumbnail_url + ', uuid: ' + uuid +', playtime: ' + playtime;
                 $("#content-info").text(quest_info);
                 $("#content-box").show();
-                // console.log('ajaxPutEdX error');
+                console.log('ajaxPutEdX error ===>' + quest_info);
             }
         });
     }
@@ -598,7 +599,7 @@ is-signedin course uploads view-uploads-cdn
                 $(".assets-library").css("display", "none");
                 $(".no-asset-content").css("display", "block");
             }
-            // console.log("ajaxGetEdX done");
+            console.log("ajaxGetEdX done");
             $("#refresh-btn").show(1000);
         });
 
@@ -626,10 +627,12 @@ is-signedin course uploads view-uploads-cdn
     });
 
     var ref = function () {
+        console.log("ref====>!!!!!");
         location.reload();
     }
     var trans_state = function (uuid, file_name, file_type, thumbnail_url, cdn_url, state) {
         var status_url = '/cdn_status/' + course_id;
+        console.log("status_url==>"+status_url);
         try{
             if(uuid != '' || uuid == undefined){
                 var transcoding_status = setInterval(function () {
@@ -657,8 +660,7 @@ is-signedin course uploads view-uploads-cdn
                             var total_duration = res.data.total_duration;
                             var trans_status = res.data.trans_status;
 
-                            // console.log('trans_state', message, status);
-
+                            console.log('trans_state', message, status);
                             if(message == 'FAILURE'){
                                 state_msg = "인코딩 실패";
                                 this.state_code = 'F';
@@ -715,14 +717,10 @@ is-signedin course uploads view-uploads-cdn
                         }
                     });
                 }, 2000);
-
             }
-
-
         }catch (e){
             console.log(e)
         }
-
     }
 
     var setStateCall = function (uuid, file_name, file_type, thumbnail_url, cdn_url, state) {
@@ -736,17 +734,17 @@ is-signedin course uploads view-uploads-cdn
             crossDomain: true,
             data: {uuid: uuid, file_name: file_name, file_type: file_type, thumbnail_url: thumbnail_url, cdn_url: cdn_url, state: state},
             success: function(jdata, textStatus, jqXHR){
-                // console.log('success', jdata);
-                // console.log(uuid, file_name, file_type, thumbnail_url, cdn_url, state, playtime);
+                console.log('success', jdata);
+                console.log(uuid, file_name, file_type, thumbnail_url, cdn_url, state, playtime);
             },
             error: function(jqXHR, textStatus, errorThrown){
-                // console.log('error', errorThrown);
-                /*
+                console.log('error', errorThrown);
+
                 console.log("HTTP Request Failed");
                 console.log(jqXHR);
                 console.log(textStatus);
                 console.log(errorThrown);
-                */
+
             }
         });
     }
