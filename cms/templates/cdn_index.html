@@ -633,6 +633,7 @@ is-signedin course uploads view-uploads-cdn
     var trans_state = function (uuid, file_name, file_type, thumbnail_url, cdn_url, state) {
         var status_url = '/cdn_status/' + course_id;
         console.log("status_url==>"+status_url);
+        console.log("url===>"+mme_host + '/upload_mov'+" uuid==>"+uuid);
         try{
             if(uuid != '' || uuid == undefined){
                 var transcoding_status = setInterval(function () {
@@ -642,6 +643,7 @@ is-signedin course uploads view-uploads-cdn
                         crossDomain: true,
                         data: {'uuid': uuid, 'playtime': ""},
                         success: function (res) {
+                            console.log("res===>"+res);
                             var message = res.message;
                             var call_status = res.status;
                             var state_msg = "";
