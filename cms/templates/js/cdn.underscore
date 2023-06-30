@@ -1,7 +1,7 @@
 <%
 var uuid = portable_url;
 var cdn_state = url;
-console.log(cdn_state, portable_url, url);
+//console.log(cdn_state, portable_url, url);
 %>
 <td class="thumb-col">
     <div class="thumb">
