@@ -467,6 +467,8 @@ def _accessible_courses_summary_iter(request, org=None):
         """
         Filter out unusable and inaccessible courses
         """
+
+        log.info('-----> used timecourse_filter-1 [%s]' % log)
         # pylint: disable=fixme
         # TODO remove this condition when templates purged from db
         if course_summary.location.course == 'templates':
@@ -475,9 +477,12 @@ def _accessible_courses_summary_iter(request, org=None):
         return has_studio_read_access(request.user, course_summary.id)
 
     if org is not None:
+        log.info('-----> used timecourse_filter-2 [%s]' % log)
         courses_summary = [] if org == '' else CourseOverview.get_all_courses(orgs=[org])
     else:
+        log.info('-----> used timecourse_filter-3 [%s]' % log)
         courses_summary = modulestore().get_course_summaries()
+        log.info('-----> courses_summary [%s]' % courses_summary)
     courses_summary = six.moves.filter(course_filter, courses_summary)
     in_process_course_actions = get_in_process_course_actions(request)
 
@@ -660,6 +665,13 @@ def course_listing(request):
 
     log.info('-----> used time4 [%s]' % round((time.time() - start_time), 4))
 
+
+    log.info('-----> used courses_iter [%s]' % courses_iter)
+    log.info('-----> used in_process_course_actions [%s]' % in_process_course_actions)
+    log.info('-----> used split_archived [%s]' % split_archived)
+    log.info('-----> used section [%s]' % section)
+
+
     active_courses, archived_courses = _process_courses_list(courses_iter, in_process_course_actions, split_archived, section=section)
 
     log.info('-----> used time5 [%s]' % round((time.time() - start_time), 4))
@@ -826,11 +838,13 @@ def get_courses_accessible_to_user(request, org=None):
     """
     if GlobalStaff().has_user(request.user):
         # user has global access so no need to get courses from django groups
+        log.info('-----> get_courses_accessible_to_user - 1 [%s]' % request.user)
         courses, in_process_course_actions = _accessible_courses_summary_iter(request, org)
     else:
         try:
             courses, in_process_course_actions = _accessible_courses_list_from_groups(request)
         except AccessListFallback:
+            log.info('-----> get_courses_accessible_to_user - 2 [%s]' % request.user)
             # user have some old groups or there was some error getting courses from django groups
             # so fallback to iterating through all courses
             courses, in_process_course_actions = _accessible_courses_summary_iter(request)
@@ -894,6 +908,7 @@ def _process_courses_list(courses_iter, in_process_course_actions, split_archive
 
     log.info('--------------------> settings_handler checkt time 12.2.1 [%s]' % (time.time() - start_time))
 
+    log.info('--------------------> format_course_for_view course check [%s]' % courses_iter)
     in_process_action_course_keys = {uca.course_key for uca in in_process_course_actions}
     active_courses = []
     archived_courses = []
