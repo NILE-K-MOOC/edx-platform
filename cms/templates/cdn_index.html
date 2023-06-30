@@ -507,7 +507,7 @@ is-signedin course uploads view-uploads-cdn
                     var asset_id = encodeURIComponent(asset.id);
                     // sleep(1000);
 
-
+                    console.log("mme_host===>"+mme_host+'/upload_mov?uuid='+uuid+'&playtime='+playtime);
                         $.ajax({
                             method: 'GET',
                             url: mme_host+'/upload_mov?uuid='+uuid+'&playtime='+playtime,
