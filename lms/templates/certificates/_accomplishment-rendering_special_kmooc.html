@@ -145,7 +145,7 @@ accomplishment_course_title = accomplishment_course_title.replace(')','').split(
                     경기 교육-유초중-국가평생교육진흥원-직무 까지는 고정으로 표시
                     year 값은 해당 강좌의 시작일 연도를 표시
                     -->
-                    <td colspan="3">경기 교육-유초중-국가평생교육진흥원-${instqq}${year}-${enroll_num}${appoint_num.split('-')[3]}</td>
+                    <td colspan="3" data-enroll="${enroll_num}" data-appoint="${appoint_num}">경기 교육-유초중-국가평생교육진흥원-${instqq}${year}-${enroll_num}${appoint_num.split('-')[3]}</td>
                 </tr>
                 <tr>
                     <th style="text-align: left;">소속 :</th>
