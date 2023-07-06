@@ -127,7 +127,7 @@ data: |
             <h3><i class="fa fa-user"></i>교수자</h3>
             <article class="professor">
                 <div class="teacher_image">
-                    <img src="http://www.kmooc.kr/static/images/placeholder-faculty.png" align="left" alt="">
+                    <img src="/static/images/placeholder-faculty.png" align="left" alt="">
                 </div>
                 <div class="staff_descript">
                     <dl>
@@ -146,7 +146,7 @@ data: |
             <h3><i class="fa fa-user"></i>강좌지원팀</h3>
             <article class="staff">
                 <div class="ta_image">
-                    <img src="http://www.kmooc.kr/static/images/placeholder-faculty.png" align="left" alt="">
+                    <img src="/static/images/placeholder-faculty.png" align="left" alt="">
                 </div>
                 <div class="staff_descript">
                     <dl>
