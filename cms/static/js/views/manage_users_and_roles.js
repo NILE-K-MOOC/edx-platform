@@ -205,7 +205,12 @@ define(['jquery', 'underscore', 'gettext', 'js/views/baseview',
                 var self = this;
                 var url = this.tplUserURL.replace('@@EMAIL@@', email);
                 var errMessage = opts.errMessage || this.messages.defaults.changeRoleError;
-                var onSuccess = opts.onSuccess || function(data) { ViewUtils.reload(); };
+                var onSuccess = opts.onSuccess || function(data) {
+                    console.log("URL====>"+url);
+                    console.log("newRole===>"+newRole);
+                    console.log(JSON.stringify({role: newRole}));
+                    // ViewUtils.reload();
+                };
                 var onError = opts.onError || function() {};
                 $.ajax({
                     url: url,
@@ -259,7 +264,7 @@ define(['jquery', 'underscore', 'gettext', 'js/views/baseview',
                     emailCheck.msg.show();
                     return;
                 }
-
+                alert(email);
                 // Use the REST API to create the user, assigning them initial role for now:
                 this.changeRole(
                     email,
