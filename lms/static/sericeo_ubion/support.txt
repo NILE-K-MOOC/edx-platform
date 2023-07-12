@@ -33,7 +33,7 @@
 				"href" : "/courses/course-v1:WJTB+WJTB13+2023_01/about"
 			},
 			{
-				"title" : "UX/UI 비즈니스 훈련 취업을 위한 전략 컨설팅",
+				"title" : "UX/UI 비즈니스 훈련\n 취업을 위한 전략 컨설팅",
 				"desc" : "UX/UI 디자이너, 기획자간의\n 협업을 증진하는 전략 Tip",
 				"href" : "/courses/course-v1:WJTB+WJTB47+2023_06/about"
 			},
@@ -43,7 +43,7 @@
 				"href" : "/courses/course-v1:WJTB+WJTB43+2023_06/about"
 			},
 			{
-				"title" : "개발자 출신 주니어 기획자가 PM으로 가는길",
+				"title" : "개발자 출신 주니어\n 기획자가 PM으로 가는길",
 				"desc" : "서비스 기획을 위한 기본 개발 지식!\n 개발자와의 소통과\n 협업을 위한 첫걸음!",
 				"href" : "/courses/course-v1:WJTB+WJTB44+2023_06/about"
 			}
