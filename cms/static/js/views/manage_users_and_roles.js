@@ -209,7 +209,7 @@ define(['jquery', 'underscore', 'gettext', 'js/views/baseview',
                     console.log("URL====>"+url);
                     console.log("newRole===>"+newRole);
                     console.log(JSON.stringify({role: newRole}));
-                    // ViewUtils.reload();
+                    ViewUtils.reload();
                 };
                 var onError = opts.onError || function() {};
                 $.ajax({
