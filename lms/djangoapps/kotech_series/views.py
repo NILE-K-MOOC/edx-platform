@@ -990,9 +990,9 @@ def series_view(request, id):
                    v1.org,
                    ifnull(detail_name, v1.org) AS univ,
                    CASE
-                      WHEN start > now()
+                      WHEN enrollment_start > now()
                       THEN
-                         concat(Date_format(start, '`%y.%m.%d. '), '개강예정')
+                         concat(Date_format(enrollment_start, '`%y.%m.%d. '), '개강예정')
                       WHEN start <= now() AND end > now()
                       THEN
                          concat(
@@ -1014,7 +1014,7 @@ def series_view(request, id):
                    v2.short_description,
                    ifnull(course_level, '') as course_level,
                    CASE
-                     WHEN start > now()
+                     WHEN enrollment_start > now()
                      THEN 'ready'
                      ELSE 'pass'
                    END AS status
@@ -1030,7 +1030,7 @@ def series_view(request, id):
                                      enrollment_end,
                                      course_image_url,
                                      CASE
-                                        WHEN     a.org = @org
+                                        WHEN a.org = @org
                                              AND a.display_number_with_default = @course
                                         THEN
                                            @rn := @rn + 1
@@ -1044,7 +1044,7 @@ def series_view(request, id):
                                      a.short_description,
                                      (SELECT detail_ename
                                         FROM code_detail
-                                       WHERE     detail_code = c.course_level
+                                       WHERE detail_code = c.course_level
                                              AND group_code = 007) AS course_level,
                                      c.audit_yn
                                 FROM course_overviews_courseoverview a
@@ -1055,13 +1055,15 @@ def series_view(request, id):
                             ORDER BY a.org, a.display_number_with_default, a.display_name DESC, a.start DESC)
                            t1
                      WHERE rn = 1) AS v2
-                      ON     v1.org = v2.org
+                      ON v1.org = v2.org
                          AND v1.display_number_with_default =
                              v2.display_number_with_default
                    LEFT JOIN edxapp.code_detail AS d
                       ON v2.org = d.detail_code AND d.group_code = 003
              WHERE series_seq = {} AND v1.delete_yn = 'N';
         '''.format(id)
+
+        print query
         cur.execute(query)
         rows = cur.fetchall()
         query_list = [list(row) for row in rows]
