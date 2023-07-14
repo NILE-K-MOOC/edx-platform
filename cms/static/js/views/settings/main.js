@@ -875,12 +875,12 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                     $("#Calculated_mm").val('');
                     return false;
                 }
-                if (Calculated > 50 && Calculated_mm < 60) {
-                    alert("학습인정시간은 50시간 이내만 입력 가능합니다");
-                    $("#Calculated").val('');
-                    $("#Calculated_mm").val('');
-                    return false;
-                }
+                // if (Calculated > 50 && Calculated_mm < 60) {
+                //     alert("학습인정시간은 50시간 이내만 입력 가능합니다");
+                //     $("#Calculated").val('');
+                //     $("#Calculated_mm").val('');
+                //     return false;
+                // }
                 if (Calculated == 50) {
                     $("#Calculated_mm").val('00');
                     Calculated_mm = $("#Calculated_mm").val();
@@ -889,11 +889,11 @@ define(['js/views/validation', 'codemirror', 'underscore', 'jquery', 'jquery.ui'
                 } else {
                     $("#Calculated_mm").removeAttr('disabled');
                 }
-                if (Calculated > 50) {
-                    alert("학습인정시간은 50시간 이내만 입력 가능합니다");
-                    $("#Calculated").val('');
-                    return false;
-                }
+                // if (Calculated > 50) {
+                //     alert("학습인정시간은 50시간 이내만 입력 가능합니다");
+                //     $("#Calculated").val('');
+                //     return false;
+                // }
                 $('#Calculated').keyup(function () {
                     this.value = this.value.replace(/[^0-9]/g, '');
                 });
