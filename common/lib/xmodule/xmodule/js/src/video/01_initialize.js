@@ -138,11 +138,13 @@ function(VideoPlayer, i18n, moment, _) {
                 if (state.htmlPlayerLoaded) { return; }
 
                 console.log('[Video info]: Starting YouTube player.');
-                video = VideoPlayer(state);
+                setTimeout(function() {
+                    video = VideoPlayer(state);
 
-                state.modules.push(video);
-                state.__dfd__.resolve();
-                state.youtubeApiAvailable = true;
+                    state.modules.push(video);
+                    state.__dfd__.resolve();
+                    state.youtubeApiAvailable = true;
+                },1800);
             };
 
             if (window.YT) {
