@@ -33,6 +33,10 @@ import imp
 import sys
 import os
 
+# input KKH
+import django
+from corsheaders.defaults import default_headers as corsheaders_default_headers
+# input KKH
 from path import Path as path
 from django.utils.translation import ugettext_lazy as _
 
@@ -2286,25 +2290,30 @@ EMAIL_OPTIN_MINIMUM_AGE = PARENTAL_CONSENT_AGE_LIMIT
 YOUTUBE = {
     # YouTube JavaScript API
     'API': 'https://www.youtube.com/iframe_api',
-
     'TEST_TIMEOUT': 1500,
 
     # URL to get YouTube metadata
     'METADATA_URL': 'https://www.googleapis.com/youtube/v3/videos/',
+    # 'METADATA_URL': 'https://www.googleapis.com/auth/youtube/',
 
     # Current youtube api for requesting transcripts.
-    # For example: http://video.google.com/timedtext?lang=en&v=j_jEn79vS3g.
-    'TEXT_API': {
-        'url': 'video.google.com/timedtext',
-        'params': {
-            'lang': 'en',
-            'v': 'set_youtube_id_of_11_symbols_here',
-        },
+    # For example: http://video.google.com/timedtext?lang=en&v=j_jEn79vS3g
+    # 'TEXT_API': {
+    #     'url': 'video.google.com/timedtext',
+    #     'params': {
+    #         'lang': 'en',
+    #         'v': 'set_youtube_id_of_11_symbols_here',
+    #     },
+    # },
+    'TRANSCRIPTS': {
+        'CAPTION_TRACKS_REGEX': r"captionTracks\"\:\[(?P<caption_tracks>[^\]]+)",
+        'YOUTUBE_URL_BASE': 'https://www.youtube.com/watch?v=',
+        'ALLOWED_LANGUAGE_CODES': ["en", "en-US", "en-GB"],
     },
 
     'IMAGE_API': 'http://img.youtube.com/vi/{youtube_id}/0.jpg',  # /maxresdefault.jpg for 1920*1080
 }
-YOUTUBE_API_KEY = None
+YOUTUBE_API_KEY = "AIzaSyBcAyduQ7BXFBmULf-ulWLw4huhxs-clGA"
 
 ################################### APPS ######################################
 
@@ -2608,6 +2617,9 @@ CSRF_COOKIE_AGE = 60 * 60 * 24 * 7 * 52
 # It is highly recommended that you override this in any environment accessed by
 # end users
 CSRF_COOKIE_SECURE = False
+CSRF_TRUSTED_ORIGINS = []
+CROSS_DOMAIN_CSRF_COOKIE_DOMAIN = ''
+CROSS_DOMAIN_CSRF_COOKIE_NAME = ''
 
 ######################### Django Rest Framework ########################
 
@@ -2802,10 +2814,21 @@ if FEATURES.get('AUTH_USE_CAS'):
 
 ############# Cross-domain requests #################
 
+# if FEATURES.get('ENABLE_CORS_HEADERS'):
+#     CORS_ALLOW_CREDENTIALS = True
+#     CORS_ORIGIN_WHITELIST = ()
+#     CORS_ORIGIN_ALLOW_ALL = True
 if FEATURES.get('ENABLE_CORS_HEADERS'):
     CORS_ALLOW_CREDENTIALS = True
     CORS_ORIGIN_WHITELIST = ()
     CORS_ORIGIN_ALLOW_ALL = False
+    CORS_ALLOW_INSECURE = False
+    CORS_ALLOW_HEADERS = corsheaders_default_headers + (
+        'use-jwt-cookie',
+    )
+
+
+
 
 # Default cache expiration for the cross-domain proxy HTML page.
 # This is a static page that can be iframed into an external page

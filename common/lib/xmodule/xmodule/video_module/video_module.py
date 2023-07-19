@@ -336,7 +336,8 @@ class VideoModule(VideoFields, VideoTranscriptsMixin, VideoStudentViewHandlers, 
             'ytTestTimeout': settings.YOUTUBE['TEST_TIMEOUT'],
             'ytApiUrl': settings.YOUTUBE['API'],
             'ytMetadataUrl': settings.YOUTUBE['METADATA_URL'],
-            'ytKey': yt_api_key,
+            # 'ytKey': yt_api_key,
+            'ytKey': settings.YOUTUBE_API_KEY,
 
             'transcriptTranslationUrl': self.runtime.handler_url(
                 self, 'transcript', 'translation/__lang__'

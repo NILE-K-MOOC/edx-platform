@@ -89,7 +89,7 @@ function(VideoPlayer, i18n, moment, _) {
         /* eslint-enable no-use-before-define */
 
         _youtubeApiDeferred = null,
-        _oldOnYouTubeIframeAPIReady;
+        _oldOnYouTubeIframeAPIReady = "";
 
     Initialize.prototype = methodsDict;
 
@@ -129,7 +129,7 @@ function(VideoPlayer, i18n, moment, _) {
         // HTML5 player is already loaded, so no further testing in that case
         // is required.
         var video, onYTApiReady, setupOnYouTubeIframeAPIReady;
-
+        console.log("state.videoType ====> "+state.videoType);
         if (state.videoType === 'youtube') {
             state.youtubeApiAvailable = false;
 
@@ -154,7 +154,6 @@ function(VideoPlayer, i18n, moment, _) {
                 if (_youtubeApiDeferred) {
                     _youtubeApiDeferred.resolve();
                 }
-
                 window.YT.ready(onYTApiReady);
             } else {
                 // There is only one global variable window.onYouTubeIframeAPIReady which
@@ -166,25 +165,26 @@ function(VideoPlayer, i18n, moment, _) {
                 // If this global function is already defined, we store it first, and make
                 // sure that it gets executed when our Deferred object is resolved.
                 setupOnYouTubeIframeAPIReady = function() {
-                    _oldOnYouTubeIframeAPIReady = window.onYouTubeIframeAPIReady || undefined;
-
-                    window.onYouTubeIframeAPIReady = function() {
-                        window.onYouTubeIframeAPIReady.resolve();
-                    };
-
-                    window.onYouTubeIframeAPIReady.resolve = _youtubeApiDeferred.resolve;
-                    window.onYouTubeIframeAPIReady.done = _youtubeApiDeferred.done;
-
+                    console.log("_oldOnYouTubeIframeAPIReady1 ====>"+_oldOnYouTubeIframeAPIReady);
                     if (_oldOnYouTubeIframeAPIReady) {
                         window.onYouTubeIframeAPIReady.done(_oldOnYouTubeIframeAPIReady);
+                        _oldOnYouTubeIframeAPIReady = "";
+                    }
+                    console.log("_oldOnYouTubeIframeAPIReady2 ====>"+_oldOnYouTubeIframeAPIReady);
+                    if (_oldOnYouTubeIframeAPIReady=="") {
+                        window.onYouTubeIframeAPIReady = function () {
+                            window.onYouTubeIframeAPIReady.resolve();
+                        };
+                        window.onYouTubeIframeAPIReady.resolve = _youtubeApiDeferred.resolve;
+                        window.onYouTubeIframeAPIReady.done = _youtubeApiDeferred.done;
+                        _oldOnYouTubeIframeAPIReady = window.onYouTubeIframeAPIReady;
                     }
                 };
-
                 // If a Deferred object hasn't been created yet, create one now. It will
                 // be responsible for calling OnYouTubeIframeAPIReady callbacks once the
                 // YouTube API loads. After creating the Deferred object, load the YouTube
                 // API.
-                if (!_youtubeApiDeferred) {
+                if (_youtubeApiDeferred==""||_youtubeApiDeferred==null) {
                     _youtubeApiDeferred = $.Deferred();
                     setupOnYouTubeIframeAPIReady();
                 } else if (!window.onYouTubeIframeAPIReady || !window.onYouTubeIframeAPIReady.done) {
@@ -194,7 +194,6 @@ function(VideoPlayer, i18n, moment, _) {
                     // we should set it up again.
                     setupOnYouTubeIframeAPIReady();
                 }
-
                 // Attach a callback to our Deferred object to be called once the
                 // YouTube API loads.
                 window.onYouTubeIframeAPIReady.done(function() {
@@ -507,8 +506,7 @@ function(VideoPlayer, i18n, moment, _) {
         // alternate sources should automatically play.
         if (!_prepareHTML5Video(this)) {
             console.log(
-                '[Video info]: Continue loading ' +
-                'YouTube video.'
+                '[Video info]: Continue loading YouTube video.'
             );
 
             // Non-YouTube sources were not found either.
@@ -602,6 +600,7 @@ function(VideoPlayer, i18n, moment, _) {
 
             var scriptTag = document.createElement('script');
 
+            console.log("this.config.ytApiUrl ====> "+this.config.ytApiUrl);
             scriptTag.src = this.config.ytApiUrl;
             scriptTag.async = true;
 
@@ -722,13 +721,14 @@ function(VideoPlayer, i18n, moment, _) {
 
     function getVideoMetadata(url, callback) {
         if (!(_.isString(url))) {
-            url = this.videos['1.0'] || '';
+            url = this.videos['3.0'] || '';
         }
         // Will hit the API URL iF YT key is defined in settings.
         if (this.config.ytKey) {
             return $.ajax({
                 url: [this.config.ytMetadataUrl, '?id=', url, '&part=contentDetails&key=', this.config.ytKey].join(''),
                 timeout: this.config.ytTestTimeout,
+                dataType: 'jsonp',
                 success: _.isFunction(callback) ? callback : null,
                 error: function() {
                     console.warn(
