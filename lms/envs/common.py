@@ -33,10 +33,7 @@ import imp
 import sys
 import os
 
-# input KKH
-import django
-from corsheaders.defaults import default_headers as corsheaders_default_headers
-# input KKH
+
 from path import Path as path
 from django.utils.translation import ugettext_lazy as _
 
@@ -2298,17 +2295,12 @@ YOUTUBE = {
 
     # Current youtube api for requesting transcripts.
     # For example: http://video.google.com/timedtext?lang=en&v=j_jEn79vS3g
-    # 'TEXT_API': {
-    #     'url': 'video.google.com/timedtext',
-    #     'params': {
-    #         'lang': 'en',
-    #         'v': 'set_youtube_id_of_11_symbols_here',
-    #     },
-    # },
-    'TRANSCRIPTS': {
-        'CAPTION_TRACKS_REGEX': r"captionTracks\"\:\[(?P<caption_tracks>[^\]]+)",
-        'YOUTUBE_URL_BASE': 'https://www.youtube.com/watch?v=',
-        'ALLOWED_LANGUAGE_CODES': ["en", "en-US", "en-GB"],
+    'TEXT_API': {
+        'url': 'video.google.com/timedtext',
+        'params': {
+            'lang': 'en',
+            'v': 'set_youtube_id_of_11_symbols_here',
+        },
     },
 
     'IMAGE_API': 'http://img.youtube.com/vi/{youtube_id}/0.jpg',  # /maxresdefault.jpg for 1920*1080
