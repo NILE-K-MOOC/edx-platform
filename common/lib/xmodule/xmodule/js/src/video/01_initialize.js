@@ -137,14 +137,12 @@ function(VideoPlayer, i18n, moment, _) {
                 // console.log('[Video info]: YouTube API is available and is loaded.');
                 if (state.htmlPlayerLoaded) { return; }
 
-                // console.log('[Video info]: Starting YouTube player.');
-                setTimeout(function() {
-                    video = VideoPlayer(state);
+                console.log('[Video info]: Starting YouTube player.');
+                video = VideoPlayer(state);
 
-                    state.modules.push(video);
-                    state.__dfd__.resolve();
-                    state.youtubeApiAvailable = true;
-                },1800);
+                state.modules.push(video);
+                state.__dfd__.resolve();
+                state.youtubeApiAvailable = true;
             };
 
             if (window.YT) {
@@ -177,8 +175,8 @@ function(VideoPlayer, i18n, moment, _) {
                     if (_oldOnYouTubeIframeAPIReady=="") {
                         // console.log("_oldOnYouTubeIframeAPIReady4 ====>"+_oldOnYouTubeIframeAPIReady);
                         window.onYouTubeIframeAPIReady = function () {
-                            _youtubeApiDeferred.resolve(window.YT);
-                            // window.onYouTubeIframeAPIReady.resolve();
+                            // _youtubeApiDeferred.resolve();
+                            window.onYouTubeIframeAPIReady.resolve();
                         };
                         window.onYouTubeIframeAPIReady.resolve = _youtubeApiDeferred.resolve;
                         window.onYouTubeIframeAPIReady.done = _youtubeApiDeferred.done;
