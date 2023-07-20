@@ -169,13 +169,16 @@ function(VideoPlayer, i18n, moment, _) {
                 setupOnYouTubeIframeAPIReady = function() {
                     console.log("_oldOnYouTubeIframeAPIReady1 ====>"+_oldOnYouTubeIframeAPIReady);
                     if (_oldOnYouTubeIframeAPIReady) {
+                        console.log("onYouTubeIframeAPIReady none2");
                         window.onYouTubeIframeAPIReady.done(_oldOnYouTubeIframeAPIReady);
                         _oldOnYouTubeIframeAPIReady = "";
                     }
                     console.log("_oldOnYouTubeIframeAPIReady2 ====>"+_oldOnYouTubeIframeAPIReady);
                     if (_oldOnYouTubeIframeAPIReady=="") {
+                        console.log("_oldOnYouTubeIframeAPIReady4 ====>"+_oldOnYouTubeIframeAPIReady);
                         window.onYouTubeIframeAPIReady = function () {
-                            window.onYouTubeIframeAPIReady.resolve();
+                            _youtubeApiDeferred.resolve(window.YT);
+                            // window.onYouTubeIframeAPIReady.resolve();
                         };
                         window.onYouTubeIframeAPIReady.resolve = _youtubeApiDeferred.resolve;
                         window.onYouTubeIframeAPIReady.done = _youtubeApiDeferred.done;
@@ -187,9 +190,11 @@ function(VideoPlayer, i18n, moment, _) {
                 // YouTube API loads. After creating the Deferred object, load the YouTube
                 // API.
                 if (_youtubeApiDeferred==""||_youtubeApiDeferred==null) {
+                    console.log("_youtubeApiDeferred check");
                     _youtubeApiDeferred = $.Deferred();
                     setupOnYouTubeIframeAPIReady();
                 } else if (!window.onYouTubeIframeAPIReady || !window.onYouTubeIframeAPIReady.done) {
+                    console.log("window.onYouTubeIframeAPIReady check");
                     // The Deferred object could have been already defined in a previous
                     // initialization of the video module. However, since then the global variable
                     // window.onYouTubeIframeAPIReady could have been overwritten. If so,
@@ -199,6 +204,7 @@ function(VideoPlayer, i18n, moment, _) {
                 // Attach a callback to our Deferred object to be called once the
                 // YouTube API loads.
                 window.onYouTubeIframeAPIReady.done(function() {
+                    console.log("onYouTubeIframeAPIReady none1");
                     window.YT.ready(onYTApiReady);
                 });
             }
@@ -219,9 +225,14 @@ function(VideoPlayer, i18n, moment, _) {
             // If something goes wrong at this stage, `state.youtubeApiAvailable` is
             // `false`.
             if (!state.youtubeApiAvailable) {
+                console.log("state.videoType===>"+state.videoType);
                 console.log('[Video info]: YouTube API is not available.');
-                if (!state.htmlPlayerLoaded) {
-                    state.loadHtmlPlayer();
+                if (state.videoType == "youtube") {
+                    _renderElements(state);
+                } else {
+                    if (!state.htmlPlayerLoaded) {
+                        state.loadHtmlPlayer();
+                    }
                 }
             }
             state.el.trigger('youtube_availability', [state.youtubeApiAvailable]);
