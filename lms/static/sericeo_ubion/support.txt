@@ -35,7 +35,7 @@
 			{
 				"title" : "UX/UI 비즈니스 훈련\n 취업을 위한 전략 컨설팅",
 				"desc" : "UX/UI 디자이너, 기획자간의\n 협업을 증진하는 전략 Tip",
-				"href" : "/courses/course-v1:WJTB+WJTB47+2023_06/about"
+				"href" : "/courses/course-v1:WJTB+WJTB42+2023_06/about"
 			},
 			{
 				"title" : "성공하는 기획자",
