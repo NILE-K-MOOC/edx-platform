@@ -127,7 +127,6 @@
 				"desc" : "프로그래밍 없이 엑셀로\n 풀어가는 데이터 사이언스",
 				"href" : "/courses/course-v1:WJTB+WJTB31+2023_01/about"
 			}
-			
 		]
 	},
 	{
