@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 
 import logging
+import json
 from functools import partial
 
 from django.conf import settings
@@ -68,6 +69,14 @@ def preview_handler(request, usage_key_string, handler, suffix=''):
     req = django_to_webob_request(request)
     try:
         resp = instance.handle(handler, req, suffix)
+        if resp.content_type == "application/json":
+            tmparray = []
+            for value in resp.app_iter:
+                json_object = json.loads(value)
+                for subvalue in json_object["text"]:
+                    tmparray.append(subvalue.replace("<","&lt;"))
+                json_object["text"] = tmparray
+            resp.app_iter = json.dumps(json_object)
 
     except NoSuchHandlerError:
         log.exception("XBlock %s attempted to access missing handler %r", instance, handler)
@@ -241,16 +250,22 @@ def _load_preview_module(request, descriptor):
     request: The active django request
     descriptor: An XModuleDescriptor
     """
+    print "SessionKeyValueStore(request)===>" , SessionKeyValueStore(request)
     student_data = KvsFieldData(SessionKeyValueStore(request))
     if has_author_view(descriptor):
+        print "student_data 1 ===>" , student_data
         wrapper = partial(CmsFieldData, student_data=student_data)
     else:
+        print "student_data 2 ===>" , student_data
         wrapper = partial(LmsFieldData, student_data=student_data)
 
     # wrap the _field_data upfront to pass to _preview_module_system
     wrapped_field_data = wrapper(descriptor._field_data)  # pylint: disable=protected-access
     preview_runtime = _preview_module_system(request, descriptor, wrapped_field_data)
 
+    print "wrapped_field_data ===>", wrapped_field_data
+    print "wrapper ===>", wrapper
+    print "wrapper ===>", wrapper
     descriptor.bind_for_student(
         preview_runtime,
         request.user.id,
