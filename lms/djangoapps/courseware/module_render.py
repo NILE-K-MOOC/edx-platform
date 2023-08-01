@@ -1070,6 +1070,15 @@ def _invoke_xblock_handler(request, course_id, usage_id, handler, suffix, course
         try:
             with tracker.get_tracker().context(tracking_context_name, tracking_context):
                 resp = instance.handle(handler, req, suffix)
+                if resp.content_type == "application/json":
+                    tmparray = []
+                    for value in resp.app_iter:
+                        json_object = json.loads(value)
+                        for subvalue in json_object["text"]:
+                            tmparray.append(subvalue.replace("<","&lt;"))
+                        json_object["text"] = tmparray
+                    resp.app_iter = json.dumps(json_object)
+
                 if suffix == 'problem_check' \
                         and course \
                         and getattr(course, 'entrance_exam_enabled', False) \
