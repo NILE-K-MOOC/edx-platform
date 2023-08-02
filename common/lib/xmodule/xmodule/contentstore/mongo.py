@@ -260,6 +260,9 @@ class MongoContentStore(ContentStore):
 
         items = self.fs_files.find(query, **find_args)
         count = items.count()
+
+        print "count----------------------D", count
+
         assets = list(items)
 
         # import logging;logging.info(assets)
