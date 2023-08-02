@@ -1097,18 +1097,6 @@ def _invoke_xblock_handler(request, course_id, usage_id, handler, suffix, course
             log.exception("error executing xblock handler")
             raise
 
-        # 삭제
-        # if resp.content_type == "application/json":
-        #     tmparray = []
-        #     for value in resp.app_iter:
-        #         json_object = json.loads(value)
-        #         if "text" in json_object:
-        #             for subvalue in json_object["text"]:
-        #                 tmparray.append(subvalue.replace("<","&lt;"))
-        #             json_object["text"] = tmparray
-        #
-        #     resp.app_iter = json.dumps(json_object)
-
     return webob_to_django_response(resp)
 
 
