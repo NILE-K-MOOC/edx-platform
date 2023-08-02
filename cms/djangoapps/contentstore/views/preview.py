@@ -69,14 +69,20 @@ def preview_handler(request, usage_key_string, handler, suffix=''):
     req = django_to_webob_request(request)
     try:
         resp = instance.handle(handler, req, suffix)
-        # if resp.content_type == "application/json":
-        #     tmparray = []
-        #     for value in resp.app_iter:
-        #         json_object = json.loads(value)
-        #         for subvalue in json_object["text"]:
-        #             tmparray.append(subvalue.replace("<","&lt;"))
-        #         json_object["text"] = tmparray
-        #     resp.app_iter = json.dumps(json_object)
+        if resp.content_type == "application/json":
+            tmparray = []
+            for value in resp.app_iter:
+                json_object = json.loads(value)
+                if "text" in json_object:
+                    for subvalue in json_object["text"]:
+                        if "<i>" in subvalue:
+                            tmparray.append(subvalue)
+                        else:
+                            tmparray.append(subvalue.replace("<","&lt;"))
+
+                        json_object["text"] = tmparray
+
+            resp.app_iter = json.dumps(json_object)
 
     except NoSuchHandlerError:
         log.exception("XBlock %s attempted to access missing handler %r", instance, handler)
