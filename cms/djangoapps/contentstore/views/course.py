@@ -9,10 +9,19 @@ import random
 import re
 import string  # pylint: disable=deprecated-module
 import sys
+import xlsxwriter
 
 import MySQLdb as mdb
 import django.utils
 import six
+
+
+try:
+    import cStringIO as StringIO
+except ImportError:
+    import StringIO
+
+from datetime import datetime
 from ccx_keys.locator import CCXLocator
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -125,7 +134,7 @@ import time
 
 log = logging.getLogger(__name__)
 
-__all__ = ['course_info_handler', 'course_handler', 'course_listing', 'level_Verifi',
+__all__ = ['course_info_handler', 'course_handler', 'course_listing', 'youtube_listing', 'level_Verifi',
            'course_info_update_handler', 'course_search_index_handler',
            'course_rerun_handler',
            'settings_handler',
@@ -474,6 +483,7 @@ def _accessible_courses_summary_iter(request, org=None):
         if course_summary.location.course == 'templates':
             return False
 
+        log.info('-----> course_filter [%s]' % course_summary.id)
         return has_studio_read_access(request.user, course_summary.id)
 
     if org is not None:
@@ -481,11 +491,13 @@ def _accessible_courses_summary_iter(request, org=None):
         courses_summary = [] if org == '' else CourseOverview.get_all_courses(orgs=[org])
     else:
         log.info('-----> used timecourse_filter-3 [%s]' % log)
-        courses_summary = modulestore().get_course_summaries()
+        tmpparam = (request.GET.get('page', '1'),request.GET.get('lmit', '10'))
+        courses_summary = modulestore().get_course_summaries(page=tmpparam)
         log.info('-----> courses_summary [%s]' % courses_summary)
     courses_summary = six.moves.filter(course_filter, courses_summary)
     in_process_course_actions = get_in_process_course_actions(request)
 
+    log.info('-----> courses_summary2 [%s]' % courses_summary)
     return courses_summary, in_process_course_actions
 
 
@@ -725,6 +737,135 @@ def course_listing(request):
     })
 
 
+@login_required
+@ensure_csrf_cookie
+def youtube_listing(request):
+    start_time = time.time()
+    optimization_enabled = GlobalStaff().has_user(request.user) and \
+                           WaffleSwitchNamespace(name=WAFFLE_NAMESPACE).is_enabled(u'enable_global_staff_optimization')
+
+    org = request.GET.get('org', '') if optimization_enabled else None
+    log.info('-----> used time1 [%s]' % round((time.time() - start_time), 4))
+    libraries = _accessible_libraries_iter(request.user, org) if LIBRARIES_ENABLED else []
+
+    # print "library.display_name ======> ", libraries.display_name
+    # print "library.location.library_key ====> ", libraries.location.library_key
+    # print "library.location.library_key =====> ", libraries.location.library_key
+    # print "library.display_org_with_default ====> ", libraries.display_org_with_default
+
+    m_password = settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('password')
+    m_host = settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host')
+    m_port = settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port')
+    client = MongoClient(m_host, m_port)
+
+    client.admin.authenticate('edxapp', m_password, mechanism='SCRAM-SHA-1', source='edxapp')
+    db = client.edxapp
+
+    structures_data = db.modulestore.structures.find({"blocks": { "$elemMatch": {"fields.edx_video_id": { "$exists": "true"}}}} )
+
+    temp_list = []
+    temp_array = []
+    for structuredata in structures_data:
+        block_datas = structuredata['blocks']
+        for blockdatas in block_datas:
+            if blockdatas['block_type'] == 'video':
+                if 'youtube_id_1_0' in blockdatas['fields'] and blockdatas['fields']['youtube_id_1_0'].replace(" ","") != "":
+                    youtubeid = blockdatas['fields']['youtube_id_1_0']
+                    # print "handout====>",handout
+                    try:
+                        idx = temp_array.index(youtubeid)
+                    except ValueError:
+                        idx = ""
+
+                    if idx != "":
+                        continue
+                    else:
+                        if 'edx_video_id' in blockdatas['fields']:
+                            tmpdatachk = ""
+                            try:
+                                with connections['default'].cursor() as cur:
+                                    query = """
+                                        SELECT et.language_code,et.transcript,ecv.course_id FROM
+                                        edxval_videotranscript AS et JOIN
+                                        edxval_video AS ev ON ev.id = et.video_id JOIN
+                                        edxval_coursevideo AS ecv ON ecv.video_id = et.video_id
+                                        WHERE ev.edx_video_id = '{videoid}'
+                                        order by ecv.course_id ASC;
+                                    """.format(videoid=blockdatas['fields']['edx_video_id'])
+
+                                    cur.execute(query)
+                                    tmpdatachk = cur.rowcount
+                                    if tmpdatachk:
+                                        row = cur.fetchall()
+                                        for datas in row:
+                                            temp_dict = {
+                                                'chapter_name': blockdatas['fields']['display_name'],
+                                                'youtube_id': blockdatas['fields']['youtube_id_1_0'],
+                                                'youtube_url': "https://www.youtube.com/embed/" + blockdatas['fields']['youtube_id_1_0'],
+                                                'trankind': datas[0].strip(),
+                                                'tranfile': datas[1].strip(),
+                                                'videoid': blockdatas['fields']['edx_video_id'] if 'edx_video_id' in blockdatas['fields'] else "",
+                                                'course_id': datas[2].strip()
+                                            }
+                                            temp_list.append(temp_dict)
+                            except Exception as er:
+                                print er
+
+                        if tmpdatachk=="":
+                            temp_dict = {
+                                'chapter_name': blockdatas['fields']['display_name'],
+                                'youtube_id': blockdatas['fields']['youtube_id_1_0'],
+                                'youtube_url': "https://www.youtube.com/embed/"+blockdatas['fields']['youtube_id_1_0'],
+                                'trankind': "",
+                                'tranfile': "",
+                                'videoid': blockdatas['fields']['edx_video_id'] if 'edx_video_id' in blockdatas['fields'] else "",
+                                'course_id': ""
+                            }
+                            temp_list.append(temp_dict)
+                        temp_array.append(blockdatas['fields']['youtube_id_1_0'])
+
+
+    file_output = StringIO.StringIO()
+    workbook = xlsxwriter.Workbook(file_output)
+    worksheet = workbook.add_worksheet('course')
+    format_dict = {'align': 'center', 'valign': 'vcenter', 'bold': 'true', 'border': 1}
+    header_format = workbook.add_format(format_dict)
+    format_dict.pop('bold')
+    cell_format = workbook.add_format(format_dict)
+
+    alpha = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
+    c_keys = ['course_id', 'chapter_name', 'youtube_url', 'youtube_id', 'trankind', 'tranfile', 'videoid']
+
+
+    worksheet.set_column('A:A', 40)
+    worksheet.set_column('B:B', 40)
+    worksheet.set_column('C:C', 60)
+    worksheet.set_column('D:D', 20)
+    worksheet.set_column('E:E', 10)
+    worksheet.set_column('F:F', 60)
+    worksheet.set_column('G:G', 40)
+    worksheet.write('A1', 'COURSEID'.decode('utf-8'), header_format)
+    worksheet.write('B1', '강좌명'.decode('utf-8'), header_format)
+    worksheet.write('C1', 'YOUTUBEURL'.decode('utf-8'), header_format)
+    worksheet.write('D1', 'YOUTUBEID'.decode('utf-8'), header_format)
+    worksheet.write('E1', '자막언어'.decode('utf-8'), header_format)
+    worksheet.write('F1', '자막파일'.decode('utf-8'), header_format)
+    worksheet.write('G1', '비디오id'.decode('utf-8'), header_format)
+
+    for idx, c in enumerate(temp_list):
+        for i, k in enumerate(c_keys):
+            worksheet.write(alpha[i] + str(idx + 2), c[k].decode('utf-8'), cell_format)
+
+    workbook.close()
+    file_output.seek(0)
+    response = HttpResponse(file_output.read(),content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+
+    n_date = datetime.today().strftime("%Y%m%d%H%M%S")
+
+    response['Content-Disposition'] = 'attachment; filename=K-MOOC_YOUTUBE_%s.xlsx' % str(n_date)
+
+    return response
+
 def _get_rerun_link_for_item(course_key):
     """ Returns the rerun link for the given course key. """
     return reverse_course_url('course_rerun_handler', course_key)
@@ -871,14 +1012,14 @@ def _process_courses_list(courses_iter, in_process_course_actions, split_archive
         try:
             with connections['default'].cursor() as cur:
                 query = """
-                    SELECT 
+                    SELECT
                         code.detail_name
                     FROM
                         course_overviews_courseoverview AS course
                             LEFT OUTER JOIN
                         code_detail AS code ON course.org = code.detail_code and code.group_code = '003'
                     WHERE
-                        course.id = '{course_id}';           
+                        course.id = '{course_id}';
                 """.format(course_id=course.id)
                 cur.execute(query)
 
@@ -890,7 +1031,9 @@ def _process_courses_list(courses_iter, in_process_course_actions, split_archive
             org_kname = course.display_org_with_default
             log.error('format_course_for_view check error: %s' % e.message)
 
-        # log.info('format_course_for_view org_kname : %s' % org_kname)
+        log.info('format_course_for_view org_kname : %s' % org_kname)
+        log.info('format_course_for_view course.org_kname : %s' % course.display_org_with_default)
+        log.info('course display_name : %s' % course.display_name)
 
         return {
             'display_name': course.display_name,
@@ -907,7 +1050,6 @@ def _process_courses_list(courses_iter, in_process_course_actions, split_archive
         }
 
     log.info('--------------------> settings_handler checkt time 12.2.1 [%s]' % (time.time() - start_time))
-
     log.info('--------------------> format_course_for_view course check [%s]' % courses_iter)
     in_process_action_course_keys = {uca.course_key for uca in in_process_course_actions}
     active_courses = []
@@ -918,6 +1060,7 @@ def _process_courses_list(courses_iter, in_process_course_actions, split_archive
     for course in courses_iter:
         course_ended = course.has_ended()
 
+        log.info('courses_iter [%s]' % course_ended)
         if section == 'ing' and course_ended:
             continue
         elif section == 'end' and not course_ended:
@@ -927,6 +1070,7 @@ def _process_courses_list(courses_iter, in_process_course_actions, split_archive
 
         if isinstance(course, ErrorDescriptor) or (course.id in in_process_action_course_keys):
             continue
+
         formatted_course = format_course_for_view(course)
         if split_archived and course_ended:
             archived_courses.append(formatted_course)
@@ -1727,6 +1871,7 @@ def course_info_update_handler(request, course_key_string, provided_id=None):
     if 'application/json' not in request.META.get('HTTP_ACCEPT', 'application/json'):
         return HttpResponseBadRequest("Only supports json requests")
 
+    print "course_key_string====>",course_key_string
     course_key = CourseKey.from_string(course_key_string)
     usage_key = course_key.make_usage_key('course_info', 'updates')
     if provided_id == '':

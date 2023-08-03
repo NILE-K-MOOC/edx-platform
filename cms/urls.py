@@ -63,10 +63,7 @@ urlpatterns = [
     url(r'^api/user/', include('openedx.core.djangoapps.user_api.urls')),
 
     # Update session view
-    url(r'^lang_pref/session_language',
-        openedx.core.djangoapps.lang_pref.views.update_session_language,
-        name='session_language'
-        ),
+    url(r'^lang_pref/session_language',openedx.core.djangoapps.lang_pref.views.update_session_language,name='session_language'),
 
     # Darklang View to change the preview language (or dark language)
     url(r'^update_lang/', include('openedx.core.djangoapps.dark_lang.urls', namespace='dark_lang')),
@@ -81,14 +78,11 @@ urlpatterns = [
     url(r'^signup$', contentstore.views.signup, name='signup'),
     url(r'^signin$', contentstore.views.login_page, name='login'),
     url(r'^request_course_creator$', contentstore.views.request_course_creator, name='request_course_creator'),
-    url(r'^course_team/{}(?:/(?P<email>.+))?$'.format(COURSELIKE_KEY_PATTERN),
-        contentstore.views.course_team_handler, name='course_team_handler'),
-    url(r'^course_info/{}$'.format(settings.COURSE_KEY_PATTERN), contentstore.views.course_info_handler,
-        name='course_info_handler'),
-    url(r'^course_info_update/{}/(?P<provided_id>\d+)?$'.format(settings.COURSE_KEY_PATTERN),
-        contentstore.views.course_info_update_handler, name='course_info_update_handler'
-        ),
+    url(r'^course_team/{}(?:/(?P<email>.+))?$'.format(COURSELIKE_KEY_PATTERN), contentstore.views.course_team_handler, name='course_team_handler'),
+    url(r'^course_info/{}$'.format(settings.COURSE_KEY_PATTERN), contentstore.views.course_info_handler,name='course_info_handler'),
+    url(r'^course_info_update/{}/(?P<provided_id>\d+)?$'.format(settings.COURSE_KEY_PATTERN),contentstore.views.course_info_update_handler, name='course_info_update_handler'),
     url(r'^home/?$', contentstore.views.course_listing, name='home'),
+    url(r'^youtubelist/?$', contentstore.views.youtube_listing, name='youtubelist'),
     url(r'^level_Verifi/?$', contentstore.views.level_Verifi, name='level_Verifi'),
 
     url(r'^course/{}/search_reindex?$'.format(settings.COURSE_KEY_PATTERN),
