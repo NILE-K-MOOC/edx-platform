@@ -14,7 +14,7 @@ import xlsxwriter
 import MySQLdb as mdb
 import django.utils
 import six
-
+import os
 
 try:
     import cStringIO as StringIO
@@ -803,7 +803,7 @@ def youtube_listing(request):
                                                 'youtube_id': blockdatas['fields']['youtube_id_1_0'],
                                                 'youtube_url': "https://www.youtube.com/embed/" + blockdatas['fields']['youtube_id_1_0'],
                                                 'trankind': datas[0].strip(),
-                                                'tranfile': datas[1].strip(),
+                                                'tranfile': '/edx/var/edxapp/media/'+datas[1].strip(),
                                                 'videoid': blockdatas['fields']['edx_video_id'] if 'edx_video_id' in blockdatas['fields'] else "",
                                                 'course_id': datas[2].strip()
                                             }
@@ -824,10 +824,16 @@ def youtube_listing(request):
                             temp_list.append(temp_dict)
                         temp_array.append(blockdatas['fields']['youtube_id_1_0'])
 
+    # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    BASE_DIR = "/tmp/"
+    save_name = 'K-MOOC_YOUTUBE_%s.xlsx' % str(datetime.today().strftime("%Y%m%d%H%M%S"))
+    save_path = BASE_DIR + save_name
+    print "BASE_DIR=====>",save_path
 
-    file_output = StringIO.StringIO()
-    workbook = xlsxwriter.Workbook(file_output)
-    worksheet = workbook.add_worksheet('course')
+
+    # file_output = StringIO.StringIO()
+    workbook = xlsxwriter.Workbook(save_path)
+    worksheet = workbook.add_worksheet('YOUTUBEVIDEO')
     format_dict = {'align': 'center', 'valign': 'vcenter', 'bold': 'true', 'border': 1}
     header_format = workbook.add_format(format_dict)
     format_dict.pop('bold')
@@ -857,14 +863,14 @@ def youtube_listing(request):
             worksheet.write(alpha[i] + str(idx + 2), c[k].decode('utf-8'), cell_format)
 
     workbook.close()
-    file_output.seek(0)
-    response = HttpResponse(file_output.read(),content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    # file_output.seek(0)
+    # response = HttpResponse(file_output.read(),content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    #
+    # n_date = datetime.today().strftime("%Y%m%d%H%M%S")
+    #
+    # response['Content-Disposition'] = 'attachment; filename=K-MOOC_YOUTUBE_%s.xlsx' % str(n_date)
 
-    n_date = datetime.today().strftime("%Y%m%d%H%M%S")
-
-    response['Content-Disposition'] = 'attachment; filename=K-MOOC_YOUTUBE_%s.xlsx' % str(n_date)
-
-    return response
+    return JsonResponse({'save_path': save_path})
 
 def _get_rerun_link_for_item(course_key):
     """ Returns the rerun link for the given course key. """
