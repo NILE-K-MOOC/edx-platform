@@ -179,6 +179,14 @@ function closeWin(check, id, hidden_day) {
     $("#" + id).css("display", "none");
 }
 
+function setCookie(name, value, expiredays) {
+    var todayDate = new Date();
+    if (expiredays == '0') {
+        expiredays = '999';
+    }
+    todayDate.setDate(todayDate.getDate() + Number(expiredays));
+    document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todayDate.toGMTString() + ";"
+}
 
 function setIframeHeight(id) {
     var ifrm = document.getElementById(id);
@@ -190,6 +198,23 @@ function setIframeHeight(id) {
     ifrm.style.visibility = 'visible';
 }
 
+cookiedata = document.cookie;
+
+$("#layerPopupArea .pop_content").each(function () {
+    var content_id = $(this).attr("id");
+    $("#" + content_id).html($("#" + content_id).text());
+});
+
+var leng = '1';
+leng = Number(leng);
+
+for (var i = 1; i <= leng; i++) {
+    if (cookiedata.indexOf(i + "=done") < 0 && popupDate <= targetDate) {
+        $("#" + i).css("display", "inline-block !important;");
+    } else {
+        $("#" + i).css("display", "none");
+    }
+}
 </script>
 
 <input type="text" id="course_id" value="${course_id}" hidden/>
