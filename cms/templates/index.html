@@ -168,11 +168,11 @@ from openedx.core.djangolib.js_utils import (
 
 
 <link rel="stylesheet" type="text/css" href="/static/studio/css/pop.css">
-<div id="layerPopupArea" class="layerPopupArea" style="display:none">
+<div id="layerPopupArea" class="layerPopupArea">
     <div id="1" class="popup-area" style="width: 550px;">
         <div class="popup-main">
             <div class="popup-header">
-                <h4 class="popup-title"><b>K-MOOC 개편 참여기관 안내</b></h4>
+                <h4 class="popup-title"><b>K-MOOC 플랫폼 개편 일정 안내드립니다.</b></h4>
             </div>
             <div class="popup-contents">
             <div id="contents_1" style="display: none;"></div>
@@ -195,18 +195,18 @@ from openedx.core.djangolib.js_utils import (
 <script>
 var popupDate = new Date();
 // 월은 0부터 계산되므로 해당월 - 1 한 값으로 지정
-var targetDate = new Date(2023, 7, 10, 13, 0, 0);
+var targetDate = new Date(2023, 9, 10, 13, 0, 0);
 $(document).ready(function(){
     let contents = "";
     contents += "<div style='width:100%'>";
-    contents += "K-MOOC는 8월 7일 관리자 페이지를 시작으로 개편을 진행할 예정입니다.<br/>";
+    contents += "K-MOOC 플랫폼 개편 일정 안내드립니다.<br/>";
+    contents += "※ 관리자페이지 : 8.7(월), 학습자페이지 : 8.21(월)<br/>";
     contents += "<br/>";
     contents += "자세한 사항은 아래 링크를 통해 확인 부탁드립니다.<br/>";
-    contents += "<button class='btn popbtn' style='height: 33px;width:100%;border-radius: 5px;background-color: #009fe6;color: #FFFFFF;font-size: 90%;vertical-align: middle;'>자세한 내용 보기</button><br/>";
+    contents += "<button class='btn popbtn newpop' style='height: 33px;width:100%;border-radius: 5px;background-color: #009fe6;color: #FFFFFF;font-size: 90%;vertical-align: middle;'>자세한 내용 보기</button><br/>";
     contents += "<br/>";
     contents += "※ 기존 Studio에서 수정된 강좌는 신규 플랫폼에 덮어쓰기 처리되어<br/>신규 플랫폼에서 수정된 내용이 반영되지 않을 수 있습니다.";
     contents += "<br/>";
-    contents += "감사합니다.<br/>";
     contents += "</div>";
     contents = $.parseHTML(contents);
     $("#frame_1").html(contents);
