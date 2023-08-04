@@ -95,8 +95,102 @@ from openedx.core.djangolib.markup import HTML
 <%include file="/courseware/course_navigation.html" args="active_page='instructor'" />
 
 <style type="text/css"></style>
+<script language="JavaScript" type="text/javascript">
+</script>
+<style>
+.layerPopupArea{position: absolute !important; z-index: 999 !important; top: -75px !important; left: 100px !important;}
+.layerPupup{
+    z-index: 10010 !important;
+	display: none !important;
+	border: 0px solid #fff !important;
+	opacity: 1 !important;
+	background: #ffffff !important;
+	font-size: 13px !important;
+    line-height: 25px !important;
+	padding: 5px !important;
+	box-shadow: 0 2px 5px 3px #444444 !important;
+	margin: 3px !important;
+	float: left !important;
+}
+</style>
+<link rel="stylesheet" type="text/css" href="/static/css/pop.css">
+<div id="layerPopupArea" class="layerPopupArea">
+    <div id="1" class="popup-area" style="width: 650px;">
+        <div class="popup-main">
+            <div class="popup-header">
+                <h4 class="popup-title"><b>K-MOOC 개편 참여기관 안내</b></h4>
+            </div>
+            <div class="popup-contents">
+            <div id="contents_1" style="display: none;"></div>
+                <div id="frame_1" frameborder="0" scrolling="no" width="100%" class="popup-contents-iframe"></div>
+            </div>
 
-<script language="JavaScript" type="text/javascript"></script>
+            <div class="popup-footer" style="background: black; text-align: right;">
+                <label class="popup-footer-label" onclick="closeWin('pop_close_1','1','1');" style="text-align: left; padding: 0 10px;">
+                    <input id="pop_close_1" name="pop_close_1" type="checkbox">
+                    <span class="popup-footer-day"><b>1일간 열지 않음</b></span>
+                </label>
+                <span class="popup-footer-day popup-footer-close" style="padding: 0 10px; vertical-align: middle;">
+                    <a href="#none" title="닫기" class="closebtn"><b>[ 닫기 ]</b></a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+var popupDate = new Date();
+// 월은 0부터 계산되므로 해당월 - 1 한 값으로 지정
+var targetDate = new Date(2023, 9, 10, 13, 0, 0);
+$(document).ready(function(){
+    let contents = "";
+    contents += "<div style='width:100%'>";
+    contents += "K-MOOC는 8월 7일 관리자 페이지를 시작으로 개편을 진행할 예정입니다.<br/>";
+    contents += "<br/>";
+    contents += "자세한 사항은 아래 링크를 통해 확인 부탁드립니다.<br/>";
+    contents += "<button class='btn popbtn newpop' style='height: 33px;width:100%;border-radius: 5px;background-color: #009fe6;color: #FFFFFF;font-size: 90%;vertical-align: middle;'>자세한 내용 보기</button><br/>";
+    contents += "<br/>";
+    contents += "※ 기존 Studio에서 수정된 강좌는 신규 플랫폼에 덮어쓰기 처리되어<br/>신규 플랫폼에서 수정된 내용이 반영되지 않을 수 있습니다.";
+    contents += "<br/>";
+    contents += "감사합니다.<br/>";
+    contents += "</div>";
+    contents = $.parseHTML(contents);
+    $("#frame_1").html(contents);
+
+    $(window).resize(function(){
+      setIframeHeight("frame_1");
+    });
+});
+
+$(function() {
+    $(document).on('click', '.btn.popbtn.newpop', function () {
+        window.open("https://humble-rhodium-6bb.notion.site/K-MOOC-71bc84718f864e778a0ec5bfb16e13ca");
+    });
+    $(document).on('click', '.closebtn', function() {
+       $(this).parents(".layerPopupArea").hide();
+    });
+});
+
+function closeWin(check, id, hidden_day) {
+    if ($("#" + check).is(":checked")) {
+        setCookie(id, "done", hidden_day);
+    }
+    $("#" + id).css("display", "none");
+}
+
+
+function setIframeHeight(id) {
+    var ifrm = document.getElementById(id);
+    var doc = ifrm.contentDocument? ifrm.contentDocument:
+        ifrm.contentWindow.document;
+    ifrm.style.visibility = 'hidden';
+    ifrm.style.height = "10px";
+    ifrm.style.height = getDocHeight( doc ) + 4 + "px";
+    ifrm.style.visibility = 'visible';
+}
+
+</script>
 
 <input type="text" id="course_id" value="${course_id}" hidden/>
 <div class="container">

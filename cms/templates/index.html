@@ -164,63 +164,52 @@ from openedx.core.djangolib.js_utils import (
 .flex-wrap {
   flex-wrap: wrap !important;
 }
-
-
 </style>
 
 
 <link rel="stylesheet" type="text/css" href="/static/studio/css/pop.css">
 <div id="layerPopupArea" class="layerPopupArea">
-  <div id="1" class="popup-area" style="width: 650px;">
+    <div id="1" class="popup-area" style="width: 650px;">
+        <div class="popup-main">
+            <div class="popup-header">
+                <h4 class="popup-title"><b>K-MOOC 개편 참여기관 안내</b></h4>
+            </div>
+            <div class="popup-contents">
+            <div id="contents_1" style="display: none;"></div>
+                <div id="frame_1" frameborder="0" scrolling="no" width="100%" class="popup-contents-iframe"></div>
+            </div>
 
-    <div class="popup-main">
-      <div class="popup-header">
-        <h4 class="popup-title"><b>K-MOOC시스템 동영상 업로드 기능 점검 안내</b></h4>
-      </div>
-      <div class="popup-contents">
-        <div id="contents_1" style="display: none;"></div>
-        <iframe id="frame_1" frameborder="0" scrolling="no" width="100%" class="popup-contents-iframe"></iframe>
-      </div>
-
-       <div class="popup-footer" style="background: black; text-align: right;">
-         <label class="popup-footer-label" onclick="closeWin('pop_close_1','1','1');" style="text-align: left; padding: 0 10px;">
-           <input id="pop_close_1" name="pop_close_1" type="checkbox">
-           <span class="popup-footer-day"><b>1일간 열지 않음</b></span>
-         </label>
-         <span class="popup-footer-day popup-footer-close" style="padding: 0 10px; vertical-align: middle;">
-             <a href="javascript:popClose('1');" title="닫기"><b>[ 닫기 ]</b></a>
-         </span>
-         </div>
-       </div>
-  </div>
+            <div class="popup-footer" style="background: black; text-align: right;">
+                <label class="popup-footer-label" onclick="closeWin('pop_close_1','1','1');" style="text-align: left; padding: 0 10px;">
+                    <input id="pop_close_1" name="pop_close_1" type="checkbox">
+                    <span class="popup-footer-day"><b>1일간 열지 않음</b></span>
+                </label>
+                <span class="popup-footer-day popup-footer-close" style="padding: 0 10px; vertical-align: middle;">
+                    <a href="#none" title="닫기" class="closebtn"><b>[ 닫기 ]</b></a>
+                </span>
+            </div>
+        </div>
+    </div>
 </div>
 <script src="${static.url('js/script/paginathing.js')}" charset="utf-8"></script>
 <script>
-  var popupDate = new Date();
-  // 월은 0부터 계산되므로 해당월 - 1 한 값으로 지정
-  var targetDate = new Date(2021, 2, 5, 13, 0, 0);
-  $(document).ready(function(){
-
+var popupDate = new Date();
+// 월은 0부터 계산되므로 해당월 - 1 한 값으로 지정
+var targetDate = new Date(2023, 9, 10, 13, 0, 0);
+$(document).ready(function(){
     let contents = "";
-    contents += "<div>";
-    contents += "안녕하세요.<br/>";
-    contents += "K-MOOC운영센터입니다.<br/>";
+    contents += "<div style='width:100%'>";
+    contents += "K-MOOC는 8월 7일 관리자 페이지를 시작으로 개편을 진행할 예정입니다.<br/>";
     contents += "<br/>";
-    contents += "현재 K-MOOC 시스템 기능 점검으로 동영상 업로드가 원활히 되지 않고 있습니다.<br/>";
-    contents += "신속히 작업을 완료하여 더욱 편리한 서비스로 찾아뵙겠습니다.<br/><br/> 작업 예상 일정은 다음과 같습니다.<br/>";
+    contents += "자세한 사항은 아래 링크를 통해 확인 부탁드립니다.<br/>";
+    contents += "<button class='btn popbtn' style='height: 33px;width:100%;border-radius: 5px;background-color: #009fe6;color: #FFFFFF;font-size: 90%;vertical-align: middle;'>자세한 내용 보기</button><br/>";
     contents += "<br/>";
-    contents += "ㅇ 작업 일정 : 2021년 3월 4일(목) 14:30 ~ 3월 5일(금) 13시<br/>";
+    contents += "※ 기존 Studio에서 수정된 강좌는 신규 플랫폼에 덮어쓰기 처리되어<br/>신규 플랫폼에서 수정된 내용이 반영되지 않을 수 있습니다.";
     contents += "<br/>";
     contents += "감사합니다.<br/>";
     contents += "</div>";
     contents = $.parseHTML(contents);
-
-    var $frame = $("#frame_1");
-
-    const doc = $frame[0].contentWindow.document;
-    let $body = $('body', doc);
-    $body.html(contents);
-    setIframeHeight("frame_1");
+    $("#frame_1").html(contents);
 
     $(window).resize(function(){
       setIframeHeight("frame_1");
@@ -232,43 +221,50 @@ from openedx.core.djangolib.js_utils import (
       pageNumbers: false,
       ulClass: 'pagination flex-wrap justify-content-center',
     });
+});
 
-  });
+$(function() {
+    $(document).on('click', '.btn.popbtn', function () {
+        window.open("https://humble-rhodium-6bb.notion.site/K-MOOC-71bc84718f864e778a0ec5bfb16e13ca");
+    });
+    $(document).on('click', '.closebtn', function() {
+       $(this).parents(".layerPopupArea").hide();
+    });
+});
 
-    function setIframeHeight(id) {
-        var ifrm = document.getElementById(id);
-        var doc = ifrm.contentDocument? ifrm.contentDocument:
-            ifrm.contentWindow.document;
-        ifrm.style.visibility = 'hidden';
-        ifrm.style.height = "10px";
-        ifrm.style.height = getDocHeight( doc ) + 4 + "px";
-        ifrm.style.visibility = 'visible';
+
+function setIframeHeight(id) {
+    var ifrm = document.getElementById(id);
+    var doc = ifrm.contentDocument? ifrm.contentDocument:
+        ifrm.contentWindow.document;
+    ifrm.style.visibility = 'hidden';
+    ifrm.style.height = "10px";
+    ifrm.style.height = getDocHeight( doc ) + 4 + "px";
+    ifrm.style.visibility = 'visible';
+}
+
+function getDocHeight(doc) {
+    doc = doc || document;
+    var body = doc.body, html = doc.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+        html.clientHeight, html.scrollHeight, html.offsetHeight );
+    return height;
+}
+
+function setCookie1( name, value, expiredays ) {
+    var todayDate = new Date();
+    todayDate.setDate( todayDate.getDate() + expiredays );
+    document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
+}
+
+function setCookie( name, value, expiredays ) {
+    var todayDate = new Date();
+    if(expiredays == '0'){
+        expiredays = '999';
     }
-
-    function getDocHeight(doc) {
-        doc = doc || document;
-        var body = doc.body, html = doc.documentElement;
-        var height = Math.max( body.scrollHeight, body.offsetHeight,
-            html.clientHeight, html.scrollHeight, html.offsetHeight );
-        return height;
-    }
-
-
-
- function setCookie1( name, value, expiredays ) {
-     var todayDate = new Date();
-     todayDate.setDate( todayDate.getDate() + expiredays );
-     document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
- }
-
- function setCookie( name, value, expiredays ) {
-     var todayDate = new Date();
-     if(expiredays == '0'){
-         expiredays = '999';
-     }
-     todayDate.setDate( todayDate.getDate() + Number(expiredays) );
-     document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
- }
+    todayDate.setDate( todayDate.getDate() + Number(expiredays) );
+    document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
+}
 
  function closeWin(check, id, hidden_day) {
      if ($("#" + check).is(":checked")){

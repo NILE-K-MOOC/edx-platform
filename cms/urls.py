@@ -83,6 +83,7 @@ urlpatterns = [
     url(r'^course_info_update/{}/(?P<provided_id>\d+)?$'.format(settings.COURSE_KEY_PATTERN),contentstore.views.course_info_update_handler, name='course_info_update_handler'),
     url(r'^home/?$', contentstore.views.course_listing, name='home'),
     url(r'^youtubelist/?$', contentstore.views.youtube_listing, name='youtubelist'),
+    url(r'^youtubelistsecond/?$', contentstore.views.youtube_listing_second, name='youtubelistsecond'),
     url(r'^level_Verifi/?$', contentstore.views.level_Verifi, name='level_Verifi'),
 
     url(r'^course/{}/search_reindex?$'.format(settings.COURSE_KEY_PATTERN),
