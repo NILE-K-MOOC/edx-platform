@@ -35,7 +35,7 @@
                     return this;
                 }
                 for (var i = 0; i < courses.length; i++) {
-                    console.log("courses object courses[i]");
+                    console.log(courses[i]);
                     let enrollment_start = courses[i].data.enrollment_start;
                     let enrollment_end = courses[i].data.enrollment_end;
                     let start = courses[i].data.start;
@@ -52,18 +52,19 @@
                     courses[i].data.end = kst_end;
                 }
 
-                // let coursesByEnd = courses.sort((a,b) => (b.data.start - a.data.start));
-                this.courseCards.add(_.pluck(courses, 'data'));
-                // this.courseCards.add(_.pluck(coursesByEnd, 'data'));
+                let coursesByEnd = courses.sort((b,a) => (b.data.end - a.data.end));
+                // this.courseCards.add(_.pluck(courses, 'data'));
+                this.courseCards.add(_.pluck(coursesByEnd, 'data'));
 
 
                 this.set({
                     totalCount: response.total,
-                    // latestCount: coursesByEnd.length,
-                    latestCount: courses.length
+                    latestCount: coursesByEnd.length
+                    // latestCount: courses.length
                 });
 
                 var options = this.facetOptions;
+
                 var cnt = 0;
 
                 facet_row_temp = {};
@@ -77,7 +78,7 @@
                         var count3 = 0;
 
                         // skp, smu hard coding
-                        console.log("_(obj.terms) ==>"+_(obj.terms));
+                        //console.log("_(obj.terms) ==>"+_(obj.terms));
                         _(obj.terms).each(function (count, term) {
                             //console.log("1 _(obj.terms).each --------" + "term:" + term + ", count:" + count);
                             if (term.match(/^SKP.*/)) {
@@ -114,6 +115,7 @@
                         return true;
                     } else {
                         _(obj.terms).each(function (count, term) {
+
                             if (key == 'fourth_industry_yn' && (term == 'Y' || term == 'y'))
                                 term = 'fourth_industry_y';
                             else if (key == 'job_edu_yn' && (term == 'Y' || term == 'y'))
@@ -134,6 +136,7 @@
                                 term = 'matchup_y';
                             else if (key == 'matchup_yn' && (term == 'N' || term == 'n' || term == 'matchup_n'))
                                 term = 'matchup_n';
+
                             options.add({
                                 facet: key,
                                 term: term,
