@@ -52,7 +52,7 @@
                     courses[i].data.end = kst_end;
                 }
 
-                let coursesByEnd = courses.sort((b,a) => (b.data.end - a.data.end));
+                let coursesByEnd = courses.sort((a,b) => (b.data.end - a.data.end));
                 // this.courseCards.add(_.pluck(courses, 'data'));
                 this.courseCards.add(_.pluck(coursesByEnd, 'data'));
 
