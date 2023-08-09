@@ -27,8 +27,6 @@
             },
 
             parse: function (response) {
-                console.log("search_query====>"+search_query);
-
                 var courses = response.results || [];
                 var facets = response.facets || {};
 
