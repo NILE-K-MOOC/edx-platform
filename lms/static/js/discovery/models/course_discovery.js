@@ -27,6 +27,8 @@
             },
 
             parse: function (response) {
+                console.log("search_query====>"+search_query);
+
                 var courses = response.results || [];
                 var facets = response.facets || {};
 
@@ -51,8 +53,12 @@
                     courses[i].data.start = kst_start;
                     courses[i].data.end = kst_end;
                 }
-
-                let coursesByEnd = courses.sort((a,b) => (b.data.end - a.data.end));
+                // coursesByEnd = courses.sort((a,b) => (b.data.end - a.data.end));
+                let coursesByEnd = courses.sort((a, b) => {
+                    if (b.data.org_kname === b.data.org_kname) {
+                        return b.data.end - a.data.end;
+                    }
+                });
                 // this.courseCards.add(_.pluck(courses, 'data'));
                 this.courseCards.add(_.pluck(coursesByEnd, 'data'));
 
@@ -72,7 +78,7 @@
                 facet_row_set = {};
 
                 _(facets).each(function (obj, key) {
-                    console.log("obj: " + obj + ", key: " + key + "  [case 1 ]");
+                    // console.log("obj: " + obj + ", key: " + key + "  [case 1 ]");
                     if (key == 'org') {
                         var count2 = 0;
                         var count3 = 0;
