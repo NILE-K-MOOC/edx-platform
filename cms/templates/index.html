@@ -169,27 +169,28 @@ from openedx.core.djangolib.js_utils import (
 
 <link rel="stylesheet" type="text/css" href="/static/studio/css/pop.css">
 <div id="layerPopupArea" class="layerPopupArea">
-    <div id="1" class="popup-area" style="width: 550px;">
-        <div class="popup-main">
-            <div class="popup-header">
-                <h4 class="popup-title"><b>K-MOOC 플랫폼 개편 일정 안내드립니다.</b></h4>
-            </div>
-            <div class="popup-contents">
-            <div id="contents_1" style="display: none;"></div>
-                <div id="frame_1" frameborder="0" scrolling="no" width="100%" class="popup-contents-iframe"></div>
-            </div>
+  <div id="1" class="popup-area" style="width: 550px;">
 
-            <div class="popup-footer" style="background: black; text-align: right;">
-                <label class="popup-footer-label" onclick="closeWin('pop_close_1','1','1');" style="text-align: left; padding: 0 10px;">
-                    <input id="pop_close_1" name="pop_close_1" type="checkbox">
-                    <span class="popup-footer-day"><b>1일간 열지 않음</b></span>
-                </label>
-                <span class="popup-footer-day popup-footer-close" style="padding: 0 10px; vertical-align: middle;">
-                    <a href="#none" title="닫기" class="closebtn"><b>[ 닫기 ]</b></a>
-                </span>
-            </div>
-        </div>
-    </div>
+    <div class="popup-main">
+      <div class="popup-header">
+        <h4 class="popup-title"><b>K-MOOC시스템 동영상 업로드 기능 점검 안내</b></h4>
+      </div>
+      <div class="popup-contents">
+        <div id="contents_1" style="display: none;"></div>
+        <iframe id="frame_1" frameborder="0" scrolling="no" width="100%" class="popup-contents-iframe"></iframe>
+      </div>
+
+       <div class="popup-footer" style="background: black; text-align: right;">
+         <label class="popup-footer-label" onclick="closeWin('pop_close_1','1','1');" style="text-align: left; padding: 0 10px;">
+           <input id="pop_close_1" name="pop_close_1" type="checkbox">
+           <span class="popup-footer-day"><b>1일간 열지 않음</b></span>
+         </label>
+         <span class="popup-footer-day popup-footer-close" style="padding: 0 10px; vertical-align: middle;">
+             <a href="javascript:popClose('1');" title="닫기"><b>[ 닫기 ]</b></a>
+         </span>
+         </div>
+       </div>
+  </div>
 </div>
 <script src="${static.url('js/script/paginathing.js')}" charset="utf-8"></script>
 <script>
@@ -211,16 +212,24 @@ $(document).ready(function(){
     contents = $.parseHTML(contents);
     $("#frame_1").html(contents);
 
-    $(window).resize(function(){
-      setIframeHeight("frame_1");
+    var $frame = $("#frame_1");
+
+    const doc = $frame[0].contentWindow.document;
+    let $body = $('body', doc);
+    $body.html(contents);
+    setIframeHeight("frame_1");
+
+    $(window).resize(function () {
+        setIframeHeight("frame_1");
     });
     $('.list-courses').paginathing({
-      perPage: 20,
-      limitPagination: 9,
-      containerClass: 'panel-footer mt-4',
-      pageNumbers: false,
-      ulClass: 'pagination flex-wrap justify-content-center',
+        perPage: 20,
+        limitPagination: 9,
+        containerClass: 'panel-footer mt-4',
+        pageNumbers: false,
+        ulClass: 'pagination flex-wrap justify-content-center',
     });
+
 });
 
 $(function() {
@@ -235,38 +244,40 @@ $(function() {
 
 function setIframeHeight(id) {
     var ifrm = document.getElementById(id);
-    var doc = ifrm.contentDocument? ifrm.contentDocument:
-        ifrm.contentWindow.document;
+    var doc = ifrm.contentDocument ? ifrm.contentDocument :
+            ifrm.contentWindow.document;
     ifrm.style.visibility = 'hidden';
     ifrm.style.height = "10px";
-    ifrm.style.height = getDocHeight( doc ) + 4 + "px";
+    ifrm.style.height = getDocHeight(doc) + 4 + "px";
     ifrm.style.visibility = 'visible';
 }
 
 function getDocHeight(doc) {
     doc = doc || document;
     var body = doc.body, html = doc.documentElement;
-    var height = Math.max( body.scrollHeight, body.offsetHeight,
-        html.clientHeight, html.scrollHeight, html.offsetHeight );
+    var height = Math.max(body.scrollHeight, body.offsetHeight,
+            html.clientHeight, html.scrollHeight, html.offsetHeight);
     return height;
 }
 
-function setCookie1( name, value, expiredays ) {
+
+function setCookie1(name, value, expiredays) {
     var todayDate = new Date();
-    todayDate.setDate( todayDate.getDate() + expiredays );
-    document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
+    todayDate.setDate(todayDate.getDate() + expiredays);
+    document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todayDate.toGMTString() + ";"
 }
 
-function setCookie( name, value, expiredays ) {
+function setCookie(name, value, expiredays) {
     var todayDate = new Date();
-    if(expiredays == '0'){
+    if (expiredays == '0') {
         expiredays = '999';
     }
-    todayDate.setDate( todayDate.getDate() + Number(expiredays) );
-    document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
+    todayDate.setDate(todayDate.getDate() + Number(expiredays));
+    document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todayDate.toGMTString() + ";"
 }
 
- function closeWin(check, id, hidden_day) {
+
+function closeWin(check, id, hidden_day) {
      if ($("#" + check).is(":checked")){
          setCookie( id , "done" , hidden_day);
      }
