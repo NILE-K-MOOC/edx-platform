@@ -52,19 +52,19 @@
                     courses[i].data.end = kst_end;
                 }
                 // coursesByEnd = courses.sort((a,b) => (b.data.end - a.data.end));
-                let coursesByEnd = courses.sort((a, b) => {
-                    if (b.data.org_kname === b.data.org_kname) {
-                        return b.data.end - a.data.end;
-                    }
-                });
-                // this.courseCards.add(_.pluck(courses, 'data'));
-                this.courseCards.add(_.pluck(coursesByEnd, 'data'));
+                // let coursesByEnd = courses.sort((a, b) => {
+                //     if (b.data.org_kname === b.data.org_kname) {
+                //         return b.data.end - a.data.end;
+                //     }
+                // });
+                this.courseCards.add(_.pluck(courses, 'data'));
+                // this.courseCards.add(_.pluck(coursesByEnd, 'data'));
 
 
                 this.set({
                     totalCount: response.total,
-                    latestCount: coursesByEnd.length
-                    // latestCount: courses.length
+                    // latestCount: coursesByEnd.length
+                    latestCount: courses.length
                 });
 
                 var options = this.facetOptions;
