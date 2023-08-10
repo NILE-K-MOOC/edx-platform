@@ -315,11 +315,14 @@ function closeWin(check, id, hidden_day) {
          %else:
              $("#" + i).css("display" , "inline-block !important;");
          %endif
- } else {
-     $("#" + i).css("display" , "none");
- }
+     } else {
+         $("#" + i).css("display" , "none");
+     }
  }
 
+function popClose(id) {
+    $("#" + id).hide();
+}
 
 // targetDate2 = new Date(2018, 1, 5);
 //
