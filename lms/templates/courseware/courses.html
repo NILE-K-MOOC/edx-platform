@@ -92,6 +92,8 @@ course_discovery_enabled = settings.FEATURES.get('ENABLE_COURSE_DISCOVERY')
         }
     }
     button:focus,button.focus,.btn:focus,.btn.focus{outline:3px solid #0075b4 !important;overflow:inherit;box-shadow:0 0 0 0.2rem rgba(0,117,180,0.25) !important;color:#FFFFFF;}
+
+
 </style>
 
 % endfor
@@ -270,6 +272,7 @@ getParameterByName('search_query')
                             'text-overflow': 'ellipsis',
                             'max-width': '100%',
                             'overflow': 'hidden'
+
                         });
                     },
                     focus: function(event, ui) {
@@ -378,31 +381,3 @@ getParameterByName('search_query')
     }
 </script>
 % endif
-
-<script type="text/javascript">
-// $(function () {
-//     $(document).off('click').on('click', '.courses-listing-item article a', function (event){
-//         event.preventDefault();
-//         var thishref = $(this).attr("href")
-//         var courseid = thishref.replace("/about","");
-//         $.ajax({
-//             type: 'POST',
-//             url: '/course_courseid_check',
-//             data: {
-//                 cid: courseid
-//             },
-//             dataType: 'json',
-//             success: function(data) {
-//                 if (Number(data) > 0) {
-//                     location.href="https://new.kmooc.kr/view/course/detail/"+Number(data);
-//                 } else {
-//                     location.href=thishref;
-//                 }
-//             },
-//             error: function(error) {
-//                 console.log("FAIL....=================");
-//             }
-//         });
-//     });
-// });
-</script>

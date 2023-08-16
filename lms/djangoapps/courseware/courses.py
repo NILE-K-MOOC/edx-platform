@@ -8,7 +8,6 @@ from collections import defaultdict
 from datetime import datetime
 import traceback
 
-
 import branding
 import pytz
 from courseware.access import has_access
@@ -151,6 +150,7 @@ def course_search_list(request):
             # print 'course_listcourse_listcourse_list',course_list
             return JsonResponse({'course_search_list': course_list})
     pass
+
 
 def check_course_access(course, user, action, check_if_enrolled=False, check_survey_complete=True):
     """
