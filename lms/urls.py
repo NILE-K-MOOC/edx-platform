@@ -86,7 +86,6 @@ if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
 
 urlpatterns = [
     url(r'^$', branding_views.index, name='root'),
-    url(r'^notion$', branding_views.notion, name='notion'),
     url(r'^banner$', branding_views.banner, name='banner'),
     url(r'^invitation-banner$', branding_views.invitation_banner, name='invitation_banner'),
     url(r'^invitation-banner_old1$', branding_views.invitation_banner_old1, name='invitation_banner_old1'),
