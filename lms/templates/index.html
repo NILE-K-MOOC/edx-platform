@@ -52,7 +52,6 @@ openstate = "true"
         var nowviewstate = getUrlParameter('nowviewstate');
         if (nowviewstate == "new") {
             newSetMainCourses();
-            $(".hack_new_li").hide();
         } else {
             const opendate = new Date('2022-08-21');
             const nowdate = new Date();
@@ -664,7 +663,7 @@ openstate = "true"
     <section class="sec-course sec-new">
         <div class="container-fluid">
             <div class="course-top">
-                <h1 class="title">신규강좌</h1>
+                <h1 class="title">차세대 K-MOOC 에서 듣는 신규강좌</h1>
             </div>
 
             <div id="newsections">
@@ -758,9 +757,7 @@ openstate = "true"
             <div style="width: 100%; text-align: center;">
                 <img src="${STATIC_URL}images/spinner.gif" class="loading" alt="Loading"/>
             </div>
-
             <div id="sections"></div>
-
         </div>
         <div class="owl-nav" id="section_owl" style="display: none;">
             <button type="button" role="presentation" class="owl-prev disabled">
@@ -879,16 +876,13 @@ openstate = "true"
         </div>
     </section>
     % endif
-
 </main>
 
 
 % if show_homepage_promo_video:
 <section id="video-modal" class="modal home-page-video-modal video-modal">
     <div class="inner-wrapper">
-        <iframe title="YouTube Video" width="640" height="360"
-                src="//www.youtube.com/embed/${homepage_promo_video_youtube_id}?showinfo=0" frameborder="0"
-                allowfullscreen></iframe>
+        <iframe title="YouTube Video" width="640" height="360" src="//www.youtube.com/embed/${homepage_promo_video_youtube_id}?showinfo=0" frameborder="0" allowfullscreen></iframe>
     </div>
 </section>
 % endif
