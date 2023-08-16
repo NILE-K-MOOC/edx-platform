@@ -2,10 +2,40 @@
 <%inherit file="main.html" />
 <%namespace name='static' file='static_content.html'/>
 <%!
+import requests, unicodedata, time, json
+
+from datetime import datetime
 from django.utils.translation import ugettext as _
 from django.urls import reverse
 from microsite_configuration import microsite
 from openedx.core.djangolib.markup import HTML, Text
+
+
+url="https://lms.kmooc.kr/webservice/rest/server.php?wstoken=b159b1989f69a3f57321a40c1e3bbe55&wsfunction=mooc_ubonline_course_oldkmooc_v2&moodlewsrestformat=json"
+header = ''
+data='{"wstoken":"b159b1989f69a3f57321a40c1e3bbe55","wsfunction":"mooc_ubonline_course_oldkmooc_v2","moodlewsrestformat":"json"}'
+response=requests.post(url, headers=header, data=data)
+newkmoocdata = ""
+if response:
+    newkmoocdata = response.json().get("data")
+else:
+    newkmoocdata = ""
+
+
+openstate = "true"
+
+# openstate = ""
+# opendate = datetime(2023,8,21)
+# nowdate = datetime.now()
+# if nowdate >= opendate:
+#    openstate = "true"
+# elif nowdate < opendate:
+#    newkmoocdata = ""
+
+
+
+#if nowviewstate:
+#    openstate = "true"
 %>
 <link rel="stylesheet" type="text/css" href="/static/css/pop.css">
 
@@ -21,11 +51,23 @@ from openedx.core.djangolib.markup import HTML, Text
 
 <script type="text/javascript" src="/static/new_index/js/spin.js"></script>
 <script language="Javascript">
-
     $(document).ready(function () {
-        // 실제로 강좌 목록 위에 영역 선택 부분이 있으므로 해당 높이를 추가
-        // 20210114 기본 강좌는 집콕강좌로 변경
-        let secCourseTop = $(".sec-course").offset().top + $(".course-top").height();
+        var nowviewstate = getUrlParameter('nowviewstate');
+        if (nowviewstate == "new") {
+            newSetMainCourses();
+            $(".hack_new_li").hide();
+        } else {
+            const opendate = new Date('2022-08-21');
+            const nowdate = new Date();
+            if (opendate >= nowdate) {
+                newSetMainCourses();
+            } else {
+                $(".mainbanner.newkoocbenner").hide();
+                $(".sec-course.sec-new").hide();
+            }
+        }
+
+        let secCourseTop = $(".sec-course.sec-old").offset().top + $(".course-top-old").height();
         let windowHeight = $(window).height();
         let currScrollTop = $(window).scrollTop();
         let isScrolled = false;
@@ -36,17 +78,15 @@ from openedx.core.djangolib.markup import HTML, Text
         console.debug('currScrollTop: ' + currScrollTop);
         console.debug('initialize action: ' + windowHeight + currScrollTop > secCourseTop);
 
-        if (windowHeight + currScrollTop > secCourseTop) {
+        // if (windowHeight + currScrollTop > secCourseTop) {
             setMainCourses();
-        }
+        // }
 
         // 스크롤을 할경우 강좌 목록을 가져오도록 변경
         $(window).scroll(function () {
             currScrollTop = $(window).scrollTop();
-
             if (windowHeight + currScrollTop < secCourseTop)
                 return;
-
             // 스크롤 한적이 있거나 목록이 있다면 실행하지 않음
             if (isScrolled)
                 return;
@@ -56,7 +96,38 @@ from openedx.core.djangolib.markup import HTML, Text
             if (isEmpty) {
                 setMainCourses();
             }
+
         });
+
+
+        function newSetMainCourses() {
+            $('.sec-course.sec-new .owl-carousel').owlCarousel({
+                margin: 20,
+                nav: true,
+                dots: false,
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    443: {
+                        items: 2
+                    },
+
+                    768: {
+                        items: 3
+                    },
+
+                    992: {
+                        items: 4
+                    }
+                }
+            });
+
+            $('.sec-new #section_pop.owl-carousel').trigger('stop.owl.autoplay');
+
+            $(".sec-new #section_pop").show();
+        }
+
 
         /***
          * index 화면의 강좌목록을 로드
@@ -70,11 +141,11 @@ from openedx.core.djangolib.markup import HTML, Text
                 {csrfmiddlewaretoken: '${ csrf_token }'},
                 function (data) {
                     if (data) {
-                        $(".sec-course .owl-carousel").remove();
+                        $(".sec-old .owl-carousel").remove();
                         $(".loading").hide();
-                        $("#sections").append(data);
+                            $(".sec-old #sections").append(data);
 
-                        $('.owl-carousel').owlCarousel({
+                        $('.sec-course.sec-old .owl-carousel').owlCarousel({
                             margin: 20,
                             nav: true,
                             dots: false,
@@ -99,25 +170,22 @@ from openedx.core.djangolib.markup import HTML, Text
                         isEmpty = false;
 
                         // data append 이후 item 갯수를 확인하여 아이템이 존재하는 영역을 표시
-                        if ($("#section_home .item").size() > 0)
+                        if ($(".sec-old #section_home .item").size() > 0)
                             change_course('home');
-                        else if ($("#section_pop .item").size() > 0)
+                        else if ($(".sec-old #section_pop .item").size() > 0)
                             change_course('pop');
-                        else if ($("#section_new .item").size() > 0)
+                        else if ($(".sec-old #section_new .item").size() > 0)
                             change_course('new');
-                        else if ($("#section_today .item").size() > 0)
+                        else if ($(".sec-old #section_today .item").size() > 0)
                             change_course('today');
                     }
                 },
                 "html");
         }
 
-
         let popup_id = $(".popup-area").attr("id");
-
-        $("#" + popup_id).attr("tabindex", 0).focus();
-
-        $("#" + popup_id).css('outline', 'none');
+        $(".sec-old #" + popup_id).attr("tabindex", 0).focus();
+        $(".sec-old #" + popup_id).css('outline', 'none');
 
         var spin_lock = false;
         $(window).scroll(function () {
@@ -168,7 +236,21 @@ from openedx.core.djangolib.markup import HTML, Text
             }
         });
     });
+    var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = window.location.search.substring(1),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
 
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+            }
+        }
+        return false;
+    };
     function popClose(id) {
         $("#" + id).hide();
     }
@@ -185,7 +267,6 @@ from openedx.core.djangolib.markup import HTML, Text
 
 
     function closeWin(check, id, hidden_day) {
-
         if ($("#" + check).is(":checked")) {
             setCookie(id, "done", hidden_day);
         }
@@ -211,7 +292,6 @@ from openedx.core.djangolib.markup import HTML, Text
         }
     }
 
-
     function setCookie1(name, value, expiredays) {
         var todayDate = new Date();
         todayDate.setDate(todayDate.getDate() + parseInt(expiredays));
@@ -219,53 +299,50 @@ from openedx.core.djangolib.markup import HTML, Text
     }
 
     function closeWin1(check, id, hidden_day) {
-
         if ($("#" + check).is(":checked")) {
             setCookie(id, "done", hidden_day);
         }
         setCookie1(id, "done", hidden_day);
-
         $("#" + id).css("display", "none");
     }
 
     cookiedata = document.cookie;
 
     function change_course(type) {
-        $('#section_home.owl-carousel').trigger('stop.owl.autoplay');
+        $('.sec-old #section_home.owl-carousel').trigger('stop.owl.autoplay');
 
         // 강좌 탭
         $(".tab-group>li>a").removeClass("active");
 
         // 강좌 목록
-        $("#sections>div").hide();
+        $(".sec-old #sections>div").hide();
 
         switch (type) {
             case "home":
-                $("#section_home").show();
+                $(".sec-old #section_home").show();
                 $("#hack_home").addClass("active");
 
                 setTimeout(function () {
-                    $('#section_home.owl-carousel').trigger('play.owl.autoplay', [10000]);
+                    $('sec-new #section_home.owl-carousel').trigger('play.owl.autoplay', [10000]);
                 }, 500);
 
                 break;
             case "pop":
-                $("#section_pop").show();
+                $(".sec-old #section_pop").show();
                 $("#hack_pop").addClass("active");
                 break;
             case "new":
-                $("#section_new").show();
+                $(".sec-old #section_new").show();
                 $("#hack_new").addClass("active");
                 break;
             case "today":
-                $("#section_today").show();
+                $(".sec-old #section_today").show();
                 $("#hack_today").addClass("active");
                 break;
             case "my":
-                $("#section_my").show();
+                $(".sec-old #section_my").show();
                 $("#hack_my").addClass("active");
                 break;
-
         }
     }
 
@@ -304,138 +381,115 @@ from openedx.core.djangolib.markup import HTML, Text
 
 
 <style>
+.home > header .outer-wrapper {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 100px 0 0 0;
+}
 
-    .home > header .outer-wrapper {
-        width: 100%;
-        height: 100%;
-        box-sizing: border-box;
-        padding: 100px 0 0 0;
-    }
+.course-search {
+    width: 300px;
+    float: right;
+    margin-right: 30px;
+}
 
-    .course-search {
-        width: 300px;
-        float: right;
-        margin-right: 30px;
-    }
+.more {
+    color: #222 !important;
+    text-decoration: none !important
+}
 
-    .more {
-        color: #222 !important;
-        text-decoration: none !important
-    }
+.quick-link > li > a {
+    color: #222 !important;
+}
 
-    .quick-link > li > a {
-        color: #222 !important;
-    }
+.classify-item {
+    color: #222 !important;
+}
 
-    .classify-item {
-        color: #222 !important;
-    }
+.link {
+    color: #222 !important;
+}
 
-    .link {
-        color: #222 !important;
-    }
+.instructor {
+    color: #222 !important;
+}
 
-    .instructor {
-        color: #222 !important;
-    }
+.course-item {
+    text-decoration: none !important
+}
 
-    .course-item {
-        text-decoration: none !important
-    }
+.el-xbox > a {
+    text-decoration: none !important
+}
 
-    .el-xbox > a {
-        text-decoration: none !important
-    }
+.el-xbox {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    transition: 0.3s;
+}
 
-    .el-xbox {
-        padding-top: 12px;
-        padding-bottom: 12px;
-        transition: 0.3s;
-    }
+.course-title {
+    font-family: 'Noto Sans KR' !important;
+}
 
-    .course-title {
-        font-family: 'Noto Sans KR' !important;
-    }
+.sub-title {
+    font-family: 'Noto Sans KR' !important;
+}
 
-    .sub-title {
-        font-family: 'Noto Sans KR' !important;
-    }
+.csp {
+    cursor: pointer;
+}
 
-    .csp {
-        cursor: pointer;
-    }
-
-    .course-item {
-        display: block;
-    }
+.course-item {
+    display: block;
+}
 
 @media all and (max-width: 450px) {
-
     div.box_popup div.popup h2 {
-
         min-height: 0;
-
         height: 50px;
-
         padding: 0 10px;
-
         font-size: 16px;
-
         line-height: 50px;
-
     }
-
-
 
     div.box_popup div.popup > div.popup_inner {
-
         padding: 0;
-
     }
-
-
 
     main.subscription div.box_popup div.popup > div.popup_inner > div {
-
         max-height: calc(95vh - 50px);
-
         letter-spacing: -0.08em;
-
     }
-
-
 
     main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > p.text {
-
         margin-bottom: 10px;
-
         line-height: 1.3;
-
         font-size: 17px;
-
     }
-
-
 
     main.subscription div.box_popup div.popup > div.popup_inner.subscription > div > p.dot {
-
         margin-top: 10px;
-
         line-height: 1.3;
-
     }
-
-
+}
 
 </style>
 <main id="main" aria-label="Content" tabindex="-1" class="main-content">
-
-
     <!-- 캐러셀 배너자리 -->
     <div class="sec-visual" style="margin: 5px 0;">
         <div class="container-fluid">
             <div class="visual-row">
                 <div class="banner" style="visibility:hidden;opacity:0; height: 120px; overflow: hidden;">
+                    <!-- new KMOOC -->
+                    % if openstate == "true":
+                    <div>
+                        <a href="https://new.kmooc.kr" target="_blank" style="display:block" class="mainbanner newkoocbenner" title="신규 플랫폼 사이트 바로가기">
+                            <img src="${STATIC_URL}images/new_kmooc_banner.png" alt="신규 플랫폼 사이트" style="width: 100%"/>
+                        </a>
+                    </div>
+                    % endif:
 
                     <!-- 유데미 구독권 신청 -->
                     <div>
@@ -608,10 +662,77 @@ from openedx.core.djangolib.markup import HTML, Text
         </div>
     </section>
 
-    <!-- 강좌 노출 영역  -->
-    <section class="sec-course">
+% if newkmoocdata:
+    <!-- 신형싸이트 연동 강좌 리스트-->
+    <section class="sec-course sec-new">
         <div class="container-fluid">
             <div class="course-top">
+                <h1 class="title">신규강좌</h1>
+            </div>
+
+            <div id="newsections">
+                <div id="section_pop" class="owl-carousel course-carousel owl-loaded owl-drag">
+                    <div class="owl-stage-outer">
+                        <div class="owl-stage">
+    % for newdata in newkmoocdata:
+                            <div class="owl-item">
+                                <div class="item">
+                                    <a href="https://new.kmooc.kr/view/course/detail/${ newdata.get('id') }" class="course-item">
+                                        <div class="course-thumb">
+                                            <figure>
+                                                <img alt="${ unicode(newdata.get('fullname')).decode('utf8', errors='ignore') }" src="${ newdata.get('thumbnail') }" onerror="this.src='/static/images/blank.png'">
+                                                <span class="more">
+                                                    <span>자세히 알아보기</span>
+                                                </span>
+                                            </figure>
+                                        </div>
+                                        <h2 class="course-title">${ unicode(newdata.get('fullname')).decode('utf8', errors='ignore') }</h2>
+                                        <div class="course-info">
+                                            <p class="instructor">
+                                                <span class="course-instructor">${ unicode(newdata.get('profs')[0]).decode('utf8', errors='ignore') } </span>
+                                                <span class="kr01_school">${ unicode(newdata.get('institution_name')).decode('utf8', errors='ignore') }</span>
+                                            </p>
+                                            <p class="period">
+                                                <span class="date">${ time.strftime("%Y/%m/%d",time.localtime(newdata.get('study_start'))) } ~ ${ time.strftime("%Y/%m/%d",time.localtime(newdata.get('study_end'))) }</span>
+                                            % if newdata.get('is_auditor') == 1:
+                                                <span class="state possible">청강가능</span>
+                                            % else:
+                                                <span class="state end">종료</span>
+                                            % endif:
+                                                <!--<span class="state soon">개강예정</span>-->
+                                                <!--<span class="state possible">청강가능</span>-->
+                                                <!--<span class="state end">종료</span>-->
+                                            </p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+% endfor:
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="owl-nav" id="section_owl" style="display: none;">
+            <button type="button" role="presentation" class="owl-prev disabled">
+                <span aria-label="Previous">‹</span>
+            </button>
+            <button type="button" role="presentation" class="owl-next">
+                <span aria-label="Next">›</span>
+            </button>
+        </div>
+        <div class="owl-dots disabled"></div>
+    </section>
+    <!-- 신형싸이트 연동 강좌 리스트-->
+% endif:
+
+
+
+
+    <!-- 강좌 노출 영역  -->
+    <section class="sec-course sec-old">
+        <div class="container-fluid">
+            <div class="course-top course-top-old">
                 <h1 class="title">${_("How about this lecture?")}</h1>
                 <ul class="tab-group">
                     <!--
@@ -623,7 +744,7 @@ from openedx.core.djangolib.markup import HTML, Text
                     <li>
                         <a href="#" onclick="change_course('pop'); return false;" id="hack_pop" class="csp tab">${_("Popular Courses")}</a>
                     </li>
-                    <li>
+                    <li class="hack_new_li">
                         <a href="#" onclick="change_course('new'); return false;" id="hack_new" class="csp tab">${_("New Courses")}</a>
                     </li>
                     <li>

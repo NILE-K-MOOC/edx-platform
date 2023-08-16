@@ -8,6 +8,7 @@ from collections import defaultdict
 from datetime import datetime
 import traceback
 
+
 import branding
 import pytz
 from courseware.access import has_access
@@ -151,6 +152,31 @@ def course_search_list(request):
             return JsonResponse({'course_search_list': course_list})
     pass
 
+@csrf_exempt
+def course_courseid_check(req):
+    if req.is_ajax():
+        import requests, json
+
+        print "req=====>",req
+        url = "https://lms.kmooc.kr/local/coursemos/courseid.php?courseid="+req.POST.get('cid')+"&requestfrom=oldkmooc"
+        # ?courseid=course-v1:ACRCEDU+ACRC01+2022_03"
+        # url="https://lms.kmooc.kr/webservice/rest/server.php
+        # header = '{"Content-Type": "application/json"}'
+        header = ''
+        data = ''
+        # data = '{"courseid":"'+req.POST.get('cid')+'"}'
+        # data = '{"courseid":"course-v1:ACRCEDU+ACRC01+2022_03","requestfrom","oldkmooc"}'
+        response = requests.post(url, headers=header, data=data)
+        if response:
+            success = response.json().get("success")
+
+        if success == "success":
+            course_new_id = response.json().get("data")
+        else:
+            course_new_id = ""
+
+        return JsonResponse({'course_courseid_check': course_new_id})
+    pass
 
 def check_course_access(course, user, action, check_if_enrolled=False, check_survey_complete=True):
     """
