@@ -97,7 +97,6 @@ urlpatterns = [
     url(r'^coursera$', branding_views.coursera_course, name='coursera_course'),
     url(r'^coursera_kmooc$', branding_views.coursera_course_ubion, name='coursera_kmooc'),
     url(r'^get_index_courses$', student_views.get_index_courses, name='get_index_courses'),
-    url(r'^get_new_index_courses$', student_views.get_new_index_courses, name='get_new_index_courses'),
 
     # matchup
     url(r'^matchup$', branding_views.matchup, name='matchup'),
@@ -237,7 +236,6 @@ urlpatterns = [
     # Course List
     # made by kotech system
     url(r'^course_search_list$', courses.course_search_list, name='course_list'),
-    url(r'^course_courseid_check$', courses.course_courseid_check, name='course_courseid_check'),
 
     # Age Group Preference
     url(r'^age_specific/course/$', courses.age_specific_course, name='age_specific_course'),
