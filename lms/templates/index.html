@@ -2,27 +2,27 @@
 <%inherit file="main.html" />
 <%namespace name='static' file='static_content.html'/>
 <%!
-import requests, unicodedata, time, json
+# import requests, unicodedata, time, json
 
-from datetime import datetime
+# from datetime import datetime
 from django.utils.translation import ugettext as _
 from django.urls import reverse
 from microsite_configuration import microsite
 from openedx.core.djangolib.markup import HTML, Text
 
 
-url="https://lms.kmooc.kr/webservice/rest/server.php?wstoken=b159b1989f69a3f57321a40c1e3bbe55&wsfunction=mooc_ubonline_course_oldkmooc_v2&moodlewsrestformat=json"
-header = ''
-data='{"wstoken":"b159b1989f69a3f57321a40c1e3bbe55","wsfunction":"mooc_ubonline_course_oldkmooc_v2","moodlewsrestformat":"json"}'
-response=requests.post(url, headers=header, data=data)
-newkmoocdata = ""
-if response:
-    newkmoocdata = response.json().get("data")
-else:
-    newkmoocdata = ""
+# url="https://lms.kmooc.kr/webservice/rest/server.php?wstoken=b159b1989f69a3f57321a40c1e3bbe55&wsfunction=mooc_ubonline_course_oldkmooc_v2&moodlewsrestformat=json"
+# header = ''
+# data='{"wstoken":"b159b1989f69a3f57321a40c1e3bbe55","wsfunction":"mooc_ubonline_course_oldkmooc_v2","moodlewsrestformat":"json"}'
+# response=requests.post(url, headers=header, data=data)
+# newkmoocdata = ""
+# if response:
+#    newkmoocdata = response.json().get("data")
+# else:
+#    newkmoocdata = ""
 
 
-openstate = "true"
+# openstate = "true"
 
 # openstate = ""
 # opendate = datetime(2023,8,21)
@@ -33,9 +33,6 @@ openstate = "true"
 #    newkmoocdata = ""
 
 
-
-#if nowviewstate:
-#    openstate = "true"
 %>
 <link rel="stylesheet" type="text/css" href="/static/css/pop.css">
 
@@ -52,20 +49,20 @@ openstate = "true"
 <script type="text/javascript" src="/static/new_index/js/spin.js"></script>
 <script language="Javascript">
     $(document).ready(function () {
-        var nowviewstate = getUrlParameter('nowviewstate');
-        if (nowviewstate == "new") {
-            newSetMainCourses();
-            $(".hack_new_li").hide();
-        } else {
-            const opendate = new Date('2022-08-21');
-            const nowdate = new Date();
-            if (opendate >= nowdate) {
-                newSetMainCourses();
-            } else {
-                $(".mainbanner.newkoocbenner").hide();
-                $(".sec-course.sec-new").hide();
-            }
-        }
+        // var nowviewstate = getUrlParameter('nowviewstate');
+        // if (nowviewstate == "new") {
+        //     newSetMainCourses();
+        //     $(".hack_new_li").hide();
+        // } else {
+        //     const opendate = new Date('2022-08-21');
+        //     const nowdate = new Date();
+        //     if (opendate >= nowdate) {
+        //         newSetMainCourses();
+        //     } else {
+        //         $(".mainbanner.newkoocbenner").hide();
+        //         $(".sec-course.sec-new").hide();
+        //     }
+        // }
 
         let secCourseTop = $(".sec-course.sec-old").offset().top + $(".course-top-old").height();
         let windowHeight = $(window).height();
