@@ -198,7 +198,6 @@ $(document).ready(function () {
             $(".oldbtns").show();
             $(".newbtns").hide();
         } else {
-            $(".course_new_id").val("");
             $(".oldbtns").hide();
             $(".newbtns").show();
         }
@@ -947,17 +946,17 @@ $(document).ready(function(){
                                 </div>
                             % endif
                             % elif in_cart:
-                                <span class="add-to-cart">
+                                <span class="add-to-cart oldbtns">
                                     ${_('This course is in your <a href="{cart_link}">cart</a>.').format(cart_link=cart_link)}
                                 </span>
                             % elif is_course_full:
-                                <span class="register disabled">
+                                <span class="register disabled oldbtns" >
                                     ${_("Course is full")}
                                 </span>
                             % elif invitation_only and not can_enroll:
-                                <span class="register disabled">${_("Enrollment in this course is by invitation only")}</span>
+                                <span class="register disabled oldbtns">${_("Enrollment in this course is by invitation only")}</span>
                             % elif not is_shib_course and not can_enroll and audit_flag == 'N':
-                                <span class="register disabled">${_("Enrollment is Closed")}</span>
+                                <span class="register disabled oldbtns">${_("Enrollment is Closed")}</span>
                             % elif not is_shib_course and not can_enroll and audit_flag == 'Y':
                             <div class="box1 oldbtns" style="width: 50%;">
                                 <button class="register" id="audit_mode" style="width: 90%;height:46px;color:#FFFFFF;background-image: linear-gradient(to bottom,#29941cc9 0%,#39bd2f82 50%,#2bb1359e 50%,#071b03a6 100%);" tabindex="0">${_("Audit Enrollment")}</button>
@@ -1106,7 +1105,7 @@ $(document).ready(function(){
                             </a>
                             -->
 
-                            <div class="box1 oldbtns" style="float: left; width: 100%;" hidden id="recog_divv_0">
+                            <div class="box1" style="float: left; width: 100%;" hidden id="recog_divv_0">
                                 <div class="acbs-wrap"  id="recog_divv_1">
                                     <div class="type">
                                         <button href="${reg_href}" class="type-btn ${href_class}" id="real_enroll">
