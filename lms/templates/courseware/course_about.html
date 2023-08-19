@@ -979,16 +979,15 @@ $(document).ready(function(){
 
                             <div class="box1 case1 newbtns" style="float: left; width: 100%;" id="enroll_0">
                                 % if LANGUAGE_CODE == "ko-kr":
-                                <button href="register" class="type-btn register"
-                                        style="width: 100%; height: 46px; color: white;">
-                                    차세대 K-MOOC으로 이동
+                                <button href="register" class="type-btn register" style="float:right;width:60%; height: 46px; color: white;position:absolute;top:-50px;right: 0px;">
+                                    새로운 K-MOOC으로 이동
                                 </button>
                                 % else:
-                                <button href="register" class="type-btn register"
-                                        style="width: 100%; height: 46px; color: white;">
+                                <button href="register" class="type-btn register" style="float:right;width:60%; height: 46px; color: white;position:absolute;top:-50px;right: 0px;">
                                     Move to New K-MOOC
                                 </button>
                                 % endif
+                                <div class="width:100%;float:left;">본 강좌는 새로운 K_MOOC 플랫폼에서 운영하는 강좌입니다.</div>
                             </div>
 
                             <!--
@@ -1045,14 +1044,15 @@ $(document).ready(function(){
                             </div>
                             <div class="box1 case1 newbtns" style="float: left; width: 100%;" id="enroll_0">
                                 % if LANGUAGE_CODE == "ko-kr":
-                                <button href="${reg_href}" class="type-btn ${href_class}" style="width: 100%; height: 46px; color: white;">
-                                    차세대 K-MOOC으로 이동
+                                <button href="register" class="type-btn register" style="float:right;width:60%; height: 46px; color: white;position:absolute;top:-50px;right: 0px;">
+                                    새로운 K-MOOC으로 이동
                                 </button>
                                 % else:
-                                <button href="${reg_href}" class="type-btn ${href_class}" style="width: 100%; height: 46px; color: white;">
+                                <button href="register" class="type-btn register" style="float:right;width:60%; height: 46px; color: white;position:absolute;top:-50px;right: 0px;">
                                     Move to New K-MOOC
                                 </button>
                                 % endif
+                                <div class="width:100%;float:left;">본 강좌는 새로운 K_MOOC 플랫폼에서 운영하는 강좌입니다.</div>
                             </div>
                             <!-- 기본 수강신청 버튼 -->
 
