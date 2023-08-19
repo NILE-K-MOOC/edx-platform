@@ -312,6 +312,14 @@
                 </div>
             </div>
         </section>
+
+        <!-- 신형싸이트 연동 강좌 리스트-->
+
+        % if LANGUAGE_CODE == 'ko-kr':
+            LANGSTR = ""
+        % else:
+            LANGSTR = "_eng"
+        % endif
         <section class="sec-course">
             <div class="container-fluid">
                 <div class="course-top">
@@ -320,9 +328,147 @@
                         <li>
                             <a href="#" class="tab active">인기강좌</a>
                         </li>
-                        <li>
+                        <!--li>
                             <a href="#" class="tab">신규강좌</a>
+                        </li-->
+                        <li>
+                            <a href="#" class="tab">오늘의 강좌</a>
                         </li>
+                        <li>
+                            <a href="#" class="tab">수강중인 강좌</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="owl-carousel course-carousel">
+                    <div class="item">
+                        <a href="#" class="course-item">
+                            <div class="course-thumb">
+                                <figure>
+                                    <img src="/static/new_index/images/img_sample_001.png">
+                                    <span class="more">
+                                <span>자세히 보기</span>
+                            </span>
+                                </figure>
+                            </div>
+                            <h2 class="course-title">AWS와 텐서플로우 기반 IoT 빅테이터 실습 및 활용</h2>
+                            <div class="course-info">
+                                <p class="instructor">
+                                    <span>이종혁 외 1명</span>
+                                    <span>대구가톨릭대학교</span>
+                                </p>
+                                <p class="period">
+                                    <span class="date">2020/02/17 ~ 2020/03/16</span>
+                                    <span class="state ing">진행중</span>
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="#" class="course-item">
+                            <div class="course-thumb">
+                                <figure>
+                                    <img src="/static/new_index/images/img_sample_002.png">
+                                    <span class="more">
+                                <span>자세히 보기</span>
+                            </span>
+                                </figure>
+                            </div>
+                            <h2 class="course-title">베이비시터 ‘함께키움’의 세상을 만들다</h2>
+                            <div class="course-info">
+                                <p class="instructor">
+                                    <span>부산디지털대학교</span>
+                                </p>
+                                <p class="period">
+                                    <span class="date">2020/02/17 ~ 2020/03/16</span>
+                                    <span class="state soon">개강예정</span>
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="#" class="course-item">
+                            <div class="course-thumb">
+                                <figure>
+                                    <img src="/static/new_index/images/img_sample_003.png">
+                                    <span class="more">
+                                <span>자세히 보기</span>
+                            </span>
+                                </figure>
+                            </div>
+                            <h2 class="course-title">비전공자를 위한 기초 화학</h2>
+                            <div class="course-info">
+                                <p class="instructor">
+                                    <span>한양대학교</span>
+                                </p>
+                                <p class="period">
+                                    <span class="date">2020/02/17 ~ 2020/03/16</span>
+                                    <span class="state possible">청강가능</span>
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="#" class="course-item">
+                            <div class="course-thumb">
+                                <figure>
+                                    <img src="/static/new_index/images/img_sample_004.png">
+                                    <span class="more">
+                                <span>자세히 보기</span>
+                            </span>
+                                </figure>
+                            </div>
+                            <h2 class="course-title">한국어를 부탁해: 한국어 중급</h2>
+                            <div class="course-info">
+                                <p class="instructor">
+                                    <span>이종혁 외 1명</span>
+                                    <span>대구가톨릭대학교</span>
+                                </p>
+                                <p class="period">
+                                    <span class="date">2020/02/17 ~ 2020/03/16</span>
+                                    <span class="state end">종료</span>
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="#" class="course-item">
+                            <div class="course-thumb">
+                                <figure>
+                                    <img src="/static/new_index/images/img_sample_002.png">
+                                    <span class="more">
+                                <span>자세히 보기</span>
+                            </span>
+                                </figure>
+                            </div>
+                            <h2 class="course-title">Mathematical Fundamentals for Data Science</h2>
+                            <div class="course-info">
+                                <p class="instructor">
+                                    <span>고려대학교</span>
+                                </p>
+                                <p class="period">
+                                    <span class="date">2020/02/17 ~ 2020/03/16</span>
+                                    <span class="state soon">개강예정</span>
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- 신형싸이트 연동 강좌 리스트-->
+
+
+        <section class="sec-course sec-old">
+            <div class="container-fluid">
+                <div class="course-top">
+                    <h1 class="title">이런 강좌는 어떠세요?</h1>
+                    <ul class="tab-group">
+                        <li>
+                            <a href="#" class="tab active">인기강좌</a>
+                        </li>
+                        <!--li>
+                            <a href="#" class="tab">신규강좌</a>
+                        </li-->
                         <li>
                             <a href="#" class="tab">오늘의 강좌</a>
                         </li>
