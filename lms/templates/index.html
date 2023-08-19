@@ -45,21 +45,22 @@ openstate = "true"
     % endif
     % endfor
 </div>
-
 <script type="text/javascript" src="/static/new_index/js/spin.js"></script>
 <script language="Javascript">
     $(document).ready(function () {
         var nowviewstate = getUrlParameter('nowviewstate');
         if (nowviewstate == "new") {
             newSetMainCourses();
+            $(".hack_new_li").hide();
         } else {
-            const opendate = new Date('2022-08-21');
+            const opendate = new Date('2023-08-21');
             const nowdate = new Date();
             if (opendate >= nowdate) {
-                newSetMainCourses();
-            } else {
                 $(".mainbanner.newkoocbenner").hide();
                 $(".sec-course.sec-new").hide();
+            } else {
+                newSetMainCourses();
+                $(".hack_new_li").hide();
             }
         }
 
