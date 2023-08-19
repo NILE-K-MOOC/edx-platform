@@ -182,7 +182,7 @@ else:
     background-position: right center;
 }
 </style>
-<%block name="js_extra">
+
 <script type="text/javascript">
 $(document).ready(function () {
     var nowviewstate = getUrlParameter('nowviewstate');
@@ -204,6 +204,9 @@ $(document).ready(function () {
         }
     }
 });
+</script>
+<%block name="js_extra">
+<script type="text/javascript">
 (function() {
     let course_video_url = document.location.href;
     $(".course_video").prop("href", course_video_url.replace('about', 'video'));
