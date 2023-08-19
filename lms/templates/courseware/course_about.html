@@ -959,22 +959,37 @@ $(document).ready(function(){
                             % elif not is_shib_course and not can_enroll and audit_flag == 'N':
                                 <span class="register disabled">${_("Enrollment is Closed")}</span>
                             % elif not is_shib_course and not can_enroll and audit_flag == 'Y':
-                            <div class="box1" style="width: 50%;">
+                            <div class="box1 oldbtns" style="width: 50%;">
                                 <button class="register" id="audit_mode" style="width: 90%;height:46px;color:#FFFFFF;background-image: linear-gradient(to bottom,#29941cc9 0%,#39bd2f82 50%,#2bb1359e 50%,#071b03a6 100%);" tabindex="0">${_("Audit Enrollment")}</button>
                             </div>
 
-                            <div class="box2" style="float: left; width: 50%;" id="enroll_0" data-check="3">
+                            <div class="box2 oldbtns" style="float: left; width: 50%;" id="enroll_0" data-check="3">
                                 <button class="type-btn"  style="width: 90%; height: 46px; color: white; box-shadow: inset 0 1px 0 0 white; background-image: linear-gradient(to bottom,lightgray 0%,gray 50%,gray 50%,#999 100%);" onClick="window.location.href='video'">
                                     ${_("Course View")}
                                 </button>
                             </div>
 
                             <!-- 강좌 미리보기 주석 -->
-                            <div class="box3" style="float: left; width: 50%;" id="enroll_0" data-check="4">
+                            <div class="box3 oldbtns" style="float: left; width: 50%;" id="enroll_0" data-check="4">
                                     <!--button  class="type-btn" style="width: 90%; height: 46px; color: white; box-shadow: inset 0 1px 0 0 white; background-image: linear-gradient(to bottom,lightgray 0%,gray 50%,gray 50%,#999 100%);" onClick="location.href='#preview-video-modal'">${_("Course preview")}</button-->
                                 <button href="#preview-video-modal" class="type-btn" style="width:90%;height:46px;color:white;box-shadow:inset 0 1px 0 0 white;background-image:linear-gradient(to bottom,lightgray 0%,gray 50%,gray 50%,#999 100%);display:flex;justify-content:center;align-items: center;border: 1px solid #000663;border-bottom: 1px solid #00003a;border-radius: 5px;text-decoration: none;text-shadow: 0 -1px 1px #000042;" rel="leanModal">
                                     ${_("Course preview")}
                                 </button>
+                            </div>
+
+
+                            <div class="box1 case1 newbtns" style="float: left; width: 100%;" id="enroll_0">
+                                % if LANGUAGE_CODE == "ko-kr":
+                                <button href="register" class="type-btn register"
+                                        style="width: 100%; height: 46px; color: white;">
+                                    차세대 K-MOOC으로 이동
+                                </button>
+                                % else:
+                                <button href="register" class="type-btn register"
+                                        style="width: 100%; height: 46px; color: white;">
+                                    Move to New K-MOOC
+                                </button>
+                                % endif
                             </div>
 
                             <!--
@@ -1091,7 +1106,7 @@ $(document).ready(function(){
                             </a>
                             -->
 
-                            <div class="box1" style="float: left; width: 100%;" hidden id="recog_divv_0">
+                            <div class="box1 oldbtns" style="float: left; width: 100%;" hidden id="recog_divv_0">
                                 <div class="acbs-wrap"  id="recog_divv_1">
                                     <div class="type">
                                         <button href="${reg_href}" class="type-btn ${href_class}" id="real_enroll">
