@@ -396,6 +396,8 @@ def login_and_registration_form(request, initial_mode="login"):
         initial_mode (string): Either "login" or "register".
 
     """
+    if 'register' in initial_mode:
+        return redirect("https://new.kmooc.kr/join")
 
     # session 객체 생성
     session = request.session
