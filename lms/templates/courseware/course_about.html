@@ -213,6 +213,17 @@ $(document).ready(function () {
         return false;
     });
 
+
+    $(".registerold").click(function(event) {
+        % if not user.is_authenticated():
+            alert('${_("You need to register to enrollment.")}');
+            window.location.href = "/login";
+        % else:
+            $("#class_enroll_form").submit();
+        % endif
+            event.preventDefault();
+    });
+
     $(".register").click(function(event) {
         var checknewkmoocid = $(".course_new_id").val();
         if (checknewkmoocid) {
@@ -1034,7 +1045,7 @@ $(document).ready(function(){
                                     if professional_mode:
                                         href_class = "add-to-cart"
                                     else:
-                                        href_class = "register"
+                                        href_class = "registerold"
 
 %>
                             <!-- 기본 수강신청 버튼 -->
