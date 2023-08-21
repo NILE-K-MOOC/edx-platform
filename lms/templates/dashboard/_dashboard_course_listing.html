@@ -21,6 +21,8 @@ from student.helpers import (
   DISABLE_UNENROLL_CERT_STATES,
 )
 from util.course import get_link_for_about_page, get_encoded_course_sharing_utm_params
+
+import requests, unicodedata, time, json
 %>
 
 <%
@@ -76,8 +78,29 @@ from util.course import get_link_for_about_page, get_encoded_course_sharing_utm_
         </i>
     % endif
 
+<%
+    searchcourseid = enrollment.course_id
+    #searchcourseid = "course-v1:HGUk+HGUP02+2023_T2"
+    url="https://lms.kmooc.kr/local/coursemos/courseid.php?courseid="+str(searchcourseid)+"&requestfrom=oldkmooc"
+    header = ''
+    data='{"courseid":str(searchcourseid)}'
+    response = requests.post(url, headers=header, data=data)
+    if response:
+        success = response.json().get("success")
+
+    if success == "success":
+        course_new_id = response.json().get("data")
+    else:
+        course_new_id = ""
+    response.close
+%>
       % if show_courseware_link and not is_unfulfilled_entitlement:
-        % if not is_course_blocked:
+
+        % if not is_course_blocked and course_new_id:
+            <a href="https://new.kmooc.kr/view/course/detail/${course_new_id}" data-course-key="${enrollment.course_id}" class="cover" tabindex="0">
+                <img src="${course_overview.image_urls['small']}" class="course-image" alt="${_('{course_number} {course_name} Home Page').format(course_number=course_overview.number, course_name=course_overview.display_name_with_default)}" onerror="this.src='/static/images/blank.png'"/>
+            </a>
+        % elif not is_course_blocked and course_new_id == "":
             <a href="${course_target}" data-course-key="${enrollment.course_id}" class="cover" tabindex="0">
               <img src="${course_overview.image_urls['small']}" class="course-image" alt="${_('{course_number} {course_name} Home Page').format(course_number=course_overview.number, course_name=course_overview.display_name_with_default)}" onerror="this.src='/static/images/blank.png'"/>
             </a>
@@ -104,8 +127,10 @@ from util.course import get_link_for_about_page, get_encoded_course_sharing_utm_
       <div class="kr01_dashTarea">
         <div class="kr01_dashTitle" id="course-title-${enrollment.course_id}">
           % if show_courseware_link and not is_unfulfilled_entitlement:
-            % if not is_course_blocked:
-              <span class="kr01_dashT01"><a data-course-key="${enrollment.course_id}" href="${course_target}">${course_overview.display_name_with_default}</a></span>
+            % if not is_course_blocked and course_new_id:
+                <span class="kr01_dashT01"><a data-course-key="${enrollment.course_id}" href="https://new.kmooc.kr/view/course/detail/${course_new_id}">${course_overview.display_name_with_default}</a></span>
+            % elif not is_course_blocked and course_new_id == "":
+                <span class="kr01_dashT01"><a data-course-key="${enrollment.course_id}" href="${course_target}">${course_overview.display_name_with_default}</a></span>
             % else:
               <span class="kr01_dashT01"><a class="disable-look" data-course-key="${enrollment.course_id}">${course_overview.display_name_with_default}</a></span>
             % endif
@@ -233,7 +258,9 @@ from util.course import get_link_for_about_page, get_encoded_course_sharing_utm_
             </div>
             <div class="kr01_dashBtn">
               % if course_overview.has_ended():
-                % if not is_course_blocked:
+                % if not is_course_blocked and course_new_id:
+                <a href="https://new.kmooc.kr/view/course/detail/${course_new_id}" class="enter-course" data-course-key="${enrollment.course_id}">${_('View Archived Course')}<span class="sr">&nbsp;${course_overview.display_name_with_default}</span></a>
+                % elif not is_course_blocked and course_new_id == "":
                 <a href="${course_target}" class="enter-course" data-course-key="${enrollment.course_id}">${_('View Archived Course')}<span class="sr">&nbsp;${course_overview.display_name_with_default}</span></a>
                 % else:
                 <a class="enter-course-blocked archived" data-course-key="${enrollment.course_id}">${_('View Archived Course')}<span class="sr">&nbsp;${course_overview.display_name_with_default}</span></a>
@@ -273,11 +300,14 @@ from util.course import get_link_for_about_page, get_encoded_course_sharing_utm_
                 % endif
               % endif
             </div>
+
+            % if is_course_blocked and course_new_id == "":
             <div class="kr01_dashBtn">
               % if (status_flag != 'interest' and status_flag != 'propose') :
               <a href="courses/${course_overview}/discussion/forum/users/${user.id}" class="enter-course" style="margin-top: 5px;">내 게시글 보기</a>
               % endif
             </div>
+            % endif
             % endif
           </span>
         </div>

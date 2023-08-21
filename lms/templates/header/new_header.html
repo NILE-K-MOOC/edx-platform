@@ -234,7 +234,12 @@
                         <!-- 렌더 : 로그인, 회원가입 -->
                         <div class="new-rc-sign">
                             <div class="new-btn-signin" onclick='window.location.href = "/login${login_query()}";' tabindex="0">${_("Sign In")}</div>
-                            <div class="new-btn-signup new-blue" onclick='window.location.href = "/register${login_query()}";' tabindex="0">${_("Register")}</div>
+                            <!--div class="new-btn-signup new-blue" onclick='window.location.href = "/register${login_query()}";' tabindex="0">${_("Register")}</div-->
+                            <div class="new-btn-signup new-blue" tabindex="0">
+                                <a href="https://new.kmooc.kr/join" onclick="alert('새로운 K-MOOC에서 회원가입을 진행합니다.')" target="_blank">
+                                    ${_("Register")}
+                                </a>
+                            </div>
 
                             % if LANGUAGE_CODE == 'ko-kr':
                                     <a href="#" alt="한국어로 보기 선택됨" title="한국어로 보기 선택됨" onclick="return false;" for="ko-kr" class="language-btn new-lang-kor" style="font-size: 17px; font-weight: 700; color: #111; text-decoration: underline;">
