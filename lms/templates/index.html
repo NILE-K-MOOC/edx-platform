@@ -24,15 +24,6 @@ else:
 
 openstate = "true"
 
-# openstate = ""
-# opendate = datetime(2023,8,21)
-# nowdate = datetime.now()
-# if nowdate >= opendate:
-#    openstate = "true"
-# elif nowdate < opendate:
-#    newkmoocdata = ""
-
-
 %>
 <link rel="stylesheet" type="text/css" href="/static/css/pop.css">
 
@@ -48,21 +39,21 @@ openstate = "true"
 <script type="text/javascript" src="/static/new_index/js/spin.js"></script>
 <script language="Javascript">
     $(document).ready(function () {
-        var nowviewstate = getUrlParameter('nowviewstate');
-        if (nowviewstate == "new") {
-            newSetMainCourses();
-            $(".hack_new_li").hide();
-        } else {
-            const opendate = new Date('2023-08-21');
-            const nowdate = new Date();
-            if (opendate >= nowdate) {
-                $(".mainbanner.newkoocbenner").hide();
-                $(".sec-course.sec-new").hide();
-            } else {
-                newSetMainCourses();
-                $(".hack_new_li").hide();
-            }
-        }
+        // var nowviewstate = getUrlParameter('nowviewstate');
+        // if (nowviewstate == "new") {
+        //     newSetMainCourses();
+        //     $(".hack_new_li").hide();
+        // } else {
+            // const opendate = new Date('2023-08-21');
+            // const nowdate = new Date();
+            // if (opendate >= nowdate) {
+             $(".mainbanner.newkoocbenner").hide();
+             $(".sec-course.sec-new").hide();
+            // } else {
+            //     newSetMainCourses();
+            //     $(".hack_new_li").hide();
+            // }
+        // }
 
         let secCourseTop = $(".sec-course.sec-old").offset().top + $(".course-top-old").height();
         let windowHeight = $(window).height();
@@ -480,34 +471,34 @@ openstate = "true"
             <div class="visual-row">
                 <div class="banner" style="visibility:hidden;opacity:0; height: 120px; overflow: hidden;">
                     <!-- new KMOOC -->
-                    % if openstate == "true":
                     <div>
-                        <a href="https://new.kmooc.kr" target="_blank" style="display:block" class="mainbanner newkoocbenner" title="신규 플랫폼 사이트 바로가기">
-                            <img src="${STATIC_URL}images/new_kmooc_banner_2.png" alt="신규 플랫폼 사이트" style="width: 100%"/>
+                        <a href="https://new.kmooc.kr" target="_blank" style="display:block" class="mainbanner" title="신규 플랫폼 사이트 바로가기">
+                            <img src="${STATIC_URL}images/new_kmooc_banner_3.png" alt="신규 플랫폼 사이트" style="width: 100%"/>
                         </a>
                     </div>
-                    % endif:
 
                     <!-- 유데미 구독권 신청 -->
                     <div>
-                        <a href="/invitation-banner-udemy" target="_blank" style="display:block" class="mainbanner" title="유데미 구독권 신청 바로가기">
+                        <!--a href="/invitation-banner-udemy" target="_blank" style="display:block" class="mainbanner" title="유데미 구독권 신청 바로가기"-->
+                        <a href="https://new.kmooc.kr/view/course/world/udemy" target="_blank" style="display:block" class="mainbanner" title="유데미 구독권 신청 바로가기">
                             <img src="${STATIC_URL}images/22nov_udemy.png" alt="유데미 구독권 신청 바로가기" style="width: 100%"/>
                         </a>
                     </div>
 
                     <!-- 코세라 2차 구독권 신청 -->
                     <div>
-                        <a href="/invitation-banner" target="_blank" style="display:block" class="mainbanner" title="코세라 구독권 신청 바로가기">
+                        <!--a href="/invitation-banner" target="_blank" style="display:block" class="mainbanner" title="코세라 구독권 신청 바로가기"-->
+                        <a href="https://new.kmooc.kr/view/course/world/coursera" target="_blank" style="display:block" class="mainbanner" title="코세라 구독권 신청 바로가기">
                             <img src="${STATIC_URL}images/22nov_coursera.png" alt="코세라 구독권 신청 바로가기" style="width: 100%"/>
                         </a>
                     </div>
 
                     <!--  코세라 강좌 소개 ubion-->
-                    <div>
+                    <!--div>
                         <a href="/coursera_kmooc" target="_blank" style="display:block" class="mainbanner" title="코세라 강좌 바로가기">
                             <img src="${STATIC_URL}images/coursera_ubion_banner.png" alt="코세라 강좌 바로가기" style="width: 100%">
                         </a>
-                    </div>
+                    </div-->
 
                     <!-- 교양강좌
                     <div>
@@ -618,7 +609,8 @@ openstate = "true"
 
                 <!-- 교양 강좌 -->
                 <div class="col-sm-4 col-md-4 col-lg-2 el-xbox">
-                    <a data-facet="liberal_arts_yn" data-term="liberal_arts_y" href="#" class="classify-item2 inject-h">
+                    <!--a data-facet="liberal_arts_yn" data-term="liberal_arts_y" href="#" class="classify-item2 inject-h"-->
+                    <a href="https://new.kmooc.kr/view/course/refine/ebs" class="classify-item2 inject-h">
                         <strong>${_("on TV")}</strong>
                         <span>${_("Great Minds")}</span>
                         <span>${_("Life Lessons")}</span>
@@ -664,7 +656,7 @@ openstate = "true"
     <section class="sec-course sec-new">
         <div class="container-fluid">
             <div class="course-top">
-                <h1 class="title">차세대 K-MOOC 에서 듣는 신규강좌</h1>
+                <h1 class="title">새로운 K-MOOC 에서 운영하는 강좌</h1>
             </div>
 
             <div id="newsections">
@@ -674,7 +666,7 @@ openstate = "true"
     % for newdata in newkmoocdata:
                             <div class="owl-item">
                                 <div class="item">
-                                    <a href="https://new.kmooc.kr/view/course/detail/${ newdata.get('id') }" class="course-item">
+                                    <a href="https://new.kmooc.kr/view/course/detail/${ newdata.get('id') }" target="_blank" class="course-item">
                                         <div class="course-thumb">
                                             <figure>
                                                 <img alt="${ unicode(newdata.get('fullname')).decode('utf8', errors='ignore') }" src="${ newdata.get('thumbnail') }" onerror="this.src='/static/images/blank.png'">
@@ -692,9 +684,9 @@ openstate = "true"
                                             <p class="period">
                                                 <span class="date">${ time.strftime("%Y/%m/%d",time.localtime(newdata.get('study_start'))) } ~ ${ time.strftime("%Y/%m/%d",time.localtime(newdata.get('study_end'))) }</span>
                                             % if newdata.get('is_auditor') == 1:
-                                                <span class="state possible">청강가능</span>
+                                                <!--span class="state possible">청강가능</span-->
                                             % else:
-                                                <span class="state end">종료</span>
+                                                <!--span class="state end">종료</span-->
                                             % endif:
                                                 <!--<span class="state soon">개강예정</span>-->
                                                 <!--<span class="state possible">청강가능</span>-->
@@ -722,8 +714,6 @@ openstate = "true"
     </section>
     <!-- 신형싸이트 연동 강좌 리스트-->
 % endif:
-
-
 
 
     <!-- 강좌 노출 영역  -->
@@ -804,7 +794,7 @@ openstate = "true"
         <div class="container-fluid">
             <h1 class="title">숫자로 보는 K-MOOC</h1>
             <div class="row">
-                <div class="col-sm-4 col-md-4 col-lg-4 col-sm-12 index-bottom">
+                <div class="col-sm-4 col-md-4 col-lg-4 col-sm-12 index-bottom">입
                     <div class="number-item student">
                         <h2 class="sub-title"><span class="fwb" id="cu-a0" data-from="0" data-to="280">280</span>만명+
                         </h2>
