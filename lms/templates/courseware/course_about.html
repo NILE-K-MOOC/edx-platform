@@ -194,12 +194,11 @@ $(document).ready(function () {
     //     const nowdate = new Date();
     //     console.log(opendate+"=====>"+nowdate);
     //     if (opendate >= nowdate) { //오픈날짜가 아닐때
-            $(".course_new_id").val("");
-            $(".oldbtns").show();
-            $(".newbtns").hide();
+    //         $(".course_new_id").val("");
+    //         $(".oldbtns").show();
+    //         $(".newbtns").hide();
     //     } else {
-    //         $(".oldbtns").hide();
-    //         $(".newbtns").show();
+            $(".oldbtns").hide();
     //     }
     // }
 });
@@ -215,10 +214,10 @@ $(document).ready(function () {
     });
 
     $(".register").click(function(event) {
+/*
         var checknewkmoocid = $(".course_new_id").val();
         window.open("https://new.kmooc.kr/view/course/detail/" + checknewkmoocid);
-
-        /*
+*/
         if (checknewkmoocid) {
             window.location.href = "https://new.kmooc.kr/view/course/detail/" + checknewkmoocid;
         } else {
@@ -230,7 +229,6 @@ $(document).ready(function () {
             % endif
                 event.preventDefault();
         }
-        */
     });
 
     $(".audit").click(function (event) {
