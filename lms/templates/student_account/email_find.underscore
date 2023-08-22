@@ -6,7 +6,7 @@
 <div class="choose-find-email-type" style="width: 521px;">
     <p class="action-label"><%- gettext("Please choose a way to find your password.") %></p>
 
-    <button type="button" class="action action-primary find-email-by-nice" title="새 창 알림" ><%- gettext("By Identity") %></button>
+    <!--button type="button" class="action action-primary find-email-by-nice" title="새 창 알림" ><%- gettext("By Identity") %></button-->
     <button type="button" class="action action-primary find-email-by-subemail" title="보조 이메일 입력창" ><%- gettext("By sub-email") %></button>
     <button type="button" class="action action-primary find-email-by-kakaocert" title="카카오 본인인증 입력창"  style="height: 43px; box-shadow: none; background: #f1d900; color:black; font-weight: 500; font-size: 15px"><%- gettext("By kakao") %></button>
 </div>
