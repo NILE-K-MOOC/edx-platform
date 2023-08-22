@@ -97,11 +97,11 @@ import requests, unicodedata, time, json
       % if show_courseware_link and not is_unfulfilled_entitlement:
 
         % if not is_course_blocked and course_new_id:
-            <a href="https://new.kmooc.kr/view/course/detail/${course_new_id}" data-course-key="${enrollment.course_id}" class="cover" tabindex="0">
+            <a href="#none" data-course-key="${enrollment.course_id}" class="cover movetoclass" tabindex="0">
                 <img src="${course_overview.image_urls['small']}" class="course-image" alt="${_('{course_number} {course_name} Home Page').format(course_number=course_overview.number, course_name=course_overview.display_name_with_default)}" onerror="this.src='/static/images/blank.png'"/>
             </a>
         % elif not is_course_blocked and course_new_id == "":
-            <a href="${course_target}" data-course-key="${enrollment.course_id}" class="cover" tabindex="0">
+            <a href="#none" data-course-key="${enrollment.course_id}" class="cover movetoclass" tabindex="0">
               <img src="${course_overview.image_urls['small']}" class="course-image" alt="${_('{course_number} {course_name} Home Page').format(course_number=course_overview.number, course_name=course_overview.display_name_with_default)}" onerror="this.src='/static/images/blank.png'"/>
             </a>
         % else:
@@ -128,9 +128,9 @@ import requests, unicodedata, time, json
         <div class="kr01_dashTitle" id="course-title-${enrollment.course_id}">
           % if show_courseware_link and not is_unfulfilled_entitlement:
             % if not is_course_blocked and course_new_id:
-                <span class="kr01_dashT01"><a data-course-key="${enrollment.course_id}" href="https://new.kmooc.kr/view/course/detail/${course_new_id}">${course_overview.display_name_with_default}</a></span>
+                <span class="kr01_dashT01"><a data-course-key="${enrollment.course_id}" class="movetoclass" href="#none">${course_overview.display_name_with_default}</a></span>
             % elif not is_course_blocked and course_new_id == "":
-                <span class="kr01_dashT01"><a data-course-key="${enrollment.course_id}" href="${course_target}">${course_overview.display_name_with_default}</a></span>
+                <span class="kr01_dashT01"><a data-course-key="${enrollment.course_id}" class="movetoclass" href="#none">${course_overview.display_name_with_default}</a></span>
             % else:
               <span class="kr01_dashT01"><a class="disable-look" data-course-key="${enrollment.course_id}">${course_overview.display_name_with_default}</a></span>
             % endif
@@ -621,48 +621,52 @@ import requests, unicodedata, time, json
 </div>
 </li>
 <script>
-   $( document ).ready(function() {
-       if("${is_course_blocked | n, dump_js_escaped_json}" == 'true'){
-           $( "#unregister_block_course" ).click(function() {
-               $('.disable-look-unregister').click();
-           });
-       }
-   });
+$( document ).ready(function() {
+   if("${is_course_blocked | n, dump_js_escaped_json}" == 'true'){
+       $( "#unregister_block_course" ).click(function() {
+           $('.disable-look-unregister').click();
+       });
+   }
+});
 
-   function survey_btn_click(course_id, r_status){
-       let v_yn = false;
-       if($.inArray(r_status, ['3', '6']) != -1){
-          v_yn = true;
-       }
-
-      $.post('/dashboard_survey', {course_id: course_id, csrfmiddlewaretoken: '${csrf_token}', r_status: r_status}).done(function(data){
-         if(data.check == true){
-             location.href = '/course_satisfaction_survey?cert_id=/dashboard&course_id=' + data.course_id + '&flag=' + data.flag + '&view=' + v_yn;
-         }
-      });
+function survey_btn_click(course_id, r_status){
+   let v_yn = false;
+   if($.inArray(r_status, ['3', '6']) != -1){
+      v_yn = true;
    }
 
-    function del(obj, course_id) {
-        var def_index = course_id;
-        var index_arr = [];
-        index_arr = def_index.split("+");
-        var user_id = '${user.id}';
-        var display_number_with_default = index_arr[1];
-        var action = 'modi';
-        var org = index_arr[0].replace("course-v1:", "");
+  $.post('/dashboard_survey', {course_id: course_id, csrfmiddlewaretoken: '${csrf_token}', r_status: r_status}).done(function(data){
+     if(data.check == true){
+         location.href = '/course_satisfaction_survey?cert_id=/dashboard&course_id=' + data.course_id + '&flag=' + data.flag + '&view=' + v_yn;
+     }
+  });
+}
 
-        $.post("/courses/interest", {
-            csrfmiddlewaretoken: $.cookie('csrftoken'),
-            user_id : user_id,
-            display_number_with_default: display_number_with_default,
-            org : org,
-            method : action,
-        }).done(function (data) {
-            $(obj).parents('.course-item').hide();
-        }).fail(function (error) {
-            alert('error = ' + error.responseJSON);
-        });
-      }
+function del(obj, course_id) {
+    var def_index = course_id;
+    var index_arr = [];
+    index_arr = def_index.split("+");
+    var user_id = '${user.id}';
+    var display_number_with_default = index_arr[1];
+    var action = 'modi';
+    var org = index_arr[0].replace("course-v1:", "");
+
+    $.post("/courses/interest", {
+        csrfmiddlewaretoken: $.cookie('csrftoken'),
+        user_id : user_id,
+        display_number_with_default: display_number_with_default,
+        org : org,
+        method : action,
+    }).done(function (data) {
+        $(obj).parents('.course-item').hide();
+    }).fail(function (error) {
+        alert('error = ' + error.responseJSON);
+    });
+}
+
+$(".movetoclass").on("click",function(){
+    window.location.href=$(".kr01_dashBtn a.enter-course").attr("href");
+});
 </script>
 % if share_settings.get('DASHBOARD_FACEBOOK', False) and share_settings.get('DASHBOARD_TWITTER', False):
     <%static:require_module_async module_name="js/course_sharing/course_sharing_events" class_name="CourseSharingEvents">
