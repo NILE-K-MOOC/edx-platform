@@ -387,12 +387,14 @@ if settings.FEATURES.get('ENABLE_COMBINED_LOGIN_REGISTRATION'):
             {'initial_mode': 'login'}, name='signin_user'),
         url(r'^register$', student_account_views.login_and_registration_form,
             {'initial_mode': 'register'}, name='register_user'),
+        url(r'^registerukmooc$', student_account_views.login_and_registration_form,
+            {'initial_mode': 'registerukmooc'}, name='register_user'),
     ]
 else:
     # Serve the old views
     urlpatterns += [
         url(r'^login$', student_views.signin_user, name='signin_user'),
-        url(r'^register$', student_views.register_user, name='register_user'),
+        url(r'^register$', student_views.register_user, name='register_user')
     ]
 
 if settings.FEATURES.get('ENABLE_MOBILE_REST_API'):
