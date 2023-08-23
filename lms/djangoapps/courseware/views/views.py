@@ -3876,6 +3876,18 @@ def privacy_old10(request):
 
 @ensure_csrf_cookie
 @cache_if_anonymous()
+def privacy_old11(request):
+    if _("Agree") == "Agree":
+        return render_to_response(
+            "courseware/privacy_olden11.html"
+        )
+    else:
+        return render_to_response(
+            "courseware/privacy_old11.html"
+        )
+
+@ensure_csrf_cookie
+@cache_if_anonymous()
 def copyright(request):
     return render_to_response(
         "courseware/copyright.html"

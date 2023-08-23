@@ -275,6 +275,7 @@ urlpatterns = [
     url(r'^Privacy-Policy_old8/?$', courseware_views.privacy_old8, name="privacy_old8"),
     url(r'^Privacy-Policy_old9/?$', courseware_views.privacy_old9, name="privacy_old9"),
     url(r'^Privacy-Policy_old10/?$', courseware_views.privacy_old10, name="privacy_old10"),
+    url(r'^Privacy-Policy_old11/?$', courseware_views.privacy_old11, name="Policy_old11"),
 
     url(r'^agreement/?$', courseware_views.agreement, name="agreement"),
     url(r'^Copyright-Policy/?$', courseware_views.copyright, name="copyright"),
