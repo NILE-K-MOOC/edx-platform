@@ -665,7 +665,8 @@ function del(obj, course_id) {
 }
 
 $(".movetoclass").on("click",function(){
-    window.location.href=$(".kr01_dashBtn a.enter-course").attr("href");
+    var moveurl = $(this).parents("article").find(".kr01_dashBtn a.enter-course").attr("href");
+    window.location.href=moveurl;
 });
 </script>
 % if share_settings.get('DASHBOARD_FACEBOOK', False) and share_settings.get('DASHBOARD_TWITTER', False):
