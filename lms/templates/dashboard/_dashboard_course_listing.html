@@ -262,10 +262,9 @@ import requests, unicodedata, time, json
               <span> </span>
               % endif
             </div>
-            <div class="kr01_dashBtn" data-courseid="${enrollment.course_id}">
 <%
     searchcourseid = enrollment.course_id
-    #searchcourseid = "course-v1:HGUk+HGUP02+2023_T2"
+    #searchcourseid = "course-v1:MA_NSU+MATCHUP_NSU01+2023_01_2"
     url="https://lms.kmooc.kr/local/coursemos/courseid.php?courseid="+str(searchcourseid)+"&requestfrom=oldkmooc"
     print "url111======>" , url
     header = ''
@@ -280,6 +279,7 @@ import requests, unicodedata, time, json
         course_new_id = ""
     response.close
 %>
+            <div class="kr01_dashBtn" data-courseid="${enrollment.course_id}" data-newid="${course_new_id}">
               % if course_overview.has_ended():
                 % if not is_course_blocked and course_new_id:
                 <a href="https://new.kmooc.kr/view/course/detail/${course_new_id}" class="enter-course" data-course-key="${enrollment.course_id}">${_('View Archived Course')}<span class="sr">&nbsp;${course_overview.display_name_with_default}</span></a>
