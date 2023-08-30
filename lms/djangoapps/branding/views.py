@@ -181,8 +181,7 @@ def banner(request):
 
 @csrf_exempt
 def studentsync(request):
-    import requests, unicodedata, time, json
-    import xlsxwriter
+    import requests, xlsxwriter
     try:
         import cStringIO as StringIO
     except ImportError:
@@ -195,7 +194,6 @@ def studentsync(request):
     if searchcourseid:
         context['courseid'] = searchcourseid
         context['state'] = "true"
-        #searchcourseid = "course-v1:HGUk+HGUP02+2023_T2"
         url="https://lms.kmooc.kr/local/coursemos/courseid.php?courseid="+str(searchcourseid)+"&requestfrom=oldkmooc"
         header = ''
         data='{"courseid":str(searchcourseid)}'
@@ -227,7 +225,7 @@ def studentsync(request):
             file_output = StringIO.StringIO()
             n_date = now.strftime('%Y%m%d')
             workbook = xlsxwriter.Workbook(file_output)
-            worksheet = workbook.add_worksheet('userinsert')
+            worksheet = workbook.add_worksheet('수강등록')
             format_dict = {'align': 'center', 'valign': 'vcenter', 'bold': 'true', 'border': 1}
             header_format = workbook.add_format(format_dict)
             format_dict.pop('bold')
@@ -285,7 +283,7 @@ def studentsync(request):
                                     worksheet.write('C' + str(cnt), str(unicode(newdata.get('email'))).decode('utf-8'), cell_format)
                                 except Exception as err:
                                     if ecnt == 3:
-                                        worksheet2 = workbook.add_worksheet('nomember')
+                                        worksheet2 = workbook.add_worksheet('없는회원')
                                         worksheet2.merge_range('A1:C1', str(searchcourseid).decode('utf-8'),header_format)
                                         worksheet2.write('A2', "USER ID", cell_format)
                                         worksheet2.write('B2', "USER NAME", cell_format)
@@ -294,13 +292,9 @@ def studentsync(request):
                                         worksheet2.set_column('B:B', 25)
                                         worksheet2.set_column('C:C', 70)
 
-                                    worksheet2.write('A' + str(ecnt),
-                                                     str(unicode(newdata.get('user_kmooc_edx_id'))).decode('utf-8'),
-                                                     cell_format)
-                                    worksheet2.write('B' + str(ecnt),
-                                                     str(unicode(newdata.get('username'))).decode('utf-8'), cell_format)
-                                    worksheet2.write('C' + str(ecnt),
-                                                     str(unicode(newdata.get('email'))).decode('utf-8'), cell_format)
+                                    worksheet2.write('A' + str(ecnt), str(unicode(newdata.get('user_kmooc_edx_id'))).decode('utf-8'), cell_format)
+                                    worksheet2.write('B' + str(ecnt), str(unicode(newdata.get('username'))).decode('utf-8'), cell_format)
+                                    worksheet2.write('C' + str(ecnt), str(unicode(newdata.get('email'))).decode('utf-8'), cell_format)
                                     ecnt = ecnt + 1
                                     print err
                             newinsertdata.append({
@@ -313,19 +307,16 @@ def studentsync(request):
 
             # print "context data====>",context['data']
             workbook.close()
+            context['data'] = newinsertdata
     else:
         context['state'] = "false"
-
-
-    file_output.seek(0)
-    response = HttpResponse(file_output.read(),content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-    response['Content-Disposition'] = "attachment; filename="+str(searchcourseid)+"_" + n_date + ".xlsx"
-
-
-    context['data'] = newinsertdata
-    # print "context data =====> ",context
+        context['courseid'] = "";
+        context['data'] = ""
 
     if datastatus == "insert":
+        file_output.seek(0)
+        response = HttpResponse(file_output.read(),content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        response['Content-Disposition'] = "attachment; filename="+str(searchcourseid)+"_" + n_date + ".xlsx"
         return response
     else:
         return render_to_response("studentsync_list.html", context)

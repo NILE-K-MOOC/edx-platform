@@ -17,6 +17,7 @@ $(function(){
     $(".courseidsearchbtn").on("click",function(){
        if (!$("#courseid").val()) {
            alert("신규 KMOOC에서 구 KMOOC로 이동할 course id 값을 입력해 주세요");
+            $("#courseid").focus();
        } else {
            location.href="?courseid="+$("#courseid").val();
        }
@@ -25,6 +26,10 @@ $(function(){
     $(".kmoocinsert").on("click",function(){
         if (!$("#courseid").val()) {
             alert("신규 KMOOC에서 구 KMOOC로 이동할 course id 값을 입력해 주세요");
+            $("#courseid").focus();
+        } else if($("#inputmemlen").val()=="0") {
+            alert("신규 KMOOC에서 구 KMOOC로 이동할 회원이 없습니다.\n다른 course id 값을 입력해 주세요");
+            $("#courseid").focus();
         } else {
             $("#courseid").val("");
            location.href=location.href+"&datastatus=insert";
@@ -32,21 +37,20 @@ $(function(){
     });
 });
 </script>
+<input type="hidden" name="inputmemlen" id="inputmemlen" value="${ len(data) }">
 <main id="main" aria-label="Content" tabindex="-1" class="main-content">
     <div class="container-fluid">
         <div class="visual-row">
             <section class="sec-course sec-new">
                 <div class="">
-                    <form name="courseinform" id="courseinform" method="get">
-                        <div class="course-top" style="margin:0px 0px 10px 0px;">
-                            <div class="new-rc-search" id="new_search_div" style="margin:0px;width:100%;display:flex;justify-content: space-between">
-                                <input type="text" name="courseid" id="courseid" class="new-search-input ui-autocomplete-input" style="width:100%" title="강좌 검색" value="${ courseid }">
-                                <div class="new-search-left new-st courseidsearchbtn" style="color: white;min-width:60px;display: flex;justify-content: center;">
-                                    검색
-                                </div>
+                    <div class="course-top" style="margin:0px 0px 10px 0px;">
+                        <div class="new-rc-search" id="new_search_div" style="margin:0px;width:100%;display:flex;justify-content: space-between">
+                            <input type="text" name="courseid" id="courseid" class="new-search-input ui-autocomplete-input" style="width:100%" title="강좌 검색" value="${ courseid }">
+                            <div class="new-search-left new-st courseidsearchbtn" style="color: white;min-width:60px;display: flex;justify-content: center;">
+                                검색
                             </div>
                         </div>
-                    </form>
+                    </div>
                     <div class="course-top" style="margin-bottom:10px;">
                         <ul style="width:100%;margin-left:0px;display: flex;justify-content: space-between">
                             <li><h1 class="title" style="margin-bottom:0px;">새로운 K-MOOC 에서 구 K-MOOC로 수동 강의신청 된 회원</h1></li>
@@ -63,14 +67,13 @@ $(function(){
                                 <li style="font-size:20px;font-weight: bold"> ${ len(data) } 명</li>
                             </ul>
                         </h1>
-% if data:
                         <table class="table" style="width:100%;">
-
                             <tr>
                                 <th>USER ID</th>
                                 <th>USER NAME</th>
                                 <th>USER EMAIL</th>
                             </tr>
+% if data:
     % for newdata in data:
                             <tr>
                                 <td>${ unicode(newdata.get('id')).decode('utf8', errors='ignore') }</td>
@@ -78,9 +81,12 @@ $(function(){
                                 <td>${ unicode(newdata.get('email')).decode('utf8', errors='ignore') }</td>
                             </tr>
     % endfor
-                        </table>
+% else:
+                            <tr>
+                                <td colspan="3">해당 강좌에 신청해야 할 회원이 없습니다.</td>
+                            </tr>
 % endif:
-                    </div>
+                        </table>
                 </div>
             </section>
         </div>
