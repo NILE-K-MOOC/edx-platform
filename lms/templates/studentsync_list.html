@@ -1,0 +1,88 @@
+<%page expression_filter="h"/>
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%!
+import requests, unicodedata, time, json
+
+from datetime import datetime
+from django.utils.translation import ugettext as _
+from django.urls import reverse
+from microsite_configuration import microsite
+from openedx.core.djangolib.markup import HTML, Text
+
+%>
+<link rel="stylesheet" type="text/css" href="/static/css/pop.css">
+<script>
+$(function(){
+    $(".courseidsearchbtn").on("click",function(){
+       if (!$("#courseid").val()) {
+           alert("신규 KMOOC에서 구 KMOOC로 이동할 course id 값을 입력해 주세요");
+       } else {
+           location.href="?courseid="+$("#courseid").val();
+       }
+    });
+
+    $(".kmoocinsert").on("click",function(){
+        if (!$("#courseid").val()) {
+            alert("신규 KMOOC에서 구 KMOOC로 이동할 course id 값을 입력해 주세요");
+        } else {
+            $("#courseid").val("");
+           location.href=location.href+"&datastatus=insert";
+       }
+    });
+});
+</script>
+<main id="main" aria-label="Content" tabindex="-1" class="main-content">
+    <div class="container-fluid">
+        <div class="visual-row">
+            <section class="sec-course sec-new">
+                <div class="">
+                    <form name="courseinform" id="courseinform" method="get">
+                        <div class="course-top" style="margin:0px 0px 10px 0px;">
+                            <div class="new-rc-search" id="new_search_div" style="margin:0px;width:100%;display:flex;justify-content: space-between">
+                                <input type="text" name="courseid" id="courseid" class="new-search-input ui-autocomplete-input" style="width:100%" title="강좌 검색" value="${ courseid }">
+                                <div class="new-search-left new-st courseidsearchbtn" style="color: white;min-width:60px;display: flex;justify-content: center;">
+                                    검색
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="course-top" style="margin-bottom:10px;">
+                        <ul style="width:100%;margin-left:0px;display: flex;justify-content: space-between">
+                            <li><h1 class="title" style="margin-bottom:0px;">새로운 K-MOOC 에서 구 K-MOOC로 수동 강의신청 된 회원</h1></li>
+                            <li style="font-size:20px;font-weight: bold">
+                                <button class="new-st kmoocinsert" style="color: white;background:#000;font-size:14px;border-radius:0px;border:0px;">구 K-MOOC에 수강등록</button>
+                            </li>
+                        </ul>
+
+                    </div>
+                    <div>
+                        <h1 class="title" style="text-align:left;margin-bottom:5px;">
+                            <ul style="margin-left:0px;display: flex;justify-content: space-between">
+                                <li> 강좌아이디 : ${ courseid }</li>
+                                <li style="font-size:20px;font-weight: bold"> ${ len(data) } 명</li>
+                            </ul>
+                        </h1>
+% if data:
+                        <table class="table" style="width:100%;">
+
+                            <tr>
+                                <th>USER ID</th>
+                                <th>USER NAME</th>
+                                <th>USER EMAIL</th>
+                            </tr>
+    % for newdata in data:
+                            <tr>
+                                <td>${ unicode(newdata.get('id')).decode('utf8', errors='ignore') }</td>
+                                <td>${ unicode(newdata.get('username')).decode('utf8', errors='ignore') }</td>
+                                <td>${ unicode(newdata.get('email')).decode('utf8', errors='ignore') }</td>
+                            </tr>
+    % endfor
+                        </table>
+% endif:
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>

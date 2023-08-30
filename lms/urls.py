@@ -87,6 +87,8 @@ if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
 urlpatterns = [
     url(r'^$', branding_views.index, name='root'),
     url(r'^banner$', branding_views.banner, name='banner'),
+    # newkmooc 신청학생수 kmooc로 이동
+    url(r'^studentsync$', branding_views.studentsync, name='studentsync'),
     url(r'^invitation-banner$', branding_views.invitation_banner, name='invitation_banner'),
     url(r'^invitation-banner_old1$', branding_views.invitation_banner_old1, name='invitation_banner_old1'),
     url(r'^invitation-confirm$', branding_views.invitation_confirm, name='invitation_confirm'),
@@ -375,6 +377,8 @@ urlpatterns = [
     url(r'^api/kakao/confirm', kotech_common_views.kakao_auth_confirm, name='kakao_auth_confirm'),
     url(r'^api/kakao/cert', kotech_common_views.kakao_auth_certification, name='kakao_auth_certification'),
     url(r'^api/kakao/account_update', kotech_common_views.kakao_auth_account_update, name='kakao_auth_account_update'),
+
+
 
 ]
 

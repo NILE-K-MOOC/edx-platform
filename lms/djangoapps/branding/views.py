@@ -180,6 +180,158 @@ def banner(request):
 
 
 @csrf_exempt
+def studentsync(request):
+    import requests, unicodedata, time, json
+    import xlsxwriter
+    try:
+        import cStringIO as StringIO
+    except ImportError:
+        import StringIO
+    context = {}
+    newinsertdata = []
+    searchcourseid = request.GET.get('courseid')
+    datastatus = request.GET.get('datastatus')
+
+    if searchcourseid:
+        context['courseid'] = searchcourseid
+        context['state'] = "true"
+        #searchcourseid = "course-v1:HGUk+HGUP02+2023_T2"
+        url="https://lms.kmooc.kr/local/coursemos/courseid.php?courseid="+str(searchcourseid)+"&requestfrom=oldkmooc"
+        header = ''
+        data='{"courseid":str(searchcourseid)}'
+        response = requests.post(url, headers=header, data=data)
+        if response:
+            success = response.json().get("success")
+
+        if success == "success":
+            course_new_id = response.json().get("data")
+        else:
+            course_new_id = ""
+        response.close
+
+        print "course_new_id====>",course_new_id
+
+        url = "https://lms.kmooc.kr/local/coursemos/enrol.php?courseid="+str(course_new_id)
+        header = ''
+        data='{"courseid":str(course_new_id)}'
+        response = requests.post(url, headers=header, data=data)
+        newkmoocdata = ""
+        if response:
+            newkmoocdata = response.json().get("data")
+        else:
+            newkmoocdata = ""
+        response.close
+
+        if newkmoocdata:
+            now = datetime.now()
+            file_output = StringIO.StringIO()
+            n_date = now.strftime('%Y%m%d')
+            workbook = xlsxwriter.Workbook(file_output)
+            worksheet = workbook.add_worksheet('userinsert')
+            format_dict = {'align': 'center', 'valign': 'vcenter', 'bold': 'true', 'border': 1}
+            header_format = workbook.add_format(format_dict)
+            format_dict.pop('bold')
+            cell_format = workbook.add_format(format_dict)
+
+            worksheet.write('A2', "USER ID",cell_format)
+            worksheet.write('B2', "USER NAME", cell_format)
+            worksheet.write('C2', "USER EMAIL", cell_format)
+            worksheet.set_column('A:A', 8)
+            worksheet.set_column('B:B', 25)
+            worksheet.set_column('C:C', 70)
+            worksheet.merge_range('A1:C1', str(searchcourseid).decode('utf-8'), header_format)
+            cnt = 2
+            ecnt = 3
+            for newdata in newkmoocdata:
+                try:
+                    with connections['default'].cursor() as cur:
+                        sql = '''
+                            SELECT count(*) FROM student_courseenrollment WHERE user_id = '{userid}' and course_id = '{courseid}'                              
+                           '''.format(
+                            userid=str(unicode(newdata.get('user_kmooc_edx_id'))),
+                            courseid=str(unicode(newdata.get('kmooc_edx_id')))
+                        )
+                        # print "first sql ===> ",sql
+                        cur.execute(sql)
+                        memchk = cur.fetchall()[0][0]
+                        if memchk == 0:
+                            if datastatus == "insert":
+                                if str(unicode(newdata.get('kmooc_edx_id'))) == "5":
+                                    mode = "honor"
+                                elif str(unicode(newdata.get('kmooc_edx_id'))) == "10":
+                                    mode = "audit"
+
+                                try:
+                                    with connections['default'].cursor() as incur:
+                                        query = """
+                                            INSERT INTO edxapp.student_courseenrollment
+                                                        (user_id,
+                                                         course_id,
+                                                         created,
+                                                         is_active,
+                                                         mode
+                                                         )
+                                            VALUES      ('{0}',
+                                                         '{1}',
+                                                         now(),
+                                                         '1',
+                                                         'honor')
+                                        """.format(str(unicode(newdata.get('user_kmooc_edx_id'))), str(unicode(newdata.get('kmooc_edx_id'))))
+                                        # print "query====>",query
+                                        incur.execute(query)
+                                    cnt = cnt + 1
+                                    worksheet.write('A' + str(cnt), str(unicode(newdata.get('user_kmooc_edx_id'))).decode('utf-8'), cell_format)
+                                    worksheet.write('B' + str(cnt), str(unicode(newdata.get('username'))).decode('utf-8'), cell_format)
+                                    worksheet.write('C' + str(cnt), str(unicode(newdata.get('email'))).decode('utf-8'), cell_format)
+                                except Exception as err:
+                                    if ecnt == 3:
+                                        worksheet2 = workbook.add_worksheet('nomember')
+                                        worksheet2.merge_range('A1:C1', str(searchcourseid).decode('utf-8'),header_format)
+                                        worksheet2.write('A2', "USER ID", cell_format)
+                                        worksheet2.write('B2', "USER NAME", cell_format)
+                                        worksheet2.write('C2', "USER EMAIL", cell_format)
+                                        worksheet2.set_column('A:A', 8)
+                                        worksheet2.set_column('B:B', 25)
+                                        worksheet2.set_column('C:C', 70)
+
+                                    worksheet2.write('A' + str(ecnt),
+                                                     str(unicode(newdata.get('user_kmooc_edx_id'))).decode('utf-8'),
+                                                     cell_format)
+                                    worksheet2.write('B' + str(ecnt),
+                                                     str(unicode(newdata.get('username'))).decode('utf-8'), cell_format)
+                                    worksheet2.write('C' + str(ecnt),
+                                                     str(unicode(newdata.get('email'))).decode('utf-8'), cell_format)
+                                    ecnt = ecnt + 1
+                                    print err
+                            newinsertdata.append({
+                                'id': str(unicode(newdata.get('user_kmooc_edx_id'))),
+                                'username': str(unicode(newdata.get('username'))),
+                                'email': str(unicode(newdata.get('email')))
+                            })
+                except Exception as e:
+                    print e
+
+            # print "context data====>",context['data']
+            workbook.close()
+    else:
+        context['state'] = "false"
+
+
+    file_output.seek(0)
+    response = HttpResponse(file_output.read(),content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    response['Content-Disposition'] = "attachment; filename="+str(searchcourseid)+"_" + n_date + ".xlsx"
+
+
+    context['data'] = newinsertdata
+    # print "context data =====> ",context
+
+    if datastatus == "insert":
+        return response
+    else:
+        return render_to_response("studentsync_list.html", context)
+
+
+@csrf_exempt
 def sericeo(request):
     return render_to_response("sericeo.html")
 
