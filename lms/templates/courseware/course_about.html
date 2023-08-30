@@ -38,8 +38,21 @@ if success == "success":
 else:
     course_new_id = ""
 
+case3url = ""
+if str(searchcourseid) == str("course-v1:HansungK+2022HLM001+2023_HLM_T2"):
+    case3url = "https://new.kmooc.kr/view/course/detail/"+str(course_new_id)
+elif str(searchcourseid) == str("course-v1:MA_NSU+MATCHUP_NSU01+2023_01_2"):
+    case3url = "https://new.kmooc.kr/view/course/detail/"+str(course_new_id)
+elif str(searchcourseid) == str("course-v1:MA_NSU+MATCHUP_NSU02+2023_02_2"):
+    case3url = "https://new.kmooc.kr/view/course/detail/"+str(course_new_id)
+elif str(searchcourseid) == str("course-v1:MA_NSU+MATCHUP_NSU03+2023_03_2"):
+    case3url = "https://new.kmooc.kr/view/course/detail/"+str(course_new_id)
+elif str(searchcourseid) == str("course-v1:MA_NSU+MATCHUP_NSU04+2023_04_2"):
+    case3url = "https://new.kmooc.kr/view/course/detail/"+str(course_new_id)
+
 %>
 <input type="hidden" id="course_new_id" class="course_new_id" value="${course_new_id}">
+<input type="hidden" id="case3url" class="case3url" value="${case3url}">
 <style>
 /* --------------------------
  *    학점인정 수강신청
@@ -201,6 +214,11 @@ $(document).ready(function () {
             $(".oldbtns").hide();
     //     }
     // }
+
+    if ($("#case3url").val()) {
+        var checknewkmoocid = $(".course_new_id").val();
+        $(".viewoldkmooc").attr("data-href","https://new.kmooc.kr/view/course/detail/"+ checknewkmoocid);
+    }
 });
 </script>
 <%block name="js_extra">
