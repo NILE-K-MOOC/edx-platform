@@ -35,6 +35,11 @@ import requests, unicodedata, time, json
   if cert_name_long == "":
     cert_name_long = settings.CERT_NAME_LONG
   billing_email = settings.PAYMENT_SUPPORT_EMAIL
+
+
+
+
+
 %>
 
 <%namespace name='static' file='../static_content.html'/>
@@ -82,6 +87,7 @@ import requests, unicodedata, time, json
     searchcourseid = enrollment.course_id
     #searchcourseid = "course-v1:HGUk+HGUP02+2023_T2"
     url="https://lms.kmooc.kr/local/coursemos/courseid.php?courseid="+str(searchcourseid)+"&requestfrom=oldkmooc"
+    print "url111======>" , url
     header = ''
     data='{"courseid":str(searchcourseid)}'
     response = requests.post(url, headers=header, data=data)
@@ -257,6 +263,23 @@ import requests, unicodedata, time, json
               % endif
             </div>
             <div class="kr01_dashBtn">
+<%
+    searchcourseid = enrollment.course_id
+    #searchcourseid = "course-v1:HGUk+HGUP02+2023_T2"
+    url="https://lms.kmooc.kr/local/coursemos/courseid.php?courseid="+str(searchcourseid)+"&requestfrom=oldkmooc"
+    print "url111======>" , url
+    header = ''
+    data='{"courseid":str(searchcourseid)}'
+    response = requests.post(url, headers=header, data=data)
+    if response:
+        success = response.json().get("success")
+
+    if success == "success":
+        course_new_id = response.json().get("data")
+    else:
+        course_new_id = ""
+    response.close
+%>
               % if course_overview.has_ended():
                 % if not is_course_blocked and course_new_id:
                 <a href="https://new.kmooc.kr/view/course/detail/${course_new_id}" class="enter-course" data-course-key="${enrollment.course_id}">${_('View Archived Course')}<span class="sr">&nbsp;${course_overview.display_name_with_default}</span></a>
