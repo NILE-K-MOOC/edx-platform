@@ -24,9 +24,6 @@ import requests, unicodedata, time, json
 </%block>
 <%
 searchcourseid = course.id
-
-
-
 # searchcourseid = "course-v1:ACRCEDU+ACRC01+2022_03"
 url="https://lms.kmooc.kr/local/coursemos/courseid.php?courseid="+str(searchcourseid)+"&requestfrom=oldkmooc"
 print "url=====>",url
@@ -41,15 +38,6 @@ if success == "success":
 else:
     course_new_id = ""
 
-
-if searchcourseid == 'course-v1:HansungK+2022HLM001+2023_HLM_T2' or
-searchcourseid == 'course-v1:MA_NSU+MATCHUP_NSU01+2023_01_2' or
-searchcourseid == 'course-v1:MA_NSU+MATCHUP_NSU02+2023_02_2' or
-searchcourseid == 'course-v1:MA_NSU+MATCHUP_NSU03+2023_03_2' or
-searchcourseid == 'course-v1:MA_NSU+MATCHUP_NSU04+2023_04_2':
-    case3url = "https://new.kmooc.kr/view/course/detail/"+course_new_id
-else:
-    case3url = course_target
 %>
 <input type="hidden" id="course_new_id" class="course_new_id" value="${course_new_id}">
 <style>
@@ -961,9 +949,9 @@ $(document).ready(function(){
                                 % endif
                                 % if show_courseware_link:
                                     % if enroll_audit:
-                                        <strong class="audit" data-href="${case3url}">${_("View Audit Course")}</strong>
+                                        <strong class="audit" data-href="${course_target}">${_("View Audit Course")}</strong>
                                     % else:
-                                        <strong class="viewoldkmooc" data-type="case 3" data-href="${case3url}">${_("View Course")}</strong>
+                                        <strong class="viewoldkmooc" data-type="case 3" data-href="${course_target}">${_("View Course")}</strong>
                                     % endif
                                 </div>
                             % endif
