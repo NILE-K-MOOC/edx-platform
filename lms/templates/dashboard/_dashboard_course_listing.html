@@ -297,7 +297,7 @@ import requests, unicodedata, time, json
     else:
         course_target_tmp = course_target
 %>
-            <div class="kr01_dashBtn" data-courseid="${enrollment.course_id}" data-newid="${course_new_id}">
+            <div class="kr01_dashBtn" data-courseid="${enrollment.course_id}" data-newid="${course_new_id}" data-case3url="${case3url}">
               % if course_overview.has_ended():
                 % if not is_course_blocked and course_new_id:
                 <a href="https://new.kmooc.kr/view/course/detail/${course_new_id}" class="enter-course" data-course-key="${enrollment.course_id}">${_('View Archived Course')}<span class="sr">&nbsp;${course_overview.display_name_with_default}</span></a>
