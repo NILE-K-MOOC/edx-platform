@@ -271,7 +271,11 @@ ECOMMERCE_PUBLIC_URL_ROOT = "http://localhost:8002"
 ###################### Cross-domain requests ######################
 FEATURES['ENABLE_CORS_HEADERS'] = True
 CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_WHITELIST = ()
+CORS_ORIGIN_WHITELIST = (
+    'https://www.kmooc.kr',
+    'https://new.kmooc.kr',
+    'https://newwww.kmooc.kr'
+)
 CORS_ORIGIN_ALLOW_ALL = True
 
 # JWT settings for devstack
