@@ -424,6 +424,7 @@ def shim_student_view(view_func, check_logged_in=False):
     @wraps(view_func)
     def _inner(request):  # pylint: disable=missing-docstring
         # Make a copy of the current POST request to modify.
+
         modified_request = request.POST.copy()
         if isinstance(request, HttpRequest):
             # Works for an HttpRequest but not a rest_framework.request.Request.
@@ -675,6 +676,7 @@ def shim_student_view(view_func, check_logged_in=False):
 
         from django.conf import settings
         from Crypto.Cipher import AES
+        from Crypto.Random import get_random_bytes
         import hashlib, time, base64, urllib
         from django.http import JsonResponse
 
@@ -682,25 +684,45 @@ def shim_student_view(view_func, check_logged_in=False):
         key = settings.XINICS_KEY
         iv = settings.XINICS_IV
 
+        print "AES SETTING bs =====> ",bs
+        print "AES SETTING key =====> ",key
+        print "AES SETTING iv =====> ",iv
+        print "AES SETTING email =====> ",request.POST.get("email")
+        print "AES SETTING password =====> ",request.POST.get("password")
+
         key = hashlib.sha256(key.encode("UTF-8")).digest()
         iv = iv.encode("UTF-8")
 
         def _pad(s):
             return s + (bs - len(s) % bs) * chr(bs - len(s) % bs)
 
-        def encrypt(raw):
+
+        def encryptmake(raw):
             raw = _pad(raw)
             cipher = AES.new(key, AES.MODE_CBC, iv)
             return cipher.encrypt(raw)
 
-        enc = encrypt(json.dumps({"timestamp": int(time.time()), "uid": request.user.id}))
+        def _pad(s):
+            return s + (bs - len(s) % bs) * chr(bs - len(s) % bs)
+        def ssoencrypt(raw):
+            raw = _pad(raw)
+            ssokey = "oingisprettyintheworld1234567890"
+            iv = "kmooctonewkmoocg"
+
+            cipher = AES.new(ssokey, AES.MODE_CBC, iv)
+            return cipher.encrypt(raw)
+
+        ssocipher = ssoencrypt(json.dumps({"email": request.POST.get("email"), "password": request.POST.get("password"), "stype": "ssologin"}))
+        ssocipher = base64.b64encode(ssocipher)
+
+        enc = encryptmake(json.dumps({"timestamp": int(time.time()), "uid": request.user.id}))
         enc = base64.b64encode(enc)
         # enc = urllib.quote(enc, safe='')
 
         if response.content:
             return response
         else:
-            return JsonResponse({'data': enc})
+            return JsonResponse({"data": enc,"ssodata": ssocipher})
 
     return _inner
 

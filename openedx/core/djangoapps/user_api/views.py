@@ -50,8 +50,8 @@ class LoginSessionView(APIView):
     def get(self, request):
         return HttpResponse(get_login_session_form(request).to_json(), content_type="application/json")
 
-    @method_decorator(require_post_params(["email", "password"]))
-    @method_decorator(csrf_protect)
+    # @method_decorator(require_post_params(["email", "password"]))
+    # @method_decorator(csrf_protect)
     def post(self, request):
         """Log in a user.
 
@@ -82,10 +82,83 @@ class LoginSessionView(APIView):
             200 OK
 
         """
-        # For the initial implementation, shim the existing login view
-        # from the student Django app.
-        from student.views import login_user
-        return shim_student_view(login_user, check_logged_in=True)(request)
+
+        # context = {'enc_data': enc_data, 'correct': None, 'check': check}
+        # return render_to_response('student_account/remove_account.html', context)
+
+        if request.POST.get("sdata"):
+            import base64, json, requests, hashlib
+            from Crypto.Cipher import AES
+            from django.template import loader
+            from django.template.loader import render_to_string
+            def _unpad(s):
+                return s[:-ord(s[len(s) - 1:])]
+
+            enc = request.POST.get("sdata")
+            enc = base64.b64decode(enc)
+            ssokey = "oingisprettyintheworld1234567890"
+            iv = "kmooctonewkmoocg"
+
+            cipher = AES.new(ssokey, AES.MODE_CBC, iv)
+            dec = cipher.decrypt(enc)
+            postdata = _unpad(dec).decode('utf-8').replace("'", '"')
+            postdataarray = json.loads(postdata)
+            print "postdata =====> ", postdata
+            print "postdataarray =====> ", postdataarray
+
+
+
+
+            # response = HttpResponse()
+            # response["email"] = postdataarray["email"]
+            # response["password"] = postdataarray["password"]
+
+
+            # print "require_post_params =======>", require_post_params(["email", "password"])
+            # from student.views import login_user
+            # return shim_student_view(login_user, check_logged_in=True)(request)
+
+            # postdataarray = json.loads(postdata)
+            # print "postdata =====> ", postdata
+            #
+            if postdataarray['email']:
+                payload = {
+                    'email': postdataarray['email'],
+                    'password': postdataarray['password'],
+                    'stype': postdataarray['stype']
+                }
+                headers = {
+                    'User-Agent': 'Mozilla/5.0',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+                # url = "http://127.0.0.1:18000/user_api/v1/account/login_session/"
+                url = "https://www.kmooc.kr/user_api/v1/account/login_session/"
+
+                session = requests.Session()
+                responses = session.post(url, headers=headers, data=payload)
+
+                # header = {'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+                # responses = requests.post(url, headers=header, data=datas,  allow_redirects=True)
+                # print "response =====> ", responses.json()
+
+                # template = loader.get_template('student_account/sslogin.html')
+                # context = {
+                #     'email': postdataarray['email'],
+                #     'password': postdataarray['password'],
+                #     'stype': postdataarray['stype'],
+                #     'backurl': postdataarray['backurl'],
+                # }
+
+                # return HttpResponse(template.render(context, request))
+                return JsonResponse({"success": True})
+            else:
+                return JsonResponse({"success": False})
+        else:
+            # For the initial implementation, shim the existing login view
+            # from the student Django app.
+            require_post_params(["email", "password"])
+            from student.views import login_user
+            return shim_student_view(login_user, check_logged_in=True)(request)
 
     @method_decorator(sensitive_post_parameters("password"))
     def dispatch(self, request, *args, **kwargs):
