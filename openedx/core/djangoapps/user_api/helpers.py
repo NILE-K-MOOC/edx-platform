@@ -427,42 +427,38 @@ def shim_student_view(view_func, check_logged_in=False):
 
         modified_request = request.POST.copy()
         if isinstance(request, HttpRequest):
-            print("asdfsadfasdfsadf")
             # Works for an HttpRequest but not a rest_framework.request.Request.
             request.POST = modified_request
         else:
             # The request must be a rest_framework.request.Request.
-            print("123123123123123")
             request._data = modified_request
 
 
-        if request.POST["sdata"]:
-            import base64, json, requests, hashlib
-            from Crypto.Cipher import AES
-            from django.template import loader
-            from django.template.loader import render_to_string
-            def _unpad(s):
-                return s[:-ord(s[len(s) - 1:])]
-
-            enc = request.POST.get("sdata")
-            enc = base64.b64decode(enc)
-            ssokey = "oingisprettyintheworld1234567890"
-            iv = "kmooctonewkmoocg"
-
-            cipher = AES.new(ssokey, AES.MODE_CBC, iv)
-            dec = cipher.decrypt(enc)
-            postdata = _unpad(dec).decode('utf-8').replace("'", '"')
-            postdataarray = json.loads(postdata)
-            print "postdata =====> ", postdata
-            print "postdataarray =====> ", postdataarray
-
-            request.POST['email'] = postdataarray["email"]
-            request.POST['password'] = postdataarray["password"]
-            request.POST['stype'] = postdataarray["stype"]
-            if 'backurl' in postdataarray:
-                request.POST['backurl'] = postdataarray["backurl"]
-            else:
-                request.POST['backurl'] = ""
+        # if 'sdata' in request.Post:
+        #     import base64, json, requests, hashlib
+        #     from Crypto.Cipher import AES
+        #     from django.template import loader
+        #     from django.template.loader import render_to_string
+        #     def _unpad(s):
+        #         return s[:-ord(s[len(s) - 1:])]
+        #
+        #     enc = request.POST.get("sdata")
+        #     enc = base64.b64decode(enc)
+        #     ssokey = "oingisprettyintheworld1234567890"
+        #     iv = "kmooctonewkmoocg"
+        #
+        #     cipher = AES.new(ssokey, AES.MODE_CBC, iv)
+        #     dec = cipher.decrypt(enc)
+        #     postdata = _unpad(dec).decode('utf-8').replace("'", '"')
+        #     postdataarray = json.loads(postdata)
+        #
+        #     request.POST['email'] = postdataarray["email"]
+        #     request.POST['password'] = postdataarray["password"]
+        #     request.POST['stype'] = postdataarray["stype"]
+        #     if 'backurl' in postdataarray:
+        #         request.POST['backurl'] = postdataarray["backurl"]
+        #     else:
+        #         request.POST['backurl'] = ""
 
 
 
@@ -752,14 +748,16 @@ def shim_student_view(view_func, check_logged_in=False):
         enc = base64.b64encode(enc)
         # enc = urllib.quote(enc, safe='')
 
-        if request.POST['backurl']:
-            from django.shortcuts import redirect
-            return redirect(request.POST['backurl'])
+        # if request.POST['backurl']:
+        #     from django.shortcuts import redirect
+        #     return redirect(request.POST['backurl'])
+        # # elif request.POST["sdata"]:
+        # #     return redirect("http://www.kmooc.kr")
+        # else:
+        if response.content:
+            return response
         else:
-            if response.content:
-                return response
-            else:
-                return JsonResponse({"data": enc,"ssodata": ssocipher})
+            return JsonResponse({"data": enc,"ssodata": ssocipher})
 
     return _inner
 
