@@ -1626,3 +1626,18 @@ def remove_account(request):
             return remove_account_view(request)
 
     return redirect('/')
+
+def logout_form(request, initial_mode="logout"):
+    from django.shortcuts import redirect
+
+    if request.user and request.user.is_authenticated:
+        from django.contrib.auth import logout
+        logout(request)
+        if request.GET.get("backurl"):
+            return redirect(request.GET.get("backurl"))
+        else:
+            return redirect("/")
+    else:
+        return redirect("/")
+
+    return redirect('/')

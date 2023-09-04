@@ -393,6 +393,8 @@ if settings.FEATURES.get('ENABLE_COMBINED_LOGIN_REGISTRATION'):
             {'initial_mode': 'register'}, name='register_user'),
         url(r'^registerukmooc$', student_account_views.login_and_registration_form,
             {'initial_mode': 'registerukmooc'}, name='register_user'),
+        url(r'^logout_session/$', student_account_views.logout_form,
+            {'initial_mode': 'loginout'}, name='signout_user'),
     ]
 else:
     # Serve the old views
