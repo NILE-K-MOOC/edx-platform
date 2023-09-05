@@ -451,18 +451,23 @@ def shim_student_view(view_func, check_logged_in=False):
 
             cipher = AES.new(ssokey, AES.MODE_CBC, iv)
             dec = cipher.decrypt(enc)
-            postdata = _unpad(dec).decode('utf-8').replace("'", '"')
+            postdata = _unpad(dec).decode('utf-8').replace("'", '"').replace(" ","")
             postdataarray = json.loads(postdata)
 
+            # password re decrypt
+            passenc = postdataarray["password"]
+            passenc = base64.b64decode(passenc)
+            passcipher = AES.new(ssokey, AES.MODE_CBC, iv)
+            passdec = passcipher.decrypt(passenc)
+            postpass = _unpad(passdec).decode('utf-8').replace("'", '"').replace(" ","")
+
             request.POST['email'] = postdataarray["email"]
-            request.POST['password'] = postdataarray["password"]
+            request.POST['password'] = postpass
             request.POST['stype'] = postdataarray["stype"]
             if 'backurl' in postdataarray:
                 backurlstring = postdataarray["backurl"]
             else:
                 backurlstring = ""
-
-
 
         # The login and registration handlers in student view try to change
         # the user's enrollment status if these parameters are present.
