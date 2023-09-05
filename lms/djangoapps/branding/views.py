@@ -322,6 +322,9 @@ def studentsync(request):
         return render_to_response("studentsync_list.html", context)
 
 
+def blankpage(request):
+    return render_to_response("blanksync.html")
+
 @csrf_exempt
 def sericeo(request):
     return render_to_response("sericeo.html")

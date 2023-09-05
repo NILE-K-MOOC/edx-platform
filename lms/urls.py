@@ -89,6 +89,8 @@ urlpatterns = [
     url(r'^banner$', branding_views.banner, name='banner'),
     # newkmooc 신청학생수 kmooc로 이동
     url(r'^studentsync$', branding_views.studentsync, name='studentsync'),
+    # blank page
+    url(r'^blank$', branding_views.blankpage, name='blanksync'),
     url(r'^invitation-banner$', branding_views.invitation_banner, name='invitation_banner'),
     url(r'^invitation-banner_old1$', branding_views.invitation_banner_old1, name='invitation_banner_old1'),
     url(r'^invitation-confirm$', branding_views.invitation_confirm, name='invitation_confirm'),
