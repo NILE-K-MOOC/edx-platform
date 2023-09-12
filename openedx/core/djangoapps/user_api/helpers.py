@@ -456,13 +456,13 @@ def shim_student_view(view_func, check_logged_in=False):
 
             # password re decrypt
             passenc = postdataarray["password"]
-            passenc = base64.b64decode(passenc)
-            passcipher = AES.new(ssokey, AES.MODE_CBC, iv)
-            passdec = passcipher.decrypt(passenc)
-            postpass = _unpad(passdec).decode('utf-8').replace("'", '"').replace(" ","")
+            # passenc = base64.b64decode(passenc)
+            # passcipher = AES.new(ssokey, AES.MODE_CBC, iv)
+            # passdec = passcipher.decrypt(passenc)
+            # postpass = _unpad(passdec).decode('utf-8').replace("'", '"').replace(" ","")
 
             request.POST['email'] = postdataarray["email"]
-            request.POST['password'] = postpass
+            request.POST['password'] = passenc
             request.POST['stype'] = postdataarray["stype"]
             if 'backurl' in postdataarray:
                 backurlstring = postdataarray["backurl"]
@@ -719,13 +719,6 @@ def shim_student_view(view_func, check_logged_in=False):
         bs = 16
         key = settings.XINICS_KEY
         iv = settings.XINICS_IV
-
-        print "AES SETTING bs =====> ",bs
-        print "AES SETTING key =====> ",key
-        print "AES SETTING iv =====> ",iv
-        print "AES SETTING email =====> ",request.POST.get("email")
-        print "AES SETTING password =====> ",request.POST.get("password")
-
         key = hashlib.sha256(key.encode("UTF-8")).digest()
         iv = iv.encode("UTF-8")
 
@@ -748,7 +741,7 @@ def shim_student_view(view_func, check_logged_in=False):
             cipher = AES.new(ssokey, AES.MODE_CBC, iv)
             return cipher.encrypt(raw)
 
-        ssocipher = ssoencrypt(json.dumps({"email": request.POST.get("email"), "password": request.POST.get("password"), "stype": "ssologin"}))
+        ssocipher = ssoencrypt(json.dumps({"email": request.POST.get("email"), "password": request.POST.get("password"), "stype": "ssologin", "backurl": request.POST.get("next")}))
         ssocipher = base64.b64encode(ssocipher)
 
         enc = encryptmake(json.dumps({"timestamp": int(time.time()), "uid": request.user.id}))
@@ -762,11 +755,7 @@ def shim_student_view(view_func, check_logged_in=False):
             from django.shortcuts import redirect
             return redirect("/")
         else:
-            if response.content:
-                return response
-            else:
-                return JsonResponse({"data": enc,"ssodata": ssocipher})
-
+            return JsonResponse({"ssodata": ssocipher})
     return _inner
 
 
