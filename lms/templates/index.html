@@ -356,8 +356,8 @@ openstate = "true"
         }
     })
      */
-</script>
 
+</script>
 %if request.user.id and not request.user.is_active:
 <script>
     setTimeout(function () {
@@ -476,7 +476,11 @@ openstate = "true"
                             <img src="${STATIC_URL}images/new_kmooc_banner_3.png" alt="신규 플랫폼 사이트" style="width: 100%"/>
                         </a>
                     </div>
-기
+                    <div>
+                        <a href="https://new.kmooc.kr/view/course/refine/ebs" target="_blank" style="display:block" class="mainbanner newkoocbenner" title="신규 플랫폼 사이트 바로가기">
+                            <img src="${STATIC_URL}images/banner_230912.png" alt="K-MOOC X EBS X JTBC와 함께하는 교양강좌" style="width: 100%"/>
+                        </a>
+                    </div>
                     <!-- 유데미 구독권 신청 -->
                     <div>
                         <!--a href="/invitation-banner-udemy" target="_blank" style="display:block" class="mainbanner" title="유데미 구독권 신청 바로가기"-->
