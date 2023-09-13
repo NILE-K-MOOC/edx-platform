@@ -86,7 +86,7 @@ class LoginSessionView(APIView):
 
         # For the initial implementation, shim the existing login view
         # from the student Django app.
-        require_post_params(["email", "password"])
+        # require_post_params(["email", "password"])
         from student.views import login_user
         return shim_student_view(login_user, check_logged_in=True)(request)
 
