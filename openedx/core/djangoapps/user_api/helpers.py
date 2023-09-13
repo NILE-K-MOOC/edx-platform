@@ -468,7 +468,7 @@ def shim_student_view(view_func, check_logged_in=False):
                 backurlstring = postdataarray["backurl"]
             else:
                 backurlstring = ""
-
+            print "backurlstring=====>",backurlstring
         # The login and registration handlers in student view try to change
         # the user's enrollment status if these parameters are present.
         # Since we want the JavaScript client to communicate directly with
@@ -753,7 +753,7 @@ def shim_student_view(view_func, check_logged_in=False):
             return redirect(backurlstring)
         elif sosloginstatus and backurlstring == "":
             from django.shortcuts import redirect
-            return redirect("/")
+            return redirect("https://www.kmooc.kr")
         else:
             return JsonResponse({"ssodata": ssocipher})
     return _inner
