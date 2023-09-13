@@ -46,7 +46,7 @@ class LoginSessionView(APIView):
     # so do not require authentication.
     authentication_classes = []
 
-    @method_decorator(ensure_csrf_cookie)
+    # @method_decorator(ensure_csrf_cookie)
     def get(self, request):
         return HttpResponse(get_login_session_form(request).to_json(), content_type="application/json")
 
@@ -86,7 +86,7 @@ class LoginSessionView(APIView):
 
         # For the initial implementation, shim the existing login view
         # from the student Django app.
-        # require_post_params(["email", "password"])
+        require_post_params(["email", "password"])
         from student.views import login_user
         return shim_student_view(login_user, check_logged_in=True)(request)
 

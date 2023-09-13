@@ -479,7 +479,7 @@ def verify_user_password(request):
 
 
 # 로그인 실패 3회 아상부터 메세지를 추가 (횟수, 시간 등)
-# @ensure_csrf_cookie
+@ensure_csrf_cookie
 def login_user(request):
     """
     AJAX request to log in the user.
