@@ -426,13 +426,17 @@ def shim_student_view(view_func, check_logged_in=False):
         # Make a copy of the current POST request to modify.
         import base64, json, hashlib
 
-        modified_request = request.POST.copy()
-        if isinstance(request, HttpRequest):
-            # Works for an HttpRequest but not a rest_framework.request.Request.
+        if "sdata" in request.GET:
+            modified_request = request.GET.copy()
             request.POST = modified_request
         else:
+            modified_request = request.POST.copy()
+            if isinstance(request, HttpRequest):
+            # Works for an HttpRequest but not a rest_framework.request.Request.
+                request.POST = modified_request
+            else:
             # The request must be a rest_framework.request.Request.
-            request._data = modified_request
+                request._data = modified_request
 
         backurlstring = ""
         sosloginstatus = ""
@@ -444,7 +448,9 @@ def shim_student_view(view_func, check_logged_in=False):
             def _unpad(s):
                 return s[:-ord(s[len(s) - 1:])]
 
-            enc = request.POST.get("sdata")
+            print "modified_request=====>",modified_request["sdata"]
+            enc = modified_request["sdata"]
+            # enc = request.POST.get("sdata")
             enc = base64.b64decode(enc)
             ssokey = "oingisprettyintheworld1234567890"
             iv = "kmooctonewkmoocg"
@@ -755,7 +761,8 @@ def shim_student_view(view_func, check_logged_in=False):
             from django.shortcuts import redirect
             return redirect("https://www.kmooc.kr")
         else:
-            return JsonResponse({"ssodata": ssocipher})
+         #   return JsonResponse({"ssodata": ssocipher})
+            return JsonResponse({"data": enc, "ssodata": ssocipher})
     return _inner
 
 
