@@ -393,7 +393,6 @@ class LocalizedJSONEncoder(DjangoJSONEncoder):
             return force_text(obj)
         super(LocalizedJSONEncoder, self).default(obj)
 
-
 def shim_student_view(view_func, check_logged_in=False):
     """Create a "shim" view for a view function from the student Django app.
 
@@ -426,17 +425,13 @@ def shim_student_view(view_func, check_logged_in=False):
         # Make a copy of the current POST request to modify.
         import base64, json, hashlib
 
-        if "sdata" in request.GET:
-            modified_request = request.GET.copy()
+        modified_request = request.POST.copy()
+        if isinstance(request, HttpRequest):
+            # Works for an HttpRequest but not a rest_framework.request.Request.
             request.POST = modified_request
         else:
-            modified_request = request.POST.copy()
-            if isinstance(request, HttpRequest):
-            # Works for an HttpRequest but not a rest_framework.request.Request.
-                request.POST = modified_request
-            else:
             # The request must be a rest_framework.request.Request.
-                request._data = modified_request
+            request._data = modified_request
 
         backurlstring = ""
         sosloginstatus = ""
@@ -448,9 +443,7 @@ def shim_student_view(view_func, check_logged_in=False):
             def _unpad(s):
                 return s[:-ord(s[len(s) - 1:])]
 
-            print "modified_request=====>",modified_request["sdata"]
-            enc = modified_request["sdata"]
-            # enc = request.POST.get("sdata")
+            enc = request.POST.get("sdata")
             enc = base64.b64decode(enc)
             ssokey = "oingisprettyintheworld1234567890"
             iv = "kmooctonewkmoocg"
@@ -747,8 +740,14 @@ def shim_student_view(view_func, check_logged_in=False):
             cipher = AES.new(ssokey, AES.MODE_CBC, iv)
             return cipher.encrypt(raw)
 
-        ssocipher = ssoencrypt(json.dumps({"email": request.POST.get("email"), "password": request.POST.get("password"), "stype": "ssologin", "backurl": request.POST.get("next")}))
+        next = request.POST.get("next")
+        if request.POST.get("next"):
+            backurl = "https://www.kmooc.kr" + next
+        else:
+            backurl = ""
+        ssocipher = ssoencrypt(json.dumps({"email": request.POST.get("email"), "password": request.POST.get("password"), "stype": "ssologin", "backurl": backurl}))
         ssocipher = base64.b64encode(ssocipher)
+
 
         enc = encryptmake(json.dumps({"timestamp": int(time.time()), "uid": request.user.id}))
         enc = base64.b64encode(enc)
@@ -759,10 +758,13 @@ def shim_student_view(view_func, check_logged_in=False):
             return redirect(backurlstring)
         elif sosloginstatus and backurlstring == "":
             from django.shortcuts import redirect
-            return redirect("https://www.kmooc.kr")
+            return redirect("/")
         else:
-         #   return JsonResponse({"ssodata": ssocipher})
-            return JsonResponse({"data": enc, "ssodata": ssocipher})
+            if msg:
+                return response
+            else:
+                # return JsonResponse({"ssodata": ssocipher})
+                return JsonResponse({"data": enc})
     return _inner
 
 
