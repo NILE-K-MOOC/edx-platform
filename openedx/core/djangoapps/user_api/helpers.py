@@ -424,7 +424,6 @@ def shim_student_view(view_func, check_logged_in=False):
     def _inner(request):  # pylint: disable=missing-docstring
         # Make a copy of the current POST request to modify.
         import base64, json, hashlib
-
         modified_request = request.POST.copy()
         if isinstance(request, HttpRequest):
             # Works for an HttpRequest but not a rest_framework.request.Request.
@@ -741,14 +740,18 @@ def shim_student_view(view_func, check_logged_in=False):
             return cipher.encrypt(raw)
 
         next = request.POST.get("next")
-        if request.POST.get("next"):
+        if next:
             backurl = "https://www.kmooc.kr" + next
         else:
             backurl = ""
-        ssocipher = ssoencrypt(json.dumps({"email": request.POST.get("email"), "password": request.POST.get("password"), "stype": "ssologin", "backurl": backurl}))
+        print "backurl====>",backurl
+
+        enemail = request.POST.get("email")
+        enpassword = request.POST.get("password")
+        ssocipher = ssoencrypt(json.dumps({"email":enemail, "password": enpassword,"stype": "ssologin","backurl": backurl}))
         ssocipher = base64.b64encode(ssocipher)
 
-
+        print "ssocipher====>",ssocipher
         enc = encryptmake(json.dumps({"timestamp": int(time.time()), "uid": request.user.id}))
         enc = base64.b64encode(enc)
         # enc = urllib.quote(enc, safe='')
@@ -763,8 +766,9 @@ def shim_student_view(view_func, check_logged_in=False):
             if msg:
                 return response
             else:
-                # return JsonResponse({"ssodata": ssocipher})
-                return JsonResponse({"data": enc})
+                from django.shortcuts import redirect
+                return JsonResponse({"ssodata": ssocipher})
+                # return JsonResponse({"data": enc})
     return _inner
 
 

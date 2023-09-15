@@ -44,43 +44,58 @@
                     data: data,
                     headers: headers,
                     success: function (d) {
-                        let search = document.location.search;
-                        let search_array = search.substring(1).split("&");
-                        let is_redirect = false;
+                        if (d.ssodata) {
+                            $('<form/>', {
+                                id: 'form_for_redirect',
+                                method: 'post',
+                                action: "https://new.kmooc.kr/sso"
+                            }).appendTo("body");
 
-                        for (let i in search_array) {
-                            let str = search_array[i];
+                            $('<input/>', {
+                                type: 'hidden',
+                                name: 'sdata',
+                                value: d.ssodata
+                            }).appendTo("#form_for_redirect");
+                            $("#form_for_redirect").submit();
+                        } else {
+                            let search = document.location.search;
+                            let search_array = search.substring(1).split("&");
+                            let is_redirect = false;
 
-                            if (str === "") continue;
+                            for (let i in search_array) {
+                                let str = search_array[i];
 
-                            let key = str.split("=")[0];
-                            let val = str.split("=")[1];
+                                if (str === "") continue;
 
-                            if (key === "callback") {
-                                is_redirect = true;
+                                let key = str.split("=")[0];
+                                let val = str.split("=")[1];
 
-                                $('<form/>', {
-                                    id: 'form_for_redirect',
-                                    method: 'post',
-                                    action: decodeURIComponent(val)
-                                }).appendTo("body");
+                                if (key === "callback") {
+                                    is_redirect = true;
 
-                                $('<input/>', {
-                                    type: 'hidden',
-                                    name: 'data',
-                                    value: d.data
-                                }).appendTo("#form_for_redirect");
+                                    $('<form/>', {
+                                        id: 'form_for_redirect',
+                                        method: 'post',
+                                        action: decodeURIComponent(val)
+                                    }).appendTo("body");
 
-                                // console.log(decodeURIComponent(val));
-                                // console.log(d);
-                                // alert($("#form_for_redirect").html());
+                                    $('<input/>', {
+                                        type: 'hidden',
+                                        name: 'data',
+                                        value: d.data
+                                    }).appendTo("#form_for_redirect");
 
-                                $("#form_for_redirect").submit();
-                                // document.location.href = decodeURIComponent(val);
+                                    // console.log(decodeURIComponent(val));
+                                    // console.log(d);
+                                    // alert($("#form_for_redirect").html());
+
+                                    $("#form_for_redirect").submit();
+                                    // document.location.href = decodeURIComponent(val);
+                                }
                             }
+                            if (!is_redirect) model.trigger('sync');
                         }
 
-                        if (!is_redirect) model.trigger('sync');
 
                     },
                     error: function (error) {

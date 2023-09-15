@@ -81,33 +81,28 @@
     % endfor
 </%block>
 <script>
-    $(document).ready(function(){
-        let initial_mode = "${data['initial_mode']}";
-
-        if (initial_mode == 'register'){
-
-            let checkUnload = true;
-            $(window).on("beforeunload", function(){
-                $( ".js-register").bind( "click" );
-                if(checkUnload) return "이 페이지를 벗어나면 작성된 내용은 저장되지 않습니다.";
-            });
-
-        }
-
-setTimeout(function(){
-
-        if (window.location.pathname.endsWith('login')) {
-            $('.login-oa2-facebook').remove();
-            $('.login-oa2-google-oauth2').remove();
-        }
-
-        if (window.location.pathname.endsWith('register')) {
-            $('.register-oa2-facebook').remove();
-            $('.register-oa2-google-oauth2').remove();
-        }
-}, 500);
-
-    });
+$(document).ready(function(){
+    let initial_mode = "${data['initial_mode']}";
+    if (initial_mode == 'register'){
+        let checkUnload = true;
+        $(window).on("beforeunload", function(){
+            $( ".js-register").bind( "click" );
+            if(checkUnload) return "이 페이지를 벗어나면 작성된 내용은 저장되지 않습니다.";
+        });
+    }
+    setTimeout(function(){
+            if (window.location.pathname.endsWith('login')) {
+                var nextstring = "${data['next']}";
+                $('.login-oa2-facebook').remove();
+                $('.login-oa2-google-oauth2').remove();
+                $("#next").val(nextstring);
+            }
+            if (window.location.pathname.endsWith('register')) {
+                $('.register-oa2-facebook').remove();
+                $('.register-oa2-google-oauth2').remove();
+            }
+    }, 500);
+});
 </script>
 <input type="hidden" id="is_regist" value="false"/>
 
