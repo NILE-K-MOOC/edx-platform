@@ -587,6 +587,7 @@ def login_and_registration_form(request, initial_mode="login"):
         'data': {
             'message': message,
             'email': email,
+            'next' : request.GET.get("next"),
             'login_redirect_url': redirect_to,
             'initial_mode': initial_mode,
             'third_party_auth': _third_party_auth_context(request, redirect_to, third_party_auth_hint),
