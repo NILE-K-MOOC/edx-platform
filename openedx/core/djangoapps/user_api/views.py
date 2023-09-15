@@ -49,6 +49,8 @@ class LoginSessionView(APIView):
     #@method_decorator(ensure_csrf_cookie)
     def get(self, request):
             return HttpResponse(get_login_session_form(request).to_json(), content_type="application/json")
+
+
     # @method_decorator(require_post_params(["email", "password"]))
     # @method_decorator(csrf_protect)
     def post(self, request):
