@@ -204,22 +204,7 @@ table > caption.tip{visibility: hidden;}
     </div>
 </footer>
 
-% if user.is_active:
-<iframe class="blankpage" src="https://new.kmooc.kr/blank" style="position:absolute;height:1px;margin:0px;padding:0px;visibility:hidden;"></iframe>
-<iframe class="blankpage" src="https://lms.kmooc.kr/blank.php" style="position:absolute;height:1px;margin:0px;padding:0px;visibility:hidden;"></iframe>
-% endif
-% if user.is_active:
-<script>
-function blankpageLoad() {
-    $.each($(".blankpage"),function(k,obj){
-        $(this).attr("src", $(this).attr("src"));
-    });
-}
-$(window).ready(function() {
-    setInterval("blankpageLoad()", "600000");
-});
-</script>
-% endif:
+
 <script>
 
 $('#fam-move').on('click', function() {
