@@ -25,7 +25,6 @@
 <% if ( $('#multisite_mode').text() == '1' ) { %>
 <% } else {%>
 <form id="login" class="login-form" tabindex="-1" method="POST">
-<input type="hidden" name="next" id="next" value="">
 <% } %>
 
     <p class="sr">
