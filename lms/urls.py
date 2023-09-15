@@ -380,9 +380,6 @@ urlpatterns = [
     url(r'^api/kakao/confirm', kotech_common_views.kakao_auth_confirm, name='kakao_auth_confirm'),
     url(r'^api/kakao/cert', kotech_common_views.kakao_auth_certification, name='kakao_auth_certification'),
     url(r'^api/kakao/account_update', kotech_common_views.kakao_auth_account_update, name='kakao_auth_account_update'),
-
-
-
 ]
 
 # TODO: This needs to move to a separate urls.py once the student_account and
@@ -394,7 +391,7 @@ if settings.FEATURES.get('ENABLE_COMBINED_LOGIN_REGISTRATION'):
             {'initial_mode': 'login'}, name='signin_user'),
         url(r'^register$', student_account_views.login_and_registration_form,
             {'initial_mode': 'register'}, name='register_user'),
-        url(r'^registerukmooc$', student_account_views.login_and_registration_form,
+        url(r'^oldrein/v0.5$', student_account_views.login_and_registration_form,
             {'initial_mode': 'registerukmooc'}, name='register_user'),
         url(r'^logout_session/$', student_account_views.logout_form,
             {'initial_mode': 'loginout'}, name='signout_user'),
