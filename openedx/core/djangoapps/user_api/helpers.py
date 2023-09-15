@@ -766,7 +766,6 @@ def shim_student_view(view_func, check_logged_in=False):
             if msg:
                 return response
             else:
-                from django.shortcuts import redirect
                 return JsonResponse({"ssodata": ssocipher})
                 # return JsonResponse({"data": enc})
     return _inner

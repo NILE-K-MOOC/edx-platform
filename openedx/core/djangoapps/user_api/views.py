@@ -46,7 +46,7 @@ class LoginSessionView(APIView):
     # so do not require authentication.
     authentication_classes = []
 
-    @method_decorator(ensure_csrf_cookie)
+    #@method_decorator(ensure_csrf_cookie)
     def get(self, request):
             return HttpResponse(get_login_session_form(request).to_json(), content_type="application/json")
     # @method_decorator(require_post_params(["email", "password"]))
