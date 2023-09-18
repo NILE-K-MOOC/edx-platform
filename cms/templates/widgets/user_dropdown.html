@@ -26,7 +26,8 @@
               </li>
           </%block>
           <li class="dropdown-item item has-block-link">
-            <a class="action action-signout" href="${reverse('logout')}">${_("Sign Out")}</a>
+            <!--a class="action action-signout" href="${reverse('logout')}">${_("Sign Out")}</a-->
+            <a class="action action-signout" href="/logoutsso">${_("Sign Out")}</a>
           </li>
       </ul>
   </div>
@@ -52,7 +53,8 @@
         </li>
         % endif
         <li class="nav-item nav-account-signout">
-          <a class="action action-signout" href="${reverse('logout')}">${_("Sign Out")}</a>
+          <!--a class="action action-signout" href="${reverse('logout')}">${_("Sign Out")}</a-->
+          <a class="action action-signout" href="/logoutsso">${_("Sign Out")}</a>
         </li>
       </ul>
     </div>

@@ -393,6 +393,8 @@ if settings.FEATURES.get('ENABLE_COMBINED_LOGIN_REGISTRATION'):
             {'initial_mode': 'register'}, name='register_user'),
         url(r'^logout_session/$', student_account_views.logout_form,
             {'initial_mode': 'loginout'}, name='signout_user'),
+        url(r'^logoutsso/$', student_account_views.sso_logout_form,
+            {'initial_mode': 'ssologinout'}, name='sso_logout_form'),
     ]
 else:
     # Serve the old views

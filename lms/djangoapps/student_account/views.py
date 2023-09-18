@@ -1644,3 +1644,17 @@ def logout_form(request, initial_mode="logout"):
         return redirect("/")
 
     return redirect('/')
+
+
+def sso_logout_form(request, initial_mode="ssologinout"):
+    from django.shortcuts import redirect
+
+    if request.user and request.user.is_authenticated:
+        from django.contrib.auth import logout
+        logout(request)
+        return render_to_response('student_account/ssologout.html')
+    else:
+        return redirect("/")
+
+    return redirect('/')
+

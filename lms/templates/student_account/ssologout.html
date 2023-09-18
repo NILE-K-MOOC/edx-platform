@@ -1,0 +1,18 @@
+<%! from django.utils.translation import ugettext as _ %>
+<%namespace name='static' file='/static_content.html'/>
+<%block name="pagetitle">${_('Series Course')}</%block>
+<%inherit file="../main.html" />
+
+<%block name="header_extras"></%block>
+
+<script>
+$(document).ready(function () {
+    $("#submittmp").submit();
+});
+function goAjax() {
+
+    $("#submittmp").submit();
+}
+</script>
+<form name="submittmp" id="submittmp" action="https://new.kmooc.kr/sso" method="post"></form>
+<!--button type="button" onClick="goAjax()">임시테스트</button-->
