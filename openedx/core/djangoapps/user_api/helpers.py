@@ -765,9 +765,10 @@ def shim_student_view(view_func, check_logged_in=False):
         else:
             if msg:
                 return response
-            else:
+            elif "stype" in request.POST:
                 return JsonResponse({"ssodata": ssocipher})
-                # return JsonResponse({"data": enc})
+            else:
+                return JsonResponse({"data": enc})
     return _inner
 
 
