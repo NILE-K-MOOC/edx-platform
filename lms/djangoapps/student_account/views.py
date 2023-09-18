@@ -420,6 +420,10 @@ def login_and_registration_form(request, initial_mode="login"):
         log.info('multisite_org is not exists')
 
     # Determine the URL to redirect to following login/registration/third_party_auth
+    if "callback" in request.GET:
+        retururl_status = "true"
+    else:
+        retururl_status = ""
     redirect_to = get_next_url_for_login_page(request)
     provider_info = _third_party_auth_context(request, redirect_to)
 
@@ -588,6 +592,7 @@ def login_and_registration_form(request, initial_mode="login"):
             'message': message,
             'email': email,
             'next': request.GET.get("next"),
+            'return_url': retururl_status,
             'login_redirect_url': redirect_to,
             'initial_mode': initial_mode,
             'third_party_auth': _third_party_auth_context(request, redirect_to, third_party_auth_hint),
@@ -1634,10 +1639,7 @@ def logout_form(request, initial_mode="logout"):
     if request.user and request.user.is_authenticated:
         from django.contrib.auth import logout
         logout(request)
-        if request.GET.get("backurl"):
-            return redirect(request.GET.get("backurl"))
-        else:
-            return redirect("/")
+        return redirect("https://new.kmooc.kr")
     else:
         return redirect("/")
 

@@ -26,6 +26,7 @@
 <% } else {%>
 <form id="login" class="login-form" tabindex="-1" method="POST">
 <input type="hidden" name="next" id="next" value="">
+<input type="hidden" name="returnurl" id="returnurl" value="">
 <% } %>
 
     <p class="sr">

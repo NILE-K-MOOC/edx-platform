@@ -93,9 +93,11 @@ $(document).ready(function(){
     setTimeout(function(){
             if (window.location.pathname.endsWith('login')) {
                 var nextstring = "${data['next']}";
+                var return_url = "${data['return_url']}";
                 $('.login-oa2-facebook').remove();
                 $('.login-oa2-google-oauth2').remove();
                 $("#next").val(nextstring);
+                $("#returnurl").val(return_url);
             }
             if (window.location.pathname.endsWith('register')) {
                 $('.register-oa2-facebook').remove();
