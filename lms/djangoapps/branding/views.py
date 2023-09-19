@@ -404,20 +404,29 @@ def kmoocmemactive(request):
 def kmoocmempassch(request):
     if "id" in request.POST:
         userid = request.POST.get("id")
-        userpwd = request.POST.get("userpwd")
-        with connections['default'].cursor() as cur:
-            query = """
-                UPDATE auth_user a
-                   SET a.password = {1}
-                 WHERE a.id = {0}
-            """.format(str(unicode(userid)),userpwd)
-            cur.execute(query)
-        context = {
-            'result': 'true'
-        }
+        if "userpwd" in request.POST:
+            if "pbkdf2_sha256$" in request.POST.get("userpwd"):
+                userpwd = request.POST.get("userpwd")
+                with connections['default'].cursor() as cur:
+                    query = """
+                        UPDATE auth_user a
+                           SET a.password = {1}
+                         WHERE a.id = {0}
+                    """.format(str(unicode(userid)),userpwd)
+                    cur.execute(query)
+                context = {
+                    'result': 'true'
+                }
+            else:
+                context = {
+                    'result': 'false'
+                }
+        else:
+            context = {
+                'result': 'false'
+            }
         return JsonResponse(context)
     else:
-        print "asdfasdfasdfasdfasdfasdfasdf"
         context = {
             'result': 'false'
         }
