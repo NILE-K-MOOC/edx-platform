@@ -323,73 +323,195 @@ def studentsync(request):
 
 
 
+@csrf_exempt
+def kmoochumanfree(request):
+    import requests, unicodedata, time, json
+    searchdate = request.GET.get("sdate")
+    url = "https://lms.kmooc.kr/local/coursemos/dormant_cancel.php?date={0}".format(searchdate)
+    header = ''
+    data = ''
+    response = requests.get(url, headers=header, data=data)
+    if response:
+        newkmoocdata = response.json().get("data")
+    else:
+        newkmoocdata = ""
+
+    context = {};
+    context['date'] = searchdate
+    if newkmoocdata:
+        newinsertdata = []
+        lossinsertdata = []
+        for newdata in newkmoocdata:
+            listupdatecheck = "true"
+            userid = newkmoocdata.get(newdata).get("kmooc_edx_id")
+            with connections['default'].cursor() as cur:
+                query = """
+                    SELECT COUNT(*) as cnt FROM auth_user
+                     WHERE id = {0} and email like '%delete.com'
+                """.format(userid)
+                cur.execute(query)
+                memcheck = cur.fetchall()[0][0]
+                if memcheck:
+                    print "newdata['kmooc_edx_id']======>",userid
+                    try:
+                        query = """
+                            UPDATE auth_user a
+                                   INNER JOIN drmt_auth_user b ON b.dormant_yn = 'Y' AND a.id = b.id
+                               SET a.username = b.username,
+                                   a.first_name = b.first_name,
+                                   a.last_name = b.last_name,
+                                   a.email = b.email,
+                                   a.password = b.password,
+                                   a.dormant_yn = 'N'
+                             WHERE a.id = '{0}'
+                        """.format(userid)
+                        cur.execute(query)
+                    except BaseException:
+                        lossinsertdata.append({
+                            'status': 'auth_user',
+                            'id': userid,
+                            'username': str(newkmoocdata.get(newdata).get("firstname")),
+                            'email': str(newkmoocdata.get(newdata).get("email"))
+                        })
+                        listupdatecheck = "false"
+
+                    try:
+                        query = """
+                            UPDATE auth_userprofile a
+                                   INNER JOIN drmt_auth_userprofile b
+                                      ON b.dormant_yn = 'Y' AND a.id = b.id
+                               SET a.name = b.name,
+                                   a.language = b.language,
+                                   a.location = b.location,
+                                   a.meta = b.meta,
+                                   a.gender = b.gender,
+                                   a.mailing_address = b.mailing_address,
+                                   a.year_of_birth = b.year_of_birth,
+                                   a.level_of_education = b.level_of_education,
+                                   a.goals = b.goals,
+                                   a.country = b.country,
+                                   a.city = b.city,
+                                   a.bio = b.bio
+                             WHERE a.id = '{0}'
+                        """.format(userid)
+                        cur.execute(query)
+                    except BaseException:
+                        lossinsertdata.append({
+                            'status': 'auth_userprofile',
+                            'id': userid,
+                            'username': str(newkmoocdata.get(newdata).get("firstname")),
+                            'email': str(newkmoocdata.get(newdata).get("email"))
+                        })
+                        listupdatecheck = "false"
+
+                    try:
+                        query = """
+                            UPDATE drmt_auth_user
+                               SET dormant_yn = 'N'
+                             WHERE dormant_yn = 'Y' AND id = '{0}';
+                        """.format(userid)
+                        cur.execute(query)
+                    except BaseException:
+                        lossinsertdata.append({
+                            'status': 'drmt_auth_user',
+                            'id': userid,
+                            'username': str(newkmoocdata.get(newdata).get("firstname")),
+                            'email': str(newkmoocdata.get(newdata).get("email"))
+                        })
+                        listupdatecheck = "false"
+
+                    try:
+                        query = """
+                            UPDATE drmt_auth_userprofile
+                               SET dormant_yn = 'N'
+                             WHERE dormant_yn = 'Y' AND id = '{0}';
+                        """.format(userid)
+                        cur.execute(query)
+                    except BaseException:
+                        lossinsertdata.append({
+                            'status': 'drmt_auth_userprofile',
+                            'id': userid,
+                            'username': str(newkmoocdata.get(newdata).get("firstname")),
+                            'email': str(newkmoocdata.get(newdata).get("email"))
+                        })
+                        listupdatecheck = "false"
+
+                    if listupdatecheck == "true":
+                        newinsertdata.append({
+                            'id': userid,
+                            'username': str(newkmoocdata.get(newdata).get("firstname")),
+                            'email': str(newkmoocdata.get(newdata).get("email"))
+                        })
+
+    context['data'] = newinsertdata
+    context['lossdata'] = lossinsertdata
+    return JsonResponse(context)
 
 @csrf_exempt
 def kmoocmemactive(request):
+    context = ""
     if "id" in request.GET:
         userid = request.GET.get("id")
         with connections['default'].cursor() as cur:
-            query = """
-                UPDATE auth_user a
-                       INNER JOIN drmt_auth_user b ON b.dormant_yn = 'Y' AND a.id = b.id
-                   SET a.username = b.username,
-                       a.first_name = b.first_name,
-                       a.last_name = b.last_name,
-                       a.email = b.email,
-                       a.password = b.password,
-                       a.dormant_yn = 'N'
-                 WHERE a.id = {0}
-            """.format(str(unicode(userid)))
-            # print "query====>",query
-            cur.execute(query)
+            try:
+                query = """
+                    UPDATE auth_user a
+                           INNER JOIN drmt_auth_user b ON b.dormant_yn = 'Y' AND a.id = b.id
+                       SET a.username = b.username,
+                           a.first_name = b.first_name,
+                           a.last_name = b.last_name,
+                           a.email = b.email,
+                           a.password = b.password,
+                           a.dormant_yn = 'N'
+                     WHERE a.id = {0}
+                """.format(str(unicode(userid)))
+                cur.execute(query)
+            except BaseException:
+                context = "false"
 
-            query = """
-                UPDATE auth_user a
-                       INNER JOIN drmt_auth_user b ON b.dormant_yn = 'Y' AND a.id = b.id
-                   SET a.username = b.username,
-                       a.first_name = b.first_name,
-                       a.last_name = b.last_name,
-                       a.email = b.email,
-                       a.password = b.password,
-                       a.dormant_yn = 'N'
-                 WHERE a.id = {0}
-            """.format(str(unicode(userid)))
-            cur.execute(query)
+            try:
+                query = """
+                    UPDATE auth_userprofile a
+                           INNER JOIN drmt_auth_userprofile b
+                              ON b.dormant_yn = 'Y' AND a.id = b.id
+                       SET a.name = b.name,
+                           a.language = b.language,
+                           a.location = b.location,
+                           a.meta = b.meta,
+                           a.gender = b.gender,
+                           a.mailing_address = b.mailing_address,
+                           a.year_of_birth = b.year_of_birth,
+                           a.level_of_education = b.level_of_education,
+                           a.goals = b.goals,
+                           a.country = b.country,
+                           a.city = b.city,
+                           a.bio = b.bio
+                     WHERE a.id = {0}
+                """.format(str(unicode(userid)))
+                cur.execute(query)
+            except BaseException:
+                context = "false"
 
-            query = """
-                UPDATE auth_userprofile a
-                       INNER JOIN drmt_auth_userprofile b
-                          ON b.dormant_yn = 'Y' AND a.id = b.id
-                   SET a.name = b.name,
-                       a.language = b.language,
-                       a.location = b.location,
-                       a.meta = b.meta,
-                       a.gender = b.gender,
-                       a.mailing_address = b.mailing_address,
-                       a.year_of_birth = b.year_of_birth,
-                       a.level_of_education = b.level_of_education,
-                       a.goals = b.goals,
-                       a.country = b.country,
-                       a.city = b.city,
-                       a.bio = b.bio
-                 WHERE a.id = {0}
-            """.format(str(unicode(userid)))
+            try:
+                query = """
+                    UPDATE drmt_auth_user
+                       SET dormant_yn = 'N'
+                     WHERE dormant_yn = 'Y' AND id = {0};기
+                """.format(str(unicode(userid)))
+                cur.execute(query)
+            except BaseException:
+                context = "false"
 
-            cur.execute(query)
+            try:
+                query = """
+                    UPDATE drmt_auth_userprofile
+                       SET dormant_yn = 'N'
+                     WHERE dormant_yn = 'Y' AND id = {0};
+                """.format(str(unicode(userid)))
+                cur.execute(query)
+            except BaseException:
+                context = "false"
 
-            query = """
-                UPDATE drmt_auth_user
-                   SET dormant_yn = 'N'
-                 WHERE dormant_yn = 'Y' AND id = {0};
-            """.format(str(unicode(userid)))
-            cur.execute(query)
-
-            query = """
-                UPDATE drmt_auth_userprofile
-                   SET dormant_yn = 'N'
-                 WHERE dormant_yn = 'Y' AND id = {0};
-            """.format(str(unicode(userid)))
-            cur.execute(query)
         context = {'result': 'true'}
         return JsonResponse(context)
     else:

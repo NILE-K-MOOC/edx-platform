@@ -91,6 +91,7 @@ urlpatterns = [
     url(r'^studentsync$', branding_views.studentsync, name='studentsync'),
     # blank page
     url(r'^blank$', branding_views.blankpage, name='blanksync'),
+    url(r'^kmoochumanfree$', branding_views.kmoochumanfree, name='kmoochumanfree'),
     url(r'^kmoocmemactive$', branding_views.kmoocmemactive, name='kmoocmemactive'),
     url(r'^kmoocmempassch$', branding_views.kmoocmempassch, name='kmoocmempassch'),
     url(r'^invitation-banner$', branding_views.invitation_banner, name='invitation_banner'),
