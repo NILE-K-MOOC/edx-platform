@@ -401,7 +401,7 @@ def kmoocmemactive(request):
 
         return JsonResponse(context)
 
-def kmoocmempasschange(request):
+def kmoocmempassch(request):
     if "id" in request.POST:
         userid = request.POST.get("id")
         userpwd = request.POST.get("userpwd")
@@ -417,6 +417,7 @@ def kmoocmempasschange(request):
         }
         return JsonResponse(context)
     else:
+        print "asdfasdfasdfasdfasdfasdfasdf"
         context = {
             'result': 'false'
         }
