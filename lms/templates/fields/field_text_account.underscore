@@ -16,7 +16,7 @@
     <div class="u-field u-field-button u-field-password" style="margin-bottom:0px">
         <div class="u-field-value field">
             <label class="u-field-title field-label" for="field-input-<%- id %>"><%- title %></label>
-            <input class="field-input input-text" type="text" id="fid-input-<%- id %>" title="Input field for <%- id %>" aria-describedby="u-field-message-help-<%- id %>" name="input" value="<%- value %>" />
+            <input class="field-input input-text" type="text" id="fid-input-<%- id %>" title="Input field for <%- id %>" aria-describedby="u-field-message-help-<%- id %>" name="input" <%if (id == 'email') { %>readonly<% } %> value="<%- value %>" />
             <div style="margin-top:4px">
                 <button class="u-field-link u-field-link-title-password " id="nicecheck" aria-describedby="u-field-message-help-password" style="width: 37%; "><%- gettext('sign') %></button>
                 <button class="u-field-link u-field-link-title-password " id="kakaocheck" aria-describedby="u-field-message-help-password" style="width: 60%; float:right; box-shadow: none; background: #f1d900; color: black; font-weight: 500; font-size: 15px; border: none; height: 47px; border: 1px solid black;"><%- gettext('KaKao Authentication') %></button>
@@ -143,7 +143,7 @@
 <% } else { %>
     <div class="u-field-value field">
         <label class="u-field-title field-label" for="field-input-<%- id %>"><%- title %></label>
-        <input class="field-input input-text" type="text" id="field-input-<%- id %>" title="Input field for <%- id %>" aria-describedby="u-field-message-help-<%- id %>" name="input" value="<%- value %>" />
+        <input class="field-input input-text" type="text" id="field-input-<%- id %>" title="Input field for <%- id %>" aria-describedby="u-field-message-help-<%- id %>" name="input"  <%if (id == 'email') { %>readonly<% } %>  value="<%- value %>" />
     </div>
     <span class="u-field-message" id="u-field-message-<%- id %>">
         <span class="u-field-message-notification" aria-live="polite"></span>
