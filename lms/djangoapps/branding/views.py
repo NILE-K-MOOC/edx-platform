@@ -324,6 +324,7 @@ def studentsync(request):
 
 
 
+@csrf_exempt
 def kmoocmemactive(request):
     if "id" in request.GET:
         userid = request.GET.get("id")
@@ -389,18 +390,13 @@ def kmoocmemactive(request):
                  WHERE dormant_yn = 'Y' AND id = {0};
             """.format(str(unicode(userid)))
             cur.execute(query)
-
-        context = {
-            'result': 'true'
-        }
+        context = {'result': 'true'}
         return JsonResponse(context)
     else:
-        context = {
-            'result': 'false'
-        }
-
+        context = {'result': 'false'}
         return JsonResponse(context)
 
+@csrf_exempt
 def kmoocmempassch(request):
     if "id" in request.POST:
         userid = request.POST.get("id")
@@ -409,27 +405,19 @@ def kmoocmempassch(request):
                 userpwd = request.POST.get("userpwd")
                 with connections['default'].cursor() as cur:
                     query = """
-                        UPDATE auth_user a
-                           SET a.password = {1}
-                         WHERE a.id = {0}
+                        UPDATE auth_user 
+                           SET password = '{1}'
+                         WHERE id = '{0}'
                     """.format(str(unicode(userid)),userpwd)
                     cur.execute(query)
-                context = {
-                    'result': 'true'
-                }
+                context = {'result': 'true'}
             else:
-                context = {
-                    'result': 'false'
-                }
+                context = {'result': 'false'}
         else:
-            context = {
-                'result': 'false'
-            }
+            context = {'result': 'false'}
         return JsonResponse(context)
     else:
-        context = {
-            'result': 'false'
-        }
+        context = {'result': 'false'}
         return JsonResponse(context)
 
 def blankpage(request):
