@@ -1641,10 +1641,9 @@ def logout_form(request, initial_mode="logout"):
         logout(request)
         return redirect("https://new.kmooc.kr")
     else:
-        return redirect("/")
+        return redirect("https://new.kmooc.kr")
 
-    return redirect('/')
-
+    return redirect("https://new.kmooc.kr")
 
 def sso_logout_form(request, initial_mode="ssologinout"):
     from django.shortcuts import redirect
