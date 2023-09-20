@@ -167,24 +167,26 @@
                     this.resetPassword(event);
                 },
                 resetPassword: function() {
-                    var data = {};
-                    data[this.options.emailAttribute] = this.model.get(this.options.emailAttribute);
-
-                    var view = this;
-                    $.ajax({
-                        type: 'POST',
-                        url: view.options.linkHref,
-                        data: data,
-                        success: function() {
-                            view.showSuccessMessage();
-                            view.setMessageTimeout();
-                        },
-                        error: function(xhr) {
-                            view.showErrorMessage(xhr);
-                            view.setMessageTimeout();
-                            view.toggleDisableButton(false);
-                        }
-                    });
+                    alert("비밀번호 변경을 위해 이동합니다");
+                    location.href="https://lms.kmooc.kr/user/user_edit.php";
+                    // var data = {};
+                    // data[this.options.emailAttribute] = this.model.get(this.options.emailAttribute);
+                    //
+                    // var view = this;
+                    // $.ajax({
+                    //     type: 'POST',
+                    //     url: view.options.linkHref,
+                    //     data: data,
+                    //     success: function() {
+                    //         view.showSuccessMessage();
+                    //         view.setMessageTimeout();
+                    //     },
+                    //     error: function(xhr) {
+                    //         view.showErrorMessage(xhr);
+                    //         view.setMessageTimeout();
+                    //         view.toggleDisableButton(false);
+                    //     }
+                    // });
                 },
                 toggleDisableButton: function(disabled) {
 
