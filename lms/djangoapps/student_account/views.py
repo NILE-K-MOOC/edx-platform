@@ -1621,12 +1621,23 @@ def remove_account(request):
                 user_profile.city = None
                 user_profile.bio = None
                 user_profile.profile_image_uploaded_at = None
+                # 신형 KMOOC 삭제 처리
+                import requests
+                with connections['default'].cursor() as cur:
+                    query = """
+                        SELECT email FROM auth_user
+                         WHERE id = {0}
+                    """.format(uid)
+                    cur.execute(query)
+                    useremail = cur.fetchall()[0][0]
+                url = "https://lms.kmooc.kr/local/coursemos/deleteUser.php?email={0}".format(useremail)
+                header = ''
+                data = ''
+                response = requests.post(url, headers=header, data=data)
+                # 신형 KMOOC 삭제 처리
                 find_user.save()
                 user_profile.save()
                 user_socialauth.delete()
-
-
-
                 logout(request)
             except Exception as e:
                 print e
