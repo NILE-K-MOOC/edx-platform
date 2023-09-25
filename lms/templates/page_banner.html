@@ -28,7 +28,7 @@ if site_status_message:
             % for message in banner_messages:
                 <div class="alert ${message.css_class}" role="alert">
                     <span class="icon icon-alert fa ${message.icon_class}" aria-hidden="true"></span>
-                    ##  ${HTML(message.message_html)}
+                    ${HTML(message.message_html)}
                 </div>
             % endfor
         </div>

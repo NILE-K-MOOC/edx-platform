@@ -5897,7 +5897,7 @@ msgid ""
 "You must be enrolled in the course to see course content."
 "                             {enroll_link_start}Enroll now{enroll_link_end}."
 msgstr ""
-"이 강좌의 내용은 등록해야 볼 수 있습니다. {enroll_link_start}지금 등록{enroll_link_end}."
+"이 강좌의 내용은 등록해야 볼 수 있습니다."
 
 #: lms/djangoapps/courseware/views/views.py
 #: openedx/features/course_experience/views/course_home_messages.py
