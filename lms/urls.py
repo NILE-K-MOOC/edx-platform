@@ -398,7 +398,9 @@ if settings.FEATURES.get('ENABLE_COMBINED_LOGIN_REGISTRATION'):
         url(r'^logoutsso/$', student_account_views.sso_logout_form,
             {'initial_mode': 'ssologinout'}, name='sso_logout_form'),
         url(r'^removememberexit/$', student_account_views.remove_member_exit,
-            {'initial_mode': 'memberremove'}, name='remove_member_exit')
+            {'initial_mode': 'memberremove'}, name='remove_member_exit'),
+        url(r'^removememberdel/$', student_account_views.remove_member_del,
+            {'initial_mode': 'memberdel'}, name='remove_member_del')
     ]
 else:
     # Serve the old views
