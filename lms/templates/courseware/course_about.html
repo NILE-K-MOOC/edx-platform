@@ -38,7 +38,7 @@ if success == "success":
 else:
     course_new_id = ""
 
-case3url = "false"
+case3url = ""
 if str(searchcourseid) == str("course-v1:HansungK+2022HLM001+2023_HLM_T2"):
     case3url = "https://new.kmooc.kr/view/course/detail/"+str(course_new_id)
 elif str(searchcourseid) == str("course-v1:MA_NSU+MATCHUP_NSU01+2023_01_2"):
@@ -1137,10 +1137,10 @@ $(document).ready(function(){
                                     if professional_mode:
                                         href_class = "add-to-cart"
                                     else:
-                                        if "false" in case3url:
-                                            href_class = "registerold"
-                                        else:
+                                        if case3url:
                                             href_class = "viewoldkmooc"
+                                        else:
+                                            href_class = "registerold"
 
 %>
                             <!-- 기본 수강신청 버튼 -->
