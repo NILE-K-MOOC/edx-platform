@@ -286,11 +286,10 @@ $(document).ready(function () {
     //         $(".newbtns").hide();
     //     } else {
 
-    if ($(".oldbts").text()=="등록마감"){
-        //
-    } else {
-        $(".oldbtns").hide();
-    }
+    $(".oldbtns").hide();
+    setTimeout(function(){
+        $(".oldbts").filter(":contains('등록마감')").css('display','show');
+    },800);
     //     }
     // }
 
