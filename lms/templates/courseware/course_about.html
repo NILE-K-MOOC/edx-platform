@@ -1188,17 +1188,17 @@ $(document).ready(function(){
                                         href_class = "registerold"
                                 %>
                             <!-- 기본 수강신청 버튼 -->
-                            % if str(newkoomcmovechek) == str("true"):
+                            % if newkoomcmovechek == str("true"):
                             <div class="oldbtns"></div>
                             <div class="box1 case1" style="float: left; width: 100%;" id="enroll_0">
                                 % if LANGUAGE_CODE == "ko-kr":
-                                <button href="register" class="type-btn register" style="float:right;width:60%; height: 46px; color: white;position:absolute;top:-50px;right: 0px;">
-                                    새로운 K-MOOC로 이동
-                                </button>
+                                    <button href="register" class="type-btn register" style="float:right;width:60%; height: 46px; color: white;position:absolute;top:-50px;right: 0px;">
+                                        새로운 K-MOOC로 이동
+                                    </button>
                                 % else:
-                                <button href="register" class="type-btn register" style="float:right;width:60%; height: 46px; color: white;position:absolute;top:-50px;right: 0px;">
-                                    Move to New K-MOOC
-                                </button>
+                                    <button href="register" class="type-btn register" style="float:right;width:60%; height: 46px; color: white;position:absolute;top:-50px;right: 0px;">
+                                        Move to New K-MOOC
+                                    </button>
                                 % endif
                                 <div class="width:100%;float:left;">본 강좌는 새로운 K-MOOC 플랫폼에서 운영하는 강좌입니다.</div>
                             </div>
