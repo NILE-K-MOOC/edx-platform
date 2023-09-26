@@ -1144,10 +1144,10 @@ $(document).ready(function(){
                                     if professional_mode:
                                         href_class = "add-to-cart"
                                     else:
-                                        if case3url:
-                                            href_class = "viewoldkmooc"
-                                        else:
+                                        if case3url == "":
                                             href_class = "registerold"
+                                        else:
+                                            href_class = "viewoldkmooc"
 
 %>
                             <!-- 기본 수강신청 버튼 -->
