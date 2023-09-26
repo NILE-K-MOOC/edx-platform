@@ -55,7 +55,6 @@ elif str(searchcourseid) == str("course-v1:MA_NSU+MATCHUP_NSU03+2023_03_2"):
 elif str(searchcourseid) == str("course-v1:MA_NSU+MATCHUP_NSU04+2023_04_2"):
     case3url = "https://new.kmooc.kr/view/course/detail/"+str(course_new_id)
     newkoomcmovechek = "true"
-
 elif str(searchcourseid) == str("course-v1:BUFSk+BUFS_ICFL13+2023_T1"):
     case3url = "https://new.kmooc.kr/view/course/detail/"+str(course_new_id)
     newkoomcmovechek = "true"
@@ -1189,7 +1188,7 @@ $(document).ready(function(){
                                         href_class = "registerold"
                                 %>
                             <!-- 기본 수강신청 버튼 -->
-                            % if str(newkoomcmovechek)=="true":
+                            % if str(newkoomcmovechek) == str("true"):
                             <div class="oldbtns"></div>
                             <div class="box1 case1" style="float: left; width: 100%;" id="enroll_0">
                                 % if LANGUAGE_CODE == "ko-kr":
