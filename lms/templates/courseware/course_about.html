@@ -169,6 +169,7 @@ elif str(searchcourseid) == str("course-v1:SNUk+SNUL0655_000500k+2023_T2"):
 %>
 <input type="hidden" id="course_new_id" class="course_new_id" value="${course_new_id}">
 <input type="hidden" id="case3url" class="case3url" value="${case3url}">
+<input type="hidden" id="newkoomcmovechek" class="newkoomcmovechek" value="${newkoomcmovechek}">
 <style>
 /* --------------------------
  *    학점인정 수강신청
@@ -1189,7 +1190,7 @@ $(document).ready(function(){
                                         href_class = "registerold"
                                 %>
                             <!-- 기본 수강신청 버튼 -->
-                            % if "true" in newkoomcmovechek:
+                            % if newkoomcmovechek == 'true':
                             <div class="oldbtns"></div>
                             <div class="box1 case1" style="float: left; width: 100%;" id="enroll_0">
                                 % if LANGUAGE_CODE == "ko-kr":
