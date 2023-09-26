@@ -38,7 +38,7 @@ if success == "success":
 else:
     course_new_id = ""
 
-case3url = ""
+case3url = "false"
 if str(searchcourseid) == str("course-v1:HansungK+2022HLM001+2023_HLM_T2"):
     case3url = "https://new.kmooc.kr/view/course/detail/"+str(course_new_id)
 elif str(searchcourseid) == str("course-v1:MA_NSU+MATCHUP_NSU01+2023_01_2"):
@@ -1137,7 +1137,7 @@ $(document).ready(function(){
                                     if professional_mode:
                                         href_class = "add-to-cart"
                                     else:
-                                        if case3url == "":
+                                        if "false" in case3url:
                                             href_class = "registerold"
                                         else:
                                             href_class = "viewoldkmooc"
