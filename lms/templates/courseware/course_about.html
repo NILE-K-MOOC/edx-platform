@@ -288,7 +288,10 @@ $(document).ready(function () {
 
     $(".oldbtns").hide();
     setTimeout(function(){
-        $(".oldbts").filter(":contains('등록마감')").css('display','show');
+        console.log("======>"+$(".oldbts").html());
+        if ($(".oldbts").html()=="등록마감") {
+            $(".oldbtns").show();
+        }
     },800);
     //     }
     // }
