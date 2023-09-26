@@ -1144,16 +1144,15 @@ $(document).ready(function(){
                                     if professional_mode:
                                         href_class = "add-to-cart"
                                     else:
-                                        if case3url == "":
-                                            href_class = "registerold"
-                                        else:
-                                            href_class = "viewoldkmooc"
+                                        href_class = "registerold"
 
 %>
                             <!-- 기본 수강신청 버튼 -->
+                            % if case3url == "":
                             <div class="box1 case1" style="float: left; width: 50%;" id="enroll_0">
                                 <button href="${reg_href}" class="type-btn ${href_class}"  style="width: 90%; height: 46px; color: white;">${_("Enrollment")}</button>
                             </div>
+                            % else:
                             <div class="box1 case1 oldbtns" style="float: left; width: 100%;" id="enroll_0">
                                 % if LANGUAGE_CODE == "ko-kr":
                                 <button href="register" class="type-btn register" style="float:right;width:60%; height: 46px; color: white;position:absolute;top:-50px;right: 0px;">
@@ -1166,6 +1165,7 @@ $(document).ready(function(){
                                 % endif
                                 <div class="width:100%;float:left;">본 강좌는 새로운 K-MOOC 플랫폼에서 운영하는 강좌입니다.</div>
                             </div>
+                            % endif
                             <!-- 기본 수강신청 버튼 -->
 
                             <!-- 학점 인정 수강신청 버튼 -->
