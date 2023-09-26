@@ -165,7 +165,12 @@ elif str(searchcourseid) == str("course-v1:SNUk+SNUL0655_000500k+2023_T2"):
     case3url = "https://new.kmooc.kr/view/course/detail/"+str(course_new_id)
     newkoomcmovechek = "true"
 
-
+if newkoomcmovechek == "true":
+    new-btns = " oldbtns"
+    old-btns = ""
+else:
+    new-btns = ""
+    old-btns = " oldbtns"
 %>
 <input type="hidden" id="course_new_id" class="course_new_id" value="${course_new_id}">
 <input type="hidden" id="case3url" class="case3url" value="${case3url}">
@@ -1190,9 +1195,7 @@ $(document).ready(function(){
                                         href_class = "registerold"
                                 %>
                             <!-- 기본 수강신청 버튼 -->
-                            % if newkoomcmovechek == 'true':
-                            <div class="oldbtns"></div>
-                            <div class="box1 case1" style="float: left; width: 100%;" id="enroll_0">
+                            <div class="box1 case1 ${new-btns}">
                                 % if LANGUAGE_CODE == "ko-kr":
                                 <button href="register" class="type-btn register" style="float:right;width:60%; height: 46px; color: white;position:absolute;top:-50px;right: 0px;">
                                     새로운 K-MOOC로 이동
@@ -1204,11 +1207,9 @@ $(document).ready(function(){
                                 % endif
                                 <div class="width:100%;float:left;">본 강좌는 새로운 K-MOOC 플랫폼에서 운영하는 강좌입니다.</div>
                             </div>
-                            % else:
-                            <div class="box1 case1" style="float: left; width: 50%;" id="enroll_0">
+                            <div class="box1 case1 ${old-btns}" style="float: left; width: 50%;" id="enroll_0">
                                 <button href="${reg_href}" class="type-btn ${href_class}"  style="width: 90%; height: 46px; color: white;">${_("Enrollment")}</button>
                             </div>
-                            % endif
                             <!-- 기본 수강신청 버튼 -->
 
                             <!-- 학점 인정 수강신청 버튼 -->
