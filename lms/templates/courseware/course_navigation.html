@@ -93,7 +93,62 @@ elif str(searchcourseid) == str("course-v1:SNUk+SNUL0655_000500k+2023_T2"):
     infopopcheck = "true"
 elif str(searchcourseid) == str("course-v1:DH+sdfsdfsdf+20230630"):
     infopopcheck = "true"
-
+elif str(searchcourseid) == str("course-v1:NRF_COSS+NRF_COSS213+2022_1"):
+    infopopcheck2 = "true"
+elif str(searchcourseid) == str("course-v1:NRF_COSS+NRF_COSS214+2022_1"):
+    infopopcheck2 = "true"
+elif str(searchcourseid) == str("course-v1:NRF_COSS+NRF_COSS223+2022_1"):
+    infopopcheck2 = "true"
+elif str(searchcourseid) == str("course-v1:NRF_COSS+NRF_COSS225+2022_1"):
+    infopopcheck2 = "true"
+elif str(searchcourseid) == str("course-v1:NRF_COSS+NRF_COSS226+2022_1"):
+    infopopcheck2 = "true"
+elif str(searchcourseid) == str("course-v1:NRF_COSS+NRF_COSS227+2022_1"):
+    infopopcheck2 = "true"
+elif str(searchcourseid) == str("course-v1:NRF_COSS+NRF_COSS228+2022_1"):
+    infopopcheck2 = "true"
+elif str(searchcourseid) == str("course-v1:NRF_COSS+NRF_COSS229+2022_1"):
+    infopopcheck2 = "true"
+elif str(searchcourseid) == str("course-v1:NRF_COSS+NRF_COSS232+2022_1"):
+    infopopcheck2 = "true"
+elif str(searchcourseid) == str("course-v1:NRF_COSS+NRF_COSS233+2022_1"):
+    infopopcheck2 = "true"
+elif str(searchcourseid) == str("course-v1:NRF_COSS+NRF_COSS237+2022_1"):
+    infopopcheck2 = "true"
+elif str(searchcourseid) == str("course-v1:NRF_COSS+NRF_COSS241+2022_1"):
+    infopopcheck2 = "true"
+elif str(searchcourseid) == str("course-v1:NRF_COSS+NRF_COSS242+2022_1"):
+    infopopcheck2 = "true"
+elif str(searchcourseid) == str("course-v1:NRF_COSS+NRF_COSS243+2022_1"):
+    infopopcheck2 = "true"
+elif str(searchcourseid) == str("course-v1:NRF_COSS+NRF_COSS244+2022_1"):
+    infopopcheck2 = "true"
+elif str(searchcourseid) == str("course-v1:NRF_COSS+NRF_COSS245+2022_1"):
+    infopopcheck2 = "true"
+elif str(searchcourseid) == str("course-v1:NRF_COSS+NRF_COSS246+2022_1"):
+    infopopcheck2 = "true"
+elif str(searchcourseid) == str("course-v1:NRF_COSS+NRF_COSS248+2022_1"):
+    infopopcheck2 = "true"
+elif str(searchcourseid) == str("course-v1:SOGANGKAEP+KAEP01+2022_T1"):
+    infopopcheck2 = "true"
+elif str(searchcourseid) == str("course-v1:SOGANGKAEP+KAEP02+2022_T1"):
+    infopopcheck2 = "true"
+elif str(searchcourseid) == str("course-v1:SOGANGKAEP+KAEP03+2022_T1"):
+    infopopcheck2 = "true"
+elif str(searchcourseid) == str("course-v1:SOGANGKAEP+KAEP04+2022_T1"):
+    infopopcheck2 = "true"
+elif str(searchcourseid) == str("course-v1:SOGANGKAEP+KAEP05+2022_T1"):
+    infopopcheck2 = "true"
+elif str(searchcourseid) == str("course-v1:SOGANGKAEP+KAEP06+2022_T1"):
+    infopopcheck2 = "true"
+elif str(searchcourseid) == str("course-v1:SOGANGKAEP+KAEP07+2022_T1"):
+    infopopcheck2 = "true"
+elif str(searchcourseid) == str("course-v1:SOGANGKAEP+KAEP08+2022_T1"):
+    infopopcheck2 = "true"
+elif str(searchcourseid) == str("course-v1:SOGANGKAEP+KAEP09+2022_T1"):
+    infopopcheck2 = "true"
+elif str(searchcourseid) == str("course-v1:SOGANGKAEP+KAEP10+2022_T1"):
+    infopopcheck2 = "true"
 %>
 <style>
 .popup-area {
@@ -207,6 +262,7 @@ elif str(searchcourseid) == str("course-v1:DH+sdfsdfsdf+20230630"):
 </div>
 <script>
 var infopopstatus = "${infopopcheck}";
+var infopopstatus2 = "${infopopcheck2}";
 $(window).ready(function(){
     if (infopopstatus == "true") {
         var today = new Date();
@@ -238,6 +294,9 @@ $(window).ready(function(){
                 $("#pop_close_1").hide();
             }
         }
+    } else if (infopopstatus2 == "true") {
+        alert("신규 K-MOOC에서 운영되는 강좌 입니다.\신규 K-MOOC에서 신청해 주세요");
+        window.history.back();
     }
 });
 
