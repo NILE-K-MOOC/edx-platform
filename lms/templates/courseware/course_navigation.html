@@ -296,6 +296,8 @@ $(window).ready(function(){
         }
     } else if (infopopstatus2 == "true") {
         alert("신규 K-MOOC에서 운영되는 강좌 입니다.\신규 K-MOOC에서 신청해 주세요");
+        $(".navbar-expand").html("");
+        $(".page-content-container").html("<div style='height:300px'>&nbsp;</div>");
         window.history.back();
     }
 });
