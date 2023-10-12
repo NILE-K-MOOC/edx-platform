@@ -1,8 +1,5 @@
-## mako
-
 <%page args="active_page=None" expression_filter="h" />
 <%namespace name='static' file='/static_content.html'/>
-
 <%!
 from courseware.tabs import get_course_tab_list
 from django.conf import settings
@@ -18,8 +15,6 @@ if active_page is None and active_page_context is not UNDEFINED:
 if course is not None:
     include_special_exams = settings.FEATURES.get('ENABLE_SPECIAL_EXAMS', False) and (course.enable_proctored_exams or course.enable_timed_exams)
 
-
-        
         
 searchcourseid = course.id
 infopopcheck = "false"
@@ -92,8 +87,6 @@ elif str(searchcourseid) == str("course-v1:SNUk+SNU701_429k+2023_T2"):
     infopopcheck = "true"
 elif str(searchcourseid) == str("course-v1:SNUk+SNUL0655_000500k+2023_T2"):
     infopopcheck = "true"
-elif str(searchcourseid) == str("course-v1:DH+sdfsdfsdf+20230630"):
-    infopopcheck = "true"
 elif str(searchcourseid) == str("course-v1:NRF_COSS+NRF_COSS213+2022_1"):
     infopopcheck2 = "true"
 elif str(searchcourseid) == str("course-v1:NRF_COSS+NRF_COSS214+2022_1"):
@@ -150,6 +143,26 @@ elif str(searchcourseid) == str("course-v1:SOGANGKAEP+KAEP09+2022_T1"):
     infopopcheck2 = "true"
 elif str(searchcourseid) == str("course-v1:SOGANGKAEP+KAEP10+2022_T1"):
     infopopcheck2 = "true"
+elif str(searchcourseid) == str("course-v1:NRF_COSS+NRF_COSS217+2022_1"):
+    infopopcheck2 = "true"
+
+
+
+if course.start:
+    import string
+    timedata = string.split(str(course.start)," ")
+    timedatatmp = timedata[0].replace("-","")
+    if timedatatmp >= "20230705":
+        print "course.start=====>",timedatatmp
+        infopopcheck2 = "true"
+
+if course.enrollment_start:
+    import string
+    timedata = string.split(str(course.enrollment_start)," ")
+    timedatatmp = timedata[0].replace("-","")
+    if timedatatmp >= "20230701":
+        print "course.enrollment_start=====>",timedatatmp
+        infopopcheck2 = "true"
 %>
 <style>
 .popup-area {
@@ -264,42 +277,45 @@ elif str(searchcourseid) == str("course-v1:SOGANGKAEP+KAEP10+2022_T1"):
 <script>
 var infopopstatus = "${infopopcheck}";
 var infopopstatus2 = "${infopopcheck2}";
+var issuperuser = "${user.is_superuser}"
 $(window).ready(function(){
-    if (infopopstatus == "true") {
-        var today = new Date();
-        var year = today.getFullYear();
-        var month = today.getMonth() + 1;
-        var date = today.getDate();
-        date = (date<10)?'0'+date:date;
-        var datevalue = year+""+month+""+date;
+    if (issuperuser != "True") {
+        if (infopopstatus == "true") {
+            var today = new Date();
+            var year = today.getFullYear();
+            var month = today.getMonth() + 1;
+            var date = today.getDate();
+            date = (date < 10) ? '0' + date : date;
+            var datevalue = year + "" + month + "" + date;
 
-        if (datevalue >= 20231010) {
+            if (datevalue >= 20231010) {
+                $(".navbar-expand").html("");
+                $(".page-content-container").html("<div style='height:300px'>&nbsp;</div>");
+                $(".infopopclose2").on("click", function () {
+                    window.history.back();
+                });
+                $("#pop_close_2").show();
+            } else {
+                $(".infopopclose").on("click", function () {
+                    if ($("#pop_close_1_chk").is(":checked")) {
+                        setCookie("info1", "done", "1");
+                    }
+                    $(".layerPopupArea").hide();
+                });
+
+                cookiedata = document.cookie;
+                if (cookiedata.indexOf("info1=done") < 0) {
+                    $("#pop_close_1").show();
+                } else {
+                    $("#pop_close_1").hide();
+                }
+            }
+        } else if (infopopstatus2 == "true") {
+            alert("신규 K-MOOC에서 운영되는 강좌 입니다.\n신규 K-MOOC에서 신청해 주세요");
             $(".navbar-expand").html("");
             $(".page-content-container").html("<div style='height:300px'>&nbsp;</div>");
-            $(".infopopclose2").on("click", function () {
-                window.history.back();
-            });
-            $("#pop_close_2").show();
-        } else {
-            $(".infopopclose").on("click", function () {
-                if ($("#pop_close_1_chk").is(":checked")) {
-                    setCookie("info1", "done", "1");
-                }
-                $(".layerPopupArea").hide();
-            });
-
-            cookiedata = document.cookie;
-            if (cookiedata.indexOf("info1=done") < 0) {
-                $("#pop_close_1").show();
-            } else {
-                $("#pop_close_1").hide();
-            }
+            window.history.back();
         }
-    } else if (infopopstatus2 == "true") {
-        alert("신규 K-MOOC에서 운영되는 강좌 입니다.\신규 K-MOOC에서 신청해 주세요");
-        $(".navbar-expand").html("");
-        $(".page-content-container").html("<div style='height:300px'>&nbsp;</div>");
-        window.history.back();
     }
 });
 
