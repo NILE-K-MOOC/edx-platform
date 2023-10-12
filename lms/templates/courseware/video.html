@@ -252,7 +252,7 @@ if course.start:
     import string
     timedata = string.split(str(course.start)," ")
     timedatatmp = timedata[0].replace("-","")
-    if timedatatmp >= "20230705":
+    if timedatatmp >= "20231012":
         case3url = "https://new.kmooc.kr/view/course/detail/"+str(course_new_id)
         newkoomcmovechek2 = "true"
 
@@ -260,7 +260,7 @@ if course.enrollment_start:
     import string
     timedata = string.split(str(course.enrollment_start)," ")
     timedatatmp = timedata[0].replace("-","")
-    if timedatatmp >= "20230701":
+    if timedatatmp >= "20231012":
         case3url = "https://new.kmooc.kr/view/course/detail/"+str(course_new_id)
         newkoomcmovechek2 = "true"
 %>
