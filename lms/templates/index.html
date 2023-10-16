@@ -357,7 +357,43 @@ openstate = "true"
     })
      */
 
+function goAjax() {
+    $("#submittmp").submit();
+}
+function goAjax2() {
+    $("#submittmp2").submit();
+}
+function goAjax3() {
+    $.ajax({
+        url : "https://www.kmooc.kr/user_api/v1/account/login_session/",
+        type: "POST",
+        async : true,
+        crossDomain: true,
+        dataType: "json",
+        data: {"sdata":"wd+/Wv/3heAKZYMAwPZd7npDh8A9ng1N21vAMy8ZliwYqdadc7aIa/UPKdPso98IdoTKV0f0CZj3IF38Ozbl643GCgwnJgtSG9mho06JckcASYan9Sa5sJ/zrclgW2uj"},
+        jsonp : "something",
+        success:function(result){
+            alert(JSON.stringify(result));
+        },
+        error:function(xhr,status,error){
+            alert("싱패 " + status);
+        }
+    });
+}
 </script>
+<!--form name="submittmp" id="submittmp" action="https://www.kmooc.kr/user_api/v1/account/login_session/" method="post"-->
+<!--form name="submittmp" id="submittmp" action="http://127.0.0.1:18000/user_api/v1/account/login_session/" method="post"-->
+<form name="submittmp" id="submittmp" action="https://new.kmooc.kr/sso" method="post">
+    <input type="hidden" name="sdata" id="sdata" value="XXBuXJ5EDHwAJ3G8CPteMNNmNzUdMaDpP61/oZLQRWP6m5FTcd1clRYnbkBH3KlyjVIGpaU5KyuIM5GDSD8uHjNUAio5oySIHB1taP+mobNwdKo2KhR+JgKCYGHV8j58us5bGm+0rqNaeqF1aIRFhhFl24SKIWA1IQLWAEIcHOY=">
+</form>
+
+
+<form name="submittmp2" id="submittmp2" action="http://127.0.0.1:18000/removememberexit/" method="post">
+    <input type="hidden" name="id" id="id" value="165799">
+</form>
+<button type="button" onClick="goAjax()">임시테스트</button>
+<button type="button" onClick="goAjax2()">임시테스트2</button>
+<button type="button" onClick="goAjax3()">임시테스트3</button>
 %if request.user.id and not request.user.is_active:
 <script>
     setTimeout(function () {
