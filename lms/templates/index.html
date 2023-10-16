@@ -388,12 +388,7 @@ function goAjax3() {
 </form>
 
 
-<form name="submittmp2" id="submittmp2" action="http://127.0.0.1:18000/removememberexit/" method="post">
-    <input type="hidden" name="id" id="id" value="165799">
-</form>
-<button type="button" onClick="goAjax()">임시테스트</button>
-<button type="button" onClick="goAjax2()">임시테스트2</button>
-<button type="button" onClick="goAjax3()">임시테스트3</button>
+
 %if request.user.id and not request.user.is_active:
 <script>
     setTimeout(function () {
