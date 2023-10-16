@@ -295,9 +295,9 @@ if course.enrollment_start:
 
             <div class="popup-footer" style="background: black; text-align: right;">
                 <span class="popup-footer-day popup-footer-close" style="padding: 0 10px; vertical-align: middle;">
-                    <a href="#none" title="닫기" class="infopopclose2" style="color:#FFFFFF"><b>[ 확인 ]</b></a>
+                    <a href="#none" title="닫기" class="infopopclose3" style="color:#FFFFFF"><b>[ 확인 ]</b></a>
                 </span>
-            </div>
+            </div>강
         </div>
     </div>
 </div>
@@ -341,6 +341,9 @@ $(window).ready(function(){
             $(".navbar-expand").html("");
             $(".page-content-container").html("<div style='height:300px'>&nbsp;</div>");
             $("#pop_close_3").show();
+            $(".infopopclose3").on("click", function () {
+                window.history.back();
+            });
         }
     }
 });
