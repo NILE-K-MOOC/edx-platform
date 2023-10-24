@@ -260,7 +260,7 @@ if course.enrollment_start:
             <div class="popup-contents">
                 <div style="width:100%;word-break: keep-all;">
                 해당 강좌는 현재 신규 플랫폼으로 이관되어, 신규 플랫폼에서 학습이 가능합니다.<br>
-                *접속주소: <a href="https://new.kmooc.kr">https://new.kmooc.kr</a><br>
+                - 접속주소: <a href="https://new.kmooc.kr">https://new.kmooc.kr</a><br>
                 기존 플랫폼에서 수강한 이력은 신규 플랫폼에서 확인 가능하며, 별도의 회원가입 절차 없이 기존 계정 그대로 이어서 수강이 가능합니다.<br><br>
                 학습 데이터 이관 기준은 아래와 같습니다.<br>
                 - 퀴즈(중간고사, 기말고사 포함): 성적(취득점수)만 이관<br>
@@ -295,7 +295,7 @@ if course.enrollment_start:
             <div class="popup-contents">
                 <div style="width:100%;word-break: keep-all;">
                 해당 강좌는 신규 플랫폼에서 진행하는 강좌입니다.<br>
-                *접속주소: <a href="https://new.kmooc.kr">https://new.kmooc.kr</a><br><br>
+                - 접속주소: <a href="https://new.kmooc.kr">https://new.kmooc.kr</a><br><br>
                 별도의 회원가입 없이 기존 K-MOOC 계정정보 그대로 로그인이 가능하며,<br>
                 수강신청하신 내용은 &lt 내강의실 &gt에서 확인 가능합니다.<br>
                 신규 플랫폼에서 수강 부탁드립니다.<br><br>
@@ -347,7 +347,7 @@ var infopopstatus2 = "${infopopcheck2}";
 var infopopstatus3 = "${infopopcheck3}";
 var issuperuser = "${user.is_superuser}"
 $(window).ready(function(){
-    // if (issuperuser != "True") {
+    if (issuperuser != "True") {
         if (infopopstatus == "true") {
             var today = new Date();
             var year = today.getFullYear();
@@ -393,7 +393,7 @@ $(window).ready(function(){
                 window.history.back();
             });
         }
-    // }
+    }
 });
 
 function setCookie(name, value, expiredays) {
