@@ -448,6 +448,7 @@ $(document).ready(function () {
 
     if ($("#case3url").val()) {
         $(".new-btns").show();
+        $(".btnstudy").hide();
         $(".old-btns").hide();
         var checknewkmoocid = $(".course_new_id").val();
         $(".viewoldkmooc").attr("data-href","https://new.kmooc.kr/view/course/detail/"+ checknewkmoocid);
@@ -1326,7 +1327,7 @@ $(document).ready(function(){
                             </div>
                             -->
                             <!--학습하기 버튼-->
-                            <div class="box2 " style="float: left; width: 50%;" id="enroll_0" data-check="1">
+                            <div class="box2 btnstudy" style="float: left; width: 50%;" id="enroll_0" data-check="1">
                                 <button class="type-btn" onClick="location.href='video'" style="width: 90%; height: 46px; color: white; box-shadow: inset 0 1px 0 0 white; background-image: linear-gradient(to bottom,lightgray 0%,gray 50%,gray 50%,#999 100%);">
                                     ${_("Course View")}
                                 </button>
