@@ -175,6 +175,9 @@ if course.enrollment_start:
 
 
 infopopstatus2 = "true"
+
+if str(newkoomcmovechek) == "true":
+    infopopstatus = "true"
 %>
 <style>
 .popup-area {
@@ -352,9 +355,6 @@ var infopopstatus2 = "${infopopcheck2}";
 var infopopstatus3 = "${infopopcheck3}";
 var issuperuser = "${user.is_superuser}"
 $(window).ready(function(){
-    if (infopopstatus == "false") {
-        infopopstatus = "${newkoomcmovechek}";
-    }
     if (issuperuser != "True") {
         if (infopopstatus == "true") {
             var today = new Date();
