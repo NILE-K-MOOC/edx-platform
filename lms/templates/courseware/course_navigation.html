@@ -352,6 +352,9 @@ var infopopstatus2 = "${infopopcheck2}";
 var infopopstatus3 = "${infopopcheck3}";
 var issuperuser = "${user.is_superuser}"
 $(window).ready(function(){
+    if (infopopstatus == "false") {
+        infopopstatus = "${newkoomcmovechek}";
+    }
     if (issuperuser != "True") {
         if (infopopstatus == "true") {
             var today = new Date();
