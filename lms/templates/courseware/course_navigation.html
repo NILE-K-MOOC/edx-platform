@@ -20,6 +20,7 @@ searchcourseid = course.id
 infopopcheck = "false"
 infopopcheck2 = "false"
 infopopcheck3 = "false"
+infopopcheck4 = "false"
 if str(searchcourseid) == str("course-v1:SNUk+CORE_SNU041_040k+2023_T2"):
     infopopcheck = "true"
 elif str(searchcourseid) == str("course-v1:SNUk+CORE_SNU043_076k+2023_T2"):
@@ -160,24 +161,28 @@ elif str(searchcourseid) == str("course-v1:MA_NSU+MATCHUP_NSU01+2023_01_2"):
     infopopcheck2 = "true"
 elif str(searchcourseid) == str("course-v1:MA_NSU+MATCHUP_NSU02+2023_02_2"):
     infopopcheck2 = "true"
+elif str(searchcourseid) == str("course-v1:AYUk+AYUk_SP+2023_T2"):
+    infopopcheck4 = "true"
+elif str(searchcourseid) == str("course-v1:BUFSk+BUFS_ICFL13+2023_T1"):
+    infopopcheck4 = "true"
 
 
+if infopopcheck == "false" and infopopcheck2 == "false" and infopopcheck3 == "false" and infopopcheck4 == "false":
+    if course.start:
+        import string
+        timedata = string.split(str(course.start)," ")
+        timedatatmp = timedata[0].replace("-","")
+        if timedatatmp >= "20231012":
+            print "course.start=====>",timedatatmp
+            infopopcheck2 = "true"
 
-if course.start:
-    import string
-    timedata = string.split(str(course.start)," ")
-    timedatatmp = timedata[0].replace("-","")
-    if timedatatmp >= "20231012":
-        print "course.start=====>",timedatatmp
-        infopopcheck2 = "true"
-
-if course.enrollment_start:
-    import string
-    timedata = string.split(str(course.enrollment_start)," ")
-    timedatatmp = timedata[0].replace("-","")
-    if timedatatmp >= "20231012":
-        print "course.enrollment_start=====>",timedatatmp
-        infopopcheck2 = "true"
+    if course.enrollment_start:
+        import string
+        timedata = string.split(str(course.enrollment_start)," ")
+        timedatatmp = timedata[0].replace("-","")
+        if timedatatmp >= "20231012":
+            print "course.enrollment_start=====>",timedatatmp
+            infopopcheck2 = "true"
 
 
 %>
@@ -351,10 +356,42 @@ if course.enrollment_start:
         </div>
     </div>
 </div>
+<div id="pop_close_5" class="layerPopupArea" style="display:none;">
+    <div id="5" class="popup-area" style="width: 550px;">
+        <div class="popup-main">
+            <div class="popup-header">
+                <h4 class="popup-title"><b>강좌 운영 플랫폼 이용 안내</b></h4>
+            </div>
+            <div class="popup-contents">
+                <div style="width:100%;word-break: keep-all;">
+                해당 강좌는 10월 31일(화) 부터 신규플랫폼에서 정상 수강이 가능합니다.<br>
+                10월 30일(월) 17:00 까지 기존 플랫폼에서 학습이 가능합니다.<br><br>
+                데이터 이관 진행 중에는 학습이 불가한 점 양해 부탁드립니다.<br>
+                - 신규 플랫폼 주소: <a href="https://new.kmooc.kr">https://new.kmooc.kr</a><br><br>
+                지금까지 기존 플랫폼에서 수강한 이력은 이관되어 반영될 예정이며<br>
+                별도의 회원가입이나 수강신청 절차 없이 신규 플랫폼에서 이어서 학습이 가능합니다.<br><br>
+                학습 데이터 이관 기준은 아래와 같습니다.<br>
+                - 퀴즈(중간고사, 기말고사 포함): 성적(취득점수)만 이관<br>
+                - 과제 및 토론: 성적(취득점수)만 이관<br><br>
+                시스템 및 데이터 검증과 관련한 추가적인 문의사항은<br>
+                국가평생교육진흥원 평생학습시스템구축실로 부탁드립니다.<br><br>
+                *문의: 평생학습시스템구축실<br>(d_kmooc@nile.or.kr ☎02-3780-9771,9772,9758)<br>
+                </div>
+            </div>
+
+            <div class="popup-footer" style="background: black; text-align: right;">
+                <span class="popup-footer-day popup-footer-close" style="padding: 0 10px; vertical-align: middle;">
+                    <a href="#none" title="닫기" class="infopopclose5" style="color:#FFFFFF"><b>[ 확인 ]</b></a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
 var infopopstatus = "${infopopcheck}";
 var infopopstatus2 = "${infopopcheck2}";
 var infopopstatus3 = "${infopopcheck3}";
+var infopopstatus4 = "${infopopcheck4}";
 var issuperuser = "${user.is_superuser}"
 $(window).ready(function(){
     if (issuperuser != "True") {
@@ -401,6 +438,13 @@ $(window).ready(function(){
             $("#pop_close_4").show();
             $(".infopopclose4").on("click", function () {
                 window.history.back();
+            });
+        } else if (infopopstatus4 == "true") {
+            $(".navbar-expand").html("");
+            $(".page-content-container").html("<div style='height:300px'>&nbsp;</div>");
+            $("#pop_close_5").show();
+            $(".infopopclose5").on("click", function () {
+                $("#pop_close_5").hide();
             });
         }
     }
