@@ -440,6 +440,8 @@ $(window).ready(function(){
                 window.history.back();
             });
         } else if (infopopstatus4 == "true") {
+            $(".navbar-expand").html("");
+            $(".page-content-container").html("<div style='height:300px'>&nbsp;</div>");
             $("#pop_close_5").show();
             $(".infopopclose5").on("click", function () {
                 $("#pop_close_5").hide();
@@ -457,7 +459,7 @@ function setCookie(name, value, expiredays) {
     document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todayDate.toGMTString() + ";";
 }
 </script>
-        
+
 % if include_special_exams is not UNDEFINED and include_special_exams:
     <%static:js group='proctoring'/>
     % for template_name in ["proctored-exam-status"]:
