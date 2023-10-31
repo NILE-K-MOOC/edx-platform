@@ -13,9 +13,11 @@ from openedx.core.djangolib.js_utils import dump_js_escaped_json, js_escaped_str
 <%static:require_module_async module_name="js/certificates/factories/certificate_invalidation_factory" class_name="CertificateInvalidationFactory">
     CertificateInvalidationFactory('${certificate_invalidations | n, dump_js_escaped_json}', '${certificate_invalidation_view_url | n, js_escaped_string}');
 </%static:require_module_async>
+<%
+print "is_superuser=====>",user.is_superuser
+%>
 
 <div class="certificates-wrapper">
-
     <div class="example-certificates">
         % if not section_data['html_cert_enabled']:
         <h3 class="hd hd-3">${_('Example Certificates')}</h3>
@@ -198,9 +200,9 @@ from openedx.core.djangolib.js_utils import dump_js_escaped_json, js_escaped_str
         <div class="no-pending-tasks-message"></div>
     </div>
 
-    <hr class="section-divider" />
+    <hr class="section-divider" style="display:none"/>
 
-    <div class="certificate-invalidation-container">
+    <div class="certificate-invalidation-container" style="display:none">
         <h3 class="hd hd-3"> ${_("Invalidate Certificates")} </h3>
         <div id="certificate-invalidation">
             <div class="ui-loading">
