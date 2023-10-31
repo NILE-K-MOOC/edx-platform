@@ -1,27 +1,6 @@
 <div class="js-form-feedback" aria-live="assertive" tabindex="-1">
 </div>
 
-
-<% //임시 안내 부분%>
-<style>
-.new-container,.new-nav-con,.quick-menu {display:none;}
-</style>
-<img class="new-logo-img" src="/static/images/common/logo_top.png" alt="K-MOOC 홈 페이지"><br><br>
-<h4 style="margin-bottom: 33px;text-align: center;font-size: 28px;color: #0036ce;font-weight: bold;font-family: 'Noto Sans KR',sans-serif;">
-    서비스 점검 중입니다.
-</h4>
-<p style="text-align: center;color: #000;line-height: 28px;font-size: 18px;word-break: keep-all;font-weight: bold;">
-    예상 점검 시간 : 2023.11.1(수) 07:00 ~ 09:00
-</p>
-<span class="tip tip-input" id="login-email-desc" style="display:block;width:100%;text-align:center;font-size: 14px;">
-    K-MOOC학점은행제 학습자는 아래 로그인을 통해 접속하시기 바랍니다.
-</span>
-<hr>
-<div style="text-align:center;display:flex;justify-content:center;">
-<img src="https://cb.kmooc.kr/customs/main/header_logo.png?v=1" alt="K-MOOC학점은행제" style="width:120px;margin-top:20px;margin-bottom:20px;margin-right:10px;">
-<% //임시 안내 부분%>
-
-
 <% // Hide SSO related messages if we are not in the SSO pipeline.  %>
 <% if (context.enterpriseName && context.currentProvider) { %>
     <% if (context.pipelineUserDetails && context.pipelineUserDetails.email) { %>
@@ -40,9 +19,6 @@
 <% } else { %>
 
     <h2 style="text-align: center;" title="test"><%- gettext("Sign In") %></h2>
-<% //임시 안내 부분%>
-</div>
-<% //임시 안내 부분%>
 <% } %>
 
 <% if ( $('#multisite_mode').text() == '1' ) { %>
