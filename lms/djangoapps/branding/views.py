@@ -553,6 +553,9 @@ def kmoocmempassch(request):
 def blankpage(request):
     return render_to_response("blanksync.html")
 
+def privacy(request):
+    return render_to_response("privacy.html")
+
 @csrf_exempt
 def sericeo(request):
     return render_to_response("sericeo.html")
