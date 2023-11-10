@@ -28,9 +28,27 @@ elif cert_status['status'] == 'notpassing':
     status_css_class = 'course-status-certnotavailable'
 else:
     status_css_class = 'course-status-processing'
+
+print "cert_status===>",cert_status['status']
 %>
 
 % if cert_status['status'] != 'processing':
+
+<%
+    import requests
+
+    nowcourseid = course_overview.id
+    url="https://lms.kmooc.kr/local/coursemos/certificateNewSystem.php"
+    headers = {'Content-Type': 'application/json; charset=utf-8'}
+    data = {'kmoocedxid':str(nowcourseid)}
+    response=requests.post(url, headers=deaders, data=data)
+    newkmoocdata = ""
+    if response:
+       newkmoocdata = response.json().get("data")
+    else:
+       newkmoocdata = ""
+%>
+
   % if cert_status['status'] == 'certificate_earned_but_not_available':
     <div class="message message-status ${status_css_class} is-shown">
       <p class="message-copy">
@@ -85,11 +103,18 @@ else:
               <!-- 여기가 이수증 보기 버튼 입니다..jhy -->
               <li class="action action-certificate">
                 <!-- 기존<a class="btn" href="${cert_status['cert_web_view_url']}" target="_blank"-->
+
+                % if str(newkmoocdata) == '0':
                 <a class="btn" href="/course_satisfaction_survey?cert_id=${cert_status['cert_web_view_url']}&course_id=${course_overview.id}" target="_blank"
                    title="${_('This link will open the certificate web view')}">
                   이수증 보기
                   ##${_("View {cert_name_short}").format(cert_name_short=cert_name_short,)}
                 </a>
+                % else:
+                <a class="btn" href="javascript:alert('신 KMOOC에서 이수증을 발급받으세요')" title="이수증 받으러 가기">
+                    이수증 보기
+                </a>
+                % endif
               </li>
               <!-- 여기가 이수증 보기 버튼 입니다..jhy -->
             % elif cert_status['status'] == 'downloadable' and enrollment.mode in CourseMode.NON_VERIFIED_MODES:

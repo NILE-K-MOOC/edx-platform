@@ -14,10 +14,26 @@ from openedx.core.djangolib.js_utils import dump_js_escaped_json, js_escaped_str
     CertificateInvalidationFactory('${certificate_invalidations | n, dump_js_escaped_json}', '${certificate_invalidation_view_url | n, js_escaped_string}');
 </%static:require_module_async>
 <%
-print "is_superuser=====>",user.is_superuser
+import requests
+
+nowcourseid = course.id
+url="https://lms.kmooc.kr/local/coursemos/certificateNewSystem.php"
+headers = {'Content-Type': 'application/json; charset=utf-8'}
+data = {'kmoocedxid':str(nowcourseid)}
+response=requests.post(url, headers=deaders, data=data)
+newkmoocdata = ""
+if response:
+   newkmoocdata = response.json().get("data")
+else:
+   newkmoocdata = ""
+
+if user.is_superuser == True:
+    newkmoocdata = 1
+endif
 %>
 
 <div class="certificates-wrapper">
+% if str(newkmoocdata) == '0':
     <div class="example-certificates">
         % if not section_data['html_cert_enabled']:
         <h3 class="hd hd-3">${_('Example Certificates')}</h3>
@@ -210,5 +226,15 @@ print "is_superuser=====>",user.is_superuser
             </div>
         </div>
     </div>
-
+% else:
+    <div class="certificate-exception-container">
+        <h4 class="hd hd-4"> 이수증 발급 안내</h4>
+        <p class="under-heading info">
+            국가평생교육진흥원 평생학습시스템구축실에서는
+            K-MOOC 플랫폼을 2023.8.21. 자로 병행 운영 중입니다.<br><br>
+            '${course.display_name}'강좌의 이수증은 신규 플랫폼에서 발급되어집니다.<br><br>
+            ※ 참여기관에서는 신규 플랫폼(https://new.kmooc.kr)에서 이수증 발급을 진행하시기 바랍니다.
+        </p>
+    </div>
+% endif
 </div>
