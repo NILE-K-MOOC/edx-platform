@@ -17,6 +17,7 @@ from openedx.core.djangolib.js_utils import dump_js_escaped_json, js_escaped_str
 import requests
 
 nowcourseid = course.id
+
 url="https://lms.kmooc.kr/local/coursemos/certificateNewSystem.php"
 headers = {'Content-Type': 'application/json; charset=utf-8'}
 data = {'kmoocedxid':str(nowcourseid)}
@@ -27,12 +28,11 @@ if response:
 else:
    newkmoocdata = ""
 
-#if user.is_superuser == True:
-#    newkmoocdata = 1
-#endif
+if user.is_superuser == True:
+    newkmoocdata = 0
+endif
 
 
-newkmoocdata = 0
 %>
 
 <div class="certificates-wrapper">
