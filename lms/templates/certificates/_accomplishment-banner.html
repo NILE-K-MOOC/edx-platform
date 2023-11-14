@@ -17,7 +17,7 @@ from django.template.defaultfilters import escapejs
             $("div.content>h5:eq(0)").text("발급번호 : ********************************"); // 발급번호 내용 삭제
             setTimeout(function(){
                 if (confirm("해당 강좌는 본인인증 이후 출력이 가능합니다.\n본인인증을 진행하시겠습니까?")) {
-                    $("#action-check-view").click();
+                    $("#action-check-view").trigger("click");
                 } else {
                     self.close();
                 }
