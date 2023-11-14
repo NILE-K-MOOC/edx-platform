@@ -18,7 +18,6 @@ from django.template.defaultfilters import escapejs
             setTimeout(function(){
                 if (confirm("해당 강좌는 본인인증 이후 출력이 가능합니다.\n본인인증을 진행하시겠습니까?")) {
                     $("#action-check-view").click();
-                    self.close();
                 } else {
                     self.close();
                 }
