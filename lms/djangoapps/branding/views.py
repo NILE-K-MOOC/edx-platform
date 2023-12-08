@@ -1828,8 +1828,8 @@ def vodfile_move_one(request):
         m_port = settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port')
         client = MongoClient(m_host, m_port)
         db = client.edxapp
-        #mdlcon = mdb.connect('192.168.1.245','openlms','dhvms@23gkrTmq','openlms',charset='utf8')
-        mdlcon = mdb.connect('118.67.152.82', 'root', 'anzmRoqkf@2022', 'edxapp', charset='utf8')
+        mdlcon = mdb.connect('192.168.1.245','openlms','dhvms@23gkrTmq','openlms',charset='utf8')
+        #mdlcon = mdb.connect('118.67.152.82', 'root', 'anzmRoqkf@2022', 'edxapp', charset='utf8')
         mdlcur = mdlcon.cursor()
         for cblock in coursetmp:
             chapter_dict = {}
