@@ -1946,9 +1946,9 @@ def vodfile_move_one(request):
             except Exception as e:
                 pass
 
-    except Exception as e:
+    except Exception as err:
+        log.info('vodfile err [%s]' % traceback.format_exc(err))
         print('예외가 발생했습니다.', e)
-        chapter_list.append(e.message)
         pass
 
     return JsonResponse(chapter_list)
