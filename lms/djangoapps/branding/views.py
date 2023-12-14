@@ -1888,6 +1888,8 @@ def vodfile_move_one(request):
                                                         cur_video.execute(query)
                                                         video_rows = cur_video.fetchall()
                                                         transcripts_list = video_rows
+                                                if edx_video_id is None:
+                                                    log.info("edx_video_id NONE ======> %s" % chapter_dict[act_id[-1]].get('fields'))
                                             except:
                                                 pass
 
