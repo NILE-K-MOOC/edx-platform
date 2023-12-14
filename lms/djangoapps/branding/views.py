@@ -1879,6 +1879,7 @@ def vodfile_move_one(request):
                                             edx_video_id = ''
                                             transcripts_list = []
                                             try:  # 자막 유무 mysql 에서 조회
+                                                log.info("chapter_dict[act_id[-1]].get('fields')======> %s" % chapter_dict[act_id[-1]].get('fields').get('edx_video_id'))
                                                 edx_video_id = chapter_dict[act_id[-1]].get('fields').get('edx_video_id')
                                                 if len(edx_video_id) > 0:
                                                     with connections['default'].cursor() as cur_video:
