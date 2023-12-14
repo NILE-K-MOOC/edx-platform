@@ -1837,6 +1837,7 @@ def vodfile_move_one(request):
             # course_id = request.GET.get("course_id")
             # course_id = "course-v1:SunMoonK+SMKMOOC-05+2023_T2"
             course_id = cblock
+            log.info("course_id ======> %s" % course_id)
             print "course_id=====>", course_id
             try:
                 s_course_id = str(course_id).split('+')
@@ -1925,17 +1926,19 @@ def vodfile_move_one(request):
                                                     language_code = transcript
                                                     # transcript_file = transcripts_script_list[num]
                                                     transcript_file = transcripts_data_list[num]
+                                                    log.info('transcript_file===> %s' % transcript_file)
                                                     edx_video_id = chapter_dict[act_id[-1]].get('fields').get('edx_video_id')
                                                     block_id = chapter_dict[act_id[-1]].get('block_id')
                                                     # mdl_import_vod_meta
                                                     query = """
-                                                        SELECT *
+                                                        SELECT count(*)
                                                           FROM mdl_import_vod_meta
                                                          WHERE url = '{0}';
                                                     """.format(video_url)
                                                     mdlcur.execute(query)
-                                                    video_rows = cur_video.fetchall()
-                                                    if (video_rows < 1):    # 정보가 없다면
+                                                    check_index = mdlcur.fetchall()
+                                                    log.info('check_index111111[0][0]====> %s' % check_index[0][0])
+                                                    if (check_index[0][0] == 0):    # 정보가 없다면
                                                         #mdl_import_vod_meta_`2
                                                         query = """
                                                             SELECT count(*)
@@ -1943,10 +1946,11 @@ def vodfile_move_one(request):
                                                              WHERE url = '{0}';
                                                         """.format(video_url)
                                                         mdlcur.execute(query)
-                                                        video_rows = cur_video.fetchall()
-                                                        if (video_rows < 1):    # 정보가 없다면
-                                                        #path_to_file = "/edx/var/edxapp/media/video-transcripts/{0}".format(transcript_file)
-                                                        #log.info('path_to_file===> %s' % path_to_file)
+                                                        check_index = mdlcur.fetchall()
+                                                        log.info('check_index222222[0][0]====> %s' % check_index[0][0])
+                                                        if (check_index[0][0] == 0):    # 정보가 없다면
+                                                        # path_to_file = "/edx/var/edxapp/media/video-transcripts/{0}".format(transcript_file)
+                                                        # log.info('path_to_file===> %s' % path_to_file)
                                                         # if exists(path_to_file):
                                                         #     chapter_list.append([chapter_name, chapter_sub_name, language_code,transcript_file, edx_video_id, video_url, block_id])
                                                         #     transcriptline = ""
