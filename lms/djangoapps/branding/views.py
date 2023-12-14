@@ -1828,8 +1828,9 @@ def vodfile_move_one(request):
         m_port = settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port')
         client = MongoClient(m_host, m_port)
         db = client.edxapp
-        mdlcon = mdb.connect('192.168.1.245','openlms','dhvms@23gkrTmq','openlms',charset='utf8')
-        #mdlcon = mdb.connect('118.67.152.82', 'root', 'anzmRoqkf@2022', 'edxapp', charset='utf8')
+        #mdlcon = mdb.connect('192.168.1.245','openlms','dhvms@23gkrTmq','openlms',charset='utf8')
+        mdlcon = mdb.connect('118.67.152.82', 'root', 'anzmRoqkf@2022', 'edxapp', charset='utf8')
+
         mdlcur = mdlcon.cursor()
         for cblock in coursetmp:
             chapter_dict = {}
@@ -1853,7 +1854,7 @@ def vodfile_move_one(request):
                 print "structure_id====>",structure_id
                 if structure_id is not None:
                     blocks_list = db.modulestore.structures.find_one({'_id': structure_id}).get('blocks')
-
+                    transcripts_data_list = []
                     for block in blocks_list:
                         chapter_dict[block.get('block_id')] = block
 
@@ -1875,6 +1876,35 @@ def vodfile_move_one(request):
 
                                         activity_type = chapter_dict[act_id[-1]].get('block_type')
                                         if activity_type == 'video':
+                                            edx_video_id = ''
+                                            transcripts_list = []
+                                            try:  # 자막 유무 mysql 에서 조회
+                                                edx_video_id = chapter_dict[act_id[-1]].get('fields').get('edx_video_id')
+                                                if len(edx_video_id) > 0:
+                                                    with connections['default'].cursor() as cur_video:
+                                                        query = "SELECT b.language_code FROM  edxval_video AS a LEFT JOIN edxval_videotranscript AS b ON  a.id = b.video_id WHERE a.edx_video_id like '% {} %'".format(edx_video_id)
+                                                        cur_video.execute(query)
+                                                        video_rows = cur_video.fetchall()
+                                                        transcripts_list = video_rows
+                                            except:
+                                                pass
+
+                                            try:
+                                                if len(transcripts_list) > 0:
+                                                    for transcripts in transcripts_list:
+                                                        if transcripts[0] not in transcripts_data_list:
+                                                            log.info('transcriptsmy ===> %s' % transcripts[0])
+                                                            print("transcriptsmy ===> ", transcripts[0])
+                                                            transcripts_data_list.append(transcripts[0])
+                                                else:
+                                                    for transcripts in chapter_dict[act_id[-1]].get('fields').get('transcripts').values():
+                                                        if transcripts not in transcripts_data_list:
+                                                            log.info('transcriptsmongo===> %s' % transcripts)
+                                                            transcripts_data_list.append(transcripts)
+                                            except:
+                                                pass
+
+                                            print("chapter_dict[act_id[-1]].get('fields')=====>",chapter_dict[act_id[-1]].get('fields'))
                                             chapter_name = block.get('fields').get('display_name')
                                             chapter_sub_name = chapter_dict[seq_id[-1]].get('fields').get('display_name')
                                             activity_name = chapter_dict[ver_id[-1]].get('fields').get('display_name')
@@ -1885,15 +1915,13 @@ def vodfile_move_one(request):
                                             try:  # 자막 데이터 구성
                                                 transcripts_list = chapter_dict[act_id[-1]].get('fields').get('transcripts').keys()
                                                 transcripts_script_list = chapter_dict[act_id[-1]].get('fields').get('transcripts').values()
-                                                print "transcripts_list====>",transcripts_list
-                                                log.info('transcripts_list===> %s' % transcripts_list)
                                                 num = 0
                                                 for transcript in transcripts_list:
                                                     language_code = transcript
-                                                    transcript_file = transcripts_script_list[num]
+                                                    # transcript_file = transcripts_script_list[num]
+                                                    transcript_file = transcripts_data_list[num]
                                                     edx_video_id = chapter_dict[act_id[-1]].get('fields').get('edx_video_id')
                                                     block_id = chapter_dict[act_id[-1]].get('block_id')
-
                                                     # mdl_import_vod_meta
                                                     # query = """
                                                     #     SELECT count(*)
@@ -1914,8 +1942,8 @@ def vodfile_move_one(request):
                                                     # check_index = mdlcur.fetchall()
                                                     # if (check_index[0][0] == 0):    # 정보가 없다면
                                                     path_to_file = "/edx/var/edxapp/media/video-transcripts/{0}".format(transcript_file)
-                                                    log.info('path_to_file===> %s' % path_to_file)
                                                     if exists(path_to_file):
+                                                        log.info('path_to_file===> %s' % path_to_file)
                                                         chapter_list.append([chapter_name, chapter_sub_name, language_code,transcript_file, edx_video_id, video_url, block_id])
                                                         transcriptline = ""
                                                         f = open(path_to_file, 'r')
@@ -1927,7 +1955,7 @@ def vodfile_move_one(request):
                                                         f.close()
                                                         query = "INSERT INTO mdl_import_vod_meta_2(url,edx_video_id) VALUES ('{0}','{1}');".format(video_url,edx_video_id)
                                                         print "query1==>",query
-                                                        log.info('query1===> %s' % query1)
+                                                        log.info('query1===> %s' % query)
                                                         mdlcur.execute(query)
                                                         meta_id = mdlcur.lastrowid
                                                         mdlcur.execute('commit')
