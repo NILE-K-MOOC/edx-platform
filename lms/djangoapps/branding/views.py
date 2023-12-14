@@ -1930,21 +1930,15 @@ def vodfile_move_one(request):
                                                     edx_video_id = chapter_dict[act_id[-1]].get('fields').get('edx_video_id')
                                                     block_id = chapter_dict[act_id[-1]].get('block_id')
                                                     # mdl_import_vod_meta
-                                                    query = """
-                                                        SELECT count(*)
-                                                          FROM mdl_import_vod_meta
-                                                         WHERE url = '{0}';
-                                                    """.format(video_url)
+                                                    print("language_code======>",str(language_code))
+                                                    query = "SELECT count(*) FROM mdl_import_vod_meta mivm JOIN mdl_import_script_meta mism WHERE mivm.url = '{0}' and mism.lang = '{1}';".format(video_url, str(language_code))
+                                                    log.info('check_index111111 query ====> %s' % query)
                                                     mdlcur.execute(query)
                                                     check_index = mdlcur.fetchall()
                                                     log.info('check_index111111[0][0]====> %s' % check_index[0][0])
                                                     if (check_index[0][0] == 0):    # 정보가 없다면
                                                         #mdl_import_vod_meta_`2
-                                                        query = """
-                                                            SELECT count(*)
-                                                              FROM mdl_import_vod_meta_2
-                                                             WHERE url = '{0}';
-                                                        """.format(video_url)
+                                                        query = "SELECT count(*) FROM mdl_import_vod_meta_2 mivm JOIN mdl_import_script_meta mism WHERE mivm.url = '{0}' and mism.lang = '{1}';".format(video_url, str(language_code))
                                                         mdlcur.execute(query)
                                                         check_index = mdlcur.fetchall()
                                                         log.info('check_index222222[0][0]====> %s' % check_index[0][0])
@@ -1961,6 +1955,8 @@ def vodfile_move_one(request):
                                                         #         transcriptline = transcriptline + line
                                                         #
                                                         #     f.close()
+                                                            transcriptline = ""
+
                                                             query = "INSERT INTO mdl_import_vod_meta_2(url,edx_video_id) VALUES ('{0}','{1}');".format(video_url,edx_video_id)
                                                             print "query1==>",query
                                                             log.info('query1===> %s' % query)
