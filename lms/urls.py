@@ -95,6 +95,7 @@ urlpatterns = [
     url(r'^kmoocmemactive$', branding_views.kmoocmemactive, name='kmoocmemactive'),
     url(r'^kmoocmempassch$', branding_views.kmoocmempassch, name='kmoocmempassch'),
     url(r'^vodfilemoveone$', branding_views.vodfile_move_one, name='vodfilemoveone'),
+    url(r'^vodfilemoveonenofile$', branding_views.vodfile_move_one_nofile, name='vodfilemoveonenofile'),
     url(r'^privacy$', branding_views.privacy, name='privacy'),
     url(r'^invitation-banner$', branding_views.invitation_banner, name='invitation_banner'),
     url(r'^invitation-banner_old1$', branding_views.invitation_banner_old1, name='invitation_banner_old1'),

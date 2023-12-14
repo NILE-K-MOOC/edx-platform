@@ -1886,6 +1886,7 @@ def vodfile_move_one(request):
                                                 transcripts_list = chapter_dict[act_id[-1]].get('fields').get('transcripts').keys()
                                                 transcripts_script_list = chapter_dict[act_id[-1]].get('fields').get('transcripts').values()
                                                 print "transcripts_list====>",transcripts_list
+                                                log.info('transcripts_list===> %s' % transcripts_list)
                                                 num = 0
                                                 for transcript in transcripts_list:
                                                     language_code = transcript
@@ -1913,6 +1914,7 @@ def vodfile_move_one(request):
                                                     # check_index = mdlcur.fetchall()
                                                     # if (check_index[0][0] == 0):    # 정보가 없다면
                                                     path_to_file = "/edx/var/edxapp/media/video-transcripts/{0}".format(transcript_file)
+                                                    log.info('path_to_file===> %s' % path_to_file)
                                                     if exists(path_to_file):
                                                         chapter_list.append([chapter_name, chapter_sub_name, language_code,transcript_file, edx_video_id, video_url, block_id])
                                                         transcriptline = ""
@@ -1925,19 +1927,23 @@ def vodfile_move_one(request):
                                                         f.close()
                                                         query = "INSERT INTO mdl_import_vod_meta_2(url,edx_video_id) VALUES ('{0}','{1}');".format(video_url,edx_video_id)
                                                         print "query1==>",query
+                                                        log.info('query1===> %s' % query1)
                                                         mdlcur.execute(query)
                                                         meta_id = mdlcur.lastrowid
                                                         mdlcur.execute('commit')
                                                         print "meta_id====>",meta_id
+                                                        log.info('meta_id===> %s' % meta_id)
 
                                                         query = "INSERT INTO mdl_import_vod_meta_block_2(meta_id,block_id,block_name) VALUES ('{0}','{1}','{2}');".format(meta_id,block_id,'Video')
                                                         print "query2==>",query
+                                                        log.info('query2===> %s' % query)
                                                         mdlcur.execute(query)
                                                         mdlcur.execute('commit')
 
                                                         uploaddate  = math.trunc(time.time())
                                                         query = "INSERT INTO mdl_import_script_meta_2(meta_id,lang,script,content,uploaddate) VALUES ('{0}','{1}','{2}','{3}','{4}');".format(meta_id,language_code,transcript_file,transcriptline,uploaddate)
                                                         # print "query3===>",query
+                                                        log.info('query3===> %s' % query)
                                                         mdlcur.execute(query)
                                                         mdlcur.execute('commit')
 
@@ -1953,3 +1959,484 @@ def vodfile_move_one(request):
         pass
 
     return JsonResponse(chapter_list)
+
+
+
+
+
+@login_required
+@ensure_csrf_cookie
+def vodfile_move_one_nofile(request):
+    from os.path import exists
+    import math
+    import MySQLdb as mdb
+    import time
+    coursetmp = []
+    if "courseid" in request.GET:
+        courseid = request.GET.get("courseid","")
+        courseidtmp = courseid.replace(" ","+")
+        print "courseid===>",courseidtmp
+        coursetmp.append(courseidtmp)
+        print "coursetmp===>",coursetmp
+    else:
+        coursetmp.append("course-v1:EwhaK+EW36387K+2015-04")
+        coursetmp.append("course-v1:EwhaK+EW10771K+2015-03")
+        coursetmp.append("course-v1:EwhaK+EW10164K+2015-01")
+        coursetmp.append("course-v1:SKKUk+SKKU_BUS3033.01K+2016_SKKU01")
+        coursetmp.append("course-v1:SMUCk+SMUC01k+2017_T1")
+        coursetmp.append("course-v1:SMUCk+SMUC02k+2017_T2")
+        coursetmp.append("course-v1:UOUk+UOU101.02k+U101B.1")
+        coursetmp.append("course-v1:SKKUk+SKKU_GEDH042.01K+2016_SKKU04")
+        coursetmp.append("course-v1:KonYangK+ACE.KY002+KY2016A02")
+        coursetmp.append("course-v1:KNUk+CORE.KNUk01+2016_S1")
+        coursetmp.append("course-v1:SKKUk+SKKU_GEDH043.O1K+2017_T1_0")
+        coursetmp.append("course-v1:EwhaK+EW22126K+2017_F11")
+        coursetmp.append("course-v1:DGUk+DGUk_004k+DGU_004k_2017_9_4")
+        coursetmp.append("course-v1:DGUk+DGUk_005k+DGU_005k_2017_9_5")
+        coursetmp.append("course-v1:KHUk+KH304+2017_KH304")
+        coursetmp.append("course-v1:KHUk+FD_KH305+2017_KH305")
+        coursetmp.append("course-v1:KHUk+FD_KH306+2017_KH306")
+        coursetmp.append("course-v1:SKKUk+FD_SKKU_GEDH061.O1K+2017_T1_0")
+        coursetmp.append("course-v1:SKKUk+FD_SKKU_GEDH062_O1K+2017_T1_0")
+        coursetmp.append("course-v1:PTUk+SF_PMOOC01k+2017_T2")
+        coursetmp.append("course-v1:KonkukK+PRIME_konkuk_P001+2017_1")
+        coursetmp.append("course-v1:DonggukK+ACE_FA_DGU02k+2017_T1")
+        coursetmp.append("course-v1:EwhaK+CORE_EW16001C+2017_F09")
+        coursetmp.append("course-v1:DGUk+DGU_006k+DGU_006k_2018_9_6")
+        coursetmp.append("course-v1:DGUk+DGU-007k+DGU-007k_2018_9_7")
+        coursetmp.append("course-v1:DGUk+DGU_008k+DGU_008k_2018_9_8")
+        coursetmp.append("course-v1:DGUk+DGU_009k+DGU_009k_2018_9_9")
+        coursetmp.append("course-v1:SMUk+SMU2018_02+2018_2_T2")
+        coursetmp.append("course-v1:SOGANGk+SOGANG06K+2018_T3")
+        coursetmp.append("course-v1:SoongsilUnivK+soongsilmooc05K+2018_2")
+        coursetmp.append("course-v1:HYUk+CORE_HYUKMOOC2018-2k+2018_C2")
+        coursetmp.append("course-v1:DKUK+MOOC_DKUK0006+2019_T2")
+        coursetmp.append("course-v1:DKUK+MOOC_DKUK0008+2019_T2")
+        coursetmp.append("course-v1:SoongsilUnivK+soongsilmooc09K+2019_T2")
+        coursetmp.append("course-v1:SoongsilUnivK+soongsilmooc10K+2019_T2")
+        coursetmp.append("course-v1:SoongsilUnivK+soongsilmooc11K+2019_T2")
+        coursetmp.append("course-v1:DongdukK+DDU04+2019_T2")
+        coursetmp.append("course-v1:SSUk+SSMOOC14K+2019_T2")
+        coursetmp.append("course-v1:INU+INU004+2019_L2")
+        coursetmp.append("course-v1:AYUk+AYUk_EM_01+2019_T2")
+        coursetmp.append("course-v1:CNUk+MOE_CNU10+2019_2_10")
+        coursetmp.append("course-v1:DKUK+MOOC_DKUK0017+2019_T2")
+        coursetmp.append("course-v1:HYUk+IV_HYUKMOOC2019-1k+2019_C1")
+        coursetmp.append("course-v1:XuetangX+XuetangX_01+2020_T1")
+        coursetmp.append("course-v1:XuetangX+XuetangX_02+2020_T1")
+        coursetmp.append("course-v1:XuetangX+XuetangX_03+2020_T1")
+        coursetmp.append("course-v1:KSUk+KSUk_10+2020_T2")
+        coursetmp.append("course-v1:KSUk+KSUk_11+2020_T2")
+        coursetmp.append("course-v1:KSUk+KSUk_12+2020_T2")
+        coursetmp.append("course-v1:DGUk+DGU_011k+DGU_011k_2020_12_11")
+        coursetmp.append("course-v1:DGUk+DGU_012k+DGU_012k_2020_12_12")
+        coursetmp.append("course-v1:DHUk+DHUk07k+2020_T2")
+        coursetmp.append("course-v1:DHUk+DHUk08k+2020_T2")
+        coursetmp.append("course-v1:DHUk+DHUk09k+2020_T2")
+        coursetmp.append("course-v1:DHUk+DHUk10k+2020_T2")
+        coursetmp.append("course-v1:PNUk+PE_C01+2020_KM019")
+        coursetmp.append("course-v1:HonamUniv+HCTL01+2021_6")
+        coursetmp.append("course-v1:KHUk+KH502+2020_T2_1")
+        coursetmp.append("course-v1:DGUk+DGU_017k+DGU_017k_2020_12_17")
+        coursetmp.append("course-v1:DGUk+DGU_015k+DGU_015k_2020_12_15")
+        coursetmp.append("course-v1:KHUk+KH505+2020_T2_1")
+        coursetmp.append("course-v1:DGUk+DGU_016k+DGU_016k_2020_12_16")
+        coursetmp.append("course-v1:SKKUk+SKKU_47+2020_T1")
+        coursetmp.append("course-v1:SKKUk+SKKU_48+2020_T1")
+        coursetmp.append("course-v1:SKKUk+SKKU_49+2020_T1")
+        coursetmp.append("course-v1:KPU+KPU02+2020_T2")
+        coursetmp.append("course-v1:SoongsilUnivK+soongsilmooc12K+2020_T2")
+        coursetmp.append("course-v1:EBS+EBS001+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS002+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS003+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS004+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS005+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS006+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS007+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS008+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS009+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS010+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS011+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS012+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS013+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS014+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS015+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS016+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS017+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS018+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS019+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS020+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS021+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS022+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS023+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS024+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS025+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS026+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS027+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS028+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS029+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS030+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS031+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS032+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS033+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS034+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS035+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS036+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS037+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS038+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS039+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS040+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS041+2021_T1")
+        coursetmp.append("course-v1:EBS+EBS042+2021_T1")
+        coursetmp.append("course-v1:JTBC+JTBC001+2021_T1")
+        coursetmp.append("course-v1:JTBC+JTBC002+2021_T1")
+        coursetmp.append("course-v1:JTBC+JTBC003+2021_T1")
+        coursetmp.append("course-v1:JTBC+JTBC004+2021_T1")
+        coursetmp.append("course-v1:JTBC+EBS005+2021_T1")
+        coursetmp.append("course-v1:JTBC+JTBC006+2021_T1")
+        coursetmp.append("course-v1:JTBC+JTBC007+2021_T1")
+        coursetmp.append("course-v1:JTBC+JTBC008+2021_T1")
+        coursetmp.append("course-v1:JTBC+JTBC009+2021_T1")
+        coursetmp.append("course-v1:JTBC+JTBC010+2021_T1")
+        coursetmp.append("course-v1:JTBC+JTBC011+2021_T1")
+        coursetmp.append("course-v1:JTBC+JTBC015+2021_T1")
+        coursetmp.append("course-v1:JTBC+JTBC012+2021_T1")
+        coursetmp.append("course-v1:JTBC+JTBC013+2021_T1")
+        coursetmp.append("course-v1:JTBC+JTBC014+2021_T1")
+        coursetmp.append("course-v1:KSUk+KSUk_14+2021_T2")
+        coursetmp.append("course-v1:KSUk+KSUk_15+2021_T2")
+        coursetmp.append("course-v1:KSUk+KSUk_16+2021_T2")
+        coursetmp.append("course-v1:KSUk+KSUk_17+2021_T2")
+        coursetmp.append("course-v1:DGUk+DGU_019k+DGU_018k_2021")
+        coursetmp.append("course-v1:DGUk+DGU_018k+DGU_018k_2021")
+        coursetmp.append("course-v1:DGUk+DGU_020k+DGU_020k_2021")
+        coursetmp.append("course-v1:DGUk+DGU_021k+DGU_021k_2021")
+        coursetmp.append("course-v1:DHUk+DHUk12k+2021_T2")
+        coursetmp.append("course-v1:DHUk+DHUk13k+2021_T2")
+        coursetmp.append("course-v1:DHUk+DHUk14k+2021_T2")
+        coursetmp.append("course-v1:PNUk+MS_C01+2021_N1")
+        coursetmp.append("course-v1:JJU+JJU04+2021_J04")
+        coursetmp.append("course-v1:AYUk+AYUK_IP_0+2021_T2_1")
+        coursetmp.append("course-v1:DSUk+UI.DSU01+2021_T2")
+        coursetmp.append("course-v1:DCU+DCU01+2021_1")
+        coursetmp.append("course-v1:XuetangX+THc2021+2022T1")
+        coursetmp.append("course-v1:EBS+EBS001+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS002+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS003+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS004+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS005+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS006+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS007+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS008+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS009+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS010+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS011+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS012+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS013+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS014+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS015+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS016+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS017+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS018+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS019+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS020+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS021+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS022+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS023+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS024+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS025+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS217+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS227+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS228+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS229+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS230+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS231+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS232+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS233+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS234+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS235+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS236+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS237+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS238+2022_T1")
+        coursetmp.append("course-v1:EBS+EBS240+2022_T1")
+        coursetmp.append("course-v1:JTBC+JTBC001+2022_T1")
+        coursetmp.append("course-v1:JTBC+JTBC002+2022_T1")
+        coursetmp.append("course-v1:JTBC+JTBC003+2022_T1")
+        coursetmp.append("course-v1:JTBC+JTBC004+2022_T1")
+        coursetmp.append("course-v1:JTBC+JTBC005+2022_T1")
+        coursetmp.append("course-v1:JTBC+JTBC006+2022_T1")
+        coursetmp.append("course-v1:JTBC+JTBC007+2022_T1")
+        coursetmp.append("course-v1:JTBC+JTBC008+2022_T1")
+        coursetmp.append("course-v1:JTBC+JTBC009+2022_T1")
+        coursetmp.append("course-v1:JTBC+JTBC010+2022_T1")
+        coursetmp.append("course-v1:JTBC+JTBC011+2022_T1")
+        coursetmp.append("course-v1:JTBC+JTBC012+2022_T1")
+        coursetmp.append("course-v1:JTBC+JTBC013+2022_T1")
+        coursetmp.append("course-v1:JTBC+JTBC014+2022_T1")
+        coursetmp.append("course-v1:JTBC+JTBC015+2022_T1")
+        coursetmp.append("course-v1:JTBC+JTBC016+2022_T1")
+        coursetmp.append("course-v1:JTBC+JTBC017+2022_T1")
+        coursetmp.append("course-v1:JTBC+JTBC018+2022_T1")
+        coursetmp.append("course-v1:JTBC+JTBC019+2022_T1")
+        coursetmp.append("course-v1:JTBC+JTBC020+2022_T1")
+        coursetmp.append("course-v1:KSUk+KSUk_18+2022_T2")
+        coursetmp.append("course-v1:KSUk+KSUk_19+2022_T2")
+        coursetmp.append("course-v1:KSUk+KSUk_20+2022_T2")
+        coursetmp.append("course-v1:KSUk+KSUk_21+2022_T2")
+        coursetmp.append("course-v1:DHUk+DHU17k+2022_T2")
+        coursetmp.append("course-v1:DHUk+DHU18k+2022_T2")
+        coursetmp.append("course-v1:DHUk+DHU19k+2022_T2")
+        coursetmp.append("course-v1:DHUk+DHU20k+2022_T2")
+        coursetmp.append("course-v1:WHSUK+WHSUK_06+2022-T2-6")
+        coursetmp.append("course-v1:WHSUK+WHSUK_07+2022-T2-7")
+        coursetmp.append("course-v1:WHSUK+WHSUK_08+2022-T2-8")
+        coursetmp.append("course-v1:WHSUK+WHSUK_09+2022-T2-9")
+        coursetmp.append("course-v1:KAEP_DONGGUK+KAEP_DONGGUK_108+2022_1")
+        coursetmp.append("course-v1:KAEP_INHA+KINHA001+2022_01")
+        coursetmp.append("course-v1:KAEP_INHA+KINHA002+2022_01")
+        coursetmp.append("course-v1:KAEP_INHA+KINHA003+2022_01")
+        coursetmp.append("course-v1:KAEP_INHA+KINHA004+2022_01")
+        coursetmp.append("course-v1:KAEP_INHA+KINHA005+2022_01")
+        coursetmp.append("course-v1:KAEP_INHA+KINHA006+2022_01")
+        coursetmp.append("course-v1:KAEP_INHA+KINHA007+2022_01")
+        coursetmp.append("course-v1:KAEP_INHA+KINHA008+2022_01")
+        coursetmp.append("course-v1:KAEP_INHA+KINHA009+2022_01")
+        coursetmp.append("course-v1:KAEP_INHA+KINHA010+2022_01")
+        coursetmp.append("course-v1:KAEP_KHU+KKHU01+2022_T1")
+        coursetmp.append("course-v1:KAEP_KHU+KKHU02+2022_T1")
+        coursetmp.append("course-v1:KAEP_KHU+KKHU03+2022_T1")
+        coursetmp.append("course-v1:KAEP_KHU+KKHU04+2022_T1")
+        coursetmp.append("course-v1:KAEP_KHU+KKHU05+2022_T1")
+        coursetmp.append("course-v1:KAEP_KHU+KKHU06+2022_T1")
+        coursetmp.append("course-v1:KAEP_KHU+KKHU07+2022_T1")
+        coursetmp.append("course-v1:KAEP_KHU+KKHU08+2022_T1")
+        coursetmp.append("course-v1:KAEP_KHU+KKHU09+2022_T1")
+        coursetmp.append("course-v1:KAEP_KHU+KKHU10+2022_T1")
+        coursetmp.append("course-v1:KAEP_KOREA+KKOREA001+2022_01")
+        coursetmp.append("course-v1:KAEP_KOREA+KKOREA002+2022_01")
+        coursetmp.append("course-v1:KAEP_KOREA+KKOREA003+2022_01")
+        coursetmp.append("course-v1:KAEP_KOREA+KKOREA004+2022_01")
+        coursetmp.append("course-v1:KAEP_KOREA+KKOREA005+2022_01")
+        coursetmp.append("course-v1:KAEP_KOREA+KKOREA006+2022_01")
+        coursetmp.append("course-v1:KAEP_KOREA+KKOREA007+2022_01")
+        coursetmp.append("course-v1:KAEP_KOREA+KKOREA008+2022_01")
+        coursetmp.append("course-v1:KAEP_KOREA+KKOREA009+2022_01")
+        coursetmp.append("course-v1:KAEP_KOREA+KKOREA010+2022_01")
+        coursetmp.append("course-v1:KAEP_DONGGUK+KAEP_DONGGUK_106+2022_1")
+        coursetmp.append("course-v1:KAEP_DONGGUK+KAEP_DONGGUK_104+2022_1")
+        coursetmp.append("course-v1:KAEP_DONGGUK+KAEP_DONGGUK_103+2022_1")
+        coursetmp.append("course-v1:KAEP_DONGGUK+KAEP_DONGGUK_102+2022_1")
+        coursetmp.append("course-v1:KAEP_DONGGUK+KAEP_DONGGUK_107+2022_1")
+        coursetmp.append("course-v1:KAEP_DONGGUK+KAEP_DONGGUK_109+2022_1")
+        coursetmp.append("course-v1:KAEP_DONGGUK+KAEP_DONGGUK_110+2022_1")
+        coursetmp.append("course-v1:KAEP_DONGGUK+KAEP_DONGGUK_105+2022_1")
+        coursetmp.append("course-v1:AYUk+AYUk_SP+2023_T1")
+        coursetmp.append("course-v1:KEKA_SNU+KEKA101+2022_01")
+        coursetmp.append("course-v1:KEKA_SNU+KEKA102+2022_01")
+        coursetmp.append("course-v1:KEKA_SNU+KEKA103+2022_01")
+        coursetmp.append("course-v1:KEKA_SNU+KEKA104+2022_01")
+        coursetmp.append("course-v1:KEKA_SNU+KEKA105+2022_01")
+        coursetmp.append("course-v1:KEKA_SNU+KEKA106+2022_01")
+        coursetmp.append("course-v1:KEKA_SNU+KEKA107+2022_01")
+        coursetmp.append("course-v1:KEKA_SNU+KEKA108+2022_01")
+        coursetmp.append("course-v1:KEKA_SNU+KEKA109+2022_01")
+        coursetmp.append("course-v1:KEKA_SNU+KEKA110+2022_01")
+        coursetmp.append("course-v1:KAEP_DONGGUK+KAEP_DONGGUK_101+2022_1")
+        coursetmp.append("course-v1:YonseiWK_KAEP+YonseiWK_KAEP01+2022_T1")
+        coursetmp.append("course-v1:YonseiWK_KAEP+YonseiWK_KAEP02+2022_T1")
+        coursetmp.append("course-v1:YonseiWK_KAEP+YonseiWK_KAEP03+2022_T1")
+        coursetmp.append("course-v1:YonseiWK_KAEP+YonseiWK_KAEP04+2022_T1")
+        coursetmp.append("course-v1:YonseiWK_KAEP+YonseiWK_KAEP05+2022_T1")
+        coursetmp.append("course-v1:YonseiWK_KAEP+YonseiWK_KAEP06+2022_T1")
+        coursetmp.append("course-v1:YonseiWK_KAEP+YonseiWK_KAEP07+2022_T1")
+        coursetmp.append("course-v1:YonseiWK_KAEP+YonseiWK_KAEP08+2022_T1")
+        coursetmp.append("course-v1:YonseiWK_KAEP+YonseiWK_KAEP09+2022_T1")
+        coursetmp.append("course-v1:YonseiWK_KAEP+YonseiWK_KAEP10+2022_T1")
+        coursetmp.append("course-v1:SOGANGKAEP+KAEP01+2022_T1")
+        coursetmp.append("course-v1:SOGANGKAEP+KAEP02+2022_T1")
+        coursetmp.append("course-v1:SOGANGKAEP+KAEP03+2022_T1")
+        coursetmp.append("course-v1:SOGANGKAEP+KAEP04+2022_T1")
+        coursetmp.append("course-v1:SOGANGKAEP+KAEP05+2022_T1")
+        coursetmp.append("course-v1:SOGANGKAEP+KAEP06+2022_T1")
+        coursetmp.append("course-v1:SOGANGKAEP+KAEP07+2022_T1")
+        coursetmp.append("course-v1:SOGANGKAEP+KAEP08+2022_T1")
+        coursetmp.append("course-v1:SOGANGKAEP+KAEP09+2022_T1")
+        coursetmp.append("course-v1:SOGANGKAEP+KAEP10+2022_T1")
+        coursetmp.append("course-v1:KAEP_KOREA_CKH+KUKH109+2023_A109")
+        coursetmp.append("course-v1:KAEP_KOREA_CKH+KUKH108+2023_A108")
+        coursetmp.append("course-v1:KAEP_KOREA_CKH+KUKH107+2023_A107")
+        coursetmp.append("course-v1:KAEP_KOREA_CKH+KUKH106+2023_A106")
+        coursetmp.append("course-v1:KAEP_KOREA_CKH+KUKH105+2023_A105")
+        coursetmp.append("course-v1:KAEP_KOREA_CKH+KUKH104+2023_A104")
+        coursetmp.append("course-v1:KAEP_KOREA_CKH+KUKH103+2023_A103")
+        coursetmp.append("course-v1:KAEP_KOREA_CKH+KUKH102+2023_A102")
+        coursetmp.append("course-v1:KAEP_KOREA_CKH+KUKH110+2023_A110")
+        coursetmp.append("course-v1:KAEP_KOREA_CKH+KUKH101+2023_A101")
+        coursetmp.append("course-v1:KAEP_SKKU+KAEP01+2022_T1")
+        coursetmp.append("course-v1:KAEP_SKKU+KAEP02+2022_T1")
+        coursetmp.append("course-v1:KAEP_SKKU+KAEP03+2022_T1")
+        coursetmp.append("course-v1:KAEP_SKKU+KAEP04+2022_T1")
+        coursetmp.append("course-v1:KAEP_SKKU+KAEP05+2022_T1")
+        coursetmp.append("course-v1:KAEP_SKKU+KAEP06+2022_T1")
+        coursetmp.append("course-v1:KAEP_SKKU+KAEP07+2022_T1")
+        coursetmp.append("course-v1:KAEP_SKKU+KAEP08+2022_T1")
+        coursetmp.append("course-v1:KAEP_SKKU+KAEP09+2022_T1")
+        coursetmp.append("course-v1:KAEP_SKKU+KAEP10+2022_T1")
+        coursetmp.append("course-v1:KAEP_SKKU+KAEP11+2022_T1")
+        coursetmp.append("course-v1:CKL_SNU+cklsnu08+2023_T1")
+        coursetmp.append("course-v1:CKL_SNU+cklsnu07+2023_T1")
+        coursetmp.append("course-v1:CKL_SNU+cklsnu06+2023_T1")
+        coursetmp.append("course-v1:CKL_SNU+cklsnu09+2023_T1")
+        coursetmp.append("course-v1:CKL_SNU+cklsnu03+2023_T1")
+        coursetmp.append("course-v1:CKL_SNU+cklsnu02+2023_T1")
+        coursetmp.append("course-v1:CKL_SNU+cklsnu05+2023_T1")
+        coursetmp.append("course-v1:CKL_SNU+cklsnu01+2023_T1")
+        coursetmp.append("course-v1:CKL_SNU+cklsnu04+2023_T1")
+        coursetmp.append("course-v1:CKL_SNU+cklsnu10+2023_T1")
+        coursetmp.append("course-v1:SKKUk+SKKU_LAO2301+2023_T1")
+        coursetmp.append("course-v1:SKKUk+SKKU_LAO2302+2023_T1")
+        # coursetmp.append("course-v1:SunMoonK+SMKMOOC-05+2023_T2")
+        # coursetmp.append("course-v1:DH+sdfsdfsdf+20230630")
+
+        coursetmp2 = []
+        coursetmp2.append("course-v1:SunMoonK+SMKMOOC-05+2023_T2")
+        coursetmp2.append("course-v1:DH+sdfsdfsdf+20230630")
+
+    chapter_list = []
+    try:
+        m_host = settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('host')
+        m_port = settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port')
+        client = MongoClient(m_host, m_port)
+        db = client.edxapp
+        mdlcon = mdb.connect('192.168.1.245','openlms','dhvms@23gkrTmq','openlms',charset='utf8')
+        #mdlcon = mdb.connect('118.67.152.82', 'root', 'anzmRoqkf@2022', 'edxapp', charset='utf8')
+        mdlcur = mdlcon.cursor()
+        for cblock in coursetmp:
+            chapter_dict = {}
+            # course_id = request.GET.get("course_id")
+            # course_id = "course-v1:SunMoonK+SMKMOOC-05+2023_T2"
+            course_id = cblock
+            print "course_id=====>", course_id
+            try:
+                s_course_id = str(course_id).split('+')
+                _course_id = s_course_id[-2]
+                _run_id = s_course_id[-1]
+
+                print "s_course_id====>",course_id
+                print "_course_id====>",_course_id
+                print "_run_id====>",_run_id
+
+                structure_id = ObjectId(
+                    db.modulestore.active_versions.find_one({'course': _course_id, 'run': _run_id}).get('versions').get('published-branch')
+                )
+
+                print "structure_id====>",structure_id
+                if structure_id is not None:
+                    blocks_list = db.modulestore.structures.find_one({'_id': structure_id}).get('blocks')
+
+                    for block in blocks_list:
+                        chapter_dict[block.get('block_id')] = block
+
+                    for block in blocks_list:
+                        block_type = block.get('block_type')
+                        if block_type == 'chapter':
+                            for seq_id in block.get('fields').get('children'):
+                                for ver_id in chapter_dict[seq_id[-1]].get('fields').get('children'):
+                                    _is_exist_problem = False
+                                    _is_exist_discussion = False
+                                    for act_id in chapter_dict[ver_id[-1]].get('fields').get('children'):
+                                        chapter_name = '-'  # 주차명
+                                        chapter_sub_name = '-'  # 차시명
+                                        activity_name = '-'  # 학습확동명
+                                        activity_type = '-'  # 학습활동 종류
+                                        video_url = '-'  # 동영상 URL
+                                        video_range = ''  # 영상 재생시간
+                                        transcripts = '-'  # 자막 여부
+
+                                        activity_type = chapter_dict[act_id[-1]].get('block_type')
+                                        if activity_type == 'video':
+                                            chapter_name = block.get('fields').get('display_name')
+                                            chapter_sub_name = chapter_dict[seq_id[-1]].get('fields').get('display_name')
+                                            activity_name = chapter_dict[ver_id[-1]].get('fields').get('display_name')
+
+                                            video_url = chapter_dict[act_id[-1]].get('fields').get('html5_sources')[0]
+                                            edx_video_id = ''
+                                            transcripts_list = []
+                                            try:  # 자막 데이터 구성
+                                                transcripts_list = chapter_dict[act_id[-1]].get('fields').get('transcripts').keys()
+                                                transcripts_script_list = chapter_dict[act_id[-1]].get('fields').get('transcripts').values()
+                                                print "transcripts_list====>",transcripts_list
+                                                log.info('transcripts_list===> %s' % transcripts_list)
+                                                num = 0
+                                                for transcript in transcripts_list:
+                                                    language_code = transcript
+                                                    transcript_file = transcripts_script_list[num]
+                                                    edx_video_id = chapter_dict[act_id[-1]].get('fields').get('edx_video_id')
+                                                    block_id = chapter_dict[act_id[-1]].get('block_id')
+
+                                                    # mdl_import_vod_meta
+                                                    # query = """
+                                                    #     SELECT count(*)
+                                                    #       FROM mdl_import_vod_meta
+                                                    #      WHERE url = '{0}';
+                                                    # """.format(video_url)
+                                                    # mdlcur.execute(query)
+                                                    # check_index = mdlcur.fetchall()
+                                                    #
+                                                    # if (check_index[0][0] == 0):    # 정보가 없다면
+                                                    # mdl_import_vod_meta_`2
+                                                    # query = """
+                                                    #     SELECT count(*)
+                                                    #       FROM mdl_import_vod_meta_2
+                                                    #      WHERE url = '{0}';
+                                                    # """.format(video_url)
+                                                    # mdlcur.execute(query)
+                                                    # check_index = mdlcur.fetchall()
+                                                    # if (check_index[0][0] == 0):    # 정보가 없다면
+                                                    #path_to_file = "/edx/var/edxapp/media/video-transcripts/{0}".format(transcript_file)
+                                                    #if exists(path_to_file):
+                                                    chapter_list.append([chapter_name, chapter_sub_name, language_code,transcript_file, edx_video_id, video_url, block_id])
+                                                    transcriptline = ""
+                                                    #f = open(path_to_file, 'r')
+                                                    #while True:
+                                                    #    line = f.readline()
+                                                    #    if not line: break
+                                                    #    transcriptline = transcriptline + line
+
+                                                    #f.close()
+                                                    query = "INSERT INTO mdl_import_vod_meta_2(url,edx_video_id) VALUES ('{0}','{1}');".format(video_url,edx_video_id)
+                                                    print "query1==>",query
+                                                    log.info('query1===> %s' % query)
+                                                    mdlcur.execute(query)
+                                                    meta_id = mdlcur.lastrowid
+                                                    mdlcur.execute('commit')
+                                                    print "meta_id====>",meta_id
+                                                    log.info('meta_id===> %s' % query)
+
+                                                    query = "INSERT INTO mdl_import_vod_meta_block_2(meta_id,block_id,block_name) VALUES ('{0}','{1}','{2}');".format(meta_id,block_id,'Video')
+                                                    print "query2==>",query
+                                                    log.info('query2===> %s' % query)
+                                                    mdlcur.execute(query)
+                                                    mdlcur.execute('commit')
+
+                                                    uploaddate  = math.trunc(time.time())
+                                                    query = "INSERT INTO mdl_import_script_meta_2(meta_id,lang,script,content,uploaddate) VALUES ('{0}','{1}','{2}','{3}','{4}');".format(meta_id,language_code,transcript_file,transcriptline,uploaddate)
+                                                    # print "query3===>",query
+                                                    log.info('query3===> %s' % query)
+                                                    mdlcur.execute(query)
+                                                    mdlcur.execute('commit')
+
+                                                    num = num+1
+                                            except:
+                                                pass
+            except Exception as e:
+                pass
+
+    except Exception as err:
+        log.info('vodfile err [%s]' % traceback.format_exc(err))
+        print('예외가 발생했습니다.', err)
+        log.info('예외가 발생했습니다.===> %s' % err)
+        pass
+
+    return JsonResponse(chapter_list)
+
