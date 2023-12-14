@@ -1828,8 +1828,8 @@ def vodfile_move_one(request):
         m_port = settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port')
         client = MongoClient(m_host, m_port)
         db = client.edxapp
-        mdlcon = mdb.connect('192.168.1.245','openlms','dhvms@23gkrTmq','openlms',charset='utf8')
-        #mdlcon = mdb.connect('118.67.152.82', 'root', 'anzmRoqkf@2022', 'edxapp', charset='utf8')
+        #mdlcon = mdb.connect('192.168.1.245', 'openlms', 'dhvms@23gkrTmq', 'openlms', charset='utf8')
+        mdlcon = mdb.connect('118.67.152.82', 'root', 'anzmRoqkf@2022', 'edxapp', charset='utf8')
 
         mdlcur = mdlcon.cursor()
         for cblock in coursetmp:
@@ -1843,15 +1843,15 @@ def vodfile_move_one(request):
                 _course_id = s_course_id[-2]
                 _run_id = s_course_id[-1]
 
-                print "s_course_id====>",course_id
-                print "_course_id====>",_course_id
-                print "_run_id====>",_run_id
+                print "s_course_id====>", course_id
+                print "_course_id====>", _course_id
+                print "_run_id====>", _run_id
 
                 structure_id = ObjectId(
                     db.modulestore.active_versions.find_one({'course': _course_id, 'run': _run_id}).get('versions').get('published-branch')
                 )
 
-                print "structure_id====>",structure_id
+                print "structure_id====>", structure_id
                 if structure_id is not None:
                     blocks_list = db.modulestore.structures.find_one({'_id': structure_id}).get('blocks')
                     transcripts_data_list = []
@@ -1883,6 +1883,7 @@ def vodfile_move_one(request):
                                                 if len(edx_video_id) > 0:
                                                     with connections['default'].cursor() as cur_video:
                                                         query = "SELECT b.language_code FROM  edxval_video AS a LEFT JOIN edxval_videotranscript AS b ON  a.id = b.video_id WHERE a.edx_video_id like '% {} %'".format(edx_video_id)
+                                                        log.info('transcriptsmy query ===> %s' % query)
                                                         cur_video.execute(query)
                                                         video_rows = cur_video.fetchall()
                                                         transcripts_list = video_rows
