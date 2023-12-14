@@ -1928,36 +1928,36 @@ def vodfile_move_one(request):
                                                     edx_video_id = chapter_dict[act_id[-1]].get('fields').get('edx_video_id')
                                                     block_id = chapter_dict[act_id[-1]].get('block_id')
                                                     # mdl_import_vod_meta
-                                                    # query = """
-                                                    #     SELECT count(*)
-                                                    #       FROM mdl_import_vod_meta
-                                                    #      WHERE url = '{0}';
-                                                    # """.format(video_url)
-                                                    # mdlcur.execute(query)
-                                                    # check_index = mdlcur.fetchall()
-                                                    #
-                                                    # if (check_index[0][0] == 0):    # 정보가 없다면
-                                                    # mdl_import_vod_meta_`2
-                                                    # query = """
-                                                    #     SELECT count(*)
-                                                    #       FROM mdl_import_vod_meta_2
-                                                    #      WHERE url = '{0}';
-                                                    # """.format(video_url)
-                                                    # mdlcur.execute(query)
-                                                    # check_index = mdlcur.fetchall()
-                                                    # if (check_index[0][0] == 0):    # 정보가 없다면
-                                                    path_to_file = "/edx/var/edxapp/media/video-transcripts/{0}".format(transcript_file)
-                                                    log.info('path_to_file===> %s' % path_to_file)
-                                                    if exists(path_to_file):
-                                                        chapter_list.append([chapter_name, chapter_sub_name, language_code,transcript_file, edx_video_id, video_url, block_id])
-                                                        transcriptline = ""
-                                                        f = open(path_to_file, 'r')
-                                                        while True:
-                                                            line = f.readline()
-                                                            if not line: break
-                                                            transcriptline = transcriptline + line
+                                                    query = """
+                                                        SELECT count(*)
+                                                          FROM mdl_import_vod_meta
+                                                         WHERE url = '{0}';
+                                                    """.format(video_url)
+                                                    mdlcur.execute(query)
+                                                    check_index = mdlcur.fetchall()
 
-                                                        f.close()
+                                                    if (check_index[0][0] == 0):    # 정보가 없다면
+                                                    #mdl_import_vod_meta_`2
+                                                    query = """
+                                                        SELECT count(*)
+                                                          FROM mdl_import_vod_meta_2
+                                                         WHERE url = '{0}';
+                                                    """.format(video_url)
+                                                    mdlcur.execute(query)
+                                                    check_index = mdlcur.fetchall()
+                                                    if (check_index[0][0] == 0):    # 정보가 없다면
+                                                    #path_to_file = "/edx/var/edxapp/media/video-transcripts/{0}".format(transcript_file)
+                                                    #log.info('path_to_file===> %s' % path_to_file)
+                                                    # if exists(path_to_file):
+                                                    #     chapter_list.append([chapter_name, chapter_sub_name, language_code,transcript_file, edx_video_id, video_url, block_id])
+                                                    #     transcriptline = ""
+                                                    #     f = open(path_to_file, 'r')
+                                                    #     while True:
+                                                    #         line = f.readline()
+                                                    #         if not line: break
+                                                    #         transcriptline = transcriptline + line
+                                                    #
+                                                    #     f.close()
                                                         query = "INSERT INTO mdl_import_vod_meta_2(url,edx_video_id) VALUES ('{0}','{1}');".format(video_url,edx_video_id)
                                                         print "query1==>",query
                                                         log.info('query1===> %s' % query)
