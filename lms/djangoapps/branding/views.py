@@ -1929,56 +1929,55 @@ def vodfile_move_one(request):
                                                     block_id = chapter_dict[act_id[-1]].get('block_id')
                                                     # mdl_import_vod_meta
                                                     query = """
-                                                        SELECT count(*)
+                                                        SELECT *
                                                           FROM mdl_import_vod_meta
                                                          WHERE url = '{0}';
                                                     """.format(video_url)
                                                     mdlcur.execute(query)
-                                                    check_index = mdlcur.fetchall()
-
-                                                    if (check_index[0][0] == 0):    # 정보가 없다면
-                                                    #mdl_import_vod_meta_`2
-                                                    query = """
-                                                        SELECT count(*)
-                                                          FROM mdl_import_vod_meta_2
-                                                         WHERE url = '{0}';
-                                                    """.format(video_url)
-                                                    mdlcur.execute(query)
-                                                    check_index = mdlcur.fetchall()
-                                                    if (check_index[0][0] == 0):    # 정보가 없다면
-                                                    #path_to_file = "/edx/var/edxapp/media/video-transcripts/{0}".format(transcript_file)
-                                                    #log.info('path_to_file===> %s' % path_to_file)
-                                                    # if exists(path_to_file):
-                                                    #     chapter_list.append([chapter_name, chapter_sub_name, language_code,transcript_file, edx_video_id, video_url, block_id])
-                                                    #     transcriptline = ""
-                                                    #     f = open(path_to_file, 'r')
-                                                    #     while True:
-                                                    #         line = f.readline()
-                                                    #         if not line: break
-                                                    #         transcriptline = transcriptline + line
-                                                    #
-                                                    #     f.close()
-                                                        query = "INSERT INTO mdl_import_vod_meta_2(url,edx_video_id) VALUES ('{0}','{1}');".format(video_url,edx_video_id)
-                                                        print "query1==>",query
-                                                        log.info('query1===> %s' % query)
+                                                    video_rows = cur_video.fetchall()
+                                                    if (video_rows < 1):    # 정보가 없다면
+                                                        #mdl_import_vod_meta_`2
+                                                        query = """
+                                                            SELECT count(*)
+                                                              FROM mdl_import_vod_meta_2
+                                                             WHERE url = '{0}';
+                                                        """.format(video_url)
                                                         mdlcur.execute(query)
-                                                        meta_id = mdlcur.lastrowid
-                                                        mdlcur.execute('commit')
-                                                        print "meta_id====>",meta_id
-                                                        log.info('meta_id===> %s' % meta_id)
+                                                        video_rows = cur_video.fetchall()
+                                                        if (video_rows < 1):    # 정보가 없다면
+                                                        #path_to_file = "/edx/var/edxapp/media/video-transcripts/{0}".format(transcript_file)
+                                                        #log.info('path_to_file===> %s' % path_to_file)
+                                                        # if exists(path_to_file):
+                                                        #     chapter_list.append([chapter_name, chapter_sub_name, language_code,transcript_file, edx_video_id, video_url, block_id])
+                                                        #     transcriptline = ""
+                                                        #     f = open(path_to_file, 'r')
+                                                        #     while True:
+                                                        #         line = f.readline()
+                                                        #         if not line: break
+                                                        #         transcriptline = transcriptline + line
+                                                        #
+                                                        #     f.close()
+                                                            query = "INSERT INTO mdl_import_vod_meta_2(url,edx_video_id) VALUES ('{0}','{1}');".format(video_url,edx_video_id)
+                                                            print "query1==>",query
+                                                            log.info('query1===> %s' % query)
+                                                            mdlcur.execute(query)
+                                                            meta_id = mdlcur.lastrowid
+                                                            mdlcur.execute('commit')
+                                                            print "meta_id====>",meta_id
+                                                            log.info('meta_id===> %s' % meta_id)
 
-                                                        query = "INSERT INTO mdl_import_vod_meta_block_2(meta_id,block_id,block_name) VALUES ('{0}','{1}','{2}');".format(meta_id,block_id,'Video')
-                                                        print "query2==>",query
-                                                        log.info('query2===> %s' % query)
-                                                        mdlcur.execute(query)
-                                                        mdlcur.execute('commit')
+                                                            query = "INSERT INTO mdl_import_vod_meta_block_2(meta_id,block_id,block_name) VALUES ('{0}','{1}','{2}');".format(meta_id,block_id,'Video')
+                                                            print "query2==>",query
+                                                            log.info('query2===> %s' % query)
+                                                            mdlcur.execute(query)
+                                                            mdlcur.execute('commit')
 
-                                                        uploaddate  = math.trunc(time.time())
-                                                        query = "INSERT INTO mdl_import_script_meta_2(meta_id,lang,script,content,uploaddate) VALUES ('{0}','{1}','{2}','{3}','{4}');".format(meta_id,language_code,transcript_file,transcriptline,uploaddate)
-                                                        # print "query3===>",query
-                                                        log.info('query3===> %s' % query)
-                                                        mdlcur.execute(query)
-                                                        mdlcur.execute('commit')
+                                                            uploaddate  = math.trunc(time.time())
+                                                            query = "INSERT INTO mdl_import_script_meta_2(meta_id,lang,script,content,uploaddate) VALUES ('{0}','{1}','{2}','{3}','{4}');".format(meta_id,language_code,transcript_file,transcriptline,uploaddate)
+                                                            # print "query3===>",query
+                                                            log.info('query3===> %s' % query)
+                                                            mdlcur.execute(query)
+                                                            mdlcur.execute('commit')
 
                                                     num = num+1
                                             except:
