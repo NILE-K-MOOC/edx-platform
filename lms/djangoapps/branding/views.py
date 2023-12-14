@@ -1904,7 +1904,7 @@ def vodfile_move_one(request):
                                             except:
                                                 pass
 
-                                            print("chapter_dict[act_id[-1]].get('fields')=====>",chapter_dict[act_id[-1]].get('fields'))
+                                            # print("chapter_dict[act_id[-1]].get('fields')=====>",chapter_dict[act_id[-1]].get('fields'))
                                             chapter_name = block.get('fields').get('display_name')
                                             chapter_sub_name = chapter_dict[seq_id[-1]].get('fields').get('display_name')
                                             activity_name = chapter_dict[ver_id[-1]].get('fields').get('display_name')
@@ -1913,8 +1913,10 @@ def vodfile_move_one(request):
                                             edx_video_id = ''
                                             transcripts_list = []
                                             try:  # 자막 데이터 구성
-                                                transcripts_list = chapter_dict[act_id[-1]].get('fields').get('transcripts').keys()
-                                                transcripts_script_list = chapter_dict[act_id[-1]].get('fields').get('transcripts').values()
+
+                                                if len(transcripts_list) < 1:
+                                                    transcripts_list = chapter_dict[act_id[-1]].get('fields').get('transcripts').keys()
+
                                                 num = 0
                                                 for transcript in transcripts_list:
                                                     language_code = transcript
@@ -1942,8 +1944,8 @@ def vodfile_move_one(request):
                                                     # check_index = mdlcur.fetchall()
                                                     # if (check_index[0][0] == 0):    # 정보가 없다면
                                                     path_to_file = "/edx/var/edxapp/media/video-transcripts/{0}".format(transcript_file)
+                                                    log.info('path_to_file===> %s' % path_to_file)
                                                     if exists(path_to_file):
-                                                        log.info('path_to_file===> %s' % path_to_file)
                                                         chapter_list.append([chapter_name, chapter_sub_name, language_code,transcript_file, edx_video_id, video_url, block_id])
                                                         transcriptline = ""
                                                         f = open(path_to_file, 'r')
