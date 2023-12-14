@@ -1881,6 +1881,7 @@ def vodfile_move_one(request):
                                             try:  # 자막 유무 mysql 에서 조회
                                                 log.info("chapter_dict[act_id[-1]].get('fields')======> %s" % chapter_dict[act_id[-1]].get('fields').get('edx_video_id'))
                                                 edx_video_id = chapter_dict[act_id[-1]].get('fields').get('edx_video_id')
+                                                log.info("edx_video_id NONE ======> %s" % chapter_dict[act_id[-1]].get('fields'))
                                                 if len(edx_video_id) > 0:
                                                     with connections['default'].cursor() as cur_video:
                                                         query = "SELECT b.language_code FROM  edxval_video AS a LEFT JOIN edxval_videotranscript AS b ON  a.id = b.video_id WHERE a.edx_video_id like '% {} %'".format(edx_video_id)
@@ -1889,7 +1890,6 @@ def vodfile_move_one(request):
                                                         video_rows = cur_video.fetchall()
                                                         transcripts_list = video_rows
                                                 if edx_video_id is None:
-                                                    log.info("edx_video_id NONE ======> %s" % chapter_dict[act_id[-1]].get('fields'))
                                             except:
                                                 pass
 
