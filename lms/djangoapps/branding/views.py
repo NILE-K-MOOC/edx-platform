@@ -2340,8 +2340,8 @@ def vodfile_move_one_nofile(request):
         m_port = settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port')
         client = MongoClient(m_host, m_port)
         db = client.edxapp
-        mdlcon = mdb.connect('192.168.1.245', 'openlms', 'dhvms@23gkrTmq', 'openlms', charset='utf8')
-        #mdlcon = mdb.connect('118.67.152.82', 'root', 'anzmRoqkf@2022', 'edxapp', charset='utf8')
+        #mdlcon = mdb.connect('192.168.1.245', 'openlms', 'dhvms@23gkrTmq', 'openlms', charset='utf8')
+        mdlcon = mdb.connect('118.67.152.82', 'root', 'anzmRoqkf@2022', 'edxapp', charset='utf8')
 
         mdlcur = mdlcon.cursor()
         for cblock in coursetmp:
@@ -2367,7 +2367,6 @@ def vodfile_move_one_nofile(request):
                 print "structure_id====>", structure_id
                 if structure_id is not None:
                     blocks_list = db.modulestore.structures.find_one({'_id': structure_id}).get('blocks')
-                    transcripts_data_list = []
                     for block in blocks_list:
                         chapter_dict[block.get('block_id')] = block
 
@@ -2391,6 +2390,7 @@ def vodfile_move_one_nofile(request):
                                         if activity_type == 'video':
                                             edx_video_id = ''
                                             transcripts_list = []
+                                            transcripts_data_list = []
                                             transcripts_videoid_list = []
                                             transcripts_lang_list = []
                                             transcripts_file_format_list = []
@@ -2400,30 +2400,22 @@ def vodfile_move_one_nofile(request):
                                                 log.info("edx_video_id NONE ======> %s" % chapter_dict[act_id[-1]].get('fields'))
                                                 if len(edx_video_id) > 0:
                                                     with connections['default'].cursor() as cur_video:
-                                                        query = "select transcript,language_code,video_id,file_format from edxval_videotranscript where video_id in (select video_id from edxval_coursevideo where course_id like '%{}%') and (language_code <> 'en' and language_code <> 'ko');".format(course_id)
+                                                        query = "select transcript,language_code,video_id,file_format from edxval_videotranscript where video_id in (select video_id from edxval_video ev JOIN edxval_coursevideo ec ON ev.id = ec.video_id where ec.course_id like '%{}%' AND ev.edx_video_id like '%{}%') and (language_code <> 'en' and language_code <> 'ko');".format(course_id,edx_video_id)
+
                                                         log.info('transcriptsmy query ===> %s' % query)
                                                         cur_video.execute(query)
-                                                        video_rows = cur_video.fetchall()
-                                                        transcripts_list = video_rows
-                                            except:
-                                                pass
+                                                        transcripts_list = list(cur_video.fetchall())
 
-                                            try:
-                                                log.info('transcripts_list rows data ======>length %s' % transcripts_list)
-                                                log.info('transcripts_list======>length %s' % len(transcripts_list))
-                                                if len(transcripts_list) > 0:
-                                                    for transcripts in transcripts_list:
-                                                        if transcripts[0] not in transcripts_data_list:
-                                                            log.info('transcriptsmy ===> %s' % transcripts[0])
-                                                            transcripts_data_list.append(transcripts[0])
-                                                            transcripts_videoid_list.append(transcripts[2])
-                                                            transcripts_lang_list.append(transcripts[1])
-                                                            transcripts_file_format_list.append(transcripts[3])
-                                                # else:
-                                                #     for transcripts in chapter_dict[act_id[-1]].get('fields').get('transcripts').values():
-                                                #         if transcripts not in transcripts_data_list:
-                                                #             log.info('transcriptsmongo===> %s' % transcripts)
-                                                #             transcripts_data_list.append(transcripts)
+                                                        log.info('transcripts_list rows data ======>length %s' % transcripts_list)
+                                                        log.info('transcripts_list======>length %s' % len(transcripts_list))
+                                                        if len(transcripts_list) > 0:
+                                                            for transcripts in transcripts_list:
+                                                                if transcripts[0] not in transcripts_data_list:
+                                                                    log.info('transcriptsmy ===> %s' % transcripts[0])
+                                                                    transcripts_data_list.append(transcripts[0])
+                                                                    transcripts_videoid_list.append(transcripts[2])
+                                                                    transcripts_lang_list.append(transcripts[1])
+                                                                    transcripts_file_format_list.append(transcripts[3])
                                             except:
                                                 pass
 
@@ -2432,13 +2424,7 @@ def vodfile_move_one_nofile(request):
                                             chapter_sub_name = chapter_dict[seq_id[-1]].get('fields').get('display_name')
                                             activity_name = chapter_dict[ver_id[-1]].get('fields').get('display_name')
                                             video_url = chapter_dict[act_id[-1]].get('fields').get('html5_sources')[0]
-                                            edx_video_id = ''
-                                            transcripts_list = []
-                                            try:  # 자막 데이터 구성
-
-                                                # if len(transcripts_list) < 1:
-                                                #     transcripts_list = chapter_dict[act_id[-1]].get('fields').get('transcripts').keys()
-
+                                            try:
                                                 num = 0
                                                 for transcript in transcripts_data_list:
                                                     language_code = transcripts_lang_list[num]
@@ -2446,59 +2432,60 @@ def vodfile_move_one_nofile(request):
                                                     log.info('transcript_file===> %s' % transcript_file)
                                                     edx_video_id = transcripts_videoid_list[num]
                                                     block_id = chapter_dict[act_id[-1]].get('block_id')
+                                                    transcripts_file_format = transcripts_file_format_list[num]
                                                     # mdl_import_vod_meta
                                                     print("language_code======>",str(language_code))
-                                                    query = "SELECT count(*) FROM mdl_import_vod_meta mivm JOIN mdl_import_script_meta mism ON mivm.id = mism.meta_id WHERE mivm.url = '{0}' and mism.lang = '{1}';".format(video_url, str(language_code))
-                                                    log.info('check_index111111 query ====> %s' % query)
-                                                    mdlcur.execute(query)
-                                                    check_index = mdlcur.fetchall()
-                                                    log.info('check_index111111[0][0]====> %s' % check_index[0][0])
-                                                    if (check_index[0][0] == 0):    # 정보가 없다면
-                                                        #mdl_import_vod_meta_`2
-                                                        query = "SELECT count(*) FROM mdl_import_vod_meta_2 mivm JOIN mdl_import_script_meta mism ON mivm.id = mism.meta_id WHERE mivm.url = '{0}' and mism.lang = '{1}';".format(video_url, str(language_code))
+                                                    log.info('language_code====> %s' % str(language_code))
+                                                    if (transcripts_file_format == "sjson"):
+                                                        query = "SELECT count(*) FROM mdl_import_vod_meta mivm JOIN mdl_import_script_meta mism ON mivm.id = mism.meta_id WHERE mivm.url = '{0}' and mism.lang = '{1}';".format(video_url, str(language_code))
+                                                        log.info('check_index111111 query ====> %s' % query)
                                                         mdlcur.execute(query)
                                                         check_index = mdlcur.fetchall()
-                                                        log.info('check_index222222[0][0]====> %s' % check_index[0][0])
+                                                        log.info('check_index111111[0][0]====> %s' % check_index[0][0])
                                                         if (check_index[0][0] == 0):    # 정보가 없다면
-                                                            path_to_file = "/edx/var/edxapp/media/video-transcripts/{0}".format(transcript_file)
-                                                            log.info('path_to_file===> %s' % path_to_file)
-                                                            if exists(path_to_file):
-                                                                chapter_list.append([chapter_name, chapter_sub_name, language_code,transcript_file, edx_video_id, video_url, block_id])
-                                                                transcriptline = ""
-                                                                f = open(path_to_file, 'r')
-                                                                while True:
-                                                                    line = f.readline()
-                                                                    if not line: break
-                                                                    transcriptline = transcriptline + line
+                                                            #mdl_import_vod_meta_`2
+                                                            query = "SELECT count(*) FROM mdl_import_vod_meta_2 mivm JOIN mdl_import_script_meta mism ON mivm.id = mism.meta_id WHERE mivm.url = '{0}' and mism.lang = '{1}';".format(video_url, str(language_code))
+                                                            mdlcur.execute(query)
+                                                            check_index = mdlcur.fetchall()
+                                                            log.info('check_index222222[0][0]====> %s' % check_index[0][0])
+                                                            if (check_index[0][0] == 0):    # 정보가 없다면
+                                                                path_to_file = "/edx/var/edxapp/media/video-transcripts/{0}".format(transcript_file)
+                                                                log.info('path_to_file===> %s' % path_to_file)
+                                                                if exists(path_to_file):
+                                                                    chapter_list.append([chapter_name, chapter_sub_name, language_code,transcript_file, edx_video_id, video_url, block_id])
+                                                                    transcriptline = ""
+                                                                    f = open(path_to_file, 'r')
+                                                                    while True:
+                                                                        line = f.readline()
+                                                                        if not line: break
+                                                                        transcriptline = transcriptline + line
 
-                                                                f.close()
-                                                                if (transcripts_file_format_list=="sjson"):
+                                                                    f.close()
                                                                     tmptranscript = generate_srt_from_sjson(transcriptline)
-                                                                print("tmptranscript=======>",tmptranscript)
+                                                                    print("tmptranscript=======>",tmptranscript)
 
-                                                                query = "INSERT INTO mdl_import_vod_meta_2(url,edx_video_id) VALUES ('{0}','{1}');".format(video_url,edx_video_id)
-                                                                print "query1==>",query
-                                                                log.info('query1===> %s' % query)
-                                                                mdlcur.execute(query)
-                                                                meta_id = mdlcur.lastrowid
-                                                                mdlcur.execute('commit')
-                                                                print "meta_id====>",meta_id
-                                                                log.info('meta_id===> %s' % meta_id)
+                                                                    query = "INSERT INTO mdl_import_vod_meta_2(url,edx_video_id) VALUES ('{0}','{1}');".format(video_url,edx_video_id)
+                                                                    print "query1==>",query
+                                                                    log.info('query1===> %s' % query)
+                                                                    mdlcur.execute(query)
+                                                                    meta_id = mdlcur.lastrowid
+                                                                    mdlcur.execute('commit')
+                                                                    print "meta_id====>",meta_id
+                                                                    log.info('meta_id===> %s' % meta_id)
 
-                                                                query = "INSERT INTO mdl_import_vod_meta_block_2(meta_id,block_id,block_name) VALUES ('{0}','{1}','{2}');".format(meta_id,block_id,'Video')
-                                                                print "query2==>",query
-                                                                log.info('query2===> %s' % query)
-                                                                mdlcur.execute(query)
-                                                                mdlcur.execute('commit')
+                                                                    query = "INSERT INTO mdl_import_vod_meta_block_2(meta_id,block_id,block_name) VALUES ('{0}','{1}','{2}');".format(meta_id,block_id,'Video')
+                                                                    print "query2==>",query
+                                                                    log.info('query2===> %s' % query)
+                                                                    mdlcur.execute(query)
+                                                                    mdlcur.execute('commit')
 
-                                                                uploaddate  = math.trunc(time.time())
-                                                                query = "INSERT INTO mdl_import_script_meta_2(meta_id,lang,script,content,uploaddate) VALUES ('{0}','{1}','{2}','{3}','{4}');".format(meta_id,language_code,transcript_file,transcriptline,uploaddate)
-                                                                print "query3===>",query
-                                                                log.info('query3===> %s' % query)
-                                                                mdlcur.execute(query)
-                                                                mdlcur.execute('commit')
-
-                                                    num = num+1
+                                                                    uploaddate = math.trunc(time.time())
+                                                                    query = "INSERT INTO mdl_import_script_meta_2(meta_id,lang,script,content,uploaddate) VALUES ('{0}','{1}','{2}','{3}','{4}');".format(meta_id,language_code,transcript_file,transcriptline,uploaddate)
+                                                                    print "query3===>",query
+                                                                    log.info('query3===> %s' % query)
+                                                                    mdlcur.execute(query)
+                                                                    mdlcur.execute('commit')
+                                                num = num+1
                                             except:
                                                 pass
             except Exception as e:
