@@ -1885,7 +1885,7 @@ def vodfile_move_one(request):
                                                 log.info("edx_video_id NONE ======> %s" % chapter_dict[act_id[-1]].get('fields'))
                                                 if len(edx_video_id) > 0:
                                                     with connections['default'].cursor() as cur_video:
-                                                        query = "SELECT b.language_code FROM  edxval_video AS a LEFT JOIN edxval_videotranscript AS b ON  a.id = b.video_id WHERE a.edx_video_id like '% {} %'".format(edx_video_id)
+                                                        query = "SELECT b.language_code FROM  edxval_video AS a LEFT JOIN edxval_videotranscript AS b ON  a.id = b.video_id WHERE a.edx_video_id like '%{}%'".format(edx_video_id)
                                                         log.info('transcriptsmy query ===> %s' % query)
                                                         cur_video.execute(query)
                                                         video_rows = cur_video.fetchall()
@@ -2011,60 +2011,60 @@ def vodfile_move_one_nofile(request):
         coursetmp.append(courseidtmp)
         print "coursetmp===>",coursetmp
     else:
-        # coursetmp.append("course-v1:EwhaK+EW36387K+2015-04")
-        # coursetmp.append("course-v1:EwhaK+EW10771K+2015-03")
-        # coursetmp.append("course-v1:EwhaK+EW10164K+2015-01")
-        # coursetmp.append("course-v1:SKKUk+SKKU_BUS3033.01K+2016_SKKU01")
-        # coursetmp.append("course-v1:SMUCk+SMUC01k+2017_T1")
-        # coursetmp.append("course-v1:SMUCk+SMUC02k+2017_T2")
-        # coursetmp.append("course-v1:UOUk+UOU101.02k+U101B.1")
-        # coursetmp.append("course-v1:SKKUk+SKKU_GEDH042.01K+2016_SKKU04")
-        # coursetmp.append("course-v1:KonYangK+ACE.KY002+KY2016A02")
-        # coursetmp.append("course-v1:KNUk+CORE.KNUk01+2016_S1")
-        # coursetmp.append("course-v1:SKKUk+SKKU_GEDH043.O1K+2017_T1_0")
-        # coursetmp.append("course-v1:EwhaK+EW22126K+2017_F11")
-        # coursetmp.append("course-v1:DGUk+DGUk_004k+DGU_004k_2017_9_4")
-        # coursetmp.append("course-v1:DGUk+DGUk_005k+DGU_005k_2017_9_5")
-        # coursetmp.append("course-v1:KHUk+KH304+2017_KH304")
-        # coursetmp.append("course-v1:KHUk+FD_KH305+2017_KH305")
-        # coursetmp.append("course-v1:KHUk+FD_KH306+2017_KH306")
-        # coursetmp.append("course-v1:SKKUk+FD_SKKU_GEDH061.O1K+2017_T1_0")
-        # coursetmp.append("course-v1:SKKUk+FD_SKKU_GEDH062_O1K+2017_T1_0")
-        # coursetmp.append("course-v1:PTUk+SF_PMOOC01k+2017_T2")
-        # coursetmp.append("course-v1:KonkukK+PRIME_konkuk_P001+2017_1")
-        # coursetmp.append("course-v1:DonggukK+ACE_FA_DGU02k+2017_T1")
-        # coursetmp.append("course-v1:EwhaK+CORE_EW16001C+2017_F09")
-        # coursetmp.append("course-v1:DGUk+DGU_006k+DGU_006k_2018_9_6")
-        # coursetmp.append("course-v1:DGUk+DGU-007k+DGU-007k_2018_9_7")
-        # coursetmp.append("course-v1:DGUk+DGU_008k+DGU_008k_2018_9_8")
-        # coursetmp.append("course-v1:DGUk+DGU_009k+DGU_009k_2018_9_9")
-        # coursetmp.append("course-v1:SMUk+SMU2018_02+2018_2_T2")
-        # coursetmp.append("course-v1:SOGANGk+SOGANG06K+2018_T3")
-        # coursetmp.append("course-v1:SoongsilUnivK+soongsilmooc05K+2018_2")
-        # coursetmp.append("course-v1:HYUk+CORE_HYUKMOOC2018-2k+2018_C2")
-        # coursetmp.append("course-v1:DKUK+MOOC_DKUK0006+2019_T2")
-        # coursetmp.append("course-v1:DKUK+MOOC_DKUK0008+2019_T2")
-        # coursetmp.append("course-v1:SoongsilUnivK+soongsilmooc09K+2019_T2")
-        # coursetmp.append("course-v1:SoongsilUnivK+soongsilmooc10K+2019_T2")
-        # coursetmp.append("course-v1:SoongsilUnivK+soongsilmooc11K+2019_T2")
-        # coursetmp.append("course-v1:DongdukK+DDU04+2019_T2")
-        # coursetmp.append("course-v1:SSUk+SSMOOC14K+2019_T2")
-        # coursetmp.append("course-v1:INU+INU004+2019_L2")
-        # coursetmp.append("course-v1:AYUk+AYUk_EM_01+2019_T2")
-        # coursetmp.append("course-v1:CNUk+MOE_CNU10+2019_2_10")
-        # coursetmp.append("course-v1:DKUK+MOOC_DKUK0017+2019_T2")
-        # coursetmp.append("course-v1:HYUk+IV_HYUKMOOC2019-1k+2019_C1")
-        # coursetmp.append("course-v1:XuetangX+XuetangX_01+2020_T1")
-        # coursetmp.append("course-v1:XuetangX+XuetangX_02+2020_T1")
-        # coursetmp.append("course-v1:XuetangX+XuetangX_03+2020_T1")
-        # coursetmp.append("course-v1:KSUk+KSUk_10+2020_T2")
-        # coursetmp.append("course-v1:KSUk+KSUk_11+2020_T2")
-        # coursetmp.append("course-v1:KSUk+KSUk_12+2020_T2")
-        # coursetmp.append("course-v1:DGUk+DGU_011k+DGU_011k_2020_12_11")
-        # coursetmp.append("course-v1:DGUk+DGU_012k+DGU_012k_2020_12_12")
-        # coursetmp.append("course-v1:DHUk+DHUk07k+2020_T2")
-        # coursetmp.append("course-v1:DHUk+DHUk08k+2020_T2")
-        # coursetmp.append("course-v1:DHUk+DHUk09k+2020_T2")
+        coursetmp.append("course-v1:EwhaK+EW36387K+2015-04")
+        coursetmp.append("course-v1:EwhaK+EW10771K+2015-03")
+        coursetmp.append("course-v1:EwhaK+EW10164K+2015-01")
+        coursetmp.append("course-v1:SKKUk+SKKU_BUS3033.01K+2016_SKKU01")
+        coursetmp.append("course-v1:SMUCk+SMUC01k+2017_T1")
+        coursetmp.append("course-v1:SMUCk+SMUC02k+2017_T2")
+        coursetmp.append("course-v1:UOUk+UOU101.02k+U101B.1")
+        coursetmp.append("course-v1:SKKUk+SKKU_GEDH042.01K+2016_SKKU04")
+        coursetmp.append("course-v1:KonYangK+ACE.KY002+KY2016A02")
+        coursetmp.append("course-v1:KNUk+CORE.KNUk01+2016_S1")
+        coursetmp.append("course-v1:SKKUk+SKKU_GEDH043.O1K+2017_T1_0")
+        coursetmp.append("course-v1:EwhaK+EW22126K+2017_F11")
+        coursetmp.append("course-v1:DGUk+DGUk_004k+DGU_004k_2017_9_4")
+        coursetmp.append("course-v1:DGUk+DGUk_005k+DGU_005k_2017_9_5")
+        coursetmp.append("course-v1:KHUk+KH304+2017_KH304")
+        coursetmp.append("course-v1:KHUk+FD_KH305+2017_KH305")
+        coursetmp.append("course-v1:KHUk+FD_KH306+2017_KH306")
+        coursetmp.append("course-v1:SKKUk+FD_SKKU_GEDH061.O1K+2017_T1_0")
+        coursetmp.append("course-v1:SKKUk+FD_SKKU_GEDH062_O1K+2017_T1_0")
+        coursetmp.append("course-v1:PTUk+SF_PMOOC01k+2017_T2")
+        coursetmp.append("course-v1:KonkukK+PRIME_konkuk_P001+2017_1")
+        coursetmp.append("course-v1:DonggukK+ACE_FA_DGU02k+2017_T1")
+        coursetmp.append("course-v1:EwhaK+CORE_EW16001C+2017_F09")
+        coursetmp.append("course-v1:DGUk+DGU_006k+DGU_006k_2018_9_6")
+        coursetmp.append("course-v1:DGUk+DGU-007k+DGU-007k_2018_9_7")
+        coursetmp.append("course-v1:DGUk+DGU_008k+DGU_008k_2018_9_8")
+        coursetmp.append("course-v1:DGUk+DGU_009k+DGU_009k_2018_9_9")
+        coursetmp.append("course-v1:SMUk+SMU2018_02+2018_2_T2")
+        coursetmp.append("course-v1:SOGANGk+SOGANG06K+2018_T3")
+        coursetmp.append("course-v1:SoongsilUnivK+soongsilmooc05K+2018_2")
+        coursetmp.append("course-v1:HYUk+CORE_HYUKMOOC2018-2k+2018_C2")
+        coursetmp.append("course-v1:DKUK+MOOC_DKUK0006+2019_T2")
+        coursetmp.append("course-v1:DKUK+MOOC_DKUK0008+2019_T2")
+        coursetmp.append("course-v1:SoongsilUnivK+soongsilmooc09K+2019_T2")
+        coursetmp.append("course-v1:SoongsilUnivK+soongsilmooc10K+2019_T2")
+        coursetmp.append("course-v1:SoongsilUnivK+soongsilmooc11K+2019_T2")
+        coursetmp.append("course-v1:DongdukK+DDU04+2019_T2")
+        coursetmp.append("course-v1:SSUk+SSMOOC14K+2019_T2")
+        coursetmp.append("course-v1:INU+INU004+2019_L2")
+        coursetmp.append("course-v1:AYUk+AYUk_EM_01+2019_T2")
+        coursetmp.append("course-v1:CNUk+MOE_CNU10+2019_2_10")
+        coursetmp.append("course-v1:DKUK+MOOC_DKUK0017+2019_T2")
+        coursetmp.append("course-v1:HYUk+IV_HYUKMOOC2019-1k+2019_C1")
+        coursetmp.append("course-v1:XuetangX+XuetangX_01+2020_T1")
+        coursetmp.append("course-v1:XuetangX+XuetangX_02+2020_T1")
+        coursetmp.append("course-v1:XuetangX+XuetangX_03+2020_T1")
+        coursetmp.append("course-v1:KSUk+KSUk_10+2020_T2")
+        coursetmp.append("course-v1:KSUk+KSUk_11+2020_T2")
+        coursetmp.append("course-v1:KSUk+KSUk_12+2020_T2")
+        coursetmp.append("course-v1:DGUk+DGU_011k+DGU_011k_2020_12_11")
+        coursetmp.append("course-v1:DGUk+DGU_012k+DGU_012k_2020_12_12")
+        coursetmp.append("course-v1:DHUk+DHUk07k+2020_T2")
+        coursetmp.append("course-v1:DHUk+DHUk08k+2020_T2")
+        coursetmp.append("course-v1:DHUk+DHUk09k+2020_T2")
         coursetmp.append("course-v1:DHUk+DHUk10k+2020_T2")
         coursetmp.append("course-v1:PNUk+PE_C01+2020_KM019")
         coursetmp.append("course-v1:HonamUniv+HCTL01+2021_6")
@@ -2340,32 +2340,34 @@ def vodfile_move_one_nofile(request):
         m_port = settings.CONTENTSTORE.get('DOC_STORE_CONFIG').get('port')
         client = MongoClient(m_host, m_port)
         db = client.edxapp
-        mdlcon = mdb.connect('192.168.1.245','openlms','dhvms@23gkrTmq','openlms',charset='utf8')
-        #mdlcon = mdb.connect('118.67.152.82', 'root', 'anzmRoqkf@2022', 'edxapp', charset='utf8')
+        mdlcon = mdb.connect('192.168.1.245', 'openlms', 'dhvms@23gkrTmq', 'openlms', charset='utf8')
+        # mdlcon = mdb.connect('118.67.152.82', 'root', 'anzmRoqkf@2022', 'edxapp', charset='utf8')
+
         mdlcur = mdlcon.cursor()
         for cblock in coursetmp:
             chapter_dict = {}
             # course_id = request.GET.get("course_id")
             # course_id = "course-v1:SunMoonK+SMKMOOC-05+2023_T2"
             course_id = cblock
+            log.info("course_id ======> %s" % course_id)
             print "course_id=====>", course_id
             try:
                 s_course_id = str(course_id).split('+')
                 _course_id = s_course_id[-2]
                 _run_id = s_course_id[-1]
 
-                print "s_course_id====>",course_id
-                print "_course_id====>",_course_id
-                print "_run_id====>",_run_id
+                print "s_course_id====>", course_id
+                print "_course_id====>", _course_id
+                print "_run_id====>", _run_id
 
                 structure_id = ObjectId(
                     db.modulestore.active_versions.find_one({'course': _course_id, 'run': _run_id}).get('versions').get('published-branch')
                 )
 
-                print "structure_id====>",structure_id
+                print "structure_id====>", structure_id
                 if structure_id is not None:
                     blocks_list = db.modulestore.structures.find_one({'_id': structure_id}).get('blocks')
-
+                    transcripts_data_list = []
                     for block in blocks_list:
                         chapter_dict[block.get('block_id')] = block
 
@@ -2387,76 +2389,112 @@ def vodfile_move_one_nofile(request):
 
                                         activity_type = chapter_dict[act_id[-1]].get('block_type')
                                         if activity_type == 'video':
+                                            edx_video_id = ''
+                                            transcripts_list = []
+                                            transcripts_videoid_list = []
+                                            transcripts_lang_list = []
+                                            transcripts_file_format_list = []
+                                            try:
+                                                log.info("chapter_dict[act_id[-1]].get('fields')======> %s" % chapter_dict[act_id[-1]].get('fields').get('edx_video_id'))
+                                                edx_video_id = chapter_dict[act_id[-1]].get('fields').get('edx_video_id')
+                                                log.info("edx_video_id NONE ======> %s" % chapter_dict[act_id[-1]].get('fields'))
+                                                if len(edx_video_id) > 0:
+                                                    with connections['default'].cursor() as cur_video:
+                                                        query = "select transcript,language_code,video_id,file_format from edxval_videotranscript where video_id in (select video_id from edxval_coursevideo where course_id like '%{}%') and (language_code <> 'en' and language_code <> 'ko');".format(course_id)
+                                                        log.info('transcriptsmy query ===> %s' % query)
+                                                        cur_video.execute(query)
+                                                        video_rows = cur_video.fetchall()
+                                                        transcripts_list = video_rows
+                                            except:
+                                                pass
+
+                                            try:
+                                                if len(transcripts_list) > 0:
+                                                    for transcripts in transcripts_list:
+                                                        if transcripts[0] not in transcripts_data_list:
+                                                            log.info('transcriptsmy ===> %s' % transcripts[0])
+                                                            transcripts_data_list.append(transcripts[0])
+                                                            transcripts_videoid_list.append(transcripts[2])
+                                                            transcripts_lang_list.append(transcripts[1])
+                                                            transcripts_file_format_list.append(transcripts[3])
+                                                # else:
+                                                #     for transcripts in chapter_dict[act_id[-1]].get('fields').get('transcripts').values():
+                                                #         if transcripts not in transcripts_data_list:
+                                                #             log.info('transcriptsmongo===> %s' % transcripts)
+                                                #             transcripts_data_list.append(transcripts)
+                                            except:
+                                                pass
+
+                                            # print("chapter_dict[act_id[-1]].get('fields')=====>",chapter_dict[act_id[-1]].get('fields'))
                                             chapter_name = block.get('fields').get('display_name')
                                             chapter_sub_name = chapter_dict[seq_id[-1]].get('fields').get('display_name')
                                             activity_name = chapter_dict[ver_id[-1]].get('fields').get('display_name')
-
                                             video_url = chapter_dict[act_id[-1]].get('fields').get('html5_sources')[0]
                                             edx_video_id = ''
                                             transcripts_list = []
                                             try:  # 자막 데이터 구성
-                                                transcripts_list = chapter_dict[act_id[-1]].get('fields').get('transcripts').keys()
-                                                transcripts_script_list = chapter_dict[act_id[-1]].get('fields').get('transcripts').values()
-                                                print "transcripts_list====>",transcripts_list
-                                                log.info('transcripts_list===> %s' % transcripts_list)
+
+                                                # if len(transcripts_list) < 1:
+                                                #     transcripts_list = chapter_dict[act_id[-1]].get('fields').get('transcripts').keys()
+
                                                 num = 0
-                                                for transcript in transcripts_list:
-                                                    language_code = transcript
-                                                    transcript_file = transcripts_script_list[num]
-                                                    edx_video_id = chapter_dict[act_id[-1]].get('fields').get('edx_video_id')
+                                                for transcript in transcripts_data_list:
+                                                    language_code = transcripts_lang_list[num]
+                                                    transcript_file = transcript
+                                                    log.info('transcript_file===> %s' % transcript_file)
+                                                    edx_video_id = transcripts_videoid_list[num]
                                                     block_id = chapter_dict[act_id[-1]].get('block_id')
-
                                                     # mdl_import_vod_meta
-                                                    # query = """
-                                                    #     SELECT count(*)
-                                                    #       FROM mdl_import_vod_meta
-                                                    #      WHERE url = '{0}';
-                                                    # """.format(video_url)
-                                                    # mdlcur.execute(query)
-                                                    # check_index = mdlcur.fetchall()
-                                                    #
-                                                    # if (check_index[0][0] == 0):    # 정보가 없다면
-                                                    # mdl_import_vod_meta_`2
-                                                    # query = """
-                                                    #     SELECT count(*)
-                                                    #       FROM mdl_import_vod_meta_2
-                                                    #      WHERE url = '{0}';
-                                                    # """.format(video_url)
-                                                    # mdlcur.execute(query)
-                                                    # check_index = mdlcur.fetchall()
-                                                    # if (check_index[0][0] == 0):    # 정보가 없다면
-                                                    #path_to_file = "/edx/var/edxapp/media/video-transcripts/{0}".format(transcript_file)
-                                                    #if exists(path_to_file):
-                                                    chapter_list.append([chapter_name, chapter_sub_name, language_code,transcript_file, edx_video_id, video_url, block_id])
-                                                    transcriptline = ""
-                                                    #f = open(path_to_file, 'r')
-                                                    #while True:
-                                                    #    line = f.readline()
-                                                    #    if not line: break
-                                                    #    transcriptline = transcriptline + line
-
-                                                    #f.close()
-                                                    query = "INSERT INTO mdl_import_vod_meta_2(url,edx_video_id) VALUES ('{0}','{1}');".format(video_url,edx_video_id)
-                                                    print "query1==>",query
-                                                    log.info('query1===> %s' % query)
+                                                    print("language_code======>",str(language_code))
+                                                    query = "SELECT count(*) FROM mdl_import_vod_meta mivm JOIN mdl_import_script_meta mism WHERE mivm.url = '{0}' and mism.lang = '{1}';".format(video_url, str(language_code))
+                                                    log.info('check_index111111 query ====> %s' % query)
                                                     mdlcur.execute(query)
-                                                    meta_id = mdlcur.lastrowid
-                                                    mdlcur.execute('commit')
-                                                    print "meta_id====>",meta_id
-                                                    log.info('meta_id===> %s' % query)
+                                                    check_index = mdlcur.fetchall()
+                                                    log.info('check_index111111[0][0]====> %s' % check_index[0][0])
+                                                    if (check_index[0][0] == 0):    # 정보가 없다면
+                                                        #mdl_import_vod_meta_`2
+                                                        query = "SELECT count(*) FROM mdl_import_vod_meta_2 mivm JOIN mdl_import_script_meta mism WHERE mivm.url = '{0}' and mism.lang = '{1}';".format(video_url, str(language_code))
+                                                        mdlcur.execute(query)
+                                                        check_index = mdlcur.fetchall()
+                                                        log.info('check_index222222[0][0]====> %s' % check_index[0][0])
+                                                        if (check_index[0][0] == 0):    # 정보가 없다면
+                                                            path_to_file = "/edx/var/edxapp/media/video-transcripts/{0}".format(transcript_file)
+                                                            log.info('path_to_file===> %s' % path_to_file)
+                                                            if exists(path_to_file):
+                                                                chapter_list.append([chapter_name, chapter_sub_name, language_code,transcript_file, edx_video_id, video_url, block_id])
+                                                                transcriptline = ""
+                                                                f = open(path_to_file, 'r')
+                                                                while True:
+                                                                    line = f.readline()
+                                                                    if not line: break
+                                                                    transcriptline = transcriptline + line
 
-                                                    query = "INSERT INTO mdl_import_vod_meta_block_2(meta_id,block_id,block_name) VALUES ('{0}','{1}','{2}');".format(meta_id,block_id,'Video')
-                                                    print "query2==>",query
-                                                    log.info('query2===> %s' % query)
-                                                    mdlcur.execute(query)
-                                                    mdlcur.execute('commit')
+                                                                f.close()
+                                                                if (transcripts_file_format_list=="sjson"):
+                                                                    tmptranscript = generate_srt_from_sjson(transcriptline)
+                                                                print("tmptranscript=======>",tmptranscript)
 
-                                                    uploaddate  = math.trunc(time.time())
-                                                    query = "INSERT INTO mdl_import_script_meta_2(meta_id,lang,script,content,uploaddate) VALUES ('{0}','{1}','{2}','{3}','{4}');".format(meta_id,language_code,transcript_file,transcriptline,uploaddate)
-                                                    # print "query3===>",query
-                                                    log.info('query3===> %s' % query)
-                                                    mdlcur.execute(query)
-                                                    mdlcur.execute('commit')
+                                                                query = "INSERT INTO mdl_import_vod_meta_2(url,edx_video_id) VALUES ('{0}','{1}');".format(video_url,edx_video_id)
+                                                                print "query1==>",query
+                                                                log.info('query1===> %s' % query)
+                                                                mdlcur.execute(query)
+                                                                meta_id = mdlcur.lastrowid
+                                                                mdlcur.execute('commit')
+                                                                print "meta_id====>",meta_id
+                                                                log.info('meta_id===> %s' % meta_id)
+
+                                                                query = "INSERT INTO mdl_import_vod_meta_block_2(meta_id,block_id,block_name) VALUES ('{0}','{1}','{2}');".format(meta_id,block_id,'Video')
+                                                                print "query2==>",query
+                                                                log.info('query2===> %s' % query)
+                                                                mdlcur.execute(query)
+                                                                mdlcur.execute('commit')
+
+                                                                uploaddate  = math.trunc(time.time())
+                                                                query = "INSERT INTO mdl_import_script_meta_2(meta_id,lang,script,content,uploaddate) VALUES ('{0}','{1}','{2}','{3}','{4}');".format(meta_id,language_code,transcript_file,transcriptline,uploaddate)
+                                                                print "query3===>",query
+                                                                log.info('query3===> %s' % query)
+                                                                mdlcur.execute(query)
+                                                                mdlcur.execute('commit')
 
                                                     num = num+1
                                             except:
@@ -2467,8 +2505,35 @@ def vodfile_move_one_nofile(request):
     except Exception as err:
         log.info('vodfile err [%s]' % traceback.format_exc(err))
         print('예외가 발생했습니다.', err)
-        log.info('예외가 발생했습니다.===> %s' % err)
         pass
 
     return JsonResponse(chapter_list)
 
+
+def generate_srt_from_sjson(sjson_subs):
+    """
+    Generate transcripts from sjson to SubRip (*.srt).
+
+    Arguments:
+        sjson_subs (dict): `sjson` subs.
+
+    Returns:
+        Subtitles in SRT format.
+    """
+
+    output = ''
+
+    equal_len = len(sjson_subs['start']) == len(sjson_subs['end']) == len(sjson_subs['text'])
+    if not equal_len:
+        return output
+
+    for i in range(len(sjson_subs['start'])):
+        item = SubRipItem(
+            index=i,
+            start=SubRipTime(milliseconds=sjson_subs['start'][i]),
+            end=SubRipTime(milliseconds=sjson_subs['end'][i]),
+            text=sjson_subs['text'][i]
+        )
+        output += (unicode(item))
+        output += '\n'
+    return output
