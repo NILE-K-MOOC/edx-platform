@@ -2456,8 +2456,8 @@ def vodfile_move_one_nofile(request):
                                                                     log.info('path_to_file read !!!!!!!!!!===> %s' % path_to_file)
                                                                     chapter_list.append([chapter_name, chapter_sub_name, language_code,transcript_file, edx_video_id, video_url, block_id])
 
-                                                                    tmptranscript = generate_srt_from_sjson(json.loads(path_to_file))
-                                                                    log.info('tmptranscript !!!!!!!!!!===> %s' % tmptranscript)
+                                                                    # tmptranscript = generate_srt_from_sjson(json.loads(path_to_file))
+                                                                    # log.info('tmptranscript !!!!!!!!!!===> %s' % tmptranscript)
 
                                                                     transcriptlinetext = ""
                                                                     f = open(path_to_file, 'rb')
