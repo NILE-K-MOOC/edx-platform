@@ -2452,17 +2452,21 @@ def vodfile_move_one_nofile(request):
                                                                 path_to_file = "/edx/var/edxapp/media/{0}".format(transcript_file)
                                                                 log.info('path_to_file===> %s' % path_to_file)
                                                                 if exists(path_to_file):
+                                                                    log.info('path_to_file read !!!!!!!!!!===> %s' % path_to_file)
                                                                     chapter_list.append([chapter_name, chapter_sub_name, language_code,transcript_file, edx_video_id, video_url, block_id])
-                                                                    transcriptline = ""
+                                                                    transcriptlinetext = ""
                                                                     f = open(path_to_file, 'r')
                                                                     while True:
-                                                                        line = f.readline()
-                                                                        if not line: break
-                                                                        transcriptline = transcriptline + line
+                                                                         line = f.readline()
+                                                                         if not line: break
+                                                                         transcriptline = transcriptline + line
 
                                                                     f.close()
-                                                                    tmptranscript = generate_srt_from_sjson(transcriptline)
+                                                                    # tmptranscript = generate_srt_from_sjson(transcriptline)
+                                                                    tmptranscript = generate_srt_from_sjson(json.loads(path_to_file))
                                                                     print("tmptranscript=======>",tmptranscript)
+                                                                    tmptranscript2 = generate_srt_from_sjson(transcriptline)
+                                                                    print("tmptranscript=======>",tmptranscript2)
 
                                                                     query = "INSERT INTO mdl_import_vod_meta_2(url,edx_video_id) VALUES ('{0}','{1}');".format(video_url,edx_video_id)
                                                                     print "query1==>",query
