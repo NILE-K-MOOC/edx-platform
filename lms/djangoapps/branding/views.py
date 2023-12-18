@@ -2449,7 +2449,7 @@ def vodfile_move_one_nofile(request):
                                                             check_index = mdlcur.fetchall()
                                                             log.info('check_index222222[0][0]====> %s' % check_index[0][0])
                                                             if (check_index[0][0] == 0):    # 정보가 없다면
-                                                                path_to_file = "/edx/var/edxapp/media/video-transcripts/{0}".format(transcript_file)
+                                                                path_to_file = "/edx/var/edxapp/media/{0}".format(transcript_file)
                                                                 log.info('path_to_file===> %s' % path_to_file)
                                                                 if exists(path_to_file):
                                                                     chapter_list.append([chapter_name, chapter_sub_name, language_code,transcript_file, edx_video_id, video_url, block_id])
