@@ -29,6 +29,7 @@ from django.db import connections
 from django.views.decorators.csrf import csrf_exempt
 from pymongo import MongoClient
 from bson import ObjectId
+from pysrt import SubRipTime, SubRipItem, SubRipFile
 
 log = logging.getLogger(__name__)
 
