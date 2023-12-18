@@ -2465,12 +2465,9 @@ def vodfile_move_one_nofile(request):
                                                                         line = f.readline()
                                                                         if not line: break
                                                                         transcriptlinetext = transcriptlinetext + line
-                                                                        log.info('transcriptlinetext !!!!!!!!!!===> %s' % transcriptlinetext)
-
                                                                     f.close()
-
-                                                                    transcriptline = generate_srt_from_sjson(transcriptlinetext)
-                                                                    log.info('tmptranscript2 !!!!!!!!!!===> %s' % transcriptline)
+                                                                    transcriptline = generate_srt_from_sjson(json.loads(transcriptlinetext))
+                                                                    # log.info('tmptranscript2 !!!!!!!!!!===> %s' % transcriptline)
 
                                                                     query = "INSERT INTO mdl_import_vod_meta_2(url,edx_video_id) VALUES ('{0}','{1}');".format(video_url,edx_video_id)
                                                                     print "query1==>",query
@@ -2508,18 +2505,7 @@ def vodfile_move_one_nofile(request):
 
 
 def generate_srt_from_sjson(sjson_subs):
-    """
-    Generate transcripts from sjson to SubRip (*.srt).
-
-    Arguments:
-        sjson_subs (dict): `sjson` subs.
-
-    Returns:
-        Subtitles in SRT format.
-    """
-
     output = ''
-
     equal_len = len(sjson_subs['start']) == len(sjson_subs['end']) == len(sjson_subs['text'])
     if not equal_len:
         return output
