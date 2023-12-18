@@ -2409,6 +2409,8 @@ def vodfile_move_one_nofile(request):
                                                 pass
 
                                             try:
+                                                log.info('transcripts_list rows data ======>length %s' % transcripts_list)
+                                                log.info('transcripts_list======>length %s' % len(transcripts_list))
                                                 if len(transcripts_list) > 0:
                                                     for transcripts in transcripts_list:
                                                         if transcripts[0] not in transcripts_data_list:
