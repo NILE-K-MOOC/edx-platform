@@ -2469,8 +2469,8 @@ def vodfile_move_one_nofile(request):
 
                                                                     f.close()
 
-                                                                    tmptranscript2 = generate_srt_from_sjson(transcriptlinetext)
-                                                                    log.info('tmptranscript2 !!!!!!!!!!===> %s' % tmptranscript2)
+                                                                    transcriptline = generate_srt_from_sjson(transcriptlinetext)
+                                                                    log.info('tmptranscript2 !!!!!!!!!!===> %s' % transcriptline)
 
                                                                     query = "INSERT INTO mdl_import_vod_meta_2(url,edx_video_id) VALUES ('{0}','{1}');".format(video_url,edx_video_id)
                                                                     print "query1==>",query
