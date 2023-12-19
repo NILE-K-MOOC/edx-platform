@@ -104,7 +104,7 @@ function getCookie(cName) {
         if (end == -1) end = cookieData.length;
         cValue = cookieData.substring(start, end);
     }
-    return unescape(cValue);
+    return decodeURI(cValue);
 }
 
 

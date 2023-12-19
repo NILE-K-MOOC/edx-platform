@@ -23,7 +23,20 @@ function goAjax() {
     $("#submittmp").submit();
 }
 function goAjax2() {
-    $("#submittmp2").submit();
+    $.ajax({
+        url : "https://cauth.kmooc.kr/login/",
+        type: "POST",
+        async : true,
+        crossDomain: true,
+        data: {"username":"jkobdream","password":"kmooc123!"},
+        jsonp : "something",
+        success:function(result){
+            alert(JSON.stringify(result));
+        },
+        error:function(xhr,status,error){
+            alert("실패 " + status);
+        }
+    });
 }
 function goAjax3() {
     const csrftoken = getCookie('csrftoken');
