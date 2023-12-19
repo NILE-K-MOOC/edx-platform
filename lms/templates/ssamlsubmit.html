@@ -75,7 +75,7 @@ function getCookie(cName) {
     return decodeURI(cValue);
 }
 </script>
-<form name="submittmp" id="submittmp" action="https://cauth.kmooc.kr/login/" method="post">
+<form name="submittmp" id="submittmp" action="https://cauth.kmooc.kr/login/" method="post" target="samlloginform">
     <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
     <input type="hidden" name="username" id="username" value="jkobdream">
     <input type="hidden" name="password" id="password" value="kmooc123!">
@@ -89,4 +89,4 @@ function getCookie(cName) {
 <button type="button" onClick="goAjax2()" style="color:#FFFFFF">임시테스트2</button>
 <button type="button" onClick="goAjax3()" style="color:#FFFFFF">AJAX 테스트</button>
 
-        <iframe src="https://cauth.kmooc.kr/login"></iframe>
+        <iframe src="https://cauth.kmooc.kr/login" name="samlloginform" id="samlloginform"></iframe>
