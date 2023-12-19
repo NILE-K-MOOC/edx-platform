@@ -17,14 +17,16 @@ openstate = "true"
 <script type="text/javascript" src="/static/new_index/js/spin.js"></script>
 <script language="Javascript">
 $(document).ready(function () {
-    $("#samlloginform").on("change",function(){
-       console.log("asdfasdfasdf");
-    });
+
 });
 
-function nextaction() {
-    alert("asdfasdf");
-}
+window.addEventListener('message', event => {
+    if (event.origin === 'https://cauth.kmooc.kr') {
+        console.log(event.data);
+    } else {
+        return;
+    }
+});
 
 
 function goAjax() {
