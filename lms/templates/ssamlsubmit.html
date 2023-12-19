@@ -25,10 +25,8 @@ function goAjax() {
 function goAjax2() {
     $.ajax({
         url : "https://cauth.kmooc.kr/login2/",
-        mothod: "POST",
-        dataType: "jsonp",
-        jsonp : "callback",
-        data: "username=jkobdream&password=kmooc123!",
+        type: "POST",
+        data: {"username":"jkobdream","password":"kmooc123!"},
         success:function(result){
             alert(JSON.stringify(result));
         },
