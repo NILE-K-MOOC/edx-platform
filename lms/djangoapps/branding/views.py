@@ -2515,7 +2515,7 @@ def generate_srt_from_sjson(sjson_subs):
             index=i,
             start=SubRipTime(milliseconds=sjson_subs['start'][i]),
             end=SubRipTime(milliseconds=sjson_subs['end'][i]),
-            text=sjson_subs['text'][i]
+            text=sjson_subs['text'][i].replace("'","`")
         )
         output += (unicode(item))
         output += '\n'
