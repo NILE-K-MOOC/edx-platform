@@ -17,7 +17,15 @@ openstate = "true"
 <script type="text/javascript" src="/static/new_index/js/spin.js"></script>
 <script language="Javascript">
 $(document).ready(function () {
+    $("#samlloginform").on("change",function(){
+       console.log("asdfasdfasdf");
+    });
 });
+
+function nextaction() {
+    alert("asdfasdf");
+}
+
 
 function goAjax() {
     $("#submittmp").submit();
