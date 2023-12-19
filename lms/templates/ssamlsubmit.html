@@ -20,8 +20,36 @@ $(document).ready(function () {
 });
 
 function goAjax() {
-    $("#submittmp").submit();
+    //$("#submittmp").submit();
+    const reqUrl = "https://cauth.kmooc.kr/login/";
+    // const ssoMap = new Map();
+    goParamView(reqUrl, "", "goSAMLForm");
 }
+
+function goParamView(url, map, fn = "", target = 0) {
+    fn = (fn != "") ? fn : "goSAMLForm";
+    $("form[name='" + fn + "']").empty();
+    /*
+    map.forEach((v, k, map) => {
+        if (k == "tm") {
+            $("form[name='" + fn + "']").append("<input type='hidden' name='tm' value='" + convUnixTime() + "' />");
+        } else {
+            $("form[name='" + fn + "']").append("<input type='hidden' name='" + k + "' value='" + v + "' />");
+        }
+    });
+    */
+
+    $("form[name='" + fn + "']").append("<input type='hidden' name='username' value='jkobdream' />");
+    $("form[name='" + fn + "']").append("<input type='hidden' name='password' value='kmooc123!' />");
+
+
+    if (target == 1) {
+        $("form[name='" + fn + "']").attr("target", "_blank");
+    }
+    $("form[name='" + fn + "']").attr("action", url);
+    $("form[name='" + fn + "']").submit();
+}
+
 function goAjax2() {
     $.ajax({
         url : "https://cauth.kmooc.kr/login2/",
@@ -74,6 +102,8 @@ function getCookie(cName) {
     }
     return decodeURI(cValue);
 }
+
+
 </script>
 <form name="submittmp" id="submittmp" action="https://cauth.kmooc.kr/login/" method="post" target="samlloginform">
     <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
@@ -81,6 +111,11 @@ function getCookie(cName) {
     <input type="hidden" name="password" id="password" value="kmooc123!">
 </form>
 
+<form name="goSAMLForm" id="goSAMLForm" action="https://cauth.kmooc.kr/login/" method="post">
+    <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
+    <input type="hidden" name="username" id="username" value="jkobdream">
+    <input type="hidden" name="password" id="password" value="kmooc123!">
+</form>
 
 <form name="submittmp2" id="submittmp2" action="http://127.0.0.1:18000/removememberexit/" method="post">
     <input type="hidden" name="id" id="id" value="165799">
