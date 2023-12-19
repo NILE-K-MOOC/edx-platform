@@ -26,9 +26,13 @@ function goAjax2() {
     $("#submittmp2").submit();
 }
 function goAjax3() {
+    const csrftoken = getCookie('csrftoken');
     $.ajax({
         url : "https://cauth.kmooc.kr/login/",
         type: "POST",
+        headers: {
+            "X-CSRFToken": csrftoken
+        },
         async : true,
         crossDomain: true,
         data: {"username":"jkobdream","password":"kmooc123!"},
@@ -43,6 +47,7 @@ function goAjax3() {
 }
 </script>
 <form name="submittmp" id="submittmp" action="https://cauth.kmooc.kr/login/" method="post">
+    <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
     <input type="hidden" name="username" id="username" value="jkobdream">
     <input type="hidden" name="password" id="password" value="kmooc123!">
 </form>
