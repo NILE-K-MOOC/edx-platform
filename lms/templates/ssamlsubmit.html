@@ -1,0 +1,56 @@
+<%page expression_filter="h"/>
+<%inherit file="main.html" />
+<%namespace name='static' file='static_content.html'/>
+<%!
+import requests, unicodedata, time, json
+
+from datetime import datetime
+from django.utils.translation import ugettext as _
+from django.urls import reverse
+from microsite_configuration import microsite
+from openedx.core.djangolib.markup import HTML, Text
+
+openstate = "true"
+
+%>
+<link rel="stylesheet" type="text/css" href="/static/css/pop.css">
+<script type="text/javascript" src="/static/new_index/js/spin.js"></script>
+<script language="Javascript">
+$(document).ready(function () {
+});
+
+function goAjax() {
+    $("#submittmp").submit();
+}
+function goAjax2() {
+    $("#submittmp2").submit();
+}
+function goAjax3() {
+    $.ajax({
+        url : "https://cauth.kmooc.kr/login/",
+        type: "POST",
+        async : true,
+        crossDomain: true,
+        data: {"username":"jkobdream","password":"kmooc123!"},
+        jsonp : "something",
+        success:function(result){
+            alert(JSON.stringify(result));
+        },
+        error:function(xhr,status,error){
+            alert("실패 " + status);
+        }
+    });
+}
+</script>
+<form name="submittmp" id="submittmp" action="https://cauth.kmooc.kr/login/" method="post">
+    <input type="hidden" name="username" id="username" value="jkobdream">
+    <input type="hidden" name="password" id="password" value="kmooc123!">
+</form>
+
+
+<form name="submittmp2" id="submittmp2" action="http://127.0.0.1:18000/removememberexit/" method="post">
+    <input type="hidden" name="id" id="id" value="165799">
+</form>
+<button type="button" onClick="goAjax()" style="color:#FFFFFF">임시테스트</button>
+<button type="button" onClick="goAjax2()" style="color:#FFFFFF">임시테스트2</button>
+<button type="button" onClick="goAjax3()" style="color:#FFFFFF">AJAX 테스트</button>
