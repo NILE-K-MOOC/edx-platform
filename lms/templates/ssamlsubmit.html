@@ -25,14 +25,10 @@ function goAjax() {
 function goAjax2() {
     $.ajax({
         url : "https://cauth.kmooc.kr/login/",
-        type: "POST",
-        headers: {
-            "Access-Control-Allow-Origin": "*"
-        },
-        async : true,
-        crossDomain: true,
-        data: {"username":"jkobdream","password":"kmooc123!"},
-        jsonp : "something",
+        mothod: "POST",
+        dataType: "jsonp",
+        jsonp : "callback",
+        data: "username=jkobdream&password=kmooc123!",
         success:function(result){
             alert(JSON.stringify(result));
         },
@@ -53,7 +49,6 @@ function goAjax3() {
         async : true,
         crossDomain: true,
         data: {"username":"jkobdream","password":"kmooc123!"},
-        jsonp : "something",
         success:function(result){
             alert(JSON.stringify(result));
         },
