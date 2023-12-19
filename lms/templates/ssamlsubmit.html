@@ -58,6 +58,20 @@ function goAjax3() {
         }
     });
 }
+
+function getCookie(cName) {
+    cName = cName + '=';
+    var cookieData = document.cookie;
+    var start = cookieData.indexOf(cName);
+    var cValue = '';
+    if (start != -1) {
+        start += cName.length;
+        var end = cookieData.indexOf(';', start);
+        if (end == -1) end = cookieData.length;
+        cValue = cookieData.substring(start, end);
+    }
+    return decodeURI(cValue);
+}
 </script>
 <form name="submittmp" id="submittmp" action="https://cauth.kmooc.kr/login/" method="post">
     <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
