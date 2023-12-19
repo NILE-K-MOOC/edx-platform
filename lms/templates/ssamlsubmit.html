@@ -24,7 +24,7 @@ function goAjax() {
 }
 function goAjax2() {
     $.ajax({
-        url : "https://cauth.kmooc.kr/login/",
+        url : "https://cauth.kmooc.kr/login2/",
         mothod: "POST",
         dataType: "jsonp",
         jsonp : "callback",
@@ -40,7 +40,7 @@ function goAjax2() {
 function goAjax3() {
     const csrftoken = getCookie('csrftoken');
     $.ajax({
-        url : "https://cauth.kmooc.kr/login/",
+        url : "https://cauth.kmooc.kr/login2/",
         type: "POST",
         headers: {
             "X-CSRFToken": csrftoken,
