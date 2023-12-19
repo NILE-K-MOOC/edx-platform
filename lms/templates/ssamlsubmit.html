@@ -26,6 +26,11 @@ function goAjax2() {
     $.ajax({
         url : "https://cauth.kmooc.kr/login2/",
         type: "POST",
+        headers: {
+            "accept": "application/json",
+            "Access-Control-Allow-Origin":"*"
+        },
+
         data: {"username":"jkobdream","password":"kmooc123!"},
         success:function(result){
             alert(JSON.stringify(result));
