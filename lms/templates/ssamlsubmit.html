@@ -13,7 +13,7 @@ from openedx.core.djangolib.markup import HTML, Text
 openstate = "true"
 
 %>
-{% csrf_token %}
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <link rel="stylesheet" type="text/css" href="/static/css/pop.css">
 <script type="text/javascript" src="/static/new_index/js/spin.js"></script>
 <script language="Javascript">
@@ -26,6 +26,7 @@ $.ajaxSetup({
         }
     }
 });
+console.log(csrftoken);
 
 window.addEventListener('message', event => {
     if (event.origin === 'https://cauth.kmooc.kr') {
@@ -91,6 +92,7 @@ function goAjax3() {
     $.ajax({
         url : "https://cauth.kmooc.kr/login2/",
         type: "POST",
+
         headers: {
             "X-CSRFToken": csrftoken,
             "Access-Control-Allow-Origin": "*"
