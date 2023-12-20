@@ -13,10 +13,12 @@ from openedx.core.djangolib.markup import HTML, Text
 openstate = "true"
 
 %>
+{% csrf_token %}
 <link rel="stylesheet" type="text/css" href="/static/css/pop.css">
 <script type="text/javascript" src="/static/new_index/js/spin.js"></script>
 <script language="Javascript">
-var csrftoken = getCookie('csrftoken');
+//var csrftoken = getCookie('csrftoken');
+const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 $.ajaxSetup({
     beforeSend: function(xhr, settings) {
         if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
