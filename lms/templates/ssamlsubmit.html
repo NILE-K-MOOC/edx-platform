@@ -95,10 +95,10 @@ function goAjax3() {
     $.ajax({
         url : "https://cauth.kmooc.kr/login2/",
         type: "POST",
-        // headers: {
-        //     "X-CSRFToken": csrftoken,
-        //     "Access-Control-Allow-Origin": "*"
-        // },
+        headers: {
+            "X-CSRFToken": csrftoken,
+            "referrer": "no-referrer"
+        },
         async : true,
         crossDomain: true,
         data: {"username":"jkobdream","password":"kmooc123!","csrfmiddlewaretoken":csrftoken},
@@ -149,5 +149,4 @@ function csrfSafeMethod(method) {
 <button type="button" onClick="goAjax()" style="color:#FFFFFF">임시테스트</button>
 <button type="button" onClick="goAjax2()" style="color:#FFFFFF">임시테스트2</button>
 <button type="button" onClick="goAjax3()" style="color:#FFFFFF">AJAX 테스트</button>
-
-        <iframe src="https://cauth.kmooc.kr/login" name="samlloginform" id="samlloginform"></iframe>
+<iframe src="https://cauth.kmooc.kr/login" name="samlloginform" id="samlloginform" style="display:none;"></iframe>
