@@ -101,7 +101,7 @@ function goAjax3() {
         // },
         async : true,
         crossDomain: true,
-        data: {"username":"jkobdream","password":"kmooc123!"},
+        data: {"username":"jkobdream","password":"kmooc123!","csrfmiddlewaretoken":csrftoken},
         success:function(result){
             alert(JSON.stringify(result));
         },
