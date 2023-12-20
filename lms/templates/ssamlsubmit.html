@@ -17,7 +17,7 @@ openstate = "true"
 <script type="text/javascript" src="/static/new_index/js/spin.js"></script>
 <script language="Javascript">
 //var csrftoken = getCookie('csrftoken');
-// const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 // $.ajaxSetup({
 //     beforeSend: function(xhr, settings) {
 //         if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
@@ -26,7 +26,7 @@ openstate = "true"
 //     }
 // });
 $.ajaxSetup({
-    headers: {"X-CSRFToken": '{{csrf_token}}'}
+    headers: {"X-CSRFToken": csrftoken}
 });
 
 console.log(csrftoken);
