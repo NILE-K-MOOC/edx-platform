@@ -13,19 +13,22 @@ from openedx.core.djangolib.markup import HTML, Text
 openstate = "true"
 
 %>
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <link rel="stylesheet" type="text/css" href="/static/css/pop.css">
 <script type="text/javascript" src="/static/new_index/js/spin.js"></script>
 <script language="Javascript">
 //var csrftoken = getCookie('csrftoken');
-const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+// const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+// $.ajaxSetup({
+//     beforeSend: function(xhr, settings) {
+//         if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+//             xhr.setRequestHeader("X-CSRFToken", csrftoken);
+//         }
+//     }
+// });
 $.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        }
-    }
+    headers: {"X-CSRFToken": '{{csrf_token}}'}
 });
+
 console.log(csrftoken);
 
 window.addEventListener('message', event => {
