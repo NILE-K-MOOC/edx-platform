@@ -95,11 +95,10 @@ function goAjax3() {
     $.ajax({
         url : "https://cauth.kmooc.kr/login2/",
         type: "POST",
-
-        headers: {
-            "X-CSRFToken": csrftoken,
-            "Access-Control-Allow-Origin": "*"
-        },
+        // headers: {
+        //     "X-CSRFToken": csrftoken,
+        //     "Access-Control-Allow-Origin": "*"
+        // },
         async : true,
         crossDomain: true,
         data: {"username":"jkobdream","password":"kmooc123!"},
