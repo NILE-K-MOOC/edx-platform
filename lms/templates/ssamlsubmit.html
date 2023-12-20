@@ -16,6 +16,7 @@ openstate = "true"
 <link rel="stylesheet" type="text/css" href="/static/css/pop.css">
 <script type="text/javascript" src="/static/new_index/js/spin.js"></script>
 <script language="Javascript">
+var csrftoken = getCookie('csrftoken');
 $.ajaxSetup({
     beforeSend: function(xhr, settings) {
         if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
@@ -85,7 +86,6 @@ function goAjax2() {
     });
 }
 function goAjax3() {
-    var csrftoken = getCookie('csrftoken');
     $.ajax({
         url : "https://cauth.kmooc.kr/login2/",
         type: "POST",
