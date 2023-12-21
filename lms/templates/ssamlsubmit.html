@@ -41,7 +41,7 @@ window.addEventListener('message', event => {
 
 
 function goAjax() {
-    $("#submittmp").submit();
+    $("#goSAMLForm3").submit();
     /*
     const reqUrl = "https://cauth.kmooc.kr/login/";
     // const ssoMap = new Map();
@@ -72,13 +72,19 @@ function goParamView(url, map, fn = "", target = 0) {
         $("form[name='" + fn + "']").attr("target", fn+"ifr");
     }
 
-    if (fn && !isNaN(target)) {
-        if ($("form[name='" + fn + "ifr']")) {
+    if (fn && target==true) {
+        if ($("form[name='" + fn + "ifr']").attr("src")==undefined) {
+            publicfn = fn+'ifr';
             $('<iframe id="'+fn+'ifr" name="'+fn+'ifr" src="https://cauth.kmooc.kr/login">').appendTo("body");
         }
+        setTimeout(function() {
+            $("form[name='" + fn + "']").attr("action", url);
+            $("form[name='" + fn + "']").submit();
+        },800);
+    } else {
+        $("form[name='" + fn + "']").attr("action", url);
+        $("form[name='" + fn + "']").submit();
     }
-    $("form[name='" + fn + "']").attr("action", url);
-    $("form[name='" + fn + "']").submit();
 }
 
 function goAjax2() {
@@ -86,7 +92,12 @@ function goAjax2() {
     // const ssoMap = new Map();
     goParamView(reqUrl, "", "goSAMLForm", true);
 }
+
 function goAjax3() {
+    $("#goSAMLForm").submit();
+}
+
+function goAjax4() {
     $.ajax({
         url : "https://cauth.kmooc.kr/login2/",
         type: "POST",
@@ -126,14 +137,14 @@ function csrfSafeMethod(method) {
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 }
 </script>
-<form name="submittmp" id="submittmp" action="https://cauth.kmooc.kr/login/" method="post" target="samlloginform">
+<form name="goSAMLForm3" id="goSAMLForm3" action="https://cauth.kmooc.kr/login/" method="post" target="samlloginform">
     <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
     <input type="hidden" name="username" id="username" value="jkobdream">
     <input type="hidden" name="password" id="password" value="kmooc123!">
 </form>
 
 <form name="goSAMLForm" id="goSAMLForm" action="https://cauth.kmooc.kr/login/" method="post">
-    <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">]
+    <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
     <input type="hidden" name="username" id="username" value="jkobdream">
     <input type="hidden" name="password" id="password" value="kmooc123!">
 </form>
@@ -143,5 +154,6 @@ function csrfSafeMethod(method) {
 </form>
 <button type="button" onClick="goAjax()" style="color:#FFFFFF">임시테스트</button>
 <button type="button" onClick="goAjax2()" style="color:#FFFFFF">임시테스트2</button>
-<button type="button" onClick="goAjax3()" style="color:#FFFFFF">AJAX 테스트</button>
+<button type="button" onClick="goAjax3()" style="color:#FFFFFF">임시테스트3</button>
+<button type="button" onClick="goAjax4()" style="color:#FFFFFF">AJAX 테스트</button>
 <iframe src="https://cauth.kmooc.kr/login" name="samlloginform" id="samlloginform"></iframe>
