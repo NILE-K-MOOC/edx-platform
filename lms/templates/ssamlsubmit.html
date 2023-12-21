@@ -49,7 +49,7 @@ function goAjax() {
      */
 }
 
-function goParamView(url, map, fn = "", target = 0, makeframe = false) {
+function goParamView(url, map, fn = "", target = 0) {
     fn = (fn != "") ? fn : "goSAMLForm";
     $("form[name='" + fn + "']").empty();
     /*
@@ -66,21 +66,17 @@ function goParamView(url, map, fn = "", target = 0, makeframe = false) {
     $("form[name='" + fn + "']").append("<input type='hidden' name='password' value='kmooc123!' />");
 
 
-    if (target == 1 && !isNaN(target)) {
+    if (target == 1 && $.isNumeric(target)) {
         $("form[name='" + fn + "']").attr("target", "_blank");
-    } else if (isNaN(target)) {
-        $("form[name='" + fn + "']").attr("target", target);
+    } else if (target==true) {
+        $("form[name='" + fn + "']").attr("target", fn+"ifr");
     }
 
-    if (makeframe) {
-        var aIframe = document.createElement("iframe");
-        aIframe.setAttribute("id", makeframe);
-        aIframe.setAttribute("name", makeframe);
-        aIframe.style.width = "200px";
-        aIframe.style.height = "100px";
-        aIframe.src = "https://cauth.kmooc.kr/login";
+    if (fn && !isNaN(target)) {
+        if ($("form[name='" + fn + "ifr']")) {
+            $('<iframe id="'+fn+'ifr" name="'+fn+'ifr" src="https://cauth.kmooc.kr/login">').appendTo("body");
+        }
     }
-
     $("form[name='" + fn + "']").attr("action", url);
     $("form[name='" + fn + "']").submit();
 }
@@ -88,7 +84,7 @@ function goParamView(url, map, fn = "", target = 0, makeframe = false) {
 function goAjax2() {
     const reqUrl = "https://cauth.kmooc.kr/login/";
     // const ssoMap = new Map();
-    goParamView(reqUrl, "", "goSAMLForm2", true);
+    goParamView(reqUrl, "", "goSAMLForm", true);
 }
 function goAjax3() {
     $.ajax({
