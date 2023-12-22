@@ -106,11 +106,11 @@ function goAjax4() {
             xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'))
         }
     });
-
+    let csrfToken = getCookie('csrftoken');
     $.ajax({
         url : "https://cauth.kmooc.kr/login2/",
         type: "POST",
-        headers:{'X-CSRFToken':$.cookie('csrftoken')},
+        headers:{'X-CSRFToken':csrfToken},
         data: {"username":"jkobdream","password":"kmooc123!"},
         success:function(result){
             alert(JSON.stringify(result));
