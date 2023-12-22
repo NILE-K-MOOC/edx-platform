@@ -28,9 +28,7 @@ const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 //         }
 //     }
 // });
-$.ajaxSetup({
-    headers: {"X-CSRFToken": $.cookie('csrftoken')}
-});
+
 
 console.log(csrftoken);
 
@@ -101,16 +99,20 @@ function goAjax3() {
 }
 
 function goAjax4() {
+
+    $.ajaxSetup({
+        crossDomain: false,
+        beforeSend: function (xhr, settings) {
+            xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'))
+        }
+    });
+
     $.ajax({
         url : "https://cauth.kmooc.kr/login2/",
         type: "POST",
-        headers: {
-            "X-CSRFToken": $.cookie('csrftoken'),
-            "referrer": "no-referrer"
-        },
         async : true,
         crossDomain: true,
-        data: {"username":"jkobdream","password":"kmooc123!","csrfmiddlewaretoken":$.cookie('csrftoken'),"csrftoken":$.cookie('csrftoken')},
+        data: {"username":"jkobdream","password":"kmooc123!"},
         success:function(result){
             alert(JSON.stringify(result));
         },
