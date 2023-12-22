@@ -110,8 +110,7 @@ function goAjax4() {
     $.ajax({
         url : "https://cauth.kmooc.kr/login2/",
         type: "POST",
-        async : true,
-        crossDomain: true,
+        headers:{'X-CSRFToken':$.cookie('csrftoken')},
         data: {"username":"jkobdream","password":"kmooc123!"},
         success:function(result){
             alert(JSON.stringify(result));
