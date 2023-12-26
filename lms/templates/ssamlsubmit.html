@@ -109,6 +109,7 @@ function goAjax4() {
         }
     });
     let csrfToken = getCookie('csrftoken');
+
     $.ajax({
         url : "https://cauth.kmooc.kr/api/login/",
         type: "POST",
