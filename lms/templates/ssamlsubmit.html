@@ -100,22 +100,16 @@ function goAjax3() {
 
 function goAjax4() {
     $.ajaxSetup({
-        crossDomain: false,
         beforeSend: function (xhr, settings) {
-            xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'))
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
         }
     });
     let csrfToken = getCookie('csrftoken');
     $.ajax({
         url : "https://cauth.kmooc.kr/slogin/",
         type: "POST",
-        headers:{
-            'Sec-Fetch-Dest': 'document',
-            'Sec-Fetch-Mode': "navigate",
-            'Sec-Fetch-Site': 'same-origin',
-            'Sec-Fetch-User': '?1',
-            'X-CSRFToken':csrfToken
-        },
         data: {"username":"jkobdream","password":"kmooc123!"},
         success:function(result){
             alert(JSON.stringify(result));
