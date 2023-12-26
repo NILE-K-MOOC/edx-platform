@@ -113,7 +113,7 @@ function goAjax4() {
     $.ajax({
         url : "https://cauth.kmooc.kr/api/login/",
         type: "POST",
-        data: {"username":"jkobdream","password":"kmooc123!"},
+        data: {"username":"jkobdream","password":"kmooc123!","csrfmiddlewaretoken":csrfToken},
         success:function(result){
             alert(JSON.stringify(result));
         },
