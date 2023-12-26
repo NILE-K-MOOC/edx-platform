@@ -97,7 +97,9 @@ function goAjax2() {
 function goAjax3() {
     $("#goSAMLForm").submit();
 }
-
+$.ajaxSetup({
+    headers: {"X-CSRFToken": '{{csrf_token}}'}
+});
 function goAjax4() {
     $.ajaxSetup({
         beforeSend: function (xhr, settings) {
@@ -108,7 +110,7 @@ function goAjax4() {
     });
     let csrfToken = getCookie('csrftoken');
     $.ajax({
-        url : "https://cauth.kmooc.kr/slogin/",
+        url : "https://cauth.kmooc.kr/api/login/,
         type: "POST",
         data: {"username":"jkobdream","password":"kmooc123!"},
         success:function(result){
