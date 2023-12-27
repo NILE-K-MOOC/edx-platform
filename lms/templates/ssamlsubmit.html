@@ -143,16 +143,12 @@ function csrfSafeMethod(method) {
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 }
 </script>
-<form name="goSAMLForm3" id="goSAMLForm3" action="https://cauth.kmooc.kr/login/" method="post" target="samlloginform">
-    <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
-    <input type="hidden" name="username" id="username" value="jkobdream">
-    <input type="hidden" name="password" id="password" value="kmooc123!">
+<form name="goSAMLForm3" id="goSAMLForm3" action="https://cauth.kmooc.kr/samllogin/" method="post" target="samlloginform">
+    <input type="hidden" name="sdata" id="sdata" value="XXBuXJ5EDHwAJ3G8CPteMNNmNzUdMaDpP61/oZLQRWP6m5FTcd1clRYnbkBH3KlyjVIGpaU5KyuIM5GDSD8uHjNUAio5oySIHB1taP+mobNwdKo2KhR+JgKCYGHV8j58us5bGm+0rqNaeqF1aIRFhhFl24SKIWA1IQLWAEIcHOY=">
 </form>
 
-<form name="goSAMLForm" id="goSAMLForm" action="https://cauth.kmooc.kr/login/" method="post">
-    <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
-    <input type="hidden" name="username" id="username" value="jkobdream">
-    <input type="hidden" name="password" id="password" value="kmooc123!">
+<form name="goSAMLForm" id="goSAMLForm" action="https://cauth.kmooc.kr/samllogin/" method="post">
+    <input type="hidden" name="sdata" id="sdata" value="XXBuXJ5EDHwAJ3G8CPteMNNmNzUdMaDpP61/oZLQRWP6m5FTcd1clRYnbkBH3KlyjVIGpaU5KyuIM5GDSD8uHjNUAio5oySIHB1taP+mobNwdKo2KhR+JgKCYGHV8j58us5bGm+0rqNaeqF1aIRFhhFl24SKIWA1IQLWAEIcHOY=">
 </form>
 
 <form name="submittmp2" id="submittmp2" action="http://127.0.0.1:18000/removememberexit/" method="post">
@@ -161,4 +157,5 @@ function csrfSafeMethod(method) {
 <button type="button" onClick="goAjax()" style="color:#FFFFFF">임시테스트</button>
 <button type="button" onClick="goAjax3()" style="color:#FFFFFF">임시테스트2</button>
 <button type="button" onClick="goAjax4()" style="color:#FFFFFF">임시테스트3</button>
-<iframe src="https://cauth.kmooc.kr/login" name="samlloginform" id="samlloginform" style="display:none;"></iframe>
+
+<iframe src="https://cauth.kmooc.kr/samllogin" name="samlloginform" id="samlloginform" style="display:none;"></iframe>
