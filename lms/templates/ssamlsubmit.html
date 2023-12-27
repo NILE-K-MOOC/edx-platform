@@ -144,10 +144,12 @@ function csrfSafeMethod(method) {
 }
 </script>
 <form name="goSAMLForm3" id="goSAMLForm3" action="https://cauth.kmooc.kr/samllogin/" method="post" target="samlloginform">
+    <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
     <input type="hidden" name="sdata" id="sdata" value="XXBuXJ5EDHwAJ3G8CPteMNNmNzUdMaDpP61/oZLQRWP6m5FTcd1clRYnbkBH3KlyjVIGpaU5KyuIM5GDSD8uHjNUAio5oySIHB1taP+mobNwdKo2KhR+JgKCYGHV8j58us5bGm+0rqNaeqF1aIRFhhFl24SKIWA1IQLWAEIcHOY=">
 </form>
 
 <form name="goSAMLForm" id="goSAMLForm" action="https://cauth.kmooc.kr/samllogin/" method="post">
+    <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
     <input type="hidden" name="sdata" id="sdata" value="XXBuXJ5EDHwAJ3G8CPteMNNmNzUdMaDpP61/oZLQRWP6m5FTcd1clRYnbkBH3KlyjVIGpaU5KyuIM5GDSD8uHjNUAio5oySIHB1taP+mobNwdKo2KhR+JgKCYGHV8j58us5bGm+0rqNaeqF1aIRFhhFl24SKIWA1IQLWAEIcHOY=">
 </form>
 
