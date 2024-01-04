@@ -38,7 +38,8 @@ print "cert_status===>",cert_status['status']
     import requests
 
     nowcourseid = course_overview.id
-    url="https://lms.kmooc.kr/local/coursemos/certificateNewSystem.php"
+    url="https://lms.kmooc.kr/local/coursemos/certificateNewSystem.php?kmoocedxid="+str(nowcourseid)
+    print "url====>",url
     headers = {'Content-Type': 'application/json; charset=utf-8'}
     data = {'kmoocedxid':str(nowcourseid)}
     response=requests.post(url, headers=deaders, data=data)

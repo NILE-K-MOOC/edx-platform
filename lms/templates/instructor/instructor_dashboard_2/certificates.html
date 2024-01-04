@@ -18,7 +18,7 @@ import requests
 
 nowcourseid = course.id
 
-url="https://lms.kmooc.kr/local/coursemos/certificateNewSystem.php"
+url="https://lms.kmooc.kr/local/coursemos/certificateNewSystem.php?kmoocedxid="+str(nowcourseid)
 headers = {'Content-Type': 'application/json; charset=utf-8'}
 data = {'kmoocedxid':str(nowcourseid)}
 response=requests.post(url, headers=headers, data=data)
