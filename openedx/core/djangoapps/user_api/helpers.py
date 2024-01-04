@@ -12,7 +12,7 @@ import time
 
 from django import forms
 from django.core.serializers.json import DjangoJSONEncoder
-from django.http import HttpResponseBadRequest, HttpRequest
+from django.http import HttpResponseBadRequest, HttpRequest, HttpResponse
 from django.utils.encoding import force_text
 from django.utils.functional import Promise
 
@@ -434,6 +434,7 @@ def shim_student_view(view_func, check_logged_in=False):
 
         backurlstring = ""
         sosloginstatus = ""
+        sdatatmpstring = ""
         if 'sdata' in modified_request:
             sosloginstatus = "true"
             from Crypto.Cipher import AES
@@ -443,6 +444,7 @@ def shim_student_view(view_func, check_logged_in=False):
                 return s[:-ord(s[len(s) - 1:])]
 
             enc = request.POST.get("sdata")
+            sdatatmpstring = enc
             enc = base64.b64decode(enc)
             ssokey = "oingisprettyintheworld1234567890"
             iv = "kmooctonewkmoocg"
@@ -754,8 +756,11 @@ def shim_student_view(view_func, check_logged_in=False):
         enc = base64.b64encode(enc)
         # enc = urllib.quote(enc, safe='')
         if sosloginstatus and backurlstring:
-            from django.shortcuts import redirect
-            return redirect(backurlstring)
+            # from django.shortcuts import redirect
+            template_cart = loader.get_template('ssamlsubmit.html')
+            context = {'sdata': sdatatmpstring}
+            return HttpResponse(template_cart.render(context, request))
+            # return redirect(backurlstring)
         elif sosloginstatus and backurlstring == "":
             from django.shortcuts import redirect
             return redirect("/")
