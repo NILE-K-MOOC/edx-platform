@@ -755,25 +755,38 @@ def shim_student_view(view_func, check_logged_in=False):
         enc = encryptmake(json.dumps({"timestamp": int(time.time()), "uid": request.user.id}))
         enc = base64.b64encode(enc)
         # enc = urllib.quote(enc, safe='')
+
+        # if sosloginstatus and backurlstring:
+        #     # from django.shortcuts import redirect
+        #     template_cart = loader.get_template('ssamlsubmit.html')
+        #     context = {'sdata': sdatatmpstring}
+        #     return HttpResponse(template_cart.render(context, request))
+        #     # return redirect(backurlstring)
+        # elif sosloginstatus and backurlstring == "":
+        #     from django.shortcuts import redirect
+        #     return redirect("/")
+        # else:
+        #     if msg:
+        #         return response
+        #     elif "returnurl" in request.POST:
+        #         if request.POST["returnurl"] == "true":
+        #             return JsonResponse({"data": enc})
+        #         else:
+        #             return JsonResponse({"ssodata": ssocipher})
+        #     else:
+        #         return JsonResponse({"ssodata": ssocipher})
         if sosloginstatus and backurlstring:
-            # from django.shortcuts import redirect
-            template_cart = loader.get_template('ssamlsubmit.html')
-            context = {'sdata': sdatatmpstring}
-            return HttpResponse(template_cart.render(context, request))
-            # return redirect(backurlstring)
+            from django.shortcuts import redirect
+            return redirect(backurlstring)
         elif sosloginstatus and backurlstring == "":
             from django.shortcuts import redirect
             return redirect("/")
         else:
             if msg:
                 return response
-            elif "returnurl" in request.POST:
-                if request.POST["returnurl"] == "true":
-                    return JsonResponse({"data": enc})
-                else:
-                    return JsonResponse({"ssodata": ssocipher})
             else:
-                return JsonResponse({"ssodata": ssocipher})
+                # return JsonResponse({"ssodata": ssocipher})
+                return JsonResponse({"data": enc})
     return _inner
 
 
