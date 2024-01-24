@@ -44,7 +44,7 @@
     <button style="width:100%;" type="submit" class="action action-primary action-update js-login login-button"><%- gettext("Sign in") %></button>
 
         <% if ( context.providers.length > 0 && !context.currentProvider || context.hasSecondaryProviders ) { %>
-            <div class="login-providers">
+            <div class="login-providers" style="display:none">
                 <div style="margin-top: 5px;">
                     <span style="font-size: 12px;" class="text">
                         <%= interpolate(
