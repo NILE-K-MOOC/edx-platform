@@ -282,15 +282,15 @@ import requests, unicodedata, time, json
 
     case3url = ""
     if str(searchcourseid) == str("course-v1:HansungK+2022HLM001+2023_HLM_T2"):
-        case3url = "https://new.kmooc.kr/view/course/detail/"+str(course_new_id)
+        case3url = "https://www.kmooc.kr/view/course/detail/"+str(course_new_id)
     elif str(searchcourseid) == str("course-v1:MA_NSU+MATCHUP_NSU01+2023_01_2"):
-        case3url = "https://new.kmooc.kr/view/course/detail/"+str(course_new_id)
+        case3url = "https://www.kmooc.kr/view/course/detail/"+str(course_new_id)
     elif str(searchcourseid) == str("course-v1:MA_NSU+MATCHUP_NSU02+2023_02_2"):
-        case3url = "https://new.kmooc.kr/view/course/detail/"+str(course_new_id)
+        case3url = "https://www.kmooc.kr/view/course/detail/"+str(course_new_id)
     elif str(searchcourseid) == str("course-v1:MA_NSU+MATCHUP_NSU03+2023_03_2"):
-        case3url = "https://new.kmooc.kr/view/course/detail/"+str(course_new_id)
+        case3url = "https://www.kmooc.kr/view/course/detail/"+str(course_new_id)
     elif str(searchcourseid) == str("course-v1:MA_NSU+MATCHUP_NSU04+2023_04_2"):
-        case3url = "https://new.kmooc.kr/view/course/detail/"+str(course_new_id)
+        case3url = "https://www.kmooc.kr/view/course/detail/"+str(course_new_id)
 
     if case3url:
         course_target_tmp = case3url
@@ -305,7 +305,7 @@ import requests, unicodedata, time, json
             <div class="kr01_dashBtn" data-courseid="${enrollment.course_id}" data-newid="${course_new_id}" data-case3url="${case3url}">
               % if course_overview.has_ended():
                 % if not is_course_blocked and course_new_id:
-                <a href="https://new.kmooc.kr/view/course/detail/${course_new_id}" class="enter-course" data-course-key="${enrollment.course_id}">${_('View Archived Course')}<span class="sr">&nbsp;${course_overview.display_name_with_default}</span></a>
+                <a href="https://www.kmooc.kr/view/course/detail/${course_new_id}" class="enter-course" data-course-key="${enrollment.course_id}">${_('View Archived Course')}<span class="sr">&nbsp;${course_overview.display_name_with_default}</span></a>
                 % elif not is_course_blocked and course_new_id == "":
                 <a href="${course_target_tmp}" class="enter-course" data-course-key="${enrollment.course_id}">${_('View Archived Course')}<span class="sr">&nbsp;${course_overview.display_name_with_default}</span></a>
                 % else:

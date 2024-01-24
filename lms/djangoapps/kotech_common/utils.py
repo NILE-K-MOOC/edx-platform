@@ -60,7 +60,7 @@ class Utils(View):
         nice_customize = ''  # 없으면 기본 웹페이지 / Mobile : 모바일페이지
         nice_gender = ''  # 없으면 기본 선택화면, 0: 여자, 1: 남자
 
-        if nice_returnurl == 'www.kmooc.kr':
+        if nice_returnurl == 'www-old.kmooc.kr':
             nice_returnurl = '0.0.0.0:18000'
 
         plaindata = '7:REQ_SEQ{0}:{1}8:SITECODE{2}:{3}9:AUTH_TYPE{4}:{5}7:RTN_URL{6}:{7}7:ERR_URL{8}:{9}11:POPUP_GUBUN{10}:{11}9:CUSTOMIZE{12}:{13}6:GENDER{14}:{15}' \

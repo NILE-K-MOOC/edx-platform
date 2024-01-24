@@ -1554,7 +1554,7 @@ def course_about(request, course_id):
 
         # 유사강좌 -> 백엔드 로직 시작
         # LMS_BASE = settings.ENV_TOKENS.get('LMS_BASE')
-        # LMS_BASE = 'www.kmooc.kr' # TEST
+        # LMS_BASE = 'www-old.kmooc.kr' # TEST
         LMS_BASE = 'localhost'
 
         url = 'http://' + LMS_BASE + '/search/course_discovery/'

@@ -380,7 +380,7 @@ def course_api(request):
         item_dict['created'] = str(item[6]) if item[6] is not None and item[6] != '' else None
         item_dict['modified'] = str(item[7]) if item[7] is not None and item[7] != '' else None
         item_dict['video'] = item[8]
-        item_dict['img'] = 'http://www.kmooc.kr' + item[9]
+        item_dict['img'] = 'http://www-old.kmooc.kr' + item[9]
         item_dict['org'] = item[11]
         item_dict['course'] = item[12]
         item_dict['run'] = item[13]

@@ -316,7 +316,7 @@ def parent_agree(request):
     # 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.
     lms_base = settings.ENV_TOKENS.get('LMS_BASE')
 
-    # if lms_base != 'www.kmooc.kr':
+    # if lms_base != 'www-old.kmooc.kr':
     #     lms_base = '0.0.0.0:18000'
 
     nice_returnurl = "{scheme}://{lms_base}/parent_agree_done".format(scheme=request.scheme, lms_base=lms_base)  # 성공시 이동될 URL
@@ -397,7 +397,7 @@ def login_and_registration_form(request, initial_mode="login"):
 
     """
     if initial_mode == "register":
-        return redirect("https://new.kmooc.kr/join")
+        return redirect("https://www.kmooc.kr/join")
     elif initial_mode == "registerukmooc":
         initial_mode = 'register'
 
@@ -634,7 +634,7 @@ def login_and_registration_form(request, initial_mode="login"):
 
     lms_base = settings.ENV_TOKENS.get('LMS_BASE')
 
-    # if lms_base != 'www.kmooc.kr':
+    # if lms_base != 'www-old.kmooc.kr':
     #     lms_base = '0.0.0.0:18000'
 
     nice_returnurl = "{scheme}://{lms_base}/account_nice_check_and_save".format(scheme=request.scheme, lms_base=lms_base)  # 성공시 이동될 URL
@@ -1032,7 +1032,7 @@ def account_settings(request):
     # else:
 
     lms_base = settings.ENV_TOKENS.get('LMS_BASE')
-    if lms_base != 'www.kmooc.kr':
+    if lms_base != 'www-old.kmooc.kr':
         return render_to_response('student_account/account_settings.html', account_settings_context(request))
 
     if 'passwdcheck' in request.session and request.session['passwdcheck'] == 'Y':
@@ -1053,12 +1053,12 @@ def account_settings(request):
         nice_reqseq = 'REQ0000000001'  # 요청 번호, 이는 성공/실패후에 같은 값으로 되돌려주게 되므로
 
         # 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.
-        # if lms_base != 'www.kmooc.kr':
+        # if lms_base != 'www-old.kmooc.kr':
         #     lms_base = '0.0.0.0:18000'
         # elif lms_base != '0.0.0.0:18000':
         #     lms_base = 'dev.kr'
 
-        # www.kmooc.kr
+        # www-old.kmooc.kr
         nice_returnurl = "http://{lms_base}/account_nice_check".format(lms_base=lms_base)  # 성공시 이동될 URL
         nice_errorurl = "http://{lms_base}/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
         nice_returnMsg = ''
@@ -1237,9 +1237,9 @@ def remove_account_view(request):
     nice_reqseq = 'REQ0000000001'  # 요청 번호, 이는 성공/실패후에 같은 값으로 되돌려주게 되므로
 
     # 업체에서 적절하게 변경하여 쓰거나, 아래와 같이 생성한다.
-    # if lms_base != 'www.kmooc.kr':
+    # if lms_base != 'www-old.kmooc.kr':
     #     lms_base = '0.0.0.0:18000'
-    # www.kmooc.kr
+    # www-old.kmooc.kr
     nice_returnurl = "http://{lms_base}/account_nice_check".format(lms_base=lms_base)  # 성공시 이동될 URL
     nice_errorurl = "http://{lms_base}/nicecheckplus_error".format(lms_base=lms_base)  # 실패시 이동될 URL
     nice_returnMsg = ''
@@ -1372,7 +1372,7 @@ def account_settings_context(request):
 
     print 'debug check def account_settings_context'
 
-    # if lms_base != 'www.kmooc.kr':
+    # if lms_base != 'www-old.kmooc.kr':
     #     lms_base = '0.0.0.0:18000'
 
     nice_returnurl = "{scheme}://{lms_base}/nicecheckplus".format(scheme=request.scheme, lms_base=lms_base)  # 성공시 이동될 URL
@@ -1653,11 +1653,11 @@ def logout_form(request, initial_mode="logout"):
     if request.user and request.user.is_authenticated:
         from django.contrib.auth import logout
         logout(request)
-        return redirect("https://new.kmooc.kr")
+        return redirect("https://www.kmooc.kr")
     else:
-        return redirect("https://new.kmooc.kr")
+        return redirect("https://www.kmooc.kr")
 
-    return redirect("https://new.kmooc.kr")
+    return redirect("https://www.kmooc.kr")
 
 def sso_logout_form(request, initial_mode="ssologinout"):
     from django.shortcuts import redirect

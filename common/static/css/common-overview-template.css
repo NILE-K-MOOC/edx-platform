@@ -2,12 +2,12 @@
 /*
 @font-face {
   font-family: 'FontAwesome';
-  src: url("http://www.kmooc.kr/static/fonts/vendor/fontawesome-webfont.f7c2b4b747b1.eot?v=4.3.0");
-  src: url("http://www.kmooc.kr/static/fonts/vendor/fontawesome-webfont.f7c2b4b747b1.eot?#iefix&v=4.3.0") format('embedded-opentype'),
-       url("http://www.kmooc.kr/static/fonts/vendor/fontawesome-webfont.97493d3f11c0.woff2?v=4.3.0") format('woff2'),
-       url("http://www.kmooc.kr/static/fonts/vendor/fontawesome-webfont.d9ee23d59d0e.woff?v=4.3.0") format('woff'),
-       url("http://www.kmooc.kr/static/fonts/vendor/fontawesome-webfont.706450d7bba6.ttf?v=4.3.0") format('truetype'),
-       url("http://www.kmooc.kr/static/fonts/vendor/fontawesome-webfont.2980083682e9.svg?v=4.3.0#fontawesomeregular") format('svg');
+  src: url("http://www-old.kmooc.kr/static/fonts/vendor/fontawesome-webfont.f7c2b4b747b1.eot?v=4.3.0");
+  src: url("http://www-old.kmooc.kr/static/fonts/vendor/fontawesome-webfont.f7c2b4b747b1.eot?#iefix&v=4.3.0") format('embedded-opentype'),
+       url("http://www-old.kmooc.kr/static/fonts/vendor/fontawesome-webfont.97493d3f11c0.woff2?v=4.3.0") format('woff2'),
+       url("http://www-old.kmooc.kr/static/fonts/vendor/fontawesome-webfont.d9ee23d59d0e.woff?v=4.3.0") format('woff'),
+       url("http://www-old.kmooc.kr/static/fonts/vendor/fontawesome-webfont.706450d7bba6.ttf?v=4.3.0") format('truetype'),
+       url("http://www-old.kmooc.kr/static/fonts/vendor/fontawesome-webfont.2980083682e9.svg?v=4.3.0#fontawesomeregular") format('svg');
   font-weight: normal;
   font-style: normal;
 }

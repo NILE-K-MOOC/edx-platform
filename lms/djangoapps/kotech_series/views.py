@@ -715,7 +715,7 @@ def series_print(request, id):
     print "--------------------------------------------"
 
     # 개발 스니핑
-    # org_img_path_list = ['http://www.kmooc.kr/static/file_upload/KoreaUnivK.png']
+    # org_img_path_list = ['http://www-old.kmooc.kr/static/file_upload/KoreaUnivK.png']
 
     context = {}
     context['user_name'] = user_name

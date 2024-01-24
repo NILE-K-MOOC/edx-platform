@@ -272,9 +272,9 @@ ECOMMERCE_PUBLIC_URL_ROOT = "http://localhost:8002"
 FEATURES['ENABLE_CORS_HEADERS'] = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = (
+    'https://www-old.kmooc.kr',
     'https://www.kmooc.kr',
-    'https://new.kmooc.kr',
-    'https://newwww.kmooc.kr'
+    'https://newwww-old.kmooc.kr'
 )
 CORS_ORIGIN_ALLOW_ALL = True
 

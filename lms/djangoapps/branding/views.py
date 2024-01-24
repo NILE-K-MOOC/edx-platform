@@ -965,7 +965,7 @@ def multisite_index(request, org):
 
     # Oauth 방식
     elif login_type == 'O':
-        url = 'https://www.kmooc.kr/auth/login/' + str(org) + '/?auth_entry=login&next=%2Forg%2F' + str(org)
+        url = 'https://www-old.kmooc.kr/auth/login/' + str(org) + '/?auth_entry=login&next=%2Forg%2F' + str(org)
         log.info("multisite check url -> %s" % url)
         if not request.user.is_authenticated:
             request.session['multisite_mode'] = 0

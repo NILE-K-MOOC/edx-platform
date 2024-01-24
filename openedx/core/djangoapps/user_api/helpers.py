@@ -743,7 +743,7 @@ def shim_student_view(view_func, check_logged_in=False):
 
         next = request.POST.get("next")
         if next:
-            backurl = "https://www.kmooc.kr" + next
+            backurl = "https://www-old.kmooc.kr" + next
         else:
             backurl = ""
 
