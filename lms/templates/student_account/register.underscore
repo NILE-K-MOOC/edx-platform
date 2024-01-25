@@ -17,7 +17,7 @@
 
     <% if (!context.currentProvider) { %>
         <% if (context.providers.length > 0 || context.hasSecondaryProviders) { %>
-            <div class="login-providers">
+            <div class="login-providers" style="display:none">
                 <div class="section-title lines">
                     <h3>
                         <span class="text"><%- gettext("Create an account using") %></span>
