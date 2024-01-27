@@ -775,6 +775,8 @@ def shim_student_view(view_func, check_logged_in=False):
         #             return JsonResponse({"ssodata": ssocipher})
         #     else:
         #         return JsonResponse({"ssodata": ssocipher})
+        sosloginstatus = ""
+        backurlstring = ""
         if sosloginstatus and backurlstring:
             from django.shortcuts import redirect
             return redirect(backurlstring)
@@ -787,6 +789,7 @@ def shim_student_view(view_func, check_logged_in=False):
             else:
                 # return JsonResponse({"ssodata": ssocipher})
                 return JsonResponse({"data": enc})
+
     return _inner
 
 
