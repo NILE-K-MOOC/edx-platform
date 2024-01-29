@@ -274,7 +274,9 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = (
     'https://www-old.kmooc.kr',
     'https://www.kmooc.kr',
-    'https://newwww-old.kmooc.kr'
+    'https://newwww.kmooc.kr',
+    'https://studio.kmooc.kr',
+    'https://kmooc.kr'
 )
 CORS_ORIGIN_ALLOW_ALL = True
 
