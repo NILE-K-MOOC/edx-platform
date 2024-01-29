@@ -64,7 +64,7 @@ def preview_handler(request, usage_key_string, handler, suffix=''):
 
     descriptor = modulestore().get_item(usage_key)
     instance = _load_preview_module(request, descriptor)
-
+    print("instance====>",instance)
     # Let the module handle the AJAX
     req = django_to_webob_request(request)
     try:
@@ -78,7 +78,7 @@ def preview_handler(request, usage_key_string, handler, suffix=''):
                         if "<i>" in subvalue:
                             tmparray.append(subvalue)
                         else:
-                            tmparray.append(subvalue.replace("<","&lt;"))
+                            tmparray.append(subvalue.replace("<","&lt;").replace("wwwdev.kmooc.kr","www-old.kmooc.kr"))
 
                         json_object["text"] = tmparray
 
@@ -277,6 +277,7 @@ def _load_preview_module(request, descriptor):
         request.user.id,
         [wrapper]
     )
+    print "descriptor=====>", descriptor
     return descriptor
 
 
@@ -309,7 +310,7 @@ def _studio_wrap_xblock(xblock, view, frag, context, display_name_only=False):
             'xblock_context': context,
             'xblock': xblock,
             'show_preview': context.get('show_preview', True),
-            'content': frag.content,
+            'content': frag.content.replace("wwwdev.kmooc.kr","www-old.kmooc.kr").replace("www.kmooc.kr","www-old.kmooc.kr"),
             'is_root': is_root,
             'is_reorderable': is_reorderable,
             'can_edit': context.get('can_edit', True),
@@ -319,7 +320,6 @@ def _studio_wrap_xblock(xblock, view, frag, context, display_name_only=False):
             'can_move': context.get('can_move', True),
             'language': getattr(course, 'language', None)
         }
-
         if isinstance(xblock, (XModule, XModuleDescriptor)):
             # Add the webpackified asset tags
             class_name = getattr(xblock.__class__, 'unmixed_class', xblock.__class__).__name__
@@ -340,8 +340,10 @@ def get_preview_fragment(request, descriptor, context):
     specified by the descriptor and idx.
     """
     module = _load_preview_module(request, descriptor)
-
+    print("module========>",module)
     preview_view = AUTHOR_VIEW if has_author_view(module) else STUDENT_VIEW
+    print("preview_view========>",preview_view)
+    print("context========>",context)
 
     try:
         fragment = module.render(preview_view, context)
