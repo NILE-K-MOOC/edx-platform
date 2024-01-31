@@ -34,6 +34,9 @@
     </script>
     <!-- end segment footer -->
 % endif
+
+% if is_superuser == False:
 <style>
 .item-actions.course-actions,.nav-item.nav-course-tools > .wrapper.wrapper-nav-sub.is-shown > .nav-sub > ul > li:nth-child(1), .preview-certificate.nav-actions,.wrapper.wrapper-notification.wrapper-notification-warning.is-shown,.field-group.course-grading-assignment-list-item > .actions,.incontext-editor-action-wrapper,.access-editor-action-wrapper,.wrapper-unit-tree-location.bar-mod-content,.actions-inline,.add-xblock-component.new-component-item.adding,.header-actions,.actions-list,.section-header-actions,.button.button-new,.add-section.add-item,.nav-actions,.new-course-button,.new-button {display:none !important;}
 </style>
+% endif
