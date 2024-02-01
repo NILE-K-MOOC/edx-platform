@@ -11,17 +11,17 @@ from microsite_configuration import microsite
 from openedx.core.djangolib.markup import HTML, Text
 
 
-url="https://lms.kmooc.kr/webservice/rest/server.php?wstoken=b159b1989f69a3f57321a40c1e3bbe55&wsfunction=mooc_ubonline_course_oldkmooc_v2&moodlewsrestformat=json"
-header = ''
-data='{"wstoken":"b159b1989f69a3f57321a40c1e3bbe55","wsfunction":"mooc_ubonline_course_oldkmooc_v2","moodlewsrestformat":"json"}'
-response=requests.post(url, headers=header, data=data)
+#url="https://lms.kmooc.kr/webservice/rest/server.php?wstoken=b159b1989f69a3f57321a40c1e3bbe55&wsfunction=mooc_ubonline_course_oldkmooc_v2&moodlewsrestformat=json"
+#header = ''
+#data='{"wstoken":"b159b1989f69a3f57321a40c1e3bbe55","wsfunction":"mooc_ubonline_course_oldkmooc_v2","moodlewsrestformat":"json"}'
+#response=requests.post(url, headers=header, data=data)
+#newkmoocdata = ""
+#if response:
+#   newkmoocdata = response.json().get("data")
+#else:
+#   newkmoocdata = ""
+
 newkmoocdata = ""
-if response:
-   newkmoocdata = response.json().get("data")
-else:
-   newkmoocdata = ""
-
-
 openstate = "true"
 
 %>
